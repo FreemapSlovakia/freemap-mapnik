@@ -1,0 +1,23 @@
+{
+  "name": "freemap-mapnik",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon --ext js,xml --watch style --watch index.js --exec npm run start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "generic-pool": "^3.4.2",
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
+    "mapnik": "^4.0.1",
+    "xmlbuilder": "^10.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}

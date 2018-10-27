@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map
+[
+  <!ENTITY maxscale_zoom0 "<MaxScaleDenominator>250000000000</MaxScaleDenominator>">
+  <!ENTITY maxscale_zoom1 "<MaxScaleDenominator>500000000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom1 "<MinScaleDenominator>200000000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom2 "<MaxScaleDenominator>200000000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom2 "<MinScaleDenominator>100000000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom3 "<MaxScaleDenominator>100000000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom3 "<MinScaleDenominator>50000000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom4 "<MaxScaleDenominator>50000000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom4 "<MinScaleDenominator>25000000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom5 "<MaxScaleDenominator>25000000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom5 "<MinScaleDenominator>12500000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom6 "<MaxScaleDenominator>12500000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom6 "<MinScaleDenominator>6500000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom7 "<MaxScaleDenominator>6500000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom7 "<MinScaleDenominator>3000000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom8 "<MaxScaleDenominator>3000000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom8 "<MinScaleDenominator>1500000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom9 "<MaxScaleDenominator>1500000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom9 "<MinScaleDenominator>750000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom10 "<MaxScaleDenominator>750000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom10 "<MinScaleDenominator>400000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom11 "<MaxScaleDenominator>400000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom11 "<MinScaleDenominator>200000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom12 "<MaxScaleDenominator>200000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom12 "<MinScaleDenominator>100000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom13 "<MaxScaleDenominator>100000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom13 "<MinScaleDenominator>50000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom14 "<MaxScaleDenominator>50000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom14 "<MinScaleDenominator>25000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom15 "<MaxScaleDenominator>25000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom15 "<MinScaleDenominator>12500</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom16 "<MaxScaleDenominator>12500</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom16 "<MinScaleDenominator>5000</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom17 "<MaxScaleDenominator>5000</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom17 "<MinScaleDenominator>2500</MinScaleDenominator>">
+  <!ENTITY maxscale_zoom18 "<MaxScaleDenominator>2500</MaxScaleDenominator>">
+  <!ENTITY minscale_zoom18 "">
+
+  <!ENTITY y_red "[osmc_symbol].match('.*/red:.*')">
+  <!ENTITY y_blue "[osmc_symbol].match('.*/blue:.*')">
+  <!ENTITY y_green "[osmc_symbol].match('.*/green:.*')">
+  <!ENTITY y_yellow "[osmc_symbol].match('.*/yellow:.*')">
+  <!ENTITY n_red "not([osmc_symbol].match('.*/red:.*'))">
+  <!ENTITY n_blue "not([osmc_symbol].match('.*/blue:.*'))">
+  <!ENTITY n_green "not([osmc_symbol].match('.*/green:.*'))">
+  <!ENTITY n_yellow "not([osmc_symbol].match('.*/yellow:.*'))">
+]>
+
+<Map
+  background-color="white"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"
+  buffer-size="256"
+>
+  <Datasource name="db">
+    <Parameter name="type">postgis</Parameter>
+    <Parameter name="password">b0n0</Parameter>
+    <Parameter name="host">localhost</Parameter>
+    <Parameter name="port">5432</Parameter>
+    <Parameter name="user">martin</Parameter>
+    <Parameter name="dbname">martin</Parameter>
+  </Datasource>
+  <Style name="Landcover">
+    <Rule>
+      <Filter>[landuse] = 'forest' or [landuse] = 'wood' or [natural] = 'wood'</Filter>
+      <PolygonSymbolizer fill="#8CCF8C" />
+      <LineSymbolizer stroke="#8CCF8C" stroke-width="1" />
+    </Rule>
+    <Rule>
+      <Filter>[landuse] = 'farmland'</Filter>
+      <PolygonSymbolizer fill="#EEE0BB" />
+      <LineSymbolizer stroke="#EEE0BB" stroke-width="1" />
+    </Rule>
+    <Rule>
+      <Filter>[landuse] = 'meadow'</Filter>
+      <PolygonSymbolizer fill="#BFFF9F" />
+      <LineSymbolizer stroke="#BFFF9F" stroke-width="1" />
+    </Rule>
+  </Style>
+  <Style name="Water-area">
+    <Rule>
+      <Filter>[natural] = 'water'</Filter>
+      <PolygonSymbolizer fill="#8080ff" />
+      <LineSymbolizer stroke="#8080ff" stroke-width="1" />
+    </Rule>
+  </Style>
+  <Style name="Water-line">
+    <Rule>
+      <Filter>[waterway] = 'river'</Filter>
+      <LineSymbolizer stroke="#8080ff" stroke-width="0.5" />
+    </Rule>
+    <Rule>
+      <Filter>[waterway] &lt;&gt; 'river'</Filter>
+      <LineSymbolizer stroke="#8080ff" stroke-width="0.2" />
+    </Rule>
+  </Style>
+  <Style name="tracks">
+    <Rule>
+      <Filter>[highway] = 'residential' or [highway] = 'service' or [highway] = 'unclassified' or [highway] = 'road' or [highway] = 'primary' or [highway] = 'secondary' or [highway] = 'tertiary' or [highway] = 'motorway' or [highway] = 'trunk'</Filter>
+      <LineSymbolizer stroke="#ffffff" stroke-width="3" stroke-opacity="0.5" />
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" />
+    </Rule>
+
+    <Rule>
+      <Filter>[highway] = 'path'</Filter>
+      <LineSymbolizer stroke="#ffffff" stroke-width="3" stroke-opacity="0.5" />
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="2,2" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'footway'</Filter>
+      <LineSymbolizer stroke="#ffffff" stroke-width="3" stroke-opacity="0.5" />
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="3,1" />
+    </Rule>
+
+    <Rule>
+      <Filter>[highway] = 'track'</Filter>
+      <LineSymbolizer stroke="#ffffff" stroke-width="3" stroke-opacity="0.5" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'track' and [tracktype] = 'grade1'</Filter>
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'track' and [tracktype] = 'grade2'</Filter>
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="8,2" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'track' and [tracktype] = 'grade3'</Filter>
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="6,4" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'track' and [tracktype] = 'grade4'</Filter>
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="4,6" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'track' and [tracktype] = 'grade5'</Filter>
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="2,8" />
+    </Rule>
+    <Rule>
+      <Filter>[highway] = 'track' and [tracktype] = null</Filter>
+      <LineSymbolizer stroke="#804040" stroke-width="1.2" stroke-dasharray="3,7,7,3" />
+    </Rule>
+  </Style>
+  <Style name="buildings">
+    <Rule>
+      <PolygonSymbolizer fill="#404040" />
+    </Rule>
+  </Style>
+  <Style name="hillshade">
+    <Rule>
+      <RasterSymbolizer opacity="0.5" comp-op="multiply" scaling="bilinear" />
+    </Rule>
+  </Style>
+  <Style name="peaks">
+    <Rule>
+      <Filter>[natural] = 'peak'</Filter>
+      <MarkersSymbolizer file="style/peak.svg" width="6" height="6" fill="#000000" />
+    </Rule>
+    <Rule>
+      <Filter>[natural] = 'peak'</Filter>
+      <TextSymbolizer size="10" face-name="DejaVu Sans Book" fill="black" halo-fill="white" halo-radius="1" dy="-8">
+        [name] + '\n' + [ele]
+      </TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>not ([place] = null)</Filter>
+      <TextSymbolizer size="20" face-name="DejaVu Sans Book" fill="black" halo-fill="white" halo-radius="1" opacity="0.5">
+        [name]
+      </TextSymbolizer>
+    </Rule>
+  </Style>
+  <Style name="hiking">
+    <!-- <Rule>
+      <Filter>[osmc_symbol].match('.*/yellow:.*')</Filter>
+      <LineSymbolizer stroke="#ffff00" stroke-width="2" />
+    </Rule>
+    <Rule>
+      <Filter>[osmc_symbol].match('.*/green:.*')</Filter>
+      <LineSymbolizer stroke="#00ff00" stroke-width="2" />
+    </Rule> -->
+    <Rule>
+      <Filter>&y_red;</Filter>
+      <LineSymbolizer stroke="#ff0000" stroke-width="2" stroke-linejoin="round" offset="4"/>
+    </Rule>
+
+    <Rule>
+      <Filter>not(&y_red;) and &y_blue;</Filter>
+      <LineSymbolizer stroke="#0000ff" stroke-width="2" stroke-linejoin="round" offset="4"/>
+    </Rule>
+    <Rule>
+      <Filter>&y_red; and &y_blue;</Filter>
+      <LineSymbolizer stroke="#0000ff" stroke-width="2" stroke-linejoin="round" offset="6" />
+    </Rule>
+
+    <Rule>
+      <Filter>not(&y_red;) and not(&y_blue;) and &y_green;</Filter>
+      <LineSymbolizer stroke="#00ff00" stroke-width="2" stroke-linejoin="round" offset="4"/>
+    </Rule>
+    <Rule>
+      <Filter>((not(&y_red;) and &y_blue;) or (&y_red; and not(&y_blue;))) and &y_green;</Filter>
+      <LineSymbolizer stroke="#00ff00" stroke-width="2" stroke-linejoin="round" offset="6" />
+    </Rule>
+    <Rule>
+      <Filter>&y_red; and &y_blue; and &y_green;</Filter>
+      <LineSymbolizer stroke="#00ff00" stroke-width="2" stroke-linejoin="round" offset="8" />
+    </Rule>
+
+    <Rule>
+      <Filter>not(&y_red;) and not(&y_blue;) and not(&y_green;) and &y_yellow;</Filter>
+      <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="4"/>
+    </Rule>
+    <Rule>
+      <Filter>((&y_red; and not(&y_blue;) and not(&y_green;)) or (not(&y_red;) and &y_blue; and not(&y_green;)) or (not(&y_red;) and not(&y_blue;) and &y_green;)) and &y_yellow;</Filter>
+      <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="6" />
+    </Rule>
+    <Rule>
+      <Filter>((&y_red; and &y_blue; and not(&y_green;)) or (&y_red; and not(&y_blue;) and &y_green;) or (not(&y_red;) and &y_blue; and &y_green;)) and &y_yellow;</Filter>
+      <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="8" />
+    </Rule>
+    <Rule>
+      <Filter>&y_red; and &y_blue; and &y_green; and &y_yellow;</Filter>
+      <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="10" />
+    </Rule>
+  </Style>
+  <Style name="contours" opacity="0.33">
+    <Rule>
+      &maxscale_zoom13;
+      <Filter>([height] % 100 = 0) and ([height] != 0)</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="0.3" />
+    </Rule>
+    <Rule>
+      &maxscale_zoom14;
+      <Filter>([height] % 10 = 0) and ([height] != 0)</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="0.2" />
+    </Rule>
+    <Rule>
+      &minscale_zoom13;
+      &maxscale_zoom13;
+      <Filter>([height] % 20 = 0) and ([height] != 0)</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="0.2" />
+    </Rule>
+    <Rule>
+      &minscale_zoom12;
+      &maxscale_zoom12;
+      <Filter>([height] % 50 = 0) and ([height] != 0)</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="0.2" />
+    </Rule>
+  </Style>
+
+  <Layer name="landcover">
+    <StyleName>Landcover</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select "natural", landuse, way from planet_osm_polygon where landuse in ('forest', 'farmland', 'wood', 'meadow') or "natural" in ('scrub', 'wood', 'heath')) as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="landcover">
+    <StyleName>Water-area</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select "natural", landuse, way from planet_osm_polygon where "natural" in ('water')) as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="landcover">
+    <StyleName>Water-line</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select "waterway", way from planet_osm_line where "waterway" in ('stream', 'river', 'ditch', 'drain')) as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="tracks">
+    <StyleName>tracks</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select way, highway, tracktype from planet_osm_line where "highway" in
+          ('track', 'service', 'path', 'trunk', 'motorway', 'residential', 'primary', 'secondary', 'tertiary', 'unclassified', 'footway', 'construction')) as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="buildings">
+    <StyleName>buildings</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select way from planet_osm_polygon where building is not null or building &lt;&gt; 'no') as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="contours">
+    <StyleName>contours</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select height, way from contour) as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="hillshade">
+    <StyleName>hillshade</StyleName>
+    <Datasource>
+      <Parameter name="type">gdal</Parameter>
+      <Parameter name="file">hgt/N48E020_warped.tif</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="hiking">
+    <StyleName>hiking</StyleName>
+    <Datasource base="db">
+        <!-- (select "osmc:symbol" as osmc_symbol, way from planet_osm_line where osm_id &lt; 0 and route = 'hiking' and "osmc:symbol" is not null) as foo -->
+      <Parameter name="table">
+        (select geometry, concat('/', string_agg("osmc:symbol", '/')) as osmc_symbol from import.osm_hiking_members join import.osm_hiking using(osm_id) group by member, geometry) as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="peaks">
+    <StyleName>peaks</StyleName>
+    <Datasource base="db">
+      <Parameter name="table">
+        (select name, ele, "natural", place, way from planet_osm_point where "natural" in ('peak') or "place" &lt;&gt; 'locality') as foo
+      </Parameter>
+    </Datasource>
+  </Layer>
+  <!-- <Layer name="allroads">
+    <StyleName>My Style</StyleName>
+    <Datasource>
+      <Parameter name="table">
+          (select way from planet_osm_roads) as allroads
+      </Parameter>
+      <Parameter name="type">postgis</Parameter>
+      <Parameter name="password">b0n0</Parameter>
+      <Parameter name="host">localhost</Parameter>
+      <Parameter name="port">5432</Parameter>
+      <Parameter name="user">martin</Parameter>
+      <Parameter name="dbname">martin</Parameter>
+    </Datasource>
+  </Layer> -->
+</Map>
