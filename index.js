@@ -5,6 +5,7 @@ const Router = require('koa-router');
 const send = require('koa-send');
 const genericPool = require('generic-pool');
 const { exec } = require('child_process');
+const { createMap } = require('./lib/styleBuilder');
 
 const app = new Koa();
 const router = new Router();
@@ -24,18 +25,29 @@ app.listen(3000);
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
 
-// const writeFileAsync = promisify(fs.writeFile);
 mapnik.Map.prototype.loadAsync = promisify(mapnik.Map.prototype.load);
 mapnik.Map.prototype.fromStringAsync = promisify(mapnik.Map.prototype.fromString);
 mapnik.Map.prototype.renderAsync = promisify(mapnik.Map.prototype.render);
 mapnik.Map.prototype.renderFileAsync = promisify(mapnik.Map.prototype.renderFile);
 mapnik.Image.prototype.encodeAsync = promisify(mapnik.Image.prototype.encode);
-// const execAsync = promisify(exec);
 
-// +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over
-// +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs
+const mercSrs = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over';
 
-const merc = new mapnik.Projection('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over');
+const merc = new mapnik.Projection(mercSrs);
+
+const xml = createMap({
+  backgroundColor: 'white',
+  srs: mercSrs,
+  bufferSize: 256,
+})
+  .addStyle('Landcover')
+    .addRule()
+      .addFilter("[landuse] = 'forest' or [landuse] = 'wood' or [natural] = 'wood'")
+      .rule.addPolygonSymbolizer({ fill: '#8CCF8C' })
+      .rule.addLineSymbolizer({ stroke: '#8CCF8C', strokeWidth: 1 })
+  .map.stringify();
+
+console.log('XXXX', xml);
 
 const factory = {
   async create() {
@@ -77,19 +89,5 @@ async function render(zoom, x, y) {
   map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
   map.renderFileAsync = promisify(map.renderFile);
   await map.renderFileAsync(`tiles/tile_${zoom}_${x}_${y}.png`, { format: 'png' });
-  // console.log(`saved map image to tile_${zoom}_${x}_${y}.png`);
-
   pool.release(map);
-
-  // map.zoomAll();
-  // map.zoomToBox(20, 48, 22, 49);
-  // console.log('XXX', merc.forward([20, 48, 22, 49]));
-  // map.zoomToBox(merc.forward([20, 48, 22, 49]));
-  // map.zoomToBox(merc.forward([...transformCoords(9, 286, 176), ...transformCoords(9, 287, 175)]));
-
-  // await map.renderFileAsync('map.pdf', { format: 'pdf' });
-  // const im = new mapnik.Image(256, 256);
-  // await map.renderAsync(im);
-  // const buffer = await im.encodeAsync('pdf');
-  // await writeFileAsync('map.pdf', buffer);
 }
