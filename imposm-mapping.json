@@ -691,6 +691,44 @@
         ]
       }
     },
+    "naturalpoints": {
+      "columns": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "string",
+          "name": "ele",
+          "key": "ele"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        }
+      ],
+      "type": "point",
+      "mapping": {
+        "natural": [
+          "spring",
+          "peak",
+          "cave_entrance",
+          "tree"
+        ]
+      }
+    },
     "housenumbers_interpolated": {
       "columns": [
         {
@@ -797,6 +835,11 @@
           "type": "string",
           "name": "service",
           "key": "service"
+        },
+        {
+          "type": "string",
+          "name": "tracktype",
+          "key": "tracktype"
         },
         {
           "type": "mapping_key",
