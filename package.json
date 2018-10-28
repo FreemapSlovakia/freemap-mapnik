@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "watch": "nodemon --ext js,xml --watch style --watch index.js --exec npm run start"
+    "watch": "nodemon --ext js,xml,svg --watch style --watch lib --watch index.js --exec npm run start"
   },
   "author": "",
   "license": "ISC",

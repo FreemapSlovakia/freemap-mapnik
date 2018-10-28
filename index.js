@@ -60,9 +60,9 @@ const xml = createMap({
       .addBorderedPolygonSymbolizer('#8080ff')
   .addStyle('Water-line')
     .addRule({ filter: "[waterway] = 'river'" })
-      .addLineSymbolizer({ stroke: '#BFFF9F', strokeWidth: 0.5 })
+      .addLineSymbolizer({ stroke: '#8080ff', strokeWidth: 0.5 })
     .addRule({ filter: "[waterway] <> 'river'" })
-      .addLineSymbolizer({ stroke: '#BFFF9F', strokeWidth: 0.2 })
+      .addLineSymbolizer({ stroke: '#8080ff', strokeWidth: 0.2 })
   .addStyle('tracks')
     .addRule({ filter: "[highway] = 'residential' or [highway] = 'service' or [highway] = 'unclassified' or [highway] = 'road' or [highway] = 'primary' or [highway] = 'secondary' or [highway] = 'tertiary' or [highway] = 'motorway' or [highway] = 'trunk'" })
       .addLineSymbolizer({ stroke: '#ffffff', strokeWidth: 3, strokeOpacity: 0.5 })
@@ -96,55 +96,31 @@ const xml = createMap({
       .addTextSymbolizer({ size: 20, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, opacity: 0.5 }, '[name]')
   .addStyle('hiking')
     .doInStyle((style) => {
-      style
-        .addRule({ filter: "[osmc_symbol].match('.*/red:.*')" })
-          .addLineSymbolizer({ stroke: '#ff0000', strokeWidth: 2, strokeLinejoin: 'round', offset: 4 });
+      const colors = [ 'red', 'blue', 'green', 'yellow' ];
+      for (let colorIdx = 0; colorIdx < colors.length; colorIdx++) {
+        const m = new Map();
+        for (let x = 0; x < 1 << colorIdx; x++) {
+          const ones = (x.toString(2).match(/1/g) || []).length;
+          let q = m.get(ones);
+          if (!q) {
+            q = [];
+            m.set(ones, q);
+          }
+          q.push(x.toString(2).padStart(colorIdx, '0'));
+        }
 
-      // TODO other colors
-      //   <Rule>
-      //   <Filter>&y_red;</Filter>
-      //   <LineSymbolizer stroke="#ff0000" stroke-width="2" stroke-linejoin="round" offset="4"/>
-      // </Rule>
-
-      // <Rule>
-      //   <Filter>not(&y_red;) and &y_blue;</Filter>
-      //   <LineSymbolizer stroke="#0000ff" stroke-width="2" stroke-linejoin="round" offset="4"/>
-      // </Rule>
-      // <Rule>
-      //   <Filter>&y_red; and &y_blue;</Filter>
-      //   <LineSymbolizer stroke="#0000ff" stroke-width="2" stroke-linejoin="round" offset="6" />
-      // </Rule>
-
-      // <Rule>
-      //   <Filter>not(&y_red;) and not(&y_blue;) and &y_green;</Filter>
-      //   <LineSymbolizer stroke="#00ff00" stroke-width="2" stroke-linejoin="round" offset="4"/>
-      // </Rule>
-      // <Rule>
-      //   <Filter>((not(&y_red;) and &y_blue;) or (&y_red; and not(&y_blue;))) and &y_green;</Filter>
-      //   <LineSymbolizer stroke="#00ff00" stroke-width="2" stroke-linejoin="round" offset="6" />
-      // </Rule>
-      // <Rule>
-      //   <Filter>&y_red; and &y_blue; and &y_green;</Filter>
-      //   <LineSymbolizer stroke="#00ff00" stroke-width="2" stroke-linejoin="round" offset="8" />
-      // </Rule>
-
-      // <Rule>
-      //   <Filter>not(&y_red;) and not(&y_blue;) and not(&y_green;) and &y_yellow;</Filter>
-      //   <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="4"/>
-      // </Rule>
-      // <Rule>
-      //   <Filter>((&y_red; and not(&y_blue;) and not(&y_green;)) or (not(&y_red;) and &y_blue; and not(&y_green;)) or (not(&y_red;) and not(&y_blue;) and &y_green;)) and &y_yellow;</Filter>
-      //   <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="6" />
-      // </Rule>
-      // <Rule>
-      //   <Filter>((&y_red; and &y_blue; and not(&y_green;)) or (&y_red; and not(&y_blue;) and &y_green;) or (not(&y_red;) and &y_blue; and &y_green;)) and &y_yellow;</Filter>
-      //   <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="8" />
-      // </Rule>
-      // <Rule>
-      //   <Filter>&y_red; and &y_blue; and &y_green; and &y_yellow;</Filter>
-      //   <LineSymbolizer stroke="#ffff00" stroke-width="2" stroke-linejoin="round" offset="10" />
-      // </Rule>
-
+        m.forEach((combs, ones) => {
+          const ors = !colorIdx ? [] : combs.map(
+            (comb) => comb
+              .split('')
+              .map((x, i) => `${x === '0' ? 'not(' : ''}[osmc_symbol].match('.*/${colors[i]}:.*')${x === '0' ? ')' : ''}`)
+              .join(' and ')
+          );
+          style
+            .addRule({ filter: `[osmc_symbol].match('.*/${colors[colorIdx]}:.*')${ors.length ? ` and (${ors.map(or => `(${or})`).join(' or ')})` : ''}` })
+              .addLineSymbolizer({ stroke: colors[colorIdx], strokeWidth: 2, strokeLinejoin: 'round', offset: 4 + ones * 2 });
+        });
+      }
     })
   .addStyle('contours', { opacity: 0.33 })
     .addRule({ maxZoom: 13, filter: "([height] % 100 = 0) and ([height] != 0)" })
