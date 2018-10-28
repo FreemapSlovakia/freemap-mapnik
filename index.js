@@ -75,18 +75,13 @@ const xml = createMap({
       .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray: '3,1' })
     .addRule({ filter: "[highway] = 'track'" })
       .addLineSymbolizer({ stroke: '#ffffff', strokeWidth: 3, strokeOpacity: 0.5 })
-    .addRule({ filter: "[highway] = 'track' and [tracktype] = 'grade1'" })
-      .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2 })
-    .addRule({ filter: "[highway] = 'track' and [tracktype] = 'grade2'" })
-      .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray: '8,2' })
-    .addRule({ filter: "[highway] = 'track' and [tracktype] = 'grade3'" })
-      .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray: '6,4' })
-    .addRule({ filter: "[highway] = 'track' and [tracktype] = 'grade4'" })
-      .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray: '4,6' })
-    .addRule({ filter: "[highway] = 'track' and [tracktype] = 'grade5'" })
-      .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray: '2,8' })
-    .addRule({ filter: "[highway] = 'track' and [tracktype] = null" })
-      .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray: '3,7,7,3' })
+    .doInStyle((style) => {
+      [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
+        style
+          .addRule({ filter: `[highway] = 'track' and [tracktype] = ${i === 5 ? 'null' : `'grade${i + 1}'`}` })
+            .addLineSymbolizer({ stroke: '#804040', strokeWidth: 1.2, strokeDasharray })
+      });
+    })
   .addStyle('buildings')
     .addRule()
       .addPolygonSymbolizer({ fill: '#404040' })
@@ -103,7 +98,7 @@ const xml = createMap({
     .doInStyle((style) => {
       style
         .addRule({ filter: "[osmc_symbol].match('.*/red:.*')" })
-        .addLineSymbolizer({ stroke: '#ff0000', strokeWidth: 2, strokeLinejoin: 'round', offset: 4 });
+          .addLineSymbolizer({ stroke: '#ff0000', strokeWidth: 2, strokeLinejoin: 'round', offset: 4 });
 
       // TODO other colors
       //   <Rule>
