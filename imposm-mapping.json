@@ -55,11 +55,11 @@
     }
   },
   "tables": {
-    "hiking": {
+    "routes": {
       "type": "relation",
       "relation_types": ["route"],
       "mapping": {
-        "route": ["hiking"]
+        "route": ["hiking", "bicycle", "ski", "horse"]
       },
       "columns": [
         {
@@ -79,6 +79,11 @@
         },
         {
           "type": "string",
+          "name": "colour",
+          "key": "colour"
+        },
+        {
+          "type": "string",
           "name": "osmc:symbol",
           "key": "osmc:symbol"
         },
@@ -86,14 +91,19 @@
           "type": "string",
           "name": "network",
           "key": "network"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
         }
       ]
     },
-    "hiking_members": {
+    "route_members": {
       "type": "relation_member",
       "relation_types": ["route"],
       "mapping": {
-        "route": ["hiking"]
+        "route": ["hiking", "bicycle", "ski", "horse"]
       },
       "columns": [
         {
@@ -726,6 +736,70 @@
           "peak",
           "cave_entrance",
           "tree"
+        ]
+      }
+    },
+    "infopoints": {
+      "columns": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "string",
+          "name": "ele",
+          "key": "ele"
+        },
+        {
+          "type": "bool",
+          "name": "foot",
+          "key": "foot"
+        },
+        {
+          "type": "bool",
+          "name": "bicycle",
+          "key": "bicycle"
+        },
+        {
+          "type": "bool",
+          "name": "ski",
+          "key": "ski"
+        },
+        {
+          "type": "bool",
+          "name": "horse",
+          "key": "horse"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        }
+      ],
+      "type": "point",
+      "filters": {
+        "require": {
+          "tourism": ["information"],
+          "information": ["__any__"]
+        }
+      },
+      "mapping": {
+        "information": [
+          "guidepost",
+          "board",
+          "map",
+          "office"
         ]
       }
     },
