@@ -1,6 +1,8 @@
 ## Generating contours and importing to PostGIS
 
 ```
+# 16-22
+# 47-49
 gdal_contour -i 10 -a height N48E020.HGT N48E020_10m.shp
 shp2pgsql -a -g way -s 4326:900913 N48E020_10m.shp contour | psql
 shp2pgsql -p -I -g way -s 4326:900913 N48E020_10m.shp contour | psql
@@ -18,4 +20,11 @@ gdalwarp -of GTiff -co "TILED=YES" -srcnodata 32767 -t_srs "+proj=merc +a=637813
 
 ```
 ~/go/bin/imposm import -connection postgis://martin:b0n0@localhost/martin  -mapping imposm-mapping.json -read slovakia-latest.osm.pbf -write
+```
+
+## Fixing contour boundary artifacts
+
+```
+ALTER TABLE contour ALTER COLUMN way TYPE geometry(linestring,900913) USING ST_GeometryN(way, 1);
+update contour set way = ST_RemovePoint(ST_RemovePoint(way, ST_NPoints(way) - 1), 0) where ST_IsClosed(way) = false;
 ```
