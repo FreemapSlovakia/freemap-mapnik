@@ -701,6 +701,70 @@
         ]
       }
     },
+    "naturalways": {
+      "columns": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        }
+      ],
+      "type": "linestring",
+      "mapping": {
+        "natural": [
+          "cliff"
+        ]
+      }
+    },
+    "protected_areas": {
+      "columns": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        }
+      ],
+      "type": "polygon",
+      "mapping": {
+        "boundary": [
+          "protected_area",
+          "national_park"
+        ],
+        "leisure": [
+          "nature_reserve"
+        ]
+      }
+    },
     "naturalpoints": {
       "columns": [
         {
