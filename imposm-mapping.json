@@ -852,12 +852,6 @@
         }
       ],
       "type": "point",
-      "filters": {
-        "require": {
-          "tourism": ["information"],
-          "information": ["__any__"]
-        }
-      },
       "mapping": {
         "information": [
           "guidepost",
