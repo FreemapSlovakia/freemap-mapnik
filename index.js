@@ -19,6 +19,8 @@ const renameAsync = promisify(rename);
 
 const tilesDir = config.get('tilesDir');
 const serverPort = config.get('server.port');
+const forceTileRendering = config.get('forceTileRendering');
+const dumpXml = config.get('dumpXml');
 
 router.get('/:zoom/:x/:y', async (ctx) => {
   const { zoom, x, y } = ctx.params;
@@ -43,7 +45,9 @@ mapnik.Image.prototype.encodeAsync = promisify(mapnik.Image.prototype.encode);
 
 const xml = generateFreemapStyle();
 
-console.log('Style:', xml);
+if (dumpXml) {
+  console.log('Style:', xml);
+}
 
 const factory = {
   async create() {
@@ -81,7 +85,7 @@ async function render(zoom, x, y) {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (!await existsAsync(`${p}.png`)) {
+  if (forceTileRendering || !await existsAsync(`${p}.png`)) {
     await mkdirFull(frags);
     await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
     await renameAsync(`${p}_tmp.png`, `${p}.png`);

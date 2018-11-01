@@ -11,4 +11,8 @@
   server: {
     port: 3000,
   },
+  forceTileRendering: false,
+  dumpXml: false,
+  contours: true,
+  shading: true,
 }
