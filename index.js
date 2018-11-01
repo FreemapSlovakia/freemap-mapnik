@@ -25,7 +25,7 @@ const dumpXml = config.get('dumpXml');
 router.get('/:zoom/:x/:y', async (ctx) => {
   const { zoom, x, y } = ctx.params;
   await render(Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y));
-  await send(ctx, `${tilesDir}/${zoom}/${x}/${y}.png`);
+  await send(ctx, `${zoom}/${x}/${y}.png`, { root: tilesDir });
 });
 
 app
