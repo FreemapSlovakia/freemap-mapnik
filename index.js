@@ -9,6 +9,7 @@ const send = require('koa-send');
 const genericPool = require('generic-pool');
 const generateFreemapStyle = require('./lib/freemapStyleGenerator');
 const { mercSrs } = require('./lib/projections');
+const { writeFile } = require('fs');
 
 const app = new Koa();
 const router = new Router();
@@ -16,6 +17,7 @@ const router = new Router();
 const existsAsync = promisify(exists);
 const mkdirAsync = promisify(mkdir);
 const renameAsync = promisify(rename);
+const writeFileAsync = promisify(writeFile);
 
 const tilesDir = config.get('tilesDir');
 const serverPort = config.get('server.port');
@@ -81,13 +83,19 @@ async function render(zoom, x, y) {
   const map = await pool.acquire();
   map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
   map.renderFileAsync = promisify(map.renderFile);
+  map.renderAsync = promisify(map.render);
 
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
   if (forceTileRendering || !await existsAsync(`${p}.png`)) {
     await mkdirFull(frags);
-    await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
+    // await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
+    const im = new mapnik.Image(256, 256);
+    await map.renderAsync(im, { buffer_size: 256 });
+    im.encodeAsync = promisify(im.encode);
+    const buffer = await im.encodeAsync('png');
+    await writeFileAsync(`${p}_tmp.png`, buffer);
     await renameAsync(`${p}_tmp.png`, `${p}.png`);
   }
 
