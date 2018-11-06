@@ -3,3 +3,6 @@ hgt
 node_modules
 tiles
 config/development.*
+cache
+diff
+expires
