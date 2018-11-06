@@ -2,31 +2,60 @@
 
 https://codepen.io/zdila/pen/xQGjYo
 
-## Generating contours and importing to PostGIS
+## Requirements
 
-```
-# 16-22
-# 47-49
-gdal_contour -i 10 -a height N48E020.HGT N48E020_10m.shp
-shp2pgsql -a -g way -s 4326:900913 N48E020_10m.shp contour | psql
-shp2pgsql -p -I -g way -s 4326:900913 N48E020_10m.shp contour | psql
-```
+- Node.js
+- PostGIS
+- GDAL including python-gdal
+- imposm3
 
-## Generating shaded relief
+## Installation
 
-```
-gdaldem hillshade -s 111120 -compute_edges -multidirectional N48E020.HGT N48E020.tif
-gdal_translate -of GTiff -co "TILED=YES" -a_srs "+proj=latlong" N48E020.tif N48E020_adapted.tif
-gdalwarp -of GTiff -co "TILED=YES" -srcnodata 32767 -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" -rcs -order 3 -tr 30 30 -multi N48E020_adapted.tif N48E020_warped.tif
-```
+1. Get OpenStreetMap data (eg. from [Geofabrik](http://download.geofabrik.de/))
+1. Create a postgis database (see below for details)
+1. Import OpenStreetMap data (see below for details)
+1. Get digital elevation data and import it to DB (see below for details)
+1. Change directory to project directory
+1. Run `npm i`
+1. Create `config/development.json5` where you can override settings from `config/default.json5` for your local environment
+1. Run `npm run watch`
+1. Open `preview.html` in your browser
 
 ## Importing OSM data to PostGIS
 
+In following commands replace `<you>` with your username.
+
+### Prepare database
+
+- `sudo su - postgres`
+- `createdb <you>`
+- `createuser <you>`
+- `psql martin`
+- `CREATE EXTENSION postgis;`
+- `CREATE EXTENSION postgis_topology;`
+- `GRANT CREATE ON DATABASE <you> TO <you>;`
+
+### Import OpenStreetMap to database
+
+You must have imposm3 installed. For instructions how to build it see https://github.com/omniscale/imposm3.
+
+To import the data use following command (with correct pbf filename).
 ```
-~/go/bin/imposm import -connection postgis://martin:b0n0@localhost/martin  -mapping imposm-mapping.json -read slovakia-latest.osm.pbf -write
+~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -read slovakia-latest.osm.pbf -write
 ```
 
-## Fixing contour boundary artifacts
+## Contours and shaded relief (optional)
+
+1. Obtain digital elevation data from [EarthExplorer](https://earthexplorer.usgs.gov/)
+   - recommended Data Set is _SRTM 1 Arc-Second Global_
+   - use GeoTIFF format
+1. Create `hgt` directory and put there downloaded files.
+1. To generate shaded relief run `scripts/generate_shaded_relief.sh`
+1. To generate shaded relief run `scripts/import_contours.sh`
+
+### Fixing contour boundary artifacts
+
+To fix contour artifacts run following SQL in postgres client:
 
 ```
 ALTER TABLE contour ALTER COLUMN way TYPE geometry(linestring,900913) USING ST_GeometryN(way, 1);
