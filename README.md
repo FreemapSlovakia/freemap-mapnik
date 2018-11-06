@@ -14,7 +14,7 @@ https://codepen.io/zdila/pen/xQGjYo
 1. Get OpenStreetMap data (eg. from [Geofabrik](http://download.geofabrik.de/))
 1. Create a postgis database (see below for details)
 1. Import OpenStreetMap data (see below for details)
-1. Get digital elevation data and import it to DB (see below for details)
+1. Get digital elevation data and import it to database (see below for details)
 1. Change directory to project directory
 1. Run `npm i`
 1. Create `config/development.json5` where you can override settings from `config/default.json5` for your local environment
@@ -30,7 +30,7 @@ In following commands replace `<you>` with your username.
 - `sudo su - postgres`
 - `createdb <you>`
 - `createuser <you>`
-- `psql martin`
+- `psql <you>`
 - `CREATE EXTENSION postgis;`
 - `CREATE EXTENSION postgis_topology;`
 - `GRANT CREATE ON DATABASE <you> TO <you>;`
