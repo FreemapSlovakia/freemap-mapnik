@@ -1,4 +1,4 @@
-const { mkdir, rename, exists, writeFile } = require('fs');
+const { mkdir, rename, exists, writeFile, readdir, unlink, readFile } = require('fs');
 const path = require('path');
 const { promisify } = require('util');
 
@@ -19,6 +19,9 @@ const existsAsync = promisify(exists);
 const mkdirAsync = promisify(mkdir);
 const renameAsync = promisify(rename);
 const writeFileAsync = promisify(writeFile);
+const readdirAsync = promisify(readdir);
+const unlinkAsync = promisify(unlink);
+const readFileAsync = promisify(readFile);
 
 const tilesDir = config.get('tilesDir');
 const serverPort = config.get('server.port');
@@ -117,6 +120,56 @@ async function mkdirFull(frags) {
       if (!await existsAsync(p)) {
         throw e;
       }
+    }
+  }
+}
+
+async function expireTiles() {
+  const expiresDir = './expires'; // TODO make configurable
+
+  const dirs = await readdirAsync(expiresDir);
+  const fullFiles = [].concat(...await Promise.all(dirs.map((dirs) => path.join(expiresDir, dirs)).map(async (fd) => readdirAsync(fd).then((x) => x.map((xx) => path.join(fd, xx))))));
+
+  const tiles = [];
+
+  (await Promise.all(fullFiles.map((ff) => readFileAsync(ff, 'utf8'))))
+    .join('\n')
+    .split('\n')
+    .filter((x) => x.trim())
+    .forEach((tile) => {
+      collectZoomedTiles(tiles, tile);
+    });
+
+  await Promise.all([...new Set(tiles)].map((tile) => unlinkAsync(path.resolve(tilesDir, `${tile}.png`)).catch((e) => {})));
+
+  await Promise.all(fullFiles.map((ff) => unlinkAsync(ff)));
+}
+
+setInterval(() => {
+  expireTiles().catch((err) => {
+    console.error('Error expiring tiles:', err);
+  });
+}, 60 * 1000);
+
+function collectZoomedTiles(tiles, tile) {
+  collectZoomedOutTiles(tiles, ...tile.split('/'));
+  collectZoomedInTiles(tiles, ...tile.split('/'));
+}
+
+function collectZoomedOutTiles(tiles, zoom, x, y) {
+  tiles.push(`${zoom}/${x}/${y}`);
+  const z = Number.parseInt(zoom, 10);
+  if (z > 0) {
+    collectZoomedOutTiles(tiles, z - 1, Math.floor(x / 2), Math.floor(y / 2));
+  }
+}
+
+function collectZoomedInTiles(tiles, zoom, x, y) {
+  tiles.push(`${zoom}/${x}/${y}`);
+  const z = Number.parseInt(zoom, 10);
+  if (z < 19) { // TODO make maxzoom configurable
+    for (const [dx, dy] of [[0, 0], [0, 1], [1, 0], [1, 1]]) {
+      collectZoomedInTiles(tiles, z + 1, x * 2 + dx, y * 2 + dy);
     }
   }
 }
