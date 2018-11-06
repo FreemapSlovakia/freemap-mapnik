@@ -39,7 +39,8 @@ In following commands replace `<you>` with your username.
 
 You must have imposm3 installed. For instructions how to build it see https://github.com/omniscale/imposm3.
 
-To import the data use following command (with correct pbf filename).
+To import the data use following command (with correct pbf filename):
+
 ```
 ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -read slovakia-latest.osm.pbf -write
 ```
@@ -52,12 +53,3 @@ To import the data use following command (with correct pbf filename).
 1. Create `hgt` directory and put there downloaded files.
 1. To generate shaded relief run `scripts/generate_shaded_relief.sh`
 1. To generate shaded relief run `scripts/import_contours.sh`
-
-### Fixing contour boundary artifacts
-
-To fix contour artifacts run following SQL in postgres client:
-
-```
-ALTER TABLE contour ALTER COLUMN way TYPE geometry(linestring,900913) USING ST_GeometryN(way, 1);
-update contour set way = ST_RemovePoint(ST_RemovePoint(way, ST_NPoints(way) - 1), 0) where ST_IsClosed(way) = false;
-```
