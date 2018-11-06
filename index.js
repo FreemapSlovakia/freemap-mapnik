@@ -1,15 +1,16 @@
-const { mkdir, rename, exists } = require('fs');
+const { mkdir, rename, exists, writeFile } = require('fs');
 const path = require('path');
-const mapnik = require('mapnik');
 const { promisify } = require('util');
+
+const mapnik = require('mapnik');
 const config = require('config');
 const Koa = require('koa');
 const Router = require('koa-router');
 const send = require('koa-send');
 const genericPool = require('generic-pool');
+
 const generateFreemapStyle = require('./lib/freemapStyleGenerator');
 const { mercSrs } = require('./lib/projections');
-const { writeFile } = require('fs');
 
 const app = new Koa();
 const router = new Router();
