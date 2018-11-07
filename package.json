@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node --max-old-space-size=4096 index.js",
     "watch": "nodemon --ext js,xml,svg --watch style --watch lib --watch index.js --exec npm run start"
   },
   "author": "",
