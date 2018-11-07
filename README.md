@@ -27,7 +27,7 @@ In following commands replace `<you>` with your username.
 
 ### Prepare database
 
-- `sudo su - postgres`
+- `sudo su - postgres` (skip this on MacOS)
 - `createdb <you>`
 - `createuser <you>`
 - `psql <you>`
@@ -44,6 +44,14 @@ To import the data use following command (with correct pbf filename):
 ```
 ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -read slovakia-latest.osm.pbf -write
 ```
+
+#### Building Imposm on MacOS
+
+```
+brew install golang leveldb geos
+```
+
+and then execute the commands [here](https://github.com/omniscale/imposm3/#compile)
 
 ## Contours and shaded relief (optional)
 
