@@ -2,6 +2,8 @@ const { mkdir, rename, exists, writeFile, readdir, unlink, readFile } = require(
 const path = require('path');
 const { promisify } = require('util');
 const { cpus } = require('os');
+const process = require('process');
+const http = require('http');
 
 const mapnik = require('mapnik');
 const config = require('config');
@@ -46,7 +48,8 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-app.listen(serverPort);
+const server = http.createServer(app.callback());
+// server.listen(serverPort);
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -70,7 +73,7 @@ const factory = {
     return map;
   },
   async destroy(map) {
-    // TODO ?
+    // nothing to do
   },
 };
 
@@ -80,6 +83,15 @@ const opts = {
 };
 
 const pool = genericPool.createPool(factory, opts);
+
+pool.on('factoryCreateError', async (error) => {
+  process.exitCode = 1;
+  console.error('Error creating or configuring Mapnik:', error);
+  server.close();
+  await pool.drain();
+  await pool.clear();
+  clearInterval(expiratorInterval);
+});
 
 function transformCoords(zoom, xtile, ytile) {
   const n = Math.pow(2, zoom);
@@ -151,7 +163,7 @@ async function expireTiles() {
   await Promise.all(fullFiles.map((ff) => unlinkAsync(ff)));
 }
 
-setInterval(() => {
+const expiratorInterval = setInterval(() => {
   expireTiles().catch((err) => {
     console.error('Error expiring tiles:', err);
   });
