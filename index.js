@@ -49,7 +49,7 @@ app
   .use(router.allowedMethods());
 
 const server = http.createServer(app.callback());
-// server.listen(serverPort);
+server.listen(serverPort);
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
