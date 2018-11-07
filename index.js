@@ -1,6 +1,7 @@
 const { mkdir, rename, exists, writeFile, readdir, unlink, readFile } = require('fs');
 const path = require('path');
 const { promisify } = require('util');
+const { cpus } = require('os');
 
 const mapnik = require('mapnik');
 const config = require('config');
@@ -23,13 +24,20 @@ const readdirAsync = promisify(readdir);
 const unlinkAsync = promisify(unlink);
 const readFileAsync = promisify(readFile);
 
-const tilesDir = config.get('tilesDir');
+const tilesDir = config.get('dirs.tiles');
+const expiresDir = config.get('dirs.expires');
 const serverPort = config.get('server.port');
 const forceTileRendering = config.get('forceTileRendering');
 const dumpXml = config.get('dumpXml');
+const minZoom = config.get('zoom.min');
+const maxZoom = config.get('zoom.max');
+const workers = config.get('workers');
 
 router.get('/:zoom/:x/:y', async (ctx) => {
   const { zoom, x, y } = ctx.params;
+  if (zoom < minZoom || zoom > maxZoom) {
+    return;
+  }
   await render(Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y));
   await send(ctx, `${zoom}/${x}/${y}.png`, { root: tilesDir });
 });
@@ -67,8 +75,8 @@ const factory = {
 };
 
 const opts = {
-  max: 8, // maximum size of the pool (TODO make configurable)
-  min: 8, // minimum size of the pool (TODO make configurable)
+  max: 'max' in workers ? workers.max : cpus().length,
+  min: 'min' in workers ? workers.min : cpus().length,
 };
 
 const pool = genericPool.createPool(factory, opts);
@@ -125,8 +133,6 @@ async function mkdirFull(frags) {
 }
 
 async function expireTiles() {
-  const expiresDir = './expires'; // TODO make configurable
-
   const dirs = await readdirAsync(expiresDir);
   const fullFiles = [].concat(...await Promise.all(dirs.map((dirs) => path.join(expiresDir, dirs)).map(async (fd) => readdirAsync(fd).then((x) => x.map((xx) => path.join(fd, xx))))));
 
@@ -159,7 +165,7 @@ function collectZoomedTiles(tiles, tile) {
 function collectZoomedOutTiles(tiles, zoom, x, y) {
   tiles.push(`${zoom}/${x}/${y}`);
   const z = Number.parseInt(zoom, 10);
-  if (z > 0) {
+  if (z > minZoom) {
     collectZoomedOutTiles(tiles, z - 1, Math.floor(x / 2), Math.floor(y / 2));
   }
 }
@@ -167,7 +173,7 @@ function collectZoomedOutTiles(tiles, zoom, x, y) {
 function collectZoomedInTiles(tiles, zoom, x, y) {
   tiles.push(`${zoom}/${x}/${y}`);
   const z = Number.parseInt(zoom, 10);
-  if (z < 19) { // TODO make maxzoom configurable
+  if (z < maxZoom) {
     for (const [dx, dy] of [[0, 0], [0, 1], [1, 0], [1, 1]]) {
       collectZoomedInTiles(tiles, z + 1, x * 2 + dx, y * 2 + dy);
     }

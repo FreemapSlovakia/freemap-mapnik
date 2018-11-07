@@ -7,12 +7,23 @@
     dbname: 'gis',
     password: 'secret',
   },
-  tilesDir: 'tiles',
+  dirs: {
+    tiles: 'tiles',
+    expires: 'expires',
+  },
   server: {
     port: 3000,
+  },
+  workers: {
+    // min: 8, commented out = use num of cpus
+    // max: 8, commented out = use num of cpus
   },
   forceTileRendering: false,
   dumpXml: false,
   contours: true,
   shading: true,
+  zoom: {
+    min: 0,
+    max: 18,
+  }
 }
