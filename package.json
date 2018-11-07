@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "config": "^2.0.1",
+    "exit": "^0.1.2",
     "generic-pool": "^3.4.2",
     "koa": "^2.6.1",
     "koa-router": "^7.4.0",

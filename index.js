@@ -8,6 +8,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const send = require('koa-send');
 const genericPool = require('generic-pool');
+const exit = require('exit')
 
 const generateFreemapStyle = require('./lib/freemapStyleGenerator');
 const { mercSrs } = require('./lib/projections');
@@ -58,7 +59,13 @@ if (dumpXml) {
 const factory = {
   async create() {
     const map = new mapnik.Map(256, 256);
-    await map.fromStringAsync(xml);
+    try {
+      await map.fromStringAsync(xml);
+    } catch (error) {
+      console.log("Failed to create map tile worker:")
+      console.log(error)
+      exit(1);
+    }
     return map;
   },
   async destroy(map) {
