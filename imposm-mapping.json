@@ -188,6 +188,7 @@
               "park",
               "railway",
               "quarry",
+              "landfill",
               "vineyard",
               "orchard",
               "scrub",
@@ -276,7 +277,8 @@
           "village_green",
           "recreation_ground",
           "allotments",
-          "quarry"
+          "quarry",
+          "landfill"
         ],
         "highway": [
           "pedestrian",
