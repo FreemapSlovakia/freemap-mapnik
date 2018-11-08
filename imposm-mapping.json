@@ -166,6 +166,7 @@
               "farmland",
               "farm",
               "farmyard",
+              "grassland",
               "cemetery",
               "forest",
               "wood",
@@ -245,7 +246,8 @@
           "wood",
           "scrub",
           "wetland",
-          "heath"
+          "heath",
+          "grassland"
         ],
         "man_made": [
           "pier"
