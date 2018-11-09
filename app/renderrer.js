@@ -32,6 +32,7 @@ module.exports = async (pool, zoom, x, y) => {
   }
 
   pool.release(map);
+  return `${p}.png`;
 };
 
 function transformCoords(zoom, xtile, ytile) {
