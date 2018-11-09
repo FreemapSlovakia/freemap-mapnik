@@ -12,7 +12,7 @@
     expires: 'expires',
   },
   server: {
-    port: 3000,
+    port: 4000,
   },
   workers: {
     // min: 8, commented out = use num of cpus
