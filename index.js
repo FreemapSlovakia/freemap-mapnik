@@ -1,5 +1,5 @@
-const { mkdir, rename, exists, writeFile, readdir, unlink, readFile } = require('fs');
 const path = require('path');
+const { rename, exists, writeFile, readdir, unlink, readFile, ensureDir } = require('fs-extra');
 const { promisify } = require('util');
 const { cpus } = require('os');
 const process = require('process');
@@ -12,19 +12,12 @@ const Router = require('koa-router');
 const send = require('koa-send');
 const genericPool = require('generic-pool');
 
-const generateFreemapStyle = require('./lib/style');
+const generateConfig = require('./lib/style');
 const { mercSrs } = require('./lib/projections');
+const computeZoomedTiles = require('./lib/zoomedTileComputer');
 
 const app = new Koa();
 const router = new Router();
-
-const existsAsync = promisify(exists);
-const mkdirAsync = promisify(mkdir);
-const renameAsync = promisify(rename);
-const writeFileAsync = promisify(writeFile);
-const readdirAsync = promisify(readdir);
-const unlinkAsync = promisify(unlink);
-const readFileAsync = promisify(readFile);
 
 const tilesDir = config.get('dirs.tiles');
 const expiresDir = config.get('dirs.expires');
@@ -54,21 +47,16 @@ server.listen(serverPort);
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
 
-mapnik.Map.prototype.loadAsync = promisify(mapnik.Map.prototype.load);
-mapnik.Map.prototype.fromStringAsync = promisify(mapnik.Map.prototype.fromString);
-mapnik.Map.prototype.renderAsync = promisify(mapnik.Map.prototype.render);
-mapnik.Map.prototype.renderFileAsync = promisify(mapnik.Map.prototype.renderFile);
-mapnik.Image.prototype.encodeAsync = promisify(mapnik.Image.prototype.encode);
-
-const xml = generateFreemapStyle();
+const xml = generateConfig();
 
 if (dumpXml) {
-  console.log('Style:', xml);
+  console.log('Mapnik config:', xml);
 }
 
 const factory = {
   async create() {
     const map = new mapnik.Map(256, 256);
+    map.fromStringAsync = promisify(map.fromString);
     await map.fromStringAsync(xml);
     return map;
   },
@@ -112,55 +100,38 @@ async function render(zoom, x, y) {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (forceTileRendering || !await existsAsync(`${p}.png`)) {
-    await mkdirFull(frags);
+  if (forceTileRendering || !await exists(`${p}.png`)) {
+    await ensureDir(path.join(...frags));
     // await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
     const im = new mapnik.Image(256, 256);
     await map.renderAsync(im, { buffer_size: 256 });
     im.encodeAsync = promisify(im.encode);
     const buffer = await im.encodeAsync('png');
-    await writeFileAsync(`${p}_tmp.png`, buffer);
-    await renameAsync(`${p}_tmp.png`, `${p}.png`);
+    const tmpName = `${p}_tmp.png`;
+    await writeFile(tmpName, buffer);
+    await rename(tmpName, `${p}.png`);
   }
 
   pool.release(map);
 }
 
-async function mkdirFull(frags) {
-  if (!frags.length) {
-    return;
-  }
-  const p = path.join(...frags);
-  if (!await existsAsync(p)) {
-    await mkdirFull(frags.slice(0, frags.length - 1));
-    try {
-      await mkdirAsync(p);
-    } catch (e) {
-      // parallel creations may cause error
-      if (!await existsAsync(p)) {
-        throw e;
-      }
-    }
-  }
-}
-
 async function expireTiles() {
-  const dirs = await readdirAsync(expiresDir);
-  const fullFiles = [].concat(...await Promise.all(dirs.map((dirs) => path.join(expiresDir, dirs)).map(async (fd) => readdirAsync(fd).then((x) => x.map((xx) => path.join(fd, xx))))));
+  const dirs = await readdir(expiresDir);
+  const fullFiles = [].concat(...await Promise.all(
+    dirs
+      .map((dirs) => path.join(expiresDir, dirs))
+      .map(async (fd) => readdir(fd).then((x) => x.map((xx) => path.join(fd, xx)))),
+  ));
 
-  const tiles = [];
-
-  (await Promise.all(fullFiles.map((ff) => readFileAsync(ff, 'utf8'))))
+  const contents = await Promise.all(fullFiles.map((ff) => readFile(ff, 'utf8')));
+  const tiles = [].concat(...contents
     .join('\n')
     .split('\n')
     .filter((x) => x.trim())
-    .forEach((tile) => {
-      collectZoomedTiles(tiles, tile);
-    });
+    .map(computeZoomedTiles));
 
-  await Promise.all([...new Set(tiles)].map((tile) => unlinkAsync(path.resolve(tilesDir, `${tile}.png`)).catch((e) => {})));
-
-  await Promise.all(fullFiles.map((ff) => unlinkAsync(ff)));
+  await Promise.all([...new Set(tiles)].map((tile) => unlink(path.resolve(tilesDir, `${tile}.png`)).catch((e) => {})));
+  await Promise.all(fullFiles.map(unlink));
 }
 
 const expiratorInterval = setInterval(() => {
@@ -168,26 +139,3 @@ const expiratorInterval = setInterval(() => {
     console.error('Error expiring tiles:', err);
   });
 }, 60 * 1000);
-
-function collectZoomedTiles(tiles, tile) {
-  collectZoomedOutTiles(tiles, ...tile.split('/'));
-  collectZoomedInTiles(tiles, ...tile.split('/'));
-}
-
-function collectZoomedOutTiles(tiles, zoom, x, y) {
-  tiles.push(`${zoom}/${x}/${y}`);
-  const z = Number.parseInt(zoom, 10);
-  if (z > minZoom) {
-    collectZoomedOutTiles(tiles, z - 1, Math.floor(x / 2), Math.floor(y / 2));
-  }
-}
-
-function collectZoomedInTiles(tiles, zoom, x, y) {
-  tiles.push(`${zoom}/${x}/${y}`);
-  const z = Number.parseInt(zoom, 10);
-  if (z < maxZoom) {
-    for (const [dx, dy] of [[0, 0], [0, 1], [1, 0], [1, 1]]) {
-      collectZoomedInTiles(tiles, z + 1, x * 2 + dx, y * 2 + dy);
-    }
-  }
-}
