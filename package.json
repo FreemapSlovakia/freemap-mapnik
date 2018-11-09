@@ -2,10 +2,10 @@
   "name": "freemap-mapnik",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app/index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 index.js",
-    "watch": "nodemon --ext js,xml,svg --watch style --watch lib --watch index.js --exec npm run start"
+    "start": "node --max-old-space-size=4096 app",
+    "watch": "nodemon --ext js,xml,svg --watch style --watch app --exec npm run start"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "xmlbuilder": "^10.1.1"
   },
   "devDependencies": {
+    "eslint": "^5.9.0",
     "fs-extra": "^7.0.1",
     "nodemon": "^1.18.4"
   }
