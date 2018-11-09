@@ -12,7 +12,7 @@ const Router = require('koa-router');
 const send = require('koa-send');
 const genericPool = require('generic-pool');
 
-const generateFreemapStyle = require('./lib/freemapStyleGenerator');
+const generateFreemapStyle = require('./lib/style');
 const { mercSrs } = require('./lib/projections');
 
 const app = new Koa();
