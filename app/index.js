@@ -108,7 +108,7 @@ if (prerender) {
 async function worker(tg) {
   let result = tg.next();
   while (!result.done) {
-    console.log(result.value);
+    console.log('Pre-rendering tile:', result.value);
     const { x, y, zoom } = result.value;
     await render(pool, zoom, x, y, 1);
     result = tg.next();

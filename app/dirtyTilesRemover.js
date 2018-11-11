@@ -22,6 +22,9 @@ module.exports = async (tilesDir) => {
     .filter((x) => x.trim())
     .map(tile => computeZoomedTiles(tile, minZoom, maxZoom)));
 
-  await Promise.all([...new Set(tiles)].map((tile) => unlink(path.resolve(tilesDir, `${tile}.png`)).catch(() => {})));
+  const tileSet = new Set(tiles);
+  console.log('Removing dirty tiles:', tileSet);
+
+  await Promise.all([...tileSet].map((tile) => unlink(path.resolve(tilesDir, `${tile}.png`)).catch(() => {})));
   await Promise.all(fullFiles.map((ff) => unlink(ff)));
 };
