@@ -23,5 +23,5 @@ module.exports = async (tilesDir) => {
     .map(tile => computeZoomedTiles(tile, minZoom, maxZoom)));
 
   await Promise.all([...new Set(tiles)].map((tile) => unlink(path.resolve(tilesDir, `${tile}.png`)).catch(() => {})));
-  await Promise.all(fullFiles.map(unlink));
+  await Promise.all(fullFiles.map((ff) => unlink(ff)));
 };
