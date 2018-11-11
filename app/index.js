@@ -29,12 +29,14 @@ const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
 const workers = config.get('workers');
 
+const nCpus = cpus().length;
+
 router.get('/:zoom/:x/:y', async (ctx) => {
   const { zoom, x, y } = ctx.params;
   if (zoom < minZoom || zoom > maxZoom) {
     return;
   }
-  const file = await render(pool, Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y));
+  const file = await render(pool, Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y), 0);
   const stats = await stat(file);
 
   ctx.status = 200;
@@ -80,8 +82,9 @@ const factory = {
 };
 
 const pool = genericPool.createPool(factory, {
-  max: 'max' in workers ? workers.max : cpus().length,
-  min: 'min' in workers ? workers.min : cpus().length,
+  max: 'max' in workers ? workers.max : nCpus,
+  min: 'min' in workers ? workers.min : nCpus,
+  priorityRange: 2,
 });
 
 pool.on('factoryCreateError', async (error) => {
@@ -92,3 +95,45 @@ pool.on('factoryCreateError', async (error) => {
   await pool.clear();
   clearInterval(expiratorInterval);
 });
+
+const prerender = config.get('prerender');
+if (prerender) {
+  const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
+  const tg = getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom);
+  Promise.all(Array(workers).fill(0).map(() => worker(tg))).catch((err) => {
+    console.error('Error pre-rendering:', err);
+  });
+}
+
+async function worker(tg) {
+  let result = tg.next();
+  while (!result.done) {
+    console.log(result.value);
+    const { x, y, zoom } = result.value;
+    await render(pool, zoom, x, y, 1);
+    result = tg.next();
+  }
+}
+
+function* getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom) {
+  for (let zoom = minZoom; zoom <= maxZoom; zoom++) {
+    const minX = long2tile(minLon, zoom);
+    const maxX = long2tile(maxLon, zoom);
+    const minY = lat2tile(maxLat, zoom);
+    const maxY = lat2tile(minLat, zoom);
+
+    for (let y = minY; y <= maxY; y++) {
+      for (let x = minX; x <= maxX; x++) {
+        yield { zoom, x, y };
+      }
+    }
+  }
+}
+
+function long2tile(lon, zoom) {
+  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom)));
+}
+
+function lat2tile(lat, zoom) {
+  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom)));
+}

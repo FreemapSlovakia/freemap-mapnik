@@ -10,16 +10,16 @@ const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
 const merc = new mapnik.Projection(mercSrs);
 
-module.exports = async (pool, zoom, x, y) => {
-  const map = await pool.acquire();
-  map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
-  map.renderFileAsync = promisify(map.renderFile);
-  map.renderAsync = promisify(map.render);
-
+module.exports = async (pool, zoom, x, y, prio) => {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
   if (forceTileRendering || !await exists(`${p}.png`)) {
+    const map = await pool.acquire(prio);
+    map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
+    map.renderFileAsync = promisify(map.renderFile);
+    map.renderAsync = promisify(map.render);
+
     await ensureDir(path.join(...frags));
     // await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
     const im = new mapnik.Image(256, 256);
@@ -29,9 +29,10 @@ module.exports = async (pool, zoom, x, y) => {
     const tmpName = `${p}_tmp.png`;
     await writeFile(tmpName, buffer);
     await rename(tmpName, `${p}.png`);
+
+    pool.release(map);
   }
 
-  pool.release(map);
   return `${p}.png`;
 };
 

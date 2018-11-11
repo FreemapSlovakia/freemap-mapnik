@@ -25,5 +25,14 @@
   zoom: {
     min: 0,
     max: 18,
+  },
+  prerender: {
+    // workers: 8, commented out = use num of cpus
+    minLon: 16.63330078125,
+    maxLon: 22.785644531249996,
+    minLat: 47.517200697839414,
+    maxLat: 49.82380908513249,
+    minZoom: 8,
+    maxZoom: 16,
   }
 }

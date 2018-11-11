@@ -4,7 +4,7 @@ module.exports = (tile, minZoom, maxZoom) => {
   collectZoomedOutTiles(minZoom, tiles, zoom, x, y);
   collectZoomedInTiles(maxZoom, tiles, zoom, x, y);
   return tiles;
-}
+};
 
 function collectZoomedOutTiles(minZoom, tiles, zoom, x, y) {
   tiles.push(`${zoom}/${x}/${y}`);
