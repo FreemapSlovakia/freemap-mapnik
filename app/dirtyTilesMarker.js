@@ -6,7 +6,7 @@ const computeZoomedTiles = require('./zoomedTileComputer');
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
 const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
-const prerender = !!config.get('prerender');
+const prerender = config.get('prerender');
 
 module.exports = async (tilesDir) => {
   const dirs = await readdir(expiresDir);
@@ -26,15 +26,17 @@ module.exports = async (tilesDir) => {
   const tileSet = new Set(tiles);
   console.log('Removing dirty tiles:', tileSet);
 
-  if (prerender) {
-    await Promise.all([...tileSet].map(async (tile) => {
+  await Promise.all([...tileSet].map(async (tile) => {
+    const [zoom] = tile.split('/');
+    if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
+      await remove(path.resolve(tilesDir, `${tile}.png`));
+    } else {
       const name = path.resolve(tilesDir, `${tile}.dirty`);
       if (await exists(name)) {
         await close(await open(name, 'w'));
       }
-    }));
-  } else {
-    await Promise.all([...tileSet].map((tile) => remove(path.resolve(tilesDir, `${tile}.png`))));
-  }
+    }
+  }));
+
   await Promise.all(fullFiles.map((ff) => unlink(ff)));
 };

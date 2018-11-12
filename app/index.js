@@ -38,7 +38,7 @@ router.get('/:zoom/:x/:y', async (ctx) => {
   if (zoom < minZoom || zoom > maxZoom) {
     return;
   }
-  const file = await render(pool, Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y), 0);
+  const file = await render(pool, Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y), false);
   const stats = await stat(file);
 
   ctx.status = 200;
@@ -130,7 +130,7 @@ async function worker(tg) {
   while (!result.done) {
     console.log('Pre-rendering tile:', result.value);
     const { x, y, zoom } = result.value;
-    await render(pool, zoom, x, y, 1);
+    await render(pool, zoom, x, y, true);
     result = tg.next();
   }
 }
