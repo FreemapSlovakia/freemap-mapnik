@@ -102,14 +102,26 @@ pool.on('factoryCreateError', async (error) => {
   clearInterval(expiratorInterval);
 });
 
+prerender();
+
+let prerendering = false;
+
 function prerender() {
+  if (prerendering) {
+    return;
+  }
+  prerendering = true;
   const prerender = config.get('prerender');
   if (prerender) {
     const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
     const tg = getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom);
-    Promise.all(Array(workers).fill(0).map(() => worker(tg))).catch((err) => {
-      console.error('Error pre-rendering:', err);
-    });
+    Promise.all(Array(workers).fill(0).map(() => worker(tg)))
+      .then(() => {
+        prerendering = false;
+      })
+      .catch((err) => {
+        console.error('Error pre-rendering:', err);
+      });
   }
 }
 
