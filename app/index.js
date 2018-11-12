@@ -102,9 +102,9 @@ pool.on('factoryCreateError', async (error) => {
   clearInterval(expiratorInterval);
 });
 
-prerender();
-
 let prerendering = false;
+
+prerender();
 
 function prerender() {
   if (prerendering) {
