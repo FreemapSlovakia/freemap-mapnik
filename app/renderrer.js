@@ -16,7 +16,7 @@ module.exports = async (pool, zoom, x, y, prerender) => {
 
   const p = path.join(...frags, `${y}`);
   if (forceTileRendering || !await exists(`${p}.png`) || prerender && await exists(`${p}.dirty`)) {
-    console.log('Rendering tile:', zoom, x, y);
+    console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
     map.renderFileAsync = promisify(map.renderFile);
