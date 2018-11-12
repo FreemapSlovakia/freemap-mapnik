@@ -110,6 +110,7 @@ function prerender() {
   if (prerendering) {
     return;
   }
+  console.log('Running pre-rendering...');
   prerendering = true;
   const prerender = config.get('prerender');
   if (prerender) {

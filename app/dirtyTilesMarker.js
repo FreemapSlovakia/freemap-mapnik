@@ -24,7 +24,7 @@ module.exports = async (tilesDir) => {
     .map(tile => computeZoomedTiles(tile, minZoom, maxZoom)));
 
   const tileSet = new Set(tiles);
-  console.log('Removing dirty tiles:', tileSet);
+  console.log('Processing dirty tiles:', tileSet);
 
   await Promise.all([...tileSet].map(async (tile) => {
     const [zoom] = tile.split('/');
