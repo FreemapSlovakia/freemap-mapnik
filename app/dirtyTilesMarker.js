@@ -1,11 +1,12 @@
 const config = require('config');
 const path = require('path');
-const { readdir, readFile, unlink } = require('fs-extra');
+const { readdir, readFile, unlink, remove, open, close, exists } = require('fs-extra');
 const computeZoomedTiles = require('./zoomedTileComputer');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
 const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
+const prerender = !!config.get('prerender');
 
 module.exports = async (tilesDir) => {
   const dirs = await readdir(expiresDir);
@@ -25,6 +26,15 @@ module.exports = async (tilesDir) => {
   const tileSet = new Set(tiles);
   console.log('Removing dirty tiles:', tileSet);
 
-  await Promise.all([...tileSet].map((tile) => unlink(path.resolve(tilesDir, `${tile}.png`)).catch(() => {})));
+  if (prerender) {
+    await Promise.all([...tileSet].map(async (tile) => {
+      const name = path.resolve(tilesDir, `${tile}.dirty`);
+      if (await exists(name)) {
+        await close(await open(name, 'w'));
+      }
+    }));
+  } else {
+    await Promise.all([...tileSet].map((tile) => remove(path.resolve(tilesDir, `${tile}.png`))));
+  }
   await Promise.all(fullFiles.map((ff) => unlink(ff)));
 };

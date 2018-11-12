@@ -13,7 +13,7 @@ const send = require('koa-send');
 const genericPool = require('generic-pool');
 
 const generateConfig = require('./style');
-const removeDirtyTiles = require('./dirtyTilesRemover');
+const markDirtyTiles = require('./dirtyTilesMarker');
 const render = require('./renderrer');
 
 mapnik.register_default_fonts();
@@ -30,6 +30,8 @@ const maxZoom = config.get('zoom.max');
 const workers = config.get('workers');
 
 const nCpus = cpus().length;
+
+process.env.UV_THREADPOOL_SIZE = (workers.max || nCpus) + 4; // see https://github.com/mapnik/mapnik-support/issues/114
 
 router.get('/:zoom/:x/:y', async (ctx) => {
   const { zoom, x, y } = ctx.params;
@@ -58,9 +60,13 @@ const server = http.createServer(app.callback());
 server.listen(serverPort);
 
 const expiratorInterval = setInterval(() => {
-  removeDirtyTiles(tilesDir).catch((err) => {
-    console.error('Error expiring tiles:', err);
-  });
+  markDirtyTiles(tilesDir)
+    .then(() => {
+      prerender();
+    })
+    .catch((err) => {
+      console.error('Error expiring tiles:', err);
+    });
 }, 60 * 1000);
 
 const xml = generateConfig();
@@ -96,13 +102,15 @@ pool.on('factoryCreateError', async (error) => {
   clearInterval(expiratorInterval);
 });
 
-const prerender = config.get('prerender');
-if (prerender) {
-  const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
-  const tg = getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom);
-  Promise.all(Array(workers).fill(0).map(() => worker(tg))).catch((err) => {
-    console.error('Error pre-rendering:', err);
-  });
+function prerender() {
+  const prerender = config.get('prerender');
+  if (prerender) {
+    const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
+    const tg = getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom);
+    Promise.all(Array(workers).fill(0).map(() => worker(tg))).catch((err) => {
+      console.error('Error pre-rendering:', err);
+    });
+  }
 }
 
 async function worker(tg) {

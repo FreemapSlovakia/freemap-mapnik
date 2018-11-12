@@ -18,7 +18,7 @@
     // min: 8, commented out = use num of cpus
     // max: 8, commented out = use num of cpus
   },
-  forceTileRendering: false,
+  forceTileRendering: false, // useful for style development
   dumpXml: false,
   contours: true,
   shading: true,
@@ -26,7 +26,7 @@
     min: 0,
     max: 18,
   },
-  prerender: {
+  prerender: { // set to null to disable pre-rendering
     // workers: 8, commented out = use num of cpus
     minLon: 16.63330078125,
     maxLon: 22.785644531249996,

@@ -2,10 +2,12 @@ const path = require('path');
 const { promisify } = require('util');
 const config = require('config');
 const mapnik = require('mapnik');
-const { rename, exists, writeFile, ensureDir } = require('fs-extra');
+const { rename, exists, writeFile, ensureDir, remove } = require('fs-extra');
 const { mercSrs } = require('./projections');
 
 const forceTileRendering = config.get('forceTileRendering');
+const prerender = !!config.get('prerender');
+
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
 const merc = new mapnik.Projection(mercSrs);
@@ -14,7 +16,7 @@ module.exports = async (pool, zoom, x, y, prio) => {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (forceTileRendering || !await exists(`${p}.png`)) {
+  if (forceTileRendering || !await exists(`${p}.png`) || await exists(`${p}.dirty`)) {
     console.log('Rendering tile:', zoom, x, y);
     const map = await pool.acquire(prio);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
@@ -29,7 +31,10 @@ module.exports = async (pool, zoom, x, y, prio) => {
     const buffer = await im.encodeAsync('png');
     const tmpName = `${p}_tmp.png`;
     await writeFile(tmpName, buffer);
-    await rename(tmpName, `${p}.png`);
+    await Promise.all([
+      rename(tmpName, `${p}.png`),
+      remove(`${p}.dirty`),
+    ]);
 
     pool.release(map);
   }
