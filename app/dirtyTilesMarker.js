@@ -30,10 +30,8 @@ module.exports = async (tilesDir) => {
     const [zoom] = tile.split('/');
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
-    } else {
-      if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
-        await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
-      }
+    } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
+      await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
     }
   }));
 

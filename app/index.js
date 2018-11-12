@@ -110,15 +110,16 @@ function prerender() {
   if (prerendering) {
     return;
   }
-  console.log('Running pre-rendering...');
-  prerendering = true;
   const prerender = config.get('prerender');
   if (prerender) {
+    console.log('Running pre-rendering...');
+    prerendering = true;
     const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
     const tg = getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom);
     Promise.all(Array(workers).fill(0).map(() => worker(tg)))
       .then(() => {
         prerendering = false;
+        console.log('Pre-rendering finished.');
       })
       .catch((err) => {
         console.error('Error pre-rendering:', err);
