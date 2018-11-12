@@ -31,9 +31,8 @@ module.exports = async (tilesDir) => {
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
     } else {
-      const name = path.resolve(tilesDir, `${tile}.dirty`);
-      if (await exists(name)) {
-        await close(await open(name, 'w'));
+      if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
+        await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
       }
     }
   }));
