@@ -6,7 +6,6 @@ const { rename, exists, writeFile, ensureDir, remove } = require('fs-extra');
 const { mercSrs } = require('./projections');
 
 const forceTileRendering = config.get('forceTileRendering');
-const prerender = !!config.get('prerender');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
