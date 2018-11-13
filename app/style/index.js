@@ -132,7 +132,7 @@ module.exports = function generateFreemapStyle() {
       .addRule({ filter: "[type] = 'peak'", minZoom: 12 })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, "[name] + '\n' + [ele]")
       .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -20 }, '[name]')
+        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -10 }, '[name]')
       .addRule({ filter: "[type] = 'spring'", minZoom: 14 })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, '[name]')
     .addStyle('infopoint_names')
