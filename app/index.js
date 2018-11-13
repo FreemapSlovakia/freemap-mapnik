@@ -15,6 +15,7 @@ const genericPool = require('generic-pool');
 const generateConfig = require('./style');
 const markDirtyTiles = require('./dirtyTilesMarker');
 const render = require('./renderrer');
+const { long2tile, lat2tile } = require('./tileCalc');
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -28,6 +29,7 @@ const dumpXml = config.get('dumpXml');
 const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
 const workers = config.get('workers');
+const prerenderConfig = config.get('prerender');
 
 const nCpus = cpus().length;
 
@@ -38,7 +40,7 @@ router.get('/:zoom/:x/:y', async (ctx) => {
   if (zoom < minZoom || zoom > maxZoom) {
     return;
   }
-  const file = await render(pool, Number.parseInt(zoom), Number.parseInt(x), Number.parseInt(y), false);
+  const file = await render(pool, Number.parseInt(zoom, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false);
   const stats = await stat(file);
 
   ctx.status = 200;
@@ -113,7 +115,6 @@ async function prerender(all) {
     return;
   }
   retryLater = false;
-  const prerenderConfig = config.get('prerender');
   if (prerenderConfig) {
     console.log('Running pre-rendering...');
     prerendering = true;
@@ -142,7 +143,7 @@ async function findTilesToRender(dir) {
     }
   });
 
-  return [].concat(...await Promise.all(proms));
+  return tiles.concat(...await Promise.all(proms));
 }
 
 async function worker(tg) {
@@ -169,10 +170,3 @@ function* getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom) {
   }
 }
 
-function long2tile(lon, zoom) {
-  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom)));
-}
-
-function lat2tile(lat, zoom) {
-  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom)));
-}
