@@ -119,7 +119,7 @@ function prerender(all) {
     const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
     const tileIterator = all
       ? getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)
-      : findTilesToRender(tilesDir)[Symbol.iterator];
+      : findTilesToRender(tilesDir)[Symbol.iterator]();
     Promise.all(Array(workers).fill(0).map(() => worker(tileIterator)))
       .then(() => {
         prerendering = false;
