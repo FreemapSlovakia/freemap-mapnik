@@ -3,7 +3,7 @@ const { promisify } = require('util');
 const { cpus } = require('os');
 const process = require('process');
 const http = require('http');
-const { stat } = require('fs-extra');
+const { stat, readdir } = require('fs-extra');
 
 const mapnik = require('mapnik');
 const config = require('config');
@@ -62,7 +62,7 @@ server.listen(serverPort);
 const expiratorInterval = setInterval(() => {
   markDirtyTiles(tilesDir)
     .then(() => {
-      prerender();
+      prerender(false);
     })
     .catch((err) => {
       console.error('Error expiring tiles:', err);
@@ -103,11 +103,13 @@ pool.on('factoryCreateError', async (error) => {
 });
 
 let prerendering = false;
+let retryLater = false;
 
-prerender();
+prerender(true);
 
-function prerender() {
+function prerender(all) {
   if (prerendering) {
+    retryLater = true;
     return;
   }
   const prerender = config.get('prerender');
@@ -115,8 +117,10 @@ function prerender() {
     console.log('Running pre-rendering...');
     prerendering = true;
     const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
-    const tg = getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom);
-    Promise.all(Array(workers).fill(0).map(() => worker(tg)))
+    const tileIterator = all
+      ? getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)
+      : findTilesToRender(tilesDir)[Symbol.iterator];
+    Promise.all(Array(workers).fill(0).map(() => worker(tileIterator)))
       .then(() => {
         prerendering = false;
         console.log('Pre-rendering finished.');
@@ -125,6 +129,24 @@ function prerender() {
         console.error('Error pre-rendering:', err);
       });
   }
+
+  if (retryLater) {
+    prerender(false);
+  }
+}
+
+async function findTilesToRender(dir) {
+  const proms = [];
+  const tiles = [];
+  (await readdir(dir, { withFileTypes: true })).map((d) => {
+    if (d.isDirectory()) {
+      proms.push(findTilesToRender(path.resolve(dir, d.name)));
+    } else if (d.name.endsWith('.dirty')) {
+      tiles.push(path.relative(tilesDir, path.resolve(dir, d.name)).replace(/\.dirty$/, ''));
+    }
+  });
+
+  return [].concat(...await Promise.all(proms));
 }
 
 async function worker(tg) {
