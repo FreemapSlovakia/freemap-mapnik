@@ -1,8 +1,7 @@
 const config = require('config');
 const path = require('path');
 const { readdir, readFile, unlink, remove, open, close, exists } = require('fs-extra');
-const computeZoomedTiles = require('./zoomedTileComputer');
-const { parseTile } = require('./tileCalc');
+const { parseTile, computeZoomedTiles } = require('./tileCalc');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
 const minZoom = config.get('zoom.min');
