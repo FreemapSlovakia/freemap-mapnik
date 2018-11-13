@@ -20,6 +20,7 @@ const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5, smooth: smoothness };
 const highwayDflt = { stroke: colors.track, smooth: smoothness };
 
 module.exports = function generateFreemapStyle() {
+  /* eslint-disable indent */
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
@@ -88,8 +89,8 @@ module.exports = function generateFreemapStyle() {
       .doInStyle((style) => {
         [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
           style
-            .addRule({ filter: `[type] = 'track' and [tracktype] = ${i === 5 ? `''` : `'grade${i + 1}'`}`, minZoom: 12 })
-              .addLineSymbolizer({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray })
+            .addRule({ filter: `[type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`, minZoom: 12 })
+              .addLineSymbolizer({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray });
         });
       })
     .addStyle('higwayGlows')
@@ -124,7 +125,7 @@ module.exports = function generateFreemapStyle() {
 
     .addStyle('protected_area_names')
       .addRule({ minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: '#008000', haloFill: 'white', haloRadius: 1, placement: 'interior' }, "[name]")
+        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: '#008000', haloFill: 'white', haloRadius: 1, placement: 'interior' }, '[name]')
     .addStyle('naturalpoint_names')
       .addRule({ filter: "[type] = 'peak'", minZoom: 12 })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, "[name] + '\n' + [ele]")
@@ -139,14 +140,14 @@ module.exports = function generateFreemapStyle() {
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1 }, '[name]')
     .addStyle('water_area_names')
       .addRule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'interior' }, "[name]")
+        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'interior' }, '[name]')
     .addStyle('highway_names')
       .addRule({ minZoom: 15 })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: '#3d1d1d', haloFill: 'white', haloRadius: 1, placement: 'line' }, '[name]')
     .addStyle('water_line_names')
-      .addRule({ minZoom: 12, filter: "[type] = river" })
+      .addRule({ minZoom: 12, filter: '[type] = river' })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'line' }, '[name]')
-      .addRule({ minZoom: 14, filter: "[type] <> river" })
+      .addRule({ minZoom: 14, filter: '[type] <> river' })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'line' }, '[name]')
 
     .addStyle('placenames')
@@ -174,16 +175,16 @@ module.exports = function generateFreemapStyle() {
       })
     .doInMap(addRoutes)
     .addStyle('contours', { opacity: 0.33 })
-      .addRule({ minZoom: 13, filter: "([height] % 100 = 0) and ([height] != 0)" })
+      .addRule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .addLineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: smoothness })
-      .addRule({ minZoom: 14, filter: "([height] % 10 = 0) and ([height] != 0)" })
+      .addRule({ minZoom: 14, filter: '([height] % 10 = 0) and ([height] != 0)' })
         .addLineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: smoothness })
-      .addRule({ maxZoom: 13, minZoom: 13, filter: "([height] % 20 = 0) and ([height] != 0)" })
+      .addRule({ maxZoom: 13, minZoom: 13, filter: '([height] % 20 = 0) and ([height] != 0)' })
         .addLineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: smoothness })
-      .addRule({ maxZoom: 12, minZoom: 12, filter: "([height] % 50 = 0) and ([height] != 0)" })
+      .addRule({ maxZoom: 12, minZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
         .addLineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: smoothness })
 
     .doInMap(addLayers)
 
     .stringify();
-}
+};

@@ -81,7 +81,7 @@ function createMap(atts, { dbParams } = {}) {
               cb(map);
               return map;
             },
-                    addFilter(filter) {
+            addFilter(filter) {
               const filterEle = ruleEle.ele('Filter', {}, filter);
               return { filterEle, ...rule, ...ascendents };
             },
@@ -136,7 +136,7 @@ function createMap(atts, { dbParams } = {}) {
     addSqlLayer(styleName, sql, atts = {}) {
       const layerEle = mapEle.ele('Layer', sanitizeAtts(atts));
       for (const sn of Array.isArray(styleName) ? styleName : [styleName]) {
-        layerEle.ele('StyleName', {}, styleName);
+        layerEle.ele('StyleName', {}, sn);
       }
       layerEle.ele('Datasource', { base: 'db' })
         .ele('Parameter', { name: 'table' }, `(${sql}) as foo`);
@@ -145,9 +145,9 @@ function createMap(atts, { dbParams } = {}) {
     addLayer(styleName, dsParams, atts = {}) {
       const layerEle = mapEle.ele('Layer', sanitizeAtts(atts));
       for (const sn of Array.isArray(styleName) ? styleName : [styleName]) {
-        layerEle.ele('StyleName', {}, styleName);
+        layerEle.ele('StyleName', {}, sn);
       }
-      const dsEle = layerEle.ele('Datasource')
+      const dsEle = layerEle.ele('Datasource');
       Object.keys(dsParams).forEach((name) => {
         dsEle.ele('Parameter', { name }, dsParams[name]);
       });
@@ -155,7 +155,7 @@ function createMap(atts, { dbParams } = {}) {
     },
     mapEle,
     stringify(formattingOptions = { pretty: true }) {
-      return mapEle.end(formattingOptions)
+      return mapEle.end(formattingOptions);
     },
   };
 

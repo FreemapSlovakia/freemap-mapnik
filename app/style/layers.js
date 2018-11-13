@@ -5,27 +5,27 @@ const shading = config.get('shading');
 
 module.exports = (map) => map
   .addSqlLayer('landcover',
-    `select name, type, geometry from osm_landusages order by z_order`)
+    'select name, type, geometry from osm_landusages order by z_order')
   .addSqlLayer('water_area',
-    `select geometry, type from osm_waterareas`)
+    'select geometry, type from osm_waterareas')
   .addSqlLayer('protected_areas',
-    `select geometry from osm_protected_areas`)
+    'select geometry from osm_protected_areas')
   .addSqlLayer('borders',
-    `select geometry from osm_admin where admin_level = 2`)
+    'select geometry from osm_admin where admin_level = 2')
   .addSqlLayer('water_line',
-    `select geometry, name, type from osm_waterways`)
+    'select geometry, name, type from osm_waterways')
   .addSqlLayer('naturalways',
-    `select geometry, type from osm_naturalways`)
+    'select geometry, type from osm_naturalways')
   .addSqlLayer('higwayGlows',
-    `select geometry, type, tracktype from osm_roads order by z_order`)
+    'select geometry, type, tracktype from osm_roads order by z_order')
   .addSqlLayer('highways',
-    `select geometry, type, tracktype from osm_roads order by z_order`)
+    'select geometry, type, tracktype from osm_roads order by z_order')
   .addSqlLayer('buildings',
-    `select geometry, name, type from osm_buildings`)
+    'select geometry, name, type from osm_buildings')
   .doInMap((map) => {
     if (contours) {
       map.addSqlLayer('contours',
-        `select height, way from contour`);
+        'select height, way from contour');
     }
     if (shading) {
       map.addLayer('hillshade', {
@@ -42,26 +42,26 @@ module.exports = (map) => map
       from osm_route_members join osm_routes using(osm_id)
       group by member, geometry, osm_routes.type`)
   .addSqlLayer('naturalpoints',
-    `select type, geometry from osm_naturalpoints`)
+    'select type, geometry from osm_naturalpoints')
   .addSqlLayer('infopoints',
-    `select type, geometry from osm_infopoints`,
+    'select type, geometry from osm_infopoints',
     { /* bufferSize: 512 */ })
 
   .addSqlLayer('highway_names',
-    `select name, geometry, type from osm_roads order by z_order desc`)
+    'select name, geometry, type from osm_roads order by z_order desc')
   .addSqlLayer('water_line_names',
-    `select geometry, name, type from osm_waterways`)
+    'select geometry, name, type from osm_waterways')
   .addSqlLayer('water_area_names',
-    `select name, geometry, type from osm_waterareas`)
+    'select name, geometry, type from osm_waterareas')
   .addSqlLayer('naturalpoint_names',
-    `select name, ele, type, geometry from osm_naturalpoints`)
+    'select name, ele, type, geometry from osm_naturalpoints')
   .addSqlLayer('amenity_names',
-    `select name, type, geometry from osm_amenities`)
+    'select name, type, geometry from osm_amenities')
   .addSqlLayer('infopoint_names',
-    `select name, ele, type, geometry from osm_infopoints`,
+    'select name, ele, type, geometry from osm_infopoints',
     { /* bufferSize: 512 */ })
   .addSqlLayer('protected_area_names',
-    `select name, geometry from osm_protected_areas`)
+    'select name, geometry from osm_protected_areas')
   .addSqlLayer('placenames',
-    `select name, type, geometry from osm_places order by z_order desc`,
+    'select name, type, geometry from osm_places order by z_order desc',
     { clearLabelCache: 'on', bufferSize: 1024 });
