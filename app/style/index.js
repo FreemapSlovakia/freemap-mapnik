@@ -122,6 +122,8 @@ module.exports = function generateFreemapStyle() {
         .addMarkersSymbolizer({ file: 'images/peak.svg', width: 6, height: 6, fill: '#000000' })
       .addRule({ filter: "[type] = 'spring'", minZoom: 13 })
         .addMarkersSymbolizer({ file: 'images/spring.svg' })
+      .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 13 })
+        .addMarkersSymbolizer({ file: 'images/cave.svg' })
 
     .addStyle('protected_area_names')
       .addRule({ minZoom: 12 })
@@ -129,6 +131,8 @@ module.exports = function generateFreemapStyle() {
     .addStyle('naturalpoint_names')
       .addRule({ filter: "[type] = 'peak'", minZoom: 12 })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, "[name] + '\n' + [ele]")
+      .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 12 })
+        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -20 }, '[name]')
       .addRule({ filter: "[type] = 'spring'", minZoom: 14 })
         .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, '[name]')
     .addStyle('infopoint_names')
