@@ -59,7 +59,7 @@
       "type": "relation",
       "relation_types": ["route"],
       "mapping": {
-        "route": ["hiking", "bicycle", "ski", "horse"]
+        "route": ["hiking", "bicycle", "ski", "horse", "foot", "mtb"]
       },
       "columns": [
         {

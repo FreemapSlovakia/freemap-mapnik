@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 const routeColors = ['red', 'blue', 'green', 'yellow', 'black'];
 
 module.exports = (map) => map
@@ -6,8 +8,9 @@ module.exports = (map) => map
     .doInStyle(routes('bicycle'));
 
 function routes(type) {
-  const matchFn = type === 'hiking' ? osmcMatch : colourMatch;
-  const colors = type === 'hiking' ? [...routeColors.map(c => `0${c}`), ...routeColors.map(c => `1${c}`)] : routeColors;
+  const isHiking = type === 'hiking';
+  const matchFn = isHiking ? osmcMatch : colourMatch;
+  const colors = isHiking ? [...routeColors.map(c => `0${c}`), ...routeColors.map(c => `1${c}`)] : routeColors;
 
   return (style) => {
     for (let colorIdx = 0; colorIdx < colors.length; colorIdx++) {
@@ -29,16 +32,17 @@ function routes(type) {
             .map((x, i) => condNot(matchFn(colors[i]), x === '0'))
             .join(' and ')
         );
-        const filter = `[type] = '${type}' and ${matchFn(colors[colorIdx])}${ors.length ? ` and (${ors.map(or => `(${or})`).join(' or ')})` : ''}`;
+        const typeCond = isHiking ? "([type] = 'hiking' or [type] = 'foot')" : "([type] = 'bicycle' or [type] = 'mtb')";
+        const filter = `${typeCond} and ${matchFn(colors[colorIdx])}${ors.length ? ` and (${ors.map(or => `(${or})`).join(' or ')})` : ''}`;
         for (let a = 0; a < 2; a++) {
           style
             .addRule({ filter, minZoom: a === 0 ? 12 : 9, maxZoom: a === 0 ? undefined : 11 })
               .addLineSymbolizer({
-                stroke: type === 'hiking' ? colors[colorIdx].slice(1) : colors[colorIdx],
+                stroke: isHiking ? colors[colorIdx].slice(1) : colors[colorIdx],
                 strokeWidth: 2,
                 strokeLinejoin: 'round',
-                offset: ((a === 0 ? 3 : 1) + ones * 2) * (type === 'hiking' ? 1 : -1),
-                ...(type === 'hiking' ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,6' } : {}) : { strokeDasharray: '2,2' }),
+                offset: ((a === 0 ? 3 : 1) + ones * 2) * (isHiking ? 1 : -1),
+                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,6' } : {}) : { strokeDasharray: '2,2' }),
               });
         }
       });
