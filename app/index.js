@@ -113,11 +113,11 @@ async function prerender(all) {
     return;
   }
   retryLater = false;
-  const prerender = config.get('prerender');
-  if (prerender) {
+  const prerenderConfig = config.get('prerender');
+  if (prerenderConfig) {
     console.log('Running pre-rendering...');
     prerendering = true;
-    const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
+    const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerenderConfig;
     const tileIterator = all
       ? getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)
       : (await findTilesToRender(tilesDir))[Symbol.iterator]();
