@@ -15,7 +15,7 @@ const genericPool = require('generic-pool');
 const generateConfig = require('./style');
 const markDirtyTiles = require('./dirtyTilesMarker');
 const render = require('./renderrer');
-const { long2tile, lat2tile } = require('./tileCalc');
+const { long2tile, lat2tile, parseTile } = require('./tileCalc');
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -139,7 +139,7 @@ async function findTilesToRender(dir) {
     if (d.isDirectory()) {
       proms.push(findTilesToRender(path.resolve(dir, d.name)));
     } else if (d.name.endsWith('.dirty')) {
-      tiles.push(path.relative(tilesDir, path.resolve(dir, d.name)).replace(/\.dirty$/, ''));
+      tiles.push(parseTile(path.relative(tilesDir, path.resolve(dir, d.name)).replace(/\.dirty$/, '')));
     }
   });
 

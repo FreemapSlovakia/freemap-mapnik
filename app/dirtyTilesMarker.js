@@ -29,7 +29,7 @@ module.exports = async (tilesDir) => {
   console.log('Processing dirty tiles:', tileSet);
 
   await Promise.all([...tileSet].map(async (tile) => {
-    const [zoom] = parseTile(tile);
+    const { zoom } = parseTile(tile);
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
@@ -41,7 +41,7 @@ module.exports = async (tilesDir) => {
 };
 
 // function isTileInBbox(tile) {
-//   const [zoom, x, y] = parseTile(tile);
+//   const { zoom, x, y } = parseTile(tile);
 //   const minLon = tile2long(x, zoom);
 //   const maxLon = tile2long(x + 1, zoom);
 //   const maxLat = tile2lat(y, zoom);

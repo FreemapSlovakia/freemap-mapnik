@@ -1,7 +1,7 @@
 const { parseTile } = require('./tileCalc');
 
 module.exports = (tile, minZoom, maxZoom) => {
-  const [zoom, x, y] = parseTile(tile);
+  const {zoom, x, y} = parseTile(tile);
   const tiles = [];
   collectZoomedOutTiles(minZoom, tiles, zoom, x, y);
   collectZoomedInTiles(maxZoom, tiles, zoom, x, y);

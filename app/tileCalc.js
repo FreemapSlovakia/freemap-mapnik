@@ -24,6 +24,10 @@ function tile2lat(y, z) {
 }
 
 function parseTile(tile) {
-  let [zoom, x, y] = tile.split('/');
-  return [Number.parseInt(zoom, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), ];
+  const [zoom, x, y] = tile.split('/');
+  return {
+    zoom: Number.parseInt(zoom, 10),
+    x: Number.parseInt(x, 10),
+    y: Number.parseInt(y, 10),
+  };
 }
