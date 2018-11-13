@@ -112,6 +112,7 @@ function prerender(all) {
     retryLater = true;
     return;
   }
+  retryLater = false;
   const prerender = config.get('prerender');
   if (prerender) {
     console.log('Running pre-rendering...');
@@ -124,14 +125,13 @@ function prerender(all) {
       .then(() => {
         prerendering = false;
         console.log('Pre-rendering finished.');
+        if (retryLater) {
+          prerender(false);
+        }
       })
       .catch((err) => {
         console.error('Error pre-rendering:', err);
       });
-  }
-
-  if (retryLater) {
-    prerender(false);
   }
 }
 
