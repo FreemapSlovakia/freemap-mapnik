@@ -5,6 +5,7 @@ module.exports = {
   tile2lat,
   parseTile,
   computeZoomedTiles,
+  tileRangeGenerator,
 };
 
 function long2tile(lon, zoom) {
@@ -53,6 +54,21 @@ function collectZoomedInTiles(maxZoom, tiles, zoom, x, y) {
   if (zoom < maxZoom) {
     for (const [dx, dy] of [[0, 0], [0, 1], [1, 0], [1, 1]]) {
       collectZoomedInTiles(maxZoom, tiles, zoom + 1, x * 2 + dx, y * 2 + dy);
+    }
+  }
+}
+
+function* tileRangeGenerator(minLon, maxLon, minLat, maxLat, minZoom, maxZoom) {
+  for (let zoom = minZoom; zoom <= maxZoom; zoom++) {
+    const minX = long2tile(minLon, zoom);
+    const maxX = long2tile(maxLon, zoom);
+    const minY = lat2tile(maxLat, zoom);
+    const maxY = lat2tile(minLat, zoom);
+
+    for (let y = minY; y <= maxY; y++) {
+      for (let x = minX; x <= maxX; x++) {
+        yield { zoom, x, y };
+      }
     }
   }
 }

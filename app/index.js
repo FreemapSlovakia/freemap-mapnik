@@ -3,7 +3,7 @@ const { promisify } = require('util');
 const { cpus } = require('os');
 const process = require('process');
 const http = require('http');
-const { stat, readdir } = require('fs-extra');
+const { stat } = require('fs-extra');
 
 const mapnik = require('mapnik');
 const config = require('config');
@@ -12,10 +12,10 @@ const Router = require('koa-router');
 const send = require('koa-send');
 const genericPool = require('generic-pool');
 
-const generateConfig = require('./style');
+const generateMapnikConfig = require('./style');
 const markDirtyTiles = require('./dirtyTilesMarker');
-const render = require('./renderrer');
-const { long2tile, lat2tile, parseTile } = require('./tileCalc');
+const renderTile = require('./renderrer');
+const prerender = require('./prerenderrer');
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -29,7 +29,6 @@ const dumpXml = config.get('dumpXml');
 const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
 const workers = config.get('workers');
-const prerenderConfig = config.get('prerender');
 
 const nCpus = cpus().length;
 
@@ -40,7 +39,7 @@ router.get('/:zoom/:x/:y', async (ctx) => {
   if (zoom < minZoom || zoom > maxZoom) {
     return;
   }
-  const file = await render(pool, Number.parseInt(zoom, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false);
+  const file = await renderTile(pool, Number.parseInt(zoom, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false);
   const stats = await stat(file);
 
   ctx.status = 200;
@@ -64,14 +63,14 @@ server.listen(serverPort);
 const expiratorInterval = setInterval(() => {
   markDirtyTiles(tilesDir)
     .then(() => {
-      prerender(false);
+      prerender(pool, false);
     })
     .catch((err) => {
       console.error('Error expiring tiles:', err);
     });
 }, 60 * 1000);
 
-const xml = generateConfig();
+const xml = generateMapnikConfig();
 
 if (dumpXml) {
   console.log('Mapnik config:', xml);
@@ -104,69 +103,4 @@ pool.on('factoryCreateError', async (error) => {
   clearInterval(expiratorInterval);
 });
 
-let prerendering = false;
-let retryLater = false;
-
-prerender(true);
-
-async function prerender(all) {
-  if (prerendering) {
-    retryLater = true;
-    return;
-  }
-  retryLater = false;
-  if (prerenderConfig) {
-    console.log('Running pre-rendering...');
-    prerendering = true;
-    const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerenderConfig;
-    const tileIterator = all
-      ? getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)
-      : (await findTilesToRender(tilesDir))[Symbol.iterator]();
-
-    await Promise.all(Array(workers).fill(0).map(() => worker(tileIterator)));
-    prerendering = false;
-    console.log('Pre-rendering finished.');
-    if (retryLater) {
-      prerender(false);
-    }
-  }
-}
-
-async function findTilesToRender(dir) {
-  const proms = [];
-  const tiles = [];
-  (await readdir(dir, { withFileTypes: true })).map((d) => {
-    if (d.isDirectory()) {
-      proms.push(findTilesToRender(path.resolve(dir, d.name)));
-    } else if (d.name.endsWith('.dirty')) {
-      tiles.push(parseTile(path.relative(tilesDir, path.resolve(dir, d.name)).replace(/\.dirty$/, '')));
-    }
-  });
-
-  return tiles.concat(...await Promise.all(proms));
-}
-
-async function worker(tg) {
-  let result = tg.next();
-  while (!result.done) {
-    const { x, y, zoom } = result.value;
-    await render(pool, zoom, x, y, true);
-    result = tg.next();
-  }
-}
-
-function* getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom) {
-  for (let zoom = minZoom; zoom <= maxZoom; zoom++) {
-    const minX = long2tile(minLon, zoom);
-    const maxX = long2tile(maxLon, zoom);
-    const minY = lat2tile(maxLat, zoom);
-    const maxY = lat2tile(minLat, zoom);
-
-    for (let y = minY; y <= maxY; y++) {
-      for (let x = minX; x <= maxX; x++) {
-        yield { zoom, x, y };
-      }
-    }
-  }
-}
-
+prerender(pool, true);
