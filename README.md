@@ -2,7 +2,7 @@
 
 ## Demo
 
-https://www.freemap.sk/?layers=X (make sure to have port 4000 accessible)
+https://www.freemap.sk/?layers=X
 
 ## Requirements
 
