@@ -107,7 +107,7 @@ let retryLater = false;
 
 prerender(true);
 
-function prerender(all) {
+async function prerender(all) {
   if (prerendering) {
     retryLater = true;
     return;
@@ -120,18 +120,14 @@ function prerender(all) {
     const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerender;
     const tileIterator = all
       ? getTiles(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)
-      : findTilesToRender(tilesDir)[Symbol.iterator]();
-    Promise.all(Array(workers).fill(0).map(() => worker(tileIterator)))
-      .then(() => {
-        prerendering = false;
-        console.log('Pre-rendering finished.');
-        if (retryLater) {
-          prerender(false);
-        }
-      })
-      .catch((err) => {
-        console.error('Error pre-rendering:', err);
-      });
+      : (await findTilesToRender(tilesDir))[Symbol.iterator]();
+
+    await Promise.all(Array(workers).fill(0).map(() => worker(tileIterator)));
+    prerendering = false;
+    console.log('Pre-rendering finished.');
+    if (retryLater) {
+      prerender(false);
+    }
   }
 }
 
