@@ -1,5 +1,4 @@
 const path = require('path');
-const { promisify } = require('util');
 const config = require('config');
 const mapnik = require('mapnik');
 const { rename, exists, writeFile, ensureDir, remove } = require('fs-extra');
@@ -19,14 +18,11 @@ module.exports = async (pool, zoom, x, y, prerender) => {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
-    map.renderFileAsync = promisify(map.renderFile);
-    map.renderAsync = promisify(map.render);
 
     await ensureDir(path.join(...frags));
     // await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
     const im = new mapnik.Image(256, 256);
     await map.renderAsync(im, { buffer_size: 256 });
-    im.encodeAsync = promisify(im.encode);
     const buffer = await im.encodeAsync('png');
     const tmpName = `${p}_tmp.png`;
     await writeFile(tmpName, buffer);

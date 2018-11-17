@@ -20,6 +20,12 @@ const prerender = require('./prerenderrer');
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
 
+const mp = mapnik.Map.prototype;
+mp.fromStringAsync = promisify(mp.fromString);
+mp.renderFileAsync = promisify(mp.renderFile);
+mp.renderAsync = promisify(mp.render);
+mapnik.Image.prototype.encodeAsync = promisify(mapnik.Image.prototype.encode);
+
 const app = new Koa();
 const router = new Router();
 
@@ -53,6 +59,10 @@ router.get('/:zoom/:x/:y', async (ctx) => {
   await send(ctx, `${zoom}/${x}/${y}.png`, { root: tilesDir });
 });
 
+// router.get('/pdf', async (ctx) => {
+
+// });
+
 app
   .use(router.routes())
   .use(router.allowedMethods());
@@ -79,7 +89,6 @@ if (dumpXml) {
 const factory = {
   async create() {
     const map = new mapnik.Map(256, 256);
-    map.fromStringAsync = promisify(map.fromString);
     await map.fromStringAsync(xml);
     return map;
   },
