@@ -1,8 +1,9 @@
 const path = require('path');
 const config = require('config');
 const mapnik = require('mapnik');
-const { rename, exists, writeFile, ensureDir, remove } = require('fs-extra');
+const { rename, exists, ensureDir, remove } = require('fs-extra');
 const { mercSrs } = require('./projections');
+const { zoomDenoms } = require('./styleBuilder');
 
 const forceTileRendering = config.get('forceTileRendering');
 
@@ -20,12 +21,12 @@ module.exports = async (pool, zoom, x, y, prerender) => {
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
     await ensureDir(path.join(...frags));
-    // await map.renderFileAsync(`${p}_tmp.png`, { format: 'png' });
-    const im = new mapnik.Image(256, 256);
-    await map.renderAsync(im, { buffer_size: 256 });
-    const buffer = await im.encodeAsync('png');
     const tmpName = `${p}_tmp.png`;
-    await writeFile(tmpName, buffer);
+    await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale: 1 });
+    // const im = new mapnik.Image(256, 256);
+    // await map.renderAsync(im, { buffer_size: 256 });
+    // const buffer = await im.encodeAsync('png');
+    // await writeFile(tmpName, buffer);
     await Promise.all([
       rename(tmpName, `${p}.png`),
       remove(`${p}.dirty`),
@@ -35,6 +36,19 @@ module.exports = async (pool, zoom, x, y, prerender) => {
   }
 
   return `${p}.png`;
+};
+
+// scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
+module.exports.toPdf = async (destFile, xml, zoom, bbox0, scale = 1, width) => {
+  const bbox = merc.forward(bbox0);
+  const q = 0.00310668945 * Math.pow(2, zoom); // 25.45 for zoom 13
+  const map = new mapnik.Map(
+    width || (bbox[2] - bbox[0]) / q,
+    width ? (bbox[3] - bbox[1]) / (bbox[2] - bbox[0]) * width : (bbox[3] - bbox[1]) / q,
+  );
+  await map.fromStringAsync(xml);
+  map.zoomToBox(bbox);
+  await map.renderFileAsync(destFile, { format: 'pdf', buffer_size: 256, scale_denominator: zoomDenoms[zoom], scale });
 };
 
 function transformCoords(zoom, xtile, ytile) {

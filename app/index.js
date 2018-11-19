@@ -1,9 +1,10 @@
+const { tmpdir } = require('os');
 const path = require('path');
 const { promisify } = require('util');
 const { cpus } = require('os');
 const process = require('process');
 const http = require('http');
-const { stat } = require('fs-extra');
+const { stat, unlink } = require('fs-extra');
 
 const mapnik = require('mapnik');
 const config = require('config');
@@ -59,9 +60,29 @@ router.get('/:zoom/:x/:y', async (ctx) => {
   await send(ctx, `${zoom}/${x}/${y}.png`, { root: tilesDir });
 });
 
-// router.get('/pdf', async (ctx) => {
+let tmpIndex = Date.now();
 
-// });
+// example: http://localhost:4000/pdf?zoom=13&bbox=21.4389,48.6531,21.6231,48.7449&scale=0.75
+router.get('/pdf', async (ctx) => {
+  const zoom = Number.parseInt(ctx.query.zoom, 10);
+  const bbox = (ctx.query.bbox || '').split(',').map((c) => Number.parseFloat(c));
+  if (zoom < 0 || zoom > 20 || bbox.length !== 4 || bbox.some((c) => Number.isNaN(c))) {
+    ctx.status = 400;
+    return;
+  }
+  const filename = `export-${tmpIndex++}.pdf`;
+  const exportFile = path.resolve(tmpdir(), filename);
+  try {
+    await renderTile.toPdf(exportFile, xml, zoom, bbox,
+      Number.parseFloat(ctx.query.scale) || undefined,
+      Number.parseFloat(ctx.query.width) || undefined,
+    );
+    ctx.status = 200;
+    await send(ctx, filename, { root: tmpdir() });
+  } finally {
+    await unlink(exportFile);
+  }
+});
 
 app
   .use(router.routes())

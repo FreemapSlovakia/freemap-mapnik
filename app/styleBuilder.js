@@ -19,7 +19,7 @@ const zoomDenoms = [
   6500000,
   3000000,
   1500000,
-  750000,
+  750000, // 10
   400000,
   200000,
   100000,
@@ -29,7 +29,7 @@ const zoomDenoms = [
   5000,
   2500,
   1500,
-  750,
+  750, // 20
   500,
   250,
   100,
@@ -165,4 +165,5 @@ function createMap(atts, { dbParams } = {}) {
 module.exports = {
   sanitizeAtts,
   createMap,
+  zoomDenoms,
 };
