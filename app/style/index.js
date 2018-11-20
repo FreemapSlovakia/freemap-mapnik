@@ -137,12 +137,12 @@ module.exports = function generateFreemapStyle() {
       .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 12 })
         .addTextSymbolizer({ ...fontDflt, dy: -10 }, "[name] + '\n' + [ele]")
       .addRule({ filter: "[type] = 'spring'", minZoom: 14 })
-        .addTextSymbolizer({ ...fontDflt, dy: -8 }, "[name] + '\n' + [ele]")
+        .addTextSymbolizer({ ...fontDflt, dy: -10 }, "[name] + '\n' + [ele]")
       .addRule({ minZoom: 15 })
         .addTextSymbolizer({ ...fontDflt }, "[name] + '\n' + [ele]")
     .addStyle('infopoint_names')
       .addRule({ filter: "[type] = 'guidepost'", minZoom: 13 })
-        .addTextSymbolizer({ ...fontDflt, dy: -8,
+        .addTextSymbolizer({ ...fontDflt, dy: -10,
           wrapWidth: 80, wrapBefore: true }, "[name] + '\n' + [ele]")
     .addStyle('water_area_names')
       .addRule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
