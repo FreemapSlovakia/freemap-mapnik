@@ -21,7 +21,7 @@ module.exports = (map) => map
   .addSqlLayer('highways',
     'select geometry, type, tracktype from osm_roads order by z_order')
   .addSqlLayer('buildings',
-    'select geometry, name, type from osm_buildings')
+    'select geometry, type from osm_buildings')
   .doInMap((map) => {
     if (contours) {
       map.addSqlLayer('contours',
@@ -41,8 +41,8 @@ module.exports = (map) => map
         osm_routes.type
       from osm_route_members join osm_routes using(osm_id)
       group by member, geometry, osm_routes.type`)
-  .addSqlLayer('naturalpoints',
-    'select type, geometry from osm_naturalpoints')
+  .addSqlLayer('feature_points',
+    'select type, geometry from osm_feature_points')
   .addSqlLayer('infopoints',
     'select type, geometry from osm_infopoints',
     { /* bufferSize: 512 */ })
@@ -53,13 +53,13 @@ module.exports = (map) => map
     'select geometry, name, type from osm_waterways')
   .addSqlLayer('water_area_names',
     'select name, geometry, type from osm_waterareas')
-  .addSqlLayer('naturalpoint_names',
-    'select name, ele, type, geometry from osm_naturalpoints')
-  .addSqlLayer('amenity_names',
-    'select name, type, geometry from osm_amenities')
+  .addSqlLayer('feature_point_names',
+    'select name, ele, type, geometry from osm_feature_points')
   .addSqlLayer('infopoint_names',
     'select name, ele, type, geometry from osm_infopoints',
     { /* bufferSize: 512 */ })
+  .addSqlLayer('building_names',
+    'select name, type, geometry from osm_buildings')
   .addSqlLayer('protected_area_names',
     'select name, geometry from osm_protected_areas')
   .addSqlLayer('placenames',

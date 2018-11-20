@@ -18,6 +18,7 @@ const smoothness = 0;
 
 const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5, smooth: smoothness };
 const highwayDflt = { stroke: colors.track, smooth: smoothness };
+const fontDflt = { faceName: 'DejaVu Sans Book', haloFill: 'white', haloRadius: 1 };
 
 module.exports = function generateFreemapStyle() {
   /* eslint-disable indent */
@@ -43,7 +44,7 @@ module.exports = function generateFreemapStyle() {
         .addBorderedPolygonSymbolizer('#9E9E9E')
       .addRule({ filter: "[type] = 'landfill'" })
         .addBorderedPolygonSymbolizer('#A06D6D')
-      .addRule({ filter: "[type] = 'residential'" })
+      .addRule({ filter: "[type] = 'residential' or [type] = 'living_street'" })
         .addBorderedPolygonSymbolizer('#e0e0e0')
       .addRule({ filter: "[type] = 'farmyard'" })
         .addBorderedPolygonSymbolizer('#dec47c')
@@ -117,7 +118,7 @@ module.exports = function generateFreemapStyle() {
     .addStyle('infopoints')
       .addRule({ filter: "[type] = 'guidepost'", minZoom: 12 }) // TODO show some dot on 11, 10
         .addMarkersSymbolizer({ file: 'images/guidepost.svg' })
-    .addStyle('naturalpoints')
+    .addStyle('feature_points')
       .addRule({ filter: "[type] = 'peak'", minZoom: 11 })
         .addMarkersSymbolizer({ file: 'images/peak.svg', width: 6, height: 6, fill: '#000000' })
       .addRule({ filter: "[type] = 'spring'", minZoom: 13 })
@@ -125,34 +126,38 @@ module.exports = function generateFreemapStyle() {
       .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 13 })
         .addMarkersSymbolizer({ file: 'images/cave.svg' })
 
+    // texts
+
     .addStyle('protected_area_names')
       .addRule({ minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: '#008000', haloFill: 'white', haloRadius: 1, placement: 'interior' }, '[name]')
-    .addStyle('naturalpoint_names')
+        .addTextSymbolizer({ ...fontDflt, fill: '#008000', placement: 'interior' }, '[name]')
+    .addStyle('feature_point_names', { filterMode: 'first' })
       .addRule({ filter: "[type] = 'peak'", minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, "[name] + '\n' + [ele]")
+        .addTextSymbolizer({ ...fontDflt, dy: -8 }, "[name] + '\n' + [ele]")
       .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -10 }, '[name]')
+        .addTextSymbolizer({ ...fontDflt, dy: -10 }, "[name] + '\n' + [ele]")
       .addRule({ filter: "[type] = 'spring'", minZoom: 14 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8 }, '[name]')
+        .addTextSymbolizer({ ...fontDflt, dy: -8 }, "[name] + '\n' + [ele]")
+      .addRule({ minZoom: 15 })
+        .addTextSymbolizer({ ...fontDflt }, "[name] + '\n' + [ele]")
     .addStyle('infopoint_names')
       .addRule({ filter: "[type] = 'guidepost'", minZoom: 13 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, dy: -8,
+        .addTextSymbolizer({ ...fontDflt, dy: -8,
           wrapWidth: 80, wrapBefore: true }, "[name] + '\n' + [ele]")
-    .addStyle('amenity_names')
-      .addRule({ minZoom: 15 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1 }, '[name]')
     .addStyle('water_area_names')
       .addRule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'interior' }, '[name]')
+        .addTextSymbolizer({ ...fontDflt, fill: 'blue', placement: 'interior' }, '[name]')
+    .addStyle('building_names')
+      .addRule({ minZoom: 15 })
+        .addTextSymbolizer({ ...fontDflt, placement: 'interior' }, '[name]')
     .addStyle('highway_names')
       .addRule({ minZoom: 15 })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: '#3d1d1d', haloFill: 'white', haloRadius: 1, placement: 'line' }, '[name]')
+        .addTextSymbolizer({ ...fontDflt, fill: '#3d1d1d', placement: 'line' }, '[name]')
     .addStyle('water_line_names')
       .addRule({ minZoom: 12, filter: '[type] = river' })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'line' }, '[name]')
+        .addTextSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line' }, '[name]')
       .addRule({ minZoom: 14, filter: '[type] <> river' })
-        .addTextSymbolizer({ size: 10, faceName: 'DejaVu Sans Book', fill: 'blue', haloFill: 'white', haloRadius: 1, placement: 'line' }, '[name]')
+        .addTextSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line' }, '[name]')
 
     .addStyle('placenames')
       .doInStyle((style) => {
@@ -162,18 +167,18 @@ module.exports = function generateFreemapStyle() {
 
           style
             .addRule({ filter: "[type] = 'city' or [type] = 'town'", minZoom: z, maxZoom: z })
-              .addTextSymbolizer({ size: 1.5 * sc, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, opacity, haloOpacity: opacity }, '[name]');
+              .addTextSymbolizer({ ...fontDflt, size: 1.5 * sc, opacity, haloOpacity: opacity }, '[name]');
 
           if (z > 9) {
             style
               .addRule({ filter: "[type] = 'village' or [type] = 'suburb'", minZoom: z, maxZoom: z })
-                .addTextSymbolizer({ size: 0.75 * sc, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, opacity, haloOpacity: opacity }, '[name]');
+                .addTextSymbolizer({ ...fontDflt, size: 0.75 * sc, opacity, haloOpacity: opacity }, '[name]');
           }
 
           if (z > 10) {
             style
               .addRule({ filter: "[type] = 'hamlet'", minZoom: z, maxZoom: z })
-                .addTextSymbolizer({ size: 0.5 * sc, faceName: 'DejaVu Sans Book', fill: 'black', haloFill: 'white', haloRadius: 1, opacity, haloOpacity: opacity }, '[name]');
+                .addTextSymbolizer({ ...fontDflt, size: 0.5 * sc, opacity, haloOpacity: opacity }, '[name]');
           }
         }
       })

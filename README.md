@@ -44,13 +44,13 @@ You must have imposm3 installed. For instructions how to build it see https://gi
 To import the data use following command (with correct pbf filename):
 
 ```
-~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -read slovakia-latest.osm.pbf -write
+~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read slovakia-latest.osm.pbf -write
 ```
 
 Afterwards deploy the import to production:
 
 ```
-~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -deployproduction
+~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
 ```
 
 #### Building Imposm on MacOS
@@ -79,15 +79,15 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
    ```
 1. Import the extract:
    ```
-   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -read sk.pbf -diff -write  -diff -cachedir ./cache -diffdir ./diff
+   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read sk.pbf -diff -write  -diff -cachedir ./cache -diffdir ./diff
    ```
 1. Deploy the import to production:
    ```
-   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -deployproduction
+   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
    ```
 1. Update `./diff/last.state.txt` to reflect timestamp of the imported map (I think that for sure the timestamp can be even bit older)
 1. Delete cached tiles
 1. Run minutely diff importing in the background:
    ```
-   nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping imposm-mapping.json -limitto limit.geojson  -cachedir ./cache -diffdir ./diff -expiretiles-zoom 15 -expiretiles-dir ./expires &
+   nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -limitto limit.geojson  -cachedir ./cache -diffdir ./diff -expiretiles-zoom 15 -expiretiles-dir ./expires &
    ```
