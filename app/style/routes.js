@@ -39,10 +39,10 @@ function routes(type) {
             .addRule({ filter, minZoom: a === 0 ? 12 : 9, maxZoom: a === 0 ? undefined : 11 })
               .addLineSymbolizer({
                 stroke: isHiking ? colors[colorIdx].slice(1) : colors[colorIdx],
-                strokeWidth: 2,
+                strokeWidth: isHiking ? 2 : 3,
                 strokeLinejoin: 'round',
-                offset: ((a === 0 ? 3 : 1) + ones * 2) * (isHiking ? 1 : -1),
-                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,6' } : {}) : { strokeDasharray: '2,2' }),
+                offset: ((a === 0 ? 3 : 1) + ones * (isHiking ? 2 : 3)) * (isHiking ? 1 : -1),
+                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,6' } : {}) : { strokeDasharray: '2,3' }),
               });
         }
       });
