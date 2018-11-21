@@ -53,14 +53,14 @@ function createMap(atts, { dbParams } = {}) {
       cb(map);
       return map;
     },
-    addStyle(name, atts = {}) {
+    style(name, atts = {}) {
       const styleEle = mapEle.ele('Style', { name, ...sanitizeAtts(atts) });
-      const style = {
+      const s = {
         doInStyle(cb) {
-          cb(style);
-          return style;
+          cb(s);
+          return s;
         },
-        addRule({ filter, maxZoom, minZoom } = {}) {
+        rule({ filter, maxZoom, minZoom } = {}) {
           const ruleEle = styleEle.ele('Rule');
           if (filter) {
             ruleEle.ele('Filter', {}, filter);
@@ -75,65 +75,65 @@ function createMap(atts, { dbParams } = {}) {
               ruleEle.ele('MaxScaleDenominator', {}, zoomDenoms[minZoom]);
             }
           }
-          const ascendents = { style, map };
+          const ascendents = { style: map.style, map };
           const rule = {
             doInRule(cb) {
               cb(map);
               return map;
             },
-            addFilter(filter) {
+            filter(filter) {
               const filterEle = ruleEle.ele('Filter', {}, filter);
               return { filterEle, ...rule, ...ascendents };
             },
-            addPolygonSymbolizer(atts = {}) {
+            polygonSymbolizer(atts = {}) {
               const polygonSymbolizerEle = ruleEle.ele('PolygonSymbolizer', sanitizeAtts(atts));
               return { polygonSymbolizerEle, ...rule, ...ascendents };
             },
-            addPolygonPatternSymbolizer(atts = {}) {
+            polygonPatternSymbolizer(atts = {}) {
               const polygonPatternSymbolizerEle = ruleEle.ele('PolygonPatternSymbolizer', sanitizeAtts(atts));
               return { polygonPatternSymbolizerEle, ...rule, ...ascendents };
             },
-            addLineSymbolizer(atts = {}) {
+            lineSymbolizer(atts = {}) {
               const lineSymbolizerEle = ruleEle.ele('LineSymbolizer', sanitizeAtts(atts));
               return { lineSymbolizerEle, ...rule, ...ascendents };
             },
-            addLinePatternSymbolizer(atts = {}) {
+            linePatternSymbolizer(atts = {}) {
               const linePatternSymbolizerEle = ruleEle.ele('LinePatternSymbolizer', sanitizeAtts(atts));
               return { linePatternSymbolizerEle, ...rule, ...ascendents };
             },
-            addMarkersSymbolizer(atts = {}) {
+            markersSymbolizer(atts = {}) {
               const markersSymbolizerEle = ruleEle.ele('MarkersSymbolizer', sanitizeAtts(atts));
               return { markersSymbolizerEle, ...rule, ...ascendents };
             },
-            addTextSymbolizer(atts = {}, text) {
+            textSymbolizer(atts = {}, text) {
               const textSymbolizerEle = ruleEle.ele('TextSymbolizer', sanitizeAtts(atts), text);
               return { textSymbolizerEle, ...rule, ...ascendents };
             },
-            addRasterSymbolizer(atts = {}) {
+            rasterSymbolizer(atts = {}) {
               const rasterSymbolizerEle = ruleEle.ele('RasterSymbolizer', sanitizeAtts(atts));
               return { rasterSymbolizerEle, ...rule, ...ascendents };
             },
-            addShieldSymbolizer(atts = {}) {
+            shieldSymbolizer(atts = {}) {
               const shieldSymbolizerEle = ruleEle.ele('ShieldSymbolizer', sanitizeAtts(atts));
               return { shieldSymbolizerEle, ...rule, ...ascendents };
             },
 
-            addBorderedPolygonSymbolizer(color) {
+            borderedPolygonSymbolizer(color) {
               const polygonSymbolizerEle = ruleEle.ele('PolygonSymbolizer', sanitizeAtts({ fill: color }));
               const lineSymbolizerEle = ruleEle.ele('LineSymbolizer', sanitizeAtts({ stroke: color, strokeWidth: 1 }));
               return { polygonSymbolizerEle, lineSymbolizerEle, ...rule, ...ascendents };
             },
             ruleEle,
-            ...style,
+            ...s,
           };
           return rule;
         },
         styleEle,
         ...map,
       };
-      return style;
+      return s;
     },
-    addSqlLayer(styleName, sql, atts = {}) {
+    sqlLayer(styleName, sql, atts = {}) {
       const layerEle = mapEle.ele('Layer', sanitizeAtts(atts));
       for (const sn of Array.isArray(styleName) ? styleName : [styleName]) {
         layerEle.ele('StyleName', {}, sn);
@@ -142,7 +142,7 @@ function createMap(atts, { dbParams } = {}) {
         .ele('Parameter', { name: 'table' }, `(${sql}) as foo`);
       return this;
     },
-    addLayer(styleName, dsParams, atts = {}) {
+    layer(styleName, dsParams, atts = {}) {
       const layerEle = mapEle.ele('Layer', sanitizeAtts(atts));
       for (const sn of Array.isArray(styleName) ? styleName : [styleName]) {
         layerEle.ele('StyleName', {}, sn);

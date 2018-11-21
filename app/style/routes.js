@@ -3,7 +3,7 @@
 const routeColors = ['red', 'blue', 'green', 'yellow', 'black'];
 
 module.exports = (map) => map
-  .addStyle('routes')
+  .style('routes')
     .doInStyle(routes('hiking'))
     .doInStyle(routes('bicycle'));
 
@@ -36,8 +36,8 @@ function routes(type) {
         const filter = `${typeCond} and ${matchFn(colors[colorIdx])}${ors.length ? ` and (${ors.map(or => `(${or})`).join(' or ')})` : ''}`;
         for (let a = 0; a < 2; a++) {
           style
-            .addRule({ filter, minZoom: a === 0 ? 12 : 9, maxZoom: a === 0 ? undefined : 11 })
-              .addLineSymbolizer({
+            .rule({ filter, minZoom: a === 0 ? 12 : 9, maxZoom: a === 0 ? undefined : 11 })
+              .lineSymbolizer({
                 stroke: isHiking ? colors[colorIdx].slice(1) : colors[colorIdx],
                 strokeWidth: isHiking ? 2 : 3,
                 strokeLinejoin: 'round',
