@@ -8,6 +8,20 @@ function sanitizeAtts(obj) {
   return res;
 }
 
+function sanitizeLayerAtts(obj) {
+  const atts = { ...obj };
+  if ('minZoom' in atts) {
+    atts.maximumScaleDenominator = zoomDenoms[atts.minZoom];
+    delete atts.minZoom;
+  }
+  if ('maxZoom' in atts) {
+    atts.minimumScaleDenominator = zoomDenoms[atts.maxZoom + 1];
+    delete atts.maxZoom;
+  }
+
+  return sanitizeAtts(atts);
+}
+
 const zoomDenoms = [
   1000000000,
   500000000,
@@ -66,13 +80,17 @@ function createMap(atts, { dbParams } = {}) {
             ruleEle.ele('Filter', {}, filter);
           }
           if (typeof maxZoom === 'number') {
-            if (zoomDenoms[maxZoom + 2]) {
+            if (zoomDenoms[maxZoom + 1]) {
               ruleEle.ele('MinScaleDenominator', {}, zoomDenoms[maxZoom + 1]);
+            } else {
+              throw new Error(`Unsupported zoom ${maxZoom + 1}`);
             }
           }
           if (typeof minZoom === 'number') {
             if (zoomDenoms[minZoom]) {
               ruleEle.ele('MaxScaleDenominator', {}, zoomDenoms[minZoom]);
+            } else {
+              throw new Error(`Unsupported zoom ${minZoom}`);
             }
           }
           const ascendents = { style: map.style, map };
@@ -134,7 +152,7 @@ function createMap(atts, { dbParams } = {}) {
       return s;
     },
     sqlLayer(styleName, sql, atts = {}) {
-      const layerEle = mapEle.ele('Layer', sanitizeAtts(atts));
+      const layerEle = mapEle.ele('Layer', sanitizeLayerAtts(atts));
       for (const sn of Array.isArray(styleName) ? styleName : [styleName]) {
         layerEle.ele('StyleName', {}, sn);
       }
@@ -143,7 +161,7 @@ function createMap(atts, { dbParams } = {}) {
       return this;
     },
     layer(styleName, dsParams, atts = {}) {
-      const layerEle = mapEle.ele('Layer', sanitizeAtts(atts));
+      const layerEle = mapEle.ele('Layer', sanitizeLayerAtts(atts));
       for (const sn of Array.isArray(styleName) ? styleName : [styleName]) {
         layerEle.ele('StyleName', {}, sn);
       }

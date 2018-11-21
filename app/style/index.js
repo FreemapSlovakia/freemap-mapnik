@@ -161,9 +161,9 @@ module.exports = function generateFreemapStyle() {
       .rule({ filter: '[type] = valley', minZoom: 13 })
         .textSymbolizer({ ...fontDflt, size: 16, opacity: 0.5, haloOpacity: 0.5, placement: 'line'  }, '[name]') // TODO size by zoom as for placenames
     .style('water_line_names')
-      .rule({ minZoom: 12, filter: '[type] = river' })
+      .rule({ minZoom: 12, filter: "[type] = 'river'" })
         .textSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line' }, '[name]')
-      .rule({ minZoom: 14, filter: '[type] <> river' })
+      .rule({ minZoom: 14, filter: "[type] <> 'river'" })
         .textSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line' }, '[name]')
 
     .style('placenames')

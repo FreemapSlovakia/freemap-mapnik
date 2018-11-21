@@ -24,8 +24,11 @@ module.exports = (map) => map
     'select geometry, type from osm_buildings')
   .doInMap((map) => {
     if (contours) {
-      map.sqlLayer('contours',
-        'select height, way from contour');
+      map.sqlLayer(
+        'contours',
+        'select height, way from contour',
+        { minZoom: 12 },
+      );
     }
     if (shading) {
       map.layer('hillshade', {
@@ -40,7 +43,8 @@ module.exports = (map) => map
         concat('/', string_agg(colour, '/'), '/') AS colour,
         osm_routes.type
       from osm_route_members join osm_routes using(osm_id)
-      group by member, geometry, osm_routes.type`)
+      group by member, geometry, osm_routes.type`,
+    { minZoom: 9 })
   .sqlLayer('feature_points',
     'select type, geometry from osm_feature_points')
   .sqlLayer('infopoints',
