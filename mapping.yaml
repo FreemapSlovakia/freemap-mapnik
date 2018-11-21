@@ -723,6 +723,117 @@ tables:
       - pole
       - tower # TODO to separate
 
+  feature_polys:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: ele
+      key: ele
+    - type: mapping_value
+      name: type
+      key:
+    type: polygon
+    mapping:
+      natural:
+      - rock
+      - stone
+      amenity:
+      - bank
+      - bar
+      - bbq
+      - bicycle_parking
+      - bicycle_rental
+      - biergarten
+      - bus_station
+      - cafe
+      - car_wash
+      - cinema
+      - clinic
+      - college
+      - community_centre
+      - dentist
+      - doctors
+      - fast_food
+      - fire_station
+      - fountain
+      - fuel
+      - hospital
+      - ice_cream
+      - kindergarten
+      - library
+      - pharmacy
+      - police
+      - post_office
+      - pub
+      - recycling
+      - restaurant
+      - school
+      - shelter
+      - swimming_pool
+      - taxi
+      - theatre
+      - toilets
+      - townhall
+      - university
+      - veterinary
+      tourism:
+      - alpine_hut
+      - apartment
+      - artwork
+      - attraction
+      - cabin
+      - camp_site
+      - camping
+      - caravan_site
+      - castle
+      - chalet
+      - guest_house
+      - hostel
+      - hotel
+      - hut
+      - monument
+      - motel
+      - museum
+      - picnic_site
+      - wilderness_hut
+      - zoo
+      leisure:
+      - playground
+      man_made:
+      - adit
+      - bunker_silo
+      - chimney
+      - communications_tower
+      - cross
+      - mast
+      - mine
+      - mineshaft
+      - reservoir_covered
+      - silo
+      - tower # TODO to separate table to have tower:type
+      - water_tower
+      - water_works
+      historic:
+      - archaeological_site
+      - bunker
+      - castle
+      - manor
+      - memorial
+      - mine
+      - mine_shaft
+      - monastery
+      - monument
+      - ruins
+      - wayside_shrine
+
   infopoints:
     columns:
     - type: id

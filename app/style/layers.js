@@ -47,6 +47,8 @@ module.exports = (map) => map
     { minZoom: 9 })
   .sqlLayer('feature_points',
     'select type, geometry from osm_feature_points')
+  .sqlLayer('feature_points',
+    'select type, geometry from osm_feature_polys')
   .sqlLayer('infopoints',
     'select type, geometry from osm_infopoints',
     { /* bufferSize: 512 */ })
@@ -61,6 +63,8 @@ module.exports = (map) => map
     'select geometry, name, type from osm_feature_lines')
   .sqlLayer('feature_point_names',
     'select name, ele, type, geometry from osm_feature_points')
+  .sqlLayer('feature_point_names',
+    'select name, ele, type, geometry from osm_feature_polys')
   .sqlLayer('infopoint_names',
     'select name, ele, type, geometry from osm_infopoints',
     { /* bufferSize: 512 */ })
