@@ -30,11 +30,11 @@ module.exports = function generateFreemapStyle() {
     dbParams,
   })
     .style('landcover')
-      .rule({ filter: "[type] = 'forest' or [type] = 'wood'" })
+      .rule({ filter: types(['forest', 'wood']) })
         .borderedPolygonSymbolizer('hsl(120, 40%, 75%)')
       .rule({ filter: "[type] = 'farmland'" })
         .borderedPolygonSymbolizer('hsl(60, 60%, 95%)')
-      .rule({ filter: "[type] = 'meadow' or [type] = 'grassland' or [type] = 'park' or [type] = 'grassland' or [type] = 'park'" })
+      .rule({ filter: types(['meadow', 'grassland', 'park', 'grassland', 'park']) })
         .borderedPolygonSymbolizer('hsl(100, 100%, 85%)')
       .rule({ filter: "[type] = 'heath'" })
         .borderedPolygonSymbolizer('hsl(80, 85%, 80%)')
@@ -44,7 +44,7 @@ module.exports = function generateFreemapStyle() {
         .borderedPolygonSymbolizer('#9E9E9E')
       .rule({ filter: "[type] = 'landfill'" })
         .borderedPolygonSymbolizer('#A06D6D')
-      .rule({ filter: "[type] = 'residential' or [type] = 'living_street'" })
+      .rule({ filter: types(['residential', 'living_street']) })
         .borderedPolygonSymbolizer('#e0e0e0')
       .rule({ filter: "[type] = 'farmyard'" })
         .borderedPolygonSymbolizer('#dec47c')
@@ -58,7 +58,7 @@ module.exports = function generateFreemapStyle() {
         .borderedPolygonSymbolizer('#e0ffcc')
       .rule({ filter: "[type] = 'wetland'" })
         .borderedPolygonSymbolizer('hsl(200, 80%, 90%)')
-      .rule({ filter: "[type] = 'pitch' or [type] = 'playground'" })
+      .rule({ filter: types(['pitch', 'playground']) })
         .borderedPolygonSymbolizer('#ceac6e')
         .lineSymbolizer({ stroke: 'gray', strokeWidth: 1 })
       .rule({ filter: "[type] = 'parking'" })
@@ -73,17 +73,17 @@ module.exports = function generateFreemapStyle() {
       .rule({ filter: "[type] <> 'river'", minZoom: 11 })
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, smooth: smoothness })
     .style('highways')
-      .rule({ filter: "[type] = 'rail' or [type] = 'tram' or [type] = 'light_rail'" })
+      .rule({ filter: types(['rail', 'tram', 'light_rail']) })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
-      .rule({ filter: "[type] = 'motorway' or [type] = 'trunk'" })
+      .rule({ filter: types(['motorway', 'trunk', 'motorway_link', 'trunk_link']) })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
-      .rule({ filter: "[type] = 'primary' or [type] = 'secondary' or [type] = 'tertiary'" })
+      .rule({ filter: types(['primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link']) })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 2 })
-      .rule({ filter: "[type] = 'residential' or [type] = 'service' or [type] = 'unclassified' or [type] = 'road'", minZoom: 12 })
+      .rule({ filter: types(['residential', 'service', 'unclassified', 'road']), minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
       .rule({ filter: "[type] = 'path'", minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,3' })
-      .rule({ filter: "[type] = 'footway' or [type] = 'pedestrian' or [type] = 'steps'", minZoom: 12 })
+      .rule({ filter: types(['footway', 'pedestrian', 'steps']), minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,1' })
       .rule({ filter: "[type] = 'cycleway'", minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
@@ -95,7 +95,7 @@ module.exports = function generateFreemapStyle() {
         });
       })
     .style('higwayGlows')
-      .rule({ filter: "[type] = 'path' or [type] = 'footway' or [type] = 'pedestrian' or [type] = 'steps'", minZoom: 12 })
+      .rule({ filter: types(['path', 'footway', 'pedestrian', 'steps']), minZoom: 12 })
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
       .rule({ filter: "[type] = 'track'", minZoom: 12 })
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
@@ -109,7 +109,7 @@ module.exports = function generateFreemapStyle() {
       .rule()
       .lineSymbolizer({ stroke: '#a000ff', strokeWidth: 6, strokeOpacity: 0.5 })
     .style('feature_lines')
-      .rule({ filter: "[type] = 'cliff'", minZoom: 11 })
+      .rule({ filter: "[type] = 'cliff'", minZoom: 12 })
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
         .lineSymbolizer({ stroke: '#404040', strokeWidth: 1 })
       .rule({ filter: "[type] = 'line'", minZoom: 13 })
@@ -128,7 +128,9 @@ module.exports = function generateFreemapStyle() {
       .rule({ filter: "[type] = 'cave_entrance'", minZoom: 13 })
         .markersSymbolizer({ file: 'images/cave.svg' })
       .rule({ filter: "[type] = 'tower'", minZoom: 13 })
-        .markersSymbolizer({ file: 'images/peak.svg', width: 3, height: 3 })
+        .markersSymbolizer({ file: 'images/power_tower.svg' })
+      .rule({ filter: types(['hut', 'alpine_hut', 'chalet', 'guest_house', 'hostel', 'hotel']), minZoom: 13 })
+        .markersSymbolizer({ file: 'images/hut.svg' })
 
     // texts
 
@@ -138,7 +140,9 @@ module.exports = function generateFreemapStyle() {
     .style('feature_point_names', { filterMode: 'first' })
       .rule({ filter: "[type] = 'peak'", minZoom: 12 })
         .textSymbolizer({ ...fontDflt, dy: -8 }, "[name] + '\n' + [ele]")
-      .rule({ filter: "[type] = 'cave_entrance'", minZoom: 12 })
+      .rule({ filter: "[type] = 'cave_entrance'", minZoom: 14 })
+        .textSymbolizer({ ...fontDflt, dy: -10 }, "[name] + '\n' + [ele]")
+        .rule({ filter: types(['hut', 'alpine_hut', 'chalet', 'guest_house', 'hostel', 'hotel']), minZoom: 14 })
         .textSymbolizer({ ...fontDflt, dy: -10 }, "[name] + '\n' + [ele]")
       .rule({ filter: "[type] = 'spring'", minZoom: 14 })
         .textSymbolizer({ ...fontDflt, dy: -10 }, "[name] + '\n' + [ele]")
@@ -204,3 +208,7 @@ module.exports = function generateFreemapStyle() {
 
     .stringify();
 };
+
+function types(type) {
+  return type.map((x) => `[type] = '${x}'`).join(' or ');
+}
