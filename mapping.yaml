@@ -721,7 +721,7 @@ tables:
       - wayside_shrine
       power:
       - pole
-      - tower
+      - tower # TODO to separate
 
   infopoints:
     columns:

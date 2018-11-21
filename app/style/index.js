@@ -108,10 +108,12 @@ module.exports = function generateFreemapStyle() {
     .addStyle('borders')
       .addRule()
       .addLineSymbolizer({ stroke: '#a000ff', strokeWidth: 6, strokeOpacity: 0.5 })
-    .addStyle('naturalways')
+    .addStyle('feature_lines')
       .addRule({ filter: "[type] = 'cliff'", minZoom: 11 })
-      .addLinePatternSymbolizer({ file: 'images/cliff.svg' })
+        .addLinePatternSymbolizer({ file: 'images/cliff.svg' })
         .addLineSymbolizer({ stroke: '#404040', strokeWidth: 1 })
+      .addRule({ filter: "[type] = 'line'", minZoom: 13 })
+        .addLineSymbolizer({ stroke: 'black', strokeWidth: 1, strokeOpacity: 0.5 })
     .addStyle('hillshade')
       .addRule()
         .addRasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
@@ -125,6 +127,8 @@ module.exports = function generateFreemapStyle() {
         .addMarkersSymbolizer({ file: 'images/spring.svg' })
       .addRule({ filter: "[type] = 'cave_entrance'", minZoom: 13 })
         .addMarkersSymbolizer({ file: 'images/cave.svg' })
+      .addRule({ filter: "[type] = 'tower'", minZoom: 13 })
+        .addMarkersSymbolizer({ file: 'images/peak.svg', width: 3, height: 3 })
 
     // texts
 
@@ -153,6 +157,9 @@ module.exports = function generateFreemapStyle() {
     .addStyle('highway_names')
       .addRule({ minZoom: 15 })
         .addTextSymbolizer({ ...fontDflt, fill: '#3d1d1d', placement: 'line' }, '[name]')
+    .addStyle('feature_line_names')
+      .addRule({ filter: '[type] = valley', minZoom: 13 })
+        .addTextSymbolizer({ ...fontDflt, size: 16, opacity: 0.5, haloOpacity: 0.5, placement: 'line'  }, '[name]') // TODO size by zoom as for placenames
     .addStyle('water_line_names')
       .addRule({ minZoom: 12, filter: '[type] = river' })
         .addTextSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line' }, '[name]')

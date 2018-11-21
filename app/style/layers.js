@@ -14,8 +14,8 @@ module.exports = (map) => map
     'select geometry from osm_admin where admin_level = 2')
   .addSqlLayer('water_line',
     'select geometry, name, type from osm_waterways')
-  .addSqlLayer('naturalways',
-    'select geometry, type from osm_naturalways')
+  .addSqlLayer('feature_lines',
+    'select geometry, type from osm_feature_lines')
   .addSqlLayer('higwayGlows',
     'select geometry, type, tracktype from osm_roads order by z_order')
   .addSqlLayer('highways',
@@ -53,6 +53,8 @@ module.exports = (map) => map
     'select geometry, name, type from osm_waterways')
   .addSqlLayer('water_area_names',
     'select name, geometry, type from osm_waterareas')
+  .addSqlLayer('feature_line_names',
+    'select geometry, name, type from osm_feature_lines')
   .addSqlLayer('feature_point_names',
     'select name, ele, type, geometry from osm_feature_points')
   .addSqlLayer('infopoint_names',
