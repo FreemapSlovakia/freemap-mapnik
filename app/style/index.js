@@ -131,6 +131,8 @@ module.exports = function generateFreemapStyle() {
         .markersSymbolizer({ file: 'images/cave.svg' })
       .rule({ filter: "[type] = 'viewpoint'", minZoom: 13 })
         .markersSymbolizer({ file: 'images/view_point.svg' })
+      .rule({ filter: "[type] = 'hunting_stand'", minZoom: 13 })
+        .markersSymbolizer({ file: 'images/hunting_stand.svg' })
       .rule({ filter: "[type] = 'tower'", minZoom: 13 })
         .markersSymbolizer({ file: 'images/power_tower.svg' })
       .rule({ filter: "[type] = 'pole'", minZoom: 14 })
