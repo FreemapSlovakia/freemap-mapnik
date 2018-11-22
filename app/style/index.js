@@ -141,8 +141,8 @@ module.exports = function generateFreemapStyle() {
         .markersSymbolizer({ file: 'images/power_pole.svg' })
       .rule({ filter: types(['hut', 'alpine_hut', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'cabin']), minZoom: 13 })
         .markersSymbolizer({ file: 'images/hut.svg' })
-      .rule({ filter: types(['shelter']), minZoom: 14 })
-        .markersSymbolizer({ file: 'images/shelter.svg' })
+      .rule({ filter: types(['cross', 'wayside_cross', 'wayside_shrine']), minZoom: 16 })
+        .markersSymbolizer({ file: 'images/cross.svg' })
 
     // texts
 
