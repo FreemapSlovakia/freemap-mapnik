@@ -34,5 +34,6 @@
     maxLat: 49.82380908513249,
     minZoom: 8,
     maxZoom: 16,
-  }
+  },
+  rerenderOlderThanMs: 0, // use 0 to disable
 }

@@ -1,11 +1,12 @@
 const path = require('path');
 const config = require('config');
 const mapnik = require('mapnik');
-const { rename, exists, ensureDir, remove } = require('fs-extra');
+const { rename, exists, ensureDir, remove, stat } = require('fs-extra');
 const { mercSrs } = require('./projections');
 const { zoomDenoms } = require('./styleBuilder');
 
 const forceTileRendering = config.get('forceTileRendering');
+const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
@@ -15,7 +16,7 @@ module.exports = async (pool, zoom, x, y, prerender) => {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (forceTileRendering || !await exists(`${p}.png`) || prerender && await exists(`${p}.dirty`)) {
+  if (await shouldRender(p, prerender)) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
@@ -23,10 +24,6 @@ module.exports = async (pool, zoom, x, y, prerender) => {
     await ensureDir(path.join(...frags));
     const tmpName = `${p}_tmp.png`;
     await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale: 1 });
-    // const im = new mapnik.Image(256, 256);
-    // await map.renderAsync(im, { buffer_size: 256 });
-    // const buffer = await im.encodeAsync('png');
-    // await writeFile(tmpName, buffer);
     await Promise.all([
       rename(tmpName, `${p}.png`),
       remove(`${p}.dirty`),
@@ -37,6 +34,23 @@ module.exports = async (pool, zoom, x, y, prerender) => {
 
   return `${p}.png`;
 };
+
+async function shouldRender(p, prerender) {
+  if (forceTileRendering) {
+    return true;
+  }
+
+  try {
+    const s = await stat(`${p}.png`);
+    if (rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs || prerender && await exists(`${p}.dirty`)) {
+      return true;
+    }
+  } catch (err) {
+    return true;
+  }
+
+  return false;
+}
 
 // scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
 module.exports.toPdf = async (destFile, xml, zoom, bbox0, scale = 1, width) => {
