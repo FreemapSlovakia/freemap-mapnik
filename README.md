@@ -75,7 +75,7 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
 1. Download `europe-latest.osm.pbf` from Geofabrik
 1. Extract area of focus with Osmium:
    ```
-   osmium extract -p limit.geojson europe-latest.osm.pbf -o sk.pbf
+   osmium extract -p limit.geojson -s smart -S types=multipolygon,route,boundary europe-latest.osm.pbf -o sk.pbf
    ```
 1. Import the extract:
    ```
@@ -85,7 +85,8 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
    ```
    ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
    ```
-1. Update `./diff/last.state.txt` to reflect timestamp of the imported map (I think that for sure the timestamp can be even bit older)
+1. Update `./diff/last.state.txt` to reflect timestamp and sewuence number of the imported map (I think that for sure the timestamp can be even bit older).
+   See https://planet.openstreetmap.org/replication/minute/ for finding sequence number.
 1. Delete cached tiles
 1. Run minutely diff importing in the background:
    ```
