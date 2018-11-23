@@ -41,8 +41,9 @@ function routes(type) {
                 stroke: isHiking ? colors[colorIdx].slice(1) : colors[colorIdx],
                 strokeWidth: isHiking ? 2 : 3,
                 strokeLinejoin: 'round',
+                strokeLinecap: isHiking ? 'butt' : 'round',
                 offset: ((a === 0 ? 3 : 1) + ones * (isHiking ? 2 : 3)) * (isHiking ? 1 : -1),
-                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '3,3' }),
+                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '0.01,5' }),
               });
         }
       });
