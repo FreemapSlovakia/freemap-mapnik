@@ -40,13 +40,14 @@ In following commands replace `<you>` with your username.
 
 ### Prepare database
 
-- `sudo su - postgres` (skip this on MacOS)
-- `createdb <you>`
-- `createuser <you>`
-- `psql <you>`
-- `CREATE EXTENSION postgis;`
-- `CREATE EXTENSION postgis_topology;`
-- `GRANT CREATE ON DATABASE <you> TO <you>;`
+1. `sudo su - postgres` (skip this on MacOS)
+1. `createdb <you>`
+1. `createuser <you>`
+1. `psql <you>`
+1. `CREATE EXTENSION postgis;`
+1. `CREATE EXTENSION postgis_topology;`
+1. `GRANT CREATE ON DATABASE <you> TO <you>;`
+1. `ALTER USER <you> WITH PASSWORD '<your_password>';`
 
 ### Import OpenStreetMap to database
 
