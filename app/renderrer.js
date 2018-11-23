@@ -40,9 +40,13 @@ async function shouldRender(p, prerender) {
     return true;
   }
 
+  if (!prerender) {
+    return false;
+  }
+
   try {
     const s = await stat(`${p}.png`);
-    if (rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs || prerender && await exists(`${p}.dirty`)) {
+    if (rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs || await exists(`${p}.dirty`)) {
       return true;
     }
   } catch (err) {
