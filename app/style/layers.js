@@ -34,7 +34,7 @@ module.exports = (map) => map
       map.layer('hillshade', {
         type: 'gdal',
         file: 'hgt/hillshade_warped.tif',
-      });
+      }, { compOp: 'grain-merge' });
     }
   })
   .sqlLayer('routes',
