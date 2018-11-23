@@ -42,7 +42,7 @@ function routes(type) {
                 strokeWidth: isHiking ? 2 : 3,
                 strokeLinejoin: 'round',
                 offset: ((a === 0 ? 3 : 1) + ones * (isHiking ? 2 : 3)) * (isHiking ? 1 : -1),
-                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,6' } : {}) : { strokeDasharray: '3,3' }),
+                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '3,3' }),
               });
         }
       });
