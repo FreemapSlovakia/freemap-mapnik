@@ -11,4 +11,4 @@ done
 
 # Fix contour artifacts at borders
 
-echo 'ALTER TABLE contour ALTER COLUMN way TYPE geometry(linestring,900913) USING ST_GeometryN(way, 1); UPDATE contour SET way = ST_RemovePoint(ST_RemovePoint(way, ST_NPoints(way) - 1), 0) WHERE ST_IsClosed(way) = false;' > psql
+echo 'ALTER TABLE contour ALTER COLUMN way TYPE geometry(linestring,900913) USING ST_GeometryN(way, 1); UPDATE contour SET way = ST_RemovePoint(ST_RemovePoint(way, ST_NPoints(way) - 1), 0) WHERE ST_IsClosed(way) = false;' | psql
