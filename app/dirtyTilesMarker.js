@@ -9,6 +9,9 @@ const maxZoom = config.get('zoom.max');
 const prerender = config.get('prerender');
 
 module.exports = async (tilesDir) => {
+  console.time('SCAN');
+  console.timeLog('SCAN', 'PHASE 1');
+
   const dirs = await readdir(expiresDir);
   const fullFiles = [].concat(...await Promise.all(
     dirs
@@ -16,7 +19,12 @@ module.exports = async (tilesDir) => {
       .map(async (fd) => readdir(fd).then((x) => x.map((xx) => path.join(fd, xx)))),
   ));
 
+  console.timeLog('SCAN', 'PHASE 2');
+
   const contents = await Promise.all(fullFiles.map((ff) => readFile(ff, 'utf8')));
+
+  console.timeLog('SCAN', 'PHASE 3');
+
   const tiles = [].concat(...contents
     .join('\n')
     .split('\n')
@@ -24,10 +32,12 @@ module.exports = async (tilesDir) => {
     // .filter((tile) => isTileInBbox(tile))
     .map(tile => computeZoomedTiles(tile, minZoom, maxZoom)));
 
-  const tileSet = new Set(tiles);
-  console.log('Processing dirty tiles:', tileSet);
+  console.timeLog('SCAN', 'PHASE 4');
 
-  await Promise.all([...tileSet].map(async (tile) => {
+  const uniqTiles = [...new Set(tiles)];
+  console.log('Processing dirty tiles:', uniqTiles.join(', '));
+
+  await Promise.all(uniqTiles.map(async (tile) => {
     const { zoom } = parseTile(tile);
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
@@ -36,7 +46,11 @@ module.exports = async (tilesDir) => {
     }
   }));
 
+  console.timeLog('SCAN', 'PHASE 5');
+
   await Promise.all(fullFiles.map((ff) => unlink(ff)));
+
+  console.timeEnd('SCAN');
 };
 
 // function isTileInBbox(tile) {
