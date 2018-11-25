@@ -16,7 +16,6 @@
     "koa-router": "7.4.0",
     "koa-send": "5.0.0",
     "mapnik": "4.0.2",
-    "p-limit": "2.0.0",
     "xmlbuilder": "10.1.1"
   },
   "devDependencies": {

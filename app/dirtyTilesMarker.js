@@ -1,7 +1,6 @@
 const config = require('config');
 const path = require('path');
 const { readdir, readFile, unlink, remove, open, close, exists } = require('fs-extra');
-const pLimit = require('p-limit');
 const { parseTile, computeZoomedTiles } = require('./tileCalc');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
@@ -45,20 +44,22 @@ module.exports = async (tilesDir) => {
 
   console.log('Processing dirty tiles:', deepTiles.length);
 
-  const limit = pLimit(1); // let not kill IO
-
-  await Promise.all(deepTiles.map((tile) => limit(async () => {
+  // we do it sequentially to not to kill IO
+  for (const tile of deepTiles) {
     const { zoom } = parseTile(tile);
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
       await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
     }
-  })));
+  }
 
   console.timeLog('SCAN', 'PHASE 5');
 
-  await Promise.all(fullFiles.map((ff) => limit(() => unlink(ff))));
+  // we do it sequentially to not to kill IO
+  for (const ff of fullFiles) {
+    await unlink(ff);
+  }
 
   console.timeEnd('SCAN');
 };
