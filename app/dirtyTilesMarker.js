@@ -43,7 +43,7 @@ module.exports = async (tilesDir) => {
 
   console.timeLog('SCAN', 'PHASE 4');
 
-  console.log('Processing dirty tiles:', deepTiles.join(', '));
+  console.log('Processing dirty tiles:', deepTiles.length);
 
   const limit = pLimit(1); // let not kill IO
 
