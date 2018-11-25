@@ -47,7 +47,7 @@ module.exports = async (tilesDir) => {
 
   const limit = pLimit(1); // let not kill IO
 
-  await Promise.all(deepTiles.map(limit(async (tile) => {
+  await Promise.all(deepTiles.map((tile) => limit(async () => {
     const { zoom } = parseTile(tile);
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
@@ -58,7 +58,7 @@ module.exports = async (tilesDir) => {
 
   console.timeLog('SCAN', 'PHASE 5');
 
-  await Promise.all(limit(fullFiles.map((ff) => unlink(ff))));
+  await Promise.all(fullFiles.map((ff) => limit(() => unlink(ff))));
 
   console.timeEnd('SCAN');
 };
