@@ -91,13 +91,21 @@ app
 const server = http.createServer(app.callback());
 server.listen(serverPort);
 
+let dtmRunning = false;
 const expiratorInterval = setInterval(() => {
+  if (dtmRunning) {
+    return;
+  }
+  dtmRunning = true;
   markDirtyTiles(tilesDir)
     .then(() => {
       prerender(pool, false);
     })
     .catch((err) => {
       console.error('Error expiring tiles:', err);
+    })
+    .then(() => {
+      dtmRunning = false;
     });
 }, 60 * 1000);
 
