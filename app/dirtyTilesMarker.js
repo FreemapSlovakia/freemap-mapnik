@@ -1,6 +1,7 @@
 const config = require('config');
 const path = require('path');
 const { readdir, readFile, unlink, remove, open, close, exists } = require('fs-extra');
+const pLimit = require('p-limit');
 const { parseTile, computeZoomedTiles } = require('./tileCalc');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
@@ -25,30 +26,39 @@ module.exports = async (tilesDir) => {
 
   console.timeLog('SCAN', 'PHASE 3');
 
-  const tiles = [].concat(...contents
+  const tiles = new Set();
+
+  contents
     .join('\n')
     .split('\n')
     .filter((tile) => tile.trim())
-    // .filter((tile) => isTileInBbox(tile))
-    .map(tile => computeZoomedTiles(tile, minZoom, maxZoom)));
+    .forEach((tile) => {
+      tiles.add(tile);
+    });
+
+  const deepTiles = [];
+  tiles.forEach((tile) => {
+    computeZoomedTiles(deepTiles, tile, minZoom, maxZoom);
+  });
 
   console.timeLog('SCAN', 'PHASE 4');
 
-  const uniqTiles = [...new Set(tiles)];
-  console.log('Processing dirty tiles:', uniqTiles.join(', '));
+  console.log('Processing dirty tiles:', deepTiles.join(', '));
 
-  await Promise.all(uniqTiles.map(async (tile) => {
+  const limit = pLimit(1); // let not kill IO
+
+  await Promise.all(deepTiles.map(limit(async (tile) => {
     const { zoom } = parseTile(tile);
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
       await remove(path.resolve(tilesDir, `${tile}.png`));
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
       await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
     }
-  }));
+  })));
 
   console.timeLog('SCAN', 'PHASE 5');
 
-  await Promise.all(fullFiles.map((ff) => unlink(ff)));
+  await Promise.all(limit(fullFiles.map((ff) => unlink(ff))));
 
   console.timeEnd('SCAN');
 };

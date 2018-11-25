@@ -34,12 +34,10 @@ function parseTile(tile) {
   };
 }
 
-function computeZoomedTiles(tile, minZoom, maxZoom) {
+function computeZoomedTiles(tiles, tile, minZoom, maxZoom) {
   const {zoom, x, y} = parseTile(tile);
-  const tiles = [];
   collectZoomedOutTiles(minZoom, tiles, zoom, x, y);
   collectZoomedInTiles(maxZoom, tiles, zoom, x, y);
-  return tiles;
 }
 
 function collectZoomedOutTiles(minZoom, tiles, zoom, x, y) {
