@@ -1,6 +1,6 @@
 const config = require('config');
 const path = require('path');
-const { readdir, readFile, unlink, remove, open, close, exists } = require('fs-extra');
+const { readdir, readFile, unlink, open, close, exists } = require('fs').promises;
 const { parseTile, computeZoomedTiles } = require('./tileCalc');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
@@ -48,7 +48,11 @@ module.exports = async (tilesDir) => {
   for (const tile of deepTiles) {
     const { zoom } = parseTile(tile);
     if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
-      await remove(path.resolve(tilesDir, `${tile}.png`));
+      try {
+        await unlink(path.resolve(tilesDir, `${tile}.png`));
+      } catch (_) {
+        // ignore
+      }
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
       await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
     }

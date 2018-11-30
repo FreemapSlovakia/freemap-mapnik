@@ -1,7 +1,7 @@
 const path = require('path');
 const config = require('config');
 const mapnik = require('mapnik');
-const { rename, exists, ensureDir, remove, stat } = require('fs-extra');
+const { rename, exists, mkdir, unlink, stat } = require('fs').promises;
 const { mercSrs } = require('./projections');
 const { zoomDenoms } = require('./styleBuilder');
 
@@ -21,12 +21,18 @@ module.exports = async (pool, zoom, x, y, prerender) => {
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
-    await ensureDir(path.join(...frags));
+    await mkdir(path.join(...frags), { recursive: true });
     const tmpName = `${p}_tmp.png`;
     await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale: 1 });
     await Promise.all([
       rename(tmpName, `${p}.png`),
-      remove(`${p}.dirty`),
+      async () => {
+        try {
+          unlink(`${p}.dirty`);
+        } catch (_) {
+          // ignore
+        }
+      },
     ]);
 
     pool.release(map);

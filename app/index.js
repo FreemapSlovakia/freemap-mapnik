@@ -4,7 +4,7 @@ const { promisify } = require('util');
 const { cpus } = require('os');
 const process = require('process');
 const http = require('http');
-const { stat, unlink } = require('fs-extra');
+const { stat, unlink } = require('fs').promises;
 
 const mapnik = require('mapnik');
 const config = require('config');

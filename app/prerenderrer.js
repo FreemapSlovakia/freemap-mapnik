@@ -1,7 +1,7 @@
 const path = require('path');
 const config = require('config');
 const { cpus } = require('os');
-const { readdir } = require('fs-extra');
+const { readdir } = require('fs').promises;
 
 const renderTile = require('./renderrer');
 const { tileRangeGenerator, parseTile } = require('./tileCalc');
