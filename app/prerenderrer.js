@@ -28,7 +28,7 @@ async function prerender(pool, all) {
     const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom, workers = nCpus } = prerenderConfig;
     const tileIterator = all
       ? tileRangeGenerator(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)
-      : (await findTilesToRender(tilesDir))[Symbol.iterator]();
+      : findTilesToRender(tilesDir);
 
     await Promise.all(Array(workers).fill(0).map(() => worker(pool, tileIterator)));
     prerendering = false;
@@ -39,25 +39,18 @@ async function prerender(pool, all) {
   }
 }
 
-async function findTilesToRender(dir) {
-  const proms = [];
-  const tiles = [];
-  (await readdir(dir, { withFileTypes: true })).map((d) => {
+async function* findTilesToRender(dir) {
+  for (const d of await readdir(dir, { withFileTypes: true })) {
     if (d.isDirectory()) {
-      proms.push(findTilesToRender(path.resolve(dir, d.name)));
+      yield *findTilesToRender(path.resolve(dir, d.name));
     } else if (d.name.endsWith('.dirty')) {
-      tiles.push(parseTile(path.relative(tilesDir, path.resolve(dir, d.name)).replace(/\.dirty$/, '')));
+      yield parseTile(path.relative(tilesDir, path.resolve(dir, d.name)).replace(/\.dirty$/, ''));
     }
-  });
-
-  return tiles.concat(...await Promise.all(proms));
+  }
 }
 
 async function worker(pool, tg) {
-  let result = tg.next();
-  while (!result.done) {
-    const { x, y, zoom } = result.value;
+  for await (const { x, y, zoom } of tg) {
     await renderTile(pool, zoom, x, y, true);
-    result = tg.next();
   }
 }
