@@ -51,7 +51,7 @@ async function* findTilesToRender() {
     const tiles = [...dirtyTiles.values()].sort((a, b) => {
       const c = zoomPrio.indexOf(a.zoom);
       const d = zoomPrio.indexOf(b.zoom);
-      return c === d ? a.ts - b.ts : c - d;
+      return c === d ? b.ts - a.ts : c - d;
     });
 
     let firstZoom = -1;
