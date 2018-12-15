@@ -34,7 +34,7 @@ async function prerender(pool) {
     return;
   }
 
-  console.log('Startin pre-renderrer.');
+  console.log('Starting pre-renderrer.');
 
   const tiles = findTilesToRender();
 
