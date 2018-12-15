@@ -17,6 +17,7 @@ const genericPool = require('generic-pool');
 const generateMapnikConfig = require('./style');
 const renderTile = require('./renderrer');
 const { prerender, fillDirtyTilesRegister: fillDirtyCache, resume } = require('./prerenderrer');
+const markDirtyTiles = require('./dirtyTilesMarker');
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -114,6 +115,23 @@ const pool = genericPool.createPool(factory, {
   priorityRange: 2,
 });
 
+let depth = 0;
+
+function processNewDirties() {
+  depth++;
+  if (depth > 1) {
+    return;
+  }
+  markDirtyTiles().then(() => {
+    resume();
+    const retry = depth > 1;
+    depth = 0;
+    if (retry) {
+      processNewDirties();
+    }
+  });
+}
+
 let watcher;
 
 fillDirtyCache().then(() => {
@@ -121,9 +139,7 @@ fillDirtyCache().then(() => {
     console.log(`Listening on port ${serverPort}.`);
   });
   watcher = chokidar.watch(expiresDir);
-  watcher.on('add', () => {
-    resume();
-  });
+  watcher.on('add', processNewDirties);
   return prerender(pool);
 }); // TODO catch
 
