@@ -5,6 +5,7 @@ const { cpus } = require('os');
 const process = require('process');
 const http = require('http');
 const { stat, unlink } = require('fs').promises;
+const chokidar = require('chokidar');
 
 const mapnik = require('mapnik');
 const config = require('config');
@@ -14,9 +15,8 @@ const send = require('koa-send');
 const genericPool = require('generic-pool');
 
 const generateMapnikConfig = require('./style');
-const markDirtyTiles = require('./dirtyTilesMarker');
 const renderTile = require('./renderrer');
-const prerender = require('./prerenderrer');
+const { prerender, fillDirtyTilesRegister: fillDirtyCache, resume } = require('./prerenderrer');
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -31,6 +31,7 @@ const app = new Koa();
 const router = new Router();
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
+const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
 const serverPort = config.get('server.port');
 const dumpXml = config.get('dumpXml');
 const minZoom = config.get('zoom.min');
@@ -89,25 +90,6 @@ app
   .use(router.allowedMethods());
 
 const server = http.createServer(app.callback());
-server.listen(serverPort);
-
-let dtmRunning = false;
-const expiratorInterval = setInterval(() => {
-  if (dtmRunning) {
-    return;
-  }
-  dtmRunning = true;
-  markDirtyTiles(tilesDir)
-    .then(() => {
-      prerender(pool, false);
-    })
-    .catch((err) => {
-      console.error('Error expiring tiles:', err);
-    })
-    .then(() => {
-      dtmRunning = false;
-    });
-}, 60 * 1000);
 
 const xml = generateMapnikConfig();
 
@@ -132,13 +114,26 @@ const pool = genericPool.createPool(factory, {
   priorityRange: 2,
 });
 
+let watcher;
+
+fillDirtyCache().then(() => {
+  server.listen(serverPort, () => {
+    console.log(`Listening on port ${serverPort}.`);
+  });
+  watcher = chokidar.watch(expiresDir);
+  watcher.on('add', () => {
+    resume();
+  });
+  return prerender(pool);
+}); // TODO catch
+
 pool.on('factoryCreateError', async (error) => {
   process.exitCode = 1;
+  if (watcher) {
+    watcher.close();
+  }
   console.error('Error creating or configuring Mapnik:', error);
   server.close();
   await pool.drain();
   await pool.clear();
-  clearInterval(expiratorInterval);
 });
-
-prerender(pool, true);

@@ -1,12 +1,13 @@
 const config = require('config');
 const path = require('path');
 const { readdir, readFile, unlink, open, close, exists } = require('fs').promises;
-const { parseTile, computeZoomedTiles } = require('./tileCalc');
+const { parseTile, computeZoomedTiles, tile2key } = require('./tileCalc');
+const dirtyTiles = require('./dirtyTilesRegister');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
 const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
-const prerender = config.get('prerender');
+const prerenderConfig = config.get('prerender');
 
 module.exports = async (tilesDir) => {
   console.time('SCAN');
@@ -46,8 +47,8 @@ module.exports = async (tilesDir) => {
 
   // we do it sequentially to not to kill IO
   for (const tile of deepTiles) {
-    const { zoom } = parseTile(tile);
-    if (!prerender || zoom < prerender.minZoom || zoom > prerender.maxZoom) {
+    const { zoom, x, y } = parseTile(tile);
+    if (!prerenderConfig || zoom < prerenderConfig.minZoom || zoom > prerenderConfig.maxZoom) {
       try {
         await unlink(path.resolve(tilesDir, `${tile}.png`));
       } catch (_) {
@@ -55,6 +56,8 @@ module.exports = async (tilesDir) => {
       }
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
       await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
+      const v = { zoom, x, y, ts: Date.now() };
+      dirtyTiles.add(tile2key(v), v);
     }
   }
 

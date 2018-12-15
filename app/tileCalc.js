@@ -6,6 +6,8 @@ module.exports = {
   parseTile,
   computeZoomedTiles,
   tileRangeGenerator,
+  tile2key,
+  key2tile,
 };
 
 function long2tile(lon, zoom) {
@@ -68,5 +70,28 @@ function* tileRangeGenerator(minLon, maxLon, minLat, maxLat, minZoom, maxZoom) {
         yield { zoom, x, y };
       }
     }
+  }
+}
+
+function tile2key({ zoom, x, y }) {
+  let r = 0;
+  for (let z = 0; z < zoom; z++) {
+    const d = Math.pow(2, z);
+    r += d * d;
+  }
+
+  return r + Math.pow(2, zoom) * y + x;
+}
+
+function key2tile(key) {
+  for (let zoom = 0; ; zoom++) {
+    const d = Math.pow(2, zoom);
+    const sq = d * d;
+    if (key === sq) {
+      return { zoom, x: 0, y: 0 };
+    } else if (key < sq) {
+      return { zoom, x: key % d, y: Math.floor(key / d) };
+    }
+    key -= sq;
   }
 }

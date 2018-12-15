@@ -4,6 +4,8 @@ const mapnik = require('mapnik');
 const { rename, exists, mkdir, unlink, stat } = require('fs').promises;
 const { mercSrs } = require('./projections');
 const { zoomDenoms } = require('./styleBuilder');
+const { tile2key } = require('./tileCalc');
+const dirtyTiles = require('./dirtyTilesRegister');
 
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
@@ -16,7 +18,7 @@ module.exports = async (pool, zoom, x, y, prerender) => {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (await shouldRender(p, prerender)) {
+  if (forceTileRendering || await shouldRender(p, prerender)) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
@@ -29,6 +31,7 @@ module.exports = async (pool, zoom, x, y, prerender) => {
       async () => {
         try {
           unlink(`${p}.dirty`);
+          dirtyTiles.delete(tile2key({ zoom, x, y }));
         } catch (_) {
           // ignore
         }
@@ -42,10 +45,6 @@ module.exports = async (pool, zoom, x, y, prerender) => {
 };
 
 async function shouldRender(p, prerender) {
-  if (forceTileRendering) {
-    return true;
-  }
-
   try {
     const s = await stat(`${p}.png`);
     if (!prerender) {
