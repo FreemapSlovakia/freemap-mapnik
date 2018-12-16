@@ -36,7 +36,7 @@ module.exports = async (tilesDir) => {
       tiles.add(tile);
     });
 
-  console.log('Dirty tiles:', tiles);
+  console.log('New base dirty tiles:', tiles);
 
   const deepTiles = [];
   tiles.forEach((tile) => {
