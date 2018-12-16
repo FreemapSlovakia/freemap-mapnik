@@ -18,7 +18,7 @@ module.exports = async (pool, zoom, x, y, prerender) => {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (forceTileRendering || await shouldRender(p, prerender)) {
+  if (forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
@@ -44,13 +44,13 @@ module.exports = async (pool, zoom, x, y, prerender) => {
   return `${p}.png`;
 };
 
-async function shouldRender(p, prerender) {
+async function shouldRender(p, prerender, tile) {
   try {
     const s = await stat(`${p}.png`);
     if (!prerender) {
       return false;
     }
-    if (rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs || await exists(`${p}.dirty`)) {
+    if (rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs || dirtyTiles.has(tile2key(tile))) {
       return true;
     }
   } catch (err) {
