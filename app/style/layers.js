@@ -33,8 +33,8 @@ module.exports = (map) => map
     if (shading) {
       map.layer('hillshade', {
         type: 'gdal',
-        // file: 'hgt/hillshade_warped.tif',
-        file: '/media/martin/data/martin/mapping/dmr20/hillshade_warped.tif',
+        file: 'hgt/hillshade_warped.tif',
+        // file: '/media/martin/data/martin/mapping/dmr20/hillshade_warped.tif',
       });
     }
   })
