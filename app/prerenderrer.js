@@ -21,7 +21,7 @@ const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 const resumes = new Set();
 
 function resume() {
-  console.log('Resuming pre-rendering.');
+  console.log('Resuming pre-rendering.', dirtyTiles.size);
 
   for (const rf of resumes) {
     rf();
