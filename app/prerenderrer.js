@@ -64,7 +64,7 @@ async function* findTilesToRender() {
       yield t;
     }
 
-    resumes.remove(setRestartFlag);
+    resumes.delete(setRestartFlag);
     await new Promise((resolve) => {
       resumes.add(resolve);
     });
