@@ -88,15 +88,17 @@ async function fillDirtyTilesRegister() {
   const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom } = prerenderConfig;
 
   for (const { zoom, x, y } of tileRangeGenerator(minLon, maxLon, minLat, maxLat, minZoom, maxZoom)) {
+    let mtimeMs;
     try {
-      const { mtimeMs } = await stat(path.join(tilesDir, `${zoom}/${x}/${y}.png`));
-      if (rerenderOlderThanMs && mtimeMs < rerenderOlderThanMs) {
-        const v = { zoom, x, y, ts: mtimeMs };
-        dirtyTiles.set(tile2key(v), v);
-        continue;
-      }
+      mtimeMs = (await stat(path.join(tilesDir, `${zoom}/${x}/${y}.png`))).mtimeMs;
     } catch (e) {
       const v = { zoom, x, y, ts: 0 };
+      dirtyTiles.set(tile2key(v), v);
+      continue;
+    }
+
+    if (rerenderOlderThanMs && mtimeMs < rerenderOlderThanMs) {
+      const v = { zoom, x, y, ts: mtimeMs };
       dirtyTiles.set(tile2key(v), v);
       continue;
     }
