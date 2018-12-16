@@ -36,6 +36,8 @@ module.exports = async (tilesDir) => {
       tiles.add(tile);
     });
 
+  console.log('Dirty tiles:', tiles);
+
   const deepTiles = [];
   tiles.forEach((tile) => {
     computeZoomedTiles(deepTiles, tile, minZoom, maxZoom);
