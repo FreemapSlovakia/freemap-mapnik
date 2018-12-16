@@ -137,7 +137,7 @@ function processNewDirties() {
   if (depth > 1) {
     return;
   }
-  markDirtyTiles().then(() => {
+  markDirtyTiles(tilesDir).then(() => {
     resume();
     const retry = depth > 1;
     depth = 0;
