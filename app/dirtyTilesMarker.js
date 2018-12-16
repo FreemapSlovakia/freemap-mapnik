@@ -10,7 +10,7 @@ const maxZoom = config.get('zoom.max');
 const prerenderConfig = config.get('prerender');
 
 module.exports = async (tilesDir) => {
-  console.time('Marking dirty tiles.');
+  console.log('Marking dirty tiles.');
 
   const dirs = await readdir(expiresDir);
   const fullFiles = [].concat(...await Promise.all(
@@ -61,7 +61,7 @@ module.exports = async (tilesDir) => {
     await unlink(ff);
   }
 
-  console.timeEnd('Finished marking dirty tiles.');
+  console.log('Finished marking dirty tiles.');
 };
 
 async function exists(file) {
