@@ -17,6 +17,8 @@ const merc = new mapnik.Projection(mercSrs);
 
 module.exports = { renderTile };
 
+let cnt = 0;
+
 async function renderTile(zoom, x, y, prerender) {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
@@ -27,7 +29,7 @@ async function renderTile(zoom, x, y, prerender) {
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
     await mkdir(path.join(...frags), { recursive: true });
-    const tmpName = `${p}_tmp.png`;
+    const tmpName = `${p}_${cnt++}_tmp.png`;
     await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale: 1 });
     await Promise.all([
       rename(tmpName, `${p}.png`).catch((err) => {
