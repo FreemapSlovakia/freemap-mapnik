@@ -1,6 +1,6 @@
 const config = require('config');
 const path = require('path');
-const { readdir, readFile, unlink, open, close, exists } = require('fs').promises;
+const { readdir, readFile, unlink, open, close, access } = require('fs').promises;
 const { parseTile, computeZoomedTiles, tile2key } = require('./tileCalc');
 const dirtyTiles = require('./dirtyTilesRegister');
 
@@ -70,6 +70,15 @@ module.exports = async (tilesDir) => {
 
   console.timeEnd('SCAN');
 };
+
+async function exists(file) {
+  try {
+    await access(file);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
 
 // function isTileInBbox(tile) {
 //   const { zoom, x, y } = parseTile(tile);
