@@ -2,14 +2,16 @@ const config = require('config');
 const path = require('path');
 const { readdir, readFile, unlink, open, access } = require('fs').promises;
 const { parseTile, computeZoomedTiles, tile2key } = require('./tileCalc');
-const dirtyTiles = require('./dirtyTilesRegister');
+const { dirtyTiles } = require('./dirtyTilesRegister');
 
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
 const minZoom = config.get('zoom.min');
 const maxZoom = config.get('zoom.max');
 const prerenderConfig = config.get('prerender');
 
-module.exports = async (tilesDir) => {
+module.exports = { markDirtyTiles };
+
+async function markDirtyTiles(tilesDir) {
   console.log('Marking dirty tiles.');
 
   const dirs = await readdir(expiresDir);
@@ -60,7 +62,7 @@ module.exports = async (tilesDir) => {
   }
 
   console.log('Finished marking dirty tiles.');
-};
+}
 
 async function exists(file) {
   try {

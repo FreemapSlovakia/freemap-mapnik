@@ -15,9 +15,9 @@ const send = require('koa-send');
 const genericPool = require('generic-pool');
 
 const generateMapnikConfig = require('./style');
-const renderTile = require('./renderrer');
+const { renderTile } = require('./renderrer');
 const { prerender, fillDirtyTilesRegister, resume } = require('./prerenderrer');
-const markDirtyTiles = require('./dirtyTilesMarker');
+const { markDirtyTiles } = require('./dirtyTilesMarker');
 
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();

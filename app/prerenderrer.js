@@ -2,9 +2,9 @@ const path = require('path');
 const config = require('config');
 const { cpus } = require('os');
 const { stat } = require('fs').promises;
-const dirtyTiles = require('./dirtyTilesRegister');
+const { dirtyTiles } = require('./dirtyTilesRegister');
 const { tile2key } = require('./tileCalc');
-const renderTile = require('./renderrer');
+const { renderTile } = require('./renderrer');
 const { tileRangeGenerator } = require('./tileCalc');
 
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
