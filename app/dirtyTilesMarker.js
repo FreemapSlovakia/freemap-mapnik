@@ -10,8 +10,7 @@ const maxZoom = config.get('zoom.max');
 const prerenderConfig = config.get('prerender');
 
 module.exports = async (tilesDir) => {
-  console.time('SCAN');
-  console.timeLog('SCAN', 'PHASE 1');
+  console.time('Marking dirty tiles.');
 
   const dirs = await readdir(expiresDir);
   const fullFiles = [].concat(...await Promise.all(
@@ -20,11 +19,7 @@ module.exports = async (tilesDir) => {
       .map(async (fd) => readdir(fd).then((x) => x.map((xx) => path.join(fd, xx)))),
   ));
 
-  console.timeLog('SCAN', 'PHASE 2');
-
   const contents = await Promise.all(fullFiles.map((ff) => readFile(ff, 'utf8')));
-
-  console.timeLog('SCAN', 'PHASE 3');
 
   const tiles = new Set();
 
@@ -42,8 +37,6 @@ module.exports = async (tilesDir) => {
   tiles.forEach((tile) => {
     computeZoomedTiles(deepTiles, tile, minZoom, maxZoom);
   });
-
-  console.timeLog('SCAN', 'PHASE 4');
 
   console.log('Processing dirty tiles:', deepTiles.length);
 
@@ -63,14 +56,12 @@ module.exports = async (tilesDir) => {
     }
   }
 
-  console.timeLog('SCAN', 'PHASE 5');
-
   // we do it sequentially to not to kill IO
   for (const ff of fullFiles) {
     await unlink(ff);
   }
 
-  console.timeEnd('SCAN');
+  console.timeEnd('Finished marking dirty tiles.');
 };
 
 async function exists(file) {
