@@ -32,7 +32,7 @@ module.exports = async (pool, zoom, x, y, prerender) => {
       }),
       async () => {
         try {
-          unlink(`${p}.dirty`);
+          await unlink(`${p}.dirty`);
           dirtyTiles.delete(tile2key({ zoom, x, y }));
         } catch (err) {
           console.error(`Error deleting ${p}.dirty:`, err);
