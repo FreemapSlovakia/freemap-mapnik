@@ -34,8 +34,8 @@ module.exports = async (pool, zoom, x, y, prerender) => {
         try {
           unlink(`${p}.dirty`);
           dirtyTiles.delete(tile2key({ zoom, x, y }));
-        } catch (_) {
-          // ignore
+        } catch (err) {
+          console.error(`Error deleting ${p}.dirty:`, err);
         }
       },
     ]);
