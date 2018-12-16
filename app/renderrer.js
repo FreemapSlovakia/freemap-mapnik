@@ -30,14 +30,14 @@ module.exports = async (pool, zoom, x, y, prerender) => {
       rename(tmpName, `${p}.png`).catch((err) => {
         console.error('Error renaming file:', err);
       }),
-      async () => {
+      (async () => {
         try {
           await unlink(`${p}.dirty`);
-          dirtyTiles.delete(tile2key({ zoom, x, y }));
-        } catch (err) {
-          console.error(`Error deleting ${p}.dirty:`, err);
+        } catch (_) {
+          // ignore
         }
-      },
+        dirtyTiles.delete(tile2key({ zoom, x, y }));
+      })(),
     ]);
 
     pool.release(map);
