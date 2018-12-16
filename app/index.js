@@ -16,7 +16,7 @@ const genericPool = require('generic-pool');
 
 const generateMapnikConfig = require('./style');
 const renderTile = require('./renderrer');
-const { prerender, fillDirtyTilesRegister: fillDirtyCache, resume } = require('./prerenderrer');
+const { prerender, fillDirtyTilesRegister, resume } = require('./prerenderrer');
 const markDirtyTiles = require('./dirtyTilesMarker');
 
 mapnik.register_default_fonts();
@@ -30,6 +30,8 @@ mapnik.Image.prototype.encodeAsync = promisify(mapnik.Image.prototype.encode);
 
 const app = new Koa();
 const router = new Router();
+
+const prerenderConfig = config.get('prerender');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 const expiresDir = path.resolve(__dirname, '..', config.get('dirs.expires'));
@@ -115,6 +117,19 @@ const pool = genericPool.createPool(factory, {
   priorityRange: 2,
 });
 
+let watcher;
+
+pool.on('factoryCreateError', async (error) => {
+  process.exitCode = 1;
+  if (watcher) {
+    watcher.close();
+  }
+  console.error('Error creating or configuring Mapnik:', error);
+  server.close();
+  await pool.drain();
+  await pool.clear();
+});
+
 let depth = 0;
 
 function processNewDirties() {
@@ -132,24 +147,21 @@ function processNewDirties() {
   });
 }
 
-let watcher;
+if (prerenderConfig) {
+  processNewDirties();
 
-fillDirtyCache().then(() => {
+  fillDirtyTilesRegister().then(() => {
+    listen();
+    watcher = chokidar.watch(expiresDir);
+    watcher.on('add', processNewDirties);
+    return prerender(pool);
+  }); // TODO catch
+} else {
+  listen();
+}
+
+function listen() {
   server.listen(serverPort, () => {
     console.log(`Listening on port ${serverPort}.`);
   });
-  watcher = chokidar.watch(expiresDir);
-  watcher.on('add', processNewDirties);
-  return prerender(pool);
-}); // TODO catch
-
-pool.on('factoryCreateError', async (error) => {
-  process.exitCode = 1;
-  if (watcher) {
-    watcher.close();
-  }
-  console.error('Error creating or configuring Mapnik:', error);
-  server.close();
-  await pool.drain();
-  await pool.clear();
-});
+}

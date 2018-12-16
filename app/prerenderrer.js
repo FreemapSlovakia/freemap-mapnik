@@ -18,7 +18,7 @@ module.exports = {
 const prerenderConfig = config.get('prerender');
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
-const resumes = [];
+const resumes = new Set();
 
 function resume() {
   console.log('Resuming pre-rendering.');
@@ -26,14 +26,10 @@ function resume() {
   for (const rf of resumes) {
     rf();
   }
-  resumes.length = 0;
+  resumes.clear();
 }
 
 async function prerender(pool) {
-  if (!prerenderConfig) {
-    return;
-  }
-
   console.log('Starting pre-renderrer.');
 
   const tiles = findTilesToRender();
@@ -46,6 +42,11 @@ async function prerender(pool) {
 
 async function* findTilesToRender() {
   const { zoomPrio } = prerenderConfig;
+  let restart = false;
+  function setRestartFlag() {
+    restart = true;
+  }
+  resumes.add(setRestartFlag);
 
   main: for (;;) {
     const tiles = [...dirtyTiles.values()].sort((a, b) => {
@@ -54,19 +55,17 @@ async function* findTilesToRender() {
       return c === d ? b.ts - a.ts : c - d;
     });
 
-    let firstZoom = -1;
-
     for (const t of tiles) {
-      if (firstZoom === -1) {
-        firstZoom = t.zoom;
-      } else if (t.zoom != firstZoom) {
+      if (restart) {
+        restart = false;
         continue main;
       }
       yield t;
     }
 
+    resumes.remove(setRestartFlag);
     await new Promise((resolve) => {
-      resumes.push(resolve);
+      resumes.add(resolve);
     });
   }
 }
@@ -78,10 +77,6 @@ async function worker(pool, tiles) {
 }
 
 async function fillDirtyTilesRegister() {
-  if (!prerenderConfig) {
-    return;
-  }
-
   console.log('Scanning dirty tiles.');
 
   const { minLon, maxLon, minLat, maxLat, minZoom, maxZoom } = prerenderConfig;

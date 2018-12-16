@@ -48,7 +48,7 @@ module.exports = async (tilesDir) => {
   // we do it sequentially to not to kill IO
   for (const tile of deepTiles) {
     const { zoom, x, y } = parseTile(tile);
-    if (!prerenderConfig || zoom < prerenderConfig.minZoom || zoom > prerenderConfig.maxZoom) {
+    if (zoom < prerenderConfig.minZoom || zoom > prerenderConfig.maxZoom) {
       try {
         await unlink(path.resolve(tilesDir, `${tile}.png`));
       } catch (_) {
