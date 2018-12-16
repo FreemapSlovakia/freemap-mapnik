@@ -1,7 +1,7 @@
 const path = require('path');
 const config = require('config');
 const mapnik = require('mapnik');
-const { rename, exists, mkdir, unlink, stat } = require('fs').promises;
+const { rename, mkdir, unlink, stat } = require('fs').promises;
 const { mercSrs } = require('./projections');
 const { zoomDenoms } = require('./styleBuilder');
 const { tile2key } = require('./tileCalc');
