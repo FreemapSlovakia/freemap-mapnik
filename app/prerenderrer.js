@@ -50,6 +50,8 @@ async function* findTilesToRender() {
   main: for (;;) {
     resumes.add(setRestartFlag);
 
+    console.log('(Re)starting pre-rendering worker.');
+
     const tiles = [...dirtyTiles.values()].sort((a, b) => {
       const c = zoomPrio.indexOf(a.zoom);
       const d = zoomPrio.indexOf(b.zoom);
@@ -65,6 +67,9 @@ async function* findTilesToRender() {
     }
 
     resumes.delete(setRestartFlag);
+
+    console.log('Puttin pre-rendering worker to sleep.');
+
     await new Promise((resolve) => {
       resumes.add(resolve);
     });
