@@ -46,9 +46,10 @@ async function* findTilesToRender() {
   function setRestartFlag() {
     restart = true;
   }
-  resumes.add(setRestartFlag);
 
   main: for (;;) {
+    resumes.add(setRestartFlag);
+
     const tiles = [...dirtyTiles.values()].sort((a, b) => {
       const c = zoomPrio.indexOf(a.zoom);
       const d = zoomPrio.indexOf(b.zoom);
