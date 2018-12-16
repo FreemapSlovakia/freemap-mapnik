@@ -68,7 +68,7 @@ async function* findTilesToRender() {
 
     resumes.delete(setRestartFlag);
 
-    console.log('Puttin pre-rendering worker to sleep.');
+    console.log('Putting pre-rendering worker to sleep.');
 
     await new Promise((resolve) => {
       resumes.add(resolve);
