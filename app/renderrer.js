@@ -27,7 +27,9 @@ module.exports = async (pool, zoom, x, y, prerender) => {
     const tmpName = `${p}_tmp.png`;
     await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale: 1 });
     await Promise.all([
-      rename(tmpName, `${p}.png`),
+      rename(tmpName, `${p}.png`).catch((err) => {
+        console.error('Error renaming file:', err);
+      }),
       async () => {
         try {
           unlink(`${p}.dirty`);
