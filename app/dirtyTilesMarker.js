@@ -1,6 +1,6 @@
 const config = require('config');
 const path = require('path');
-const { readdir, readFile, unlink, open, close, access } = require('fs').promises;
+const { readdir, readFile, unlink, open, access } = require('fs').promises;
 const { parseTile, computeZoomedTiles, tile2key } = require('./tileCalc');
 const dirtyTiles = require('./dirtyTilesRegister');
 
@@ -57,7 +57,7 @@ module.exports = async (tilesDir) => {
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
       await (await open(path.resolve(tilesDir, `${tile}.dirty`), 'w')).close();
       const v = { zoom, x, y, ts: Date.now() };
-      dirtyTiles.add(tile2key(v), v);
+      dirtyTiles.set(tile2key(v), v);
     }
   }
 
