@@ -55,7 +55,7 @@ module.exports = async (tilesDir) => {
         // ignore
       }
     } else if (await exists(path.resolve(tilesDir, `${tile}.png`))) {
-      await close(await open(path.resolve(tilesDir, `${tile}.dirty`), 'w'));
+      await (await open(path.resolve(tilesDir, `${tile}.dirty`), 'w')).close();
       const v = { zoom, x, y, ts: Date.now() };
       dirtyTiles.add(tile2key(v), v);
     }
