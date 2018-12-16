@@ -6,6 +6,7 @@ const { mercSrs } = require('./projections');
 const { zoomDenoms } = require('./styleBuilder');
 const { tile2key } = require('./tileCalc');
 const { dirtyTiles } = require('./dirtyTilesRegister');
+const { pool } = require('./mapnikPool');
 
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
@@ -16,7 +17,7 @@ const merc = new mapnik.Projection(mercSrs);
 
 module.exports = { renderTile };
 
-async function renderTile(pool, zoom, x, y, prerender) {
+async function renderTile(zoom, x, y, prerender) {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);

@@ -20,7 +20,7 @@ const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5, smooth: smoothness };
 const highwayDflt = { stroke: colors.track, smooth: smoothness };
 const fontDflt = { faceName: 'DejaVu Sans Book', haloFill: 'white', haloRadius: 1 };
 
-module.exports = function generateFreemapStyle() {
+function generateFreemapStyle() {
   /* eslint-disable indent */
   return createMap({
     backgroundColor: 'white',
@@ -223,8 +223,18 @@ module.exports = function generateFreemapStyle() {
     .doInMap(layers)
 
     .stringify();
-};
+}
 
 function types(type) {
   return type.map((x) => `[type] = '${x}'`).join(' or ');
 }
+
+const mapnikConfig = generateFreemapStyle();
+
+if (config.get('dumpXml')) {
+  console.log('Mapnik config:', mapnikConfig);
+}
+
+module.exports = {
+  mapnikConfig,
+};
