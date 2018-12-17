@@ -34,7 +34,6 @@ module.exports = (map) => map
       map.layer('hillshade', {
         type: 'gdal',
         file: 'hgt/hillshade_warped.tif',
-        // file: '/media/martin/data/martin/mapping/dmr20/hillshade_warped.tif',
       });
     }
   })
@@ -47,11 +46,11 @@ module.exports = (map) => map
       group by member, geometry, osm_routes.type`,
     { minZoom: 9 })
   .sqlLayer('feature_points',
-    'select type, geometry from osm_feature_points')
+    'select type, geometry, name, ele from osm_feature_points')
   .sqlLayer('feature_points',
-    'select type, geometry from osm_feature_polys')
+    'select type, geometry, name, ele from osm_feature_polys')
   .sqlLayer('infopoints',
-    'select type, geometry from osm_infopoints',
+    'select type, geometry, name, ele from osm_infopoints',
     { /* bufferSize: 512 */ })
 
   .sqlLayer('highway_names',
@@ -62,13 +61,13 @@ module.exports = (map) => map
     'select name, geometry, type from osm_waterareas')
   .sqlLayer('feature_line_names',
     'select geometry, name, type from osm_feature_lines')
-  .sqlLayer('feature_point_names',
-    'select name, ele, type, geometry from osm_feature_points')
-  .sqlLayer('feature_point_names',
-    'select name, ele, type, geometry from osm_feature_polys')
-  .sqlLayer('infopoint_names',
-    'select name, ele, type, geometry from osm_infopoints',
-    { /* bufferSize: 512 */ })
+  // .sqlLayer('feature_point_names',
+  //   'select name, ele, type, geometry from osm_feature_points')
+  // .sqlLayer('feature_point_names',
+  //   'select name, ele, type, geometry from osm_feature_polys')
+  // .sqlLayer('infopoint_names',
+  //   'select name, ele, type, geometry from osm_infopoints',
+  //   { /* bufferSize: 512 */ })
   .sqlLayer('building_names',
     'select name, type, geometry from osm_buildings')
   .sqlLayer('protected_area_names',
