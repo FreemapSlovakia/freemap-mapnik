@@ -127,7 +127,7 @@ function generateFreemapStyle() {
         .markersSymbolizer({ file: 'images/guidepost.svg' })
       .rule({ filter: "[type] = 'guidepost'", minZoom: 13 })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
-    .style('feature_points', { filterMode: 'first' })
+    .style('feature_points')
       .rule({ filter: "[type] = 'peak'", minZoom: 11 })
         .markersSymbolizer({ file: 'images/peak.svg', width: 6, height: 6, fill: '#000000' })
       .rule({ filter: "[type] = 'peak'", minZoom: 12 })
@@ -172,10 +172,11 @@ function generateFreemapStyle() {
       .rule({ filter: types(['memorial']), minZoom: 15 })
         .markersSymbolizer({ file: 'images/memorial.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ filter: types(['pub']), minZoom: 14 })
+      .rule({ filter: types(['pub']), minZoom: 16 })
         .markersSymbolizer({ file: 'images/pub.svg' })
+      .rule({ filter: types(['pub']), minZoom: 17 })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ minZoom: 15 }) // rest texts
+      .rule({ minZoom: 16 }) // rest texts
         .textSymbolizer({ ...fontDfltWrap }, "[name] + '\n' + [ele]")
 
     // texts
