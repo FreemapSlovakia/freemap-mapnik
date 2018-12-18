@@ -133,7 +133,6 @@ tables:
         - farm
         - farmyard
         - grassland
-        - cemetery
         - forest
         - wood
         - industrial
@@ -163,6 +162,7 @@ tables:
         - golf_course
         - sports_centre
         - place_of_worship
+        - cemetery
         - theatre
         - cinema
         - parking
