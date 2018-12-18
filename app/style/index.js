@@ -78,7 +78,7 @@ function generateFreemapStyle() {
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, smooth: smoothness })
     .style('barrierways')
       .rule({ minZoom: 15 })
-        .lineSymbolizer({ stroke: 'black', strokeWidth: 0.8, strokeDasharray: '2,1' })
+        .lineSymbolizer({ stroke: colors.building, strokeWidth: 1, strokeDasharray: '2,1' })
     .style('highways')
       .rule({ filter: types(['rail', 'tram', 'light_rail']) })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
@@ -91,9 +91,9 @@ function generateFreemapStyle() {
       .rule({ filter: "[type] = 'path'", minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,3' })
       .rule({ filter: types(['footway', 'pedestrian', 'steps']), minZoom: 12 })
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,1' })
-      .rule({ filter: "[type] = 'cycleway'", minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
+      .rule({ filter: "[type] = 'cycleway'", minZoom: 12 })
+        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '6,3' })
       .doInStyle((style) => {
         [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
           style
