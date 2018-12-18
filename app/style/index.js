@@ -37,6 +37,8 @@ function generateFreemapStyle() {
         .borderedPolygonSymbolizer('hsl(60, 70%, 95%)')
       .rule({ filter: types(['meadow', 'grassland', 'grass', 'park', 'cemetery']) })
         .borderedPolygonSymbolizer('hsl(100, 85%, 85%)')
+      .rule({ filter: types(['cemetery']) })
+        .polygonPatternSymbolizer({ file: 'images/grave.svg' })
       .rule({ filter: "[type] = 'heath'" })
         .borderedPolygonSymbolizer('hsl(85, 60%, 80%)')
       .rule({ filter: "[type] = 'scrub'" })
