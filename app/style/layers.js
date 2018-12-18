@@ -22,6 +22,8 @@ module.exports = (map) => map
     'select geometry, type, tracktype from osm_roads order by z_order')
   .sqlLayer('buildings',
     'select geometry, type from osm_buildings')
+  .sqlLayer('barrierways',
+    'select geometry, type from osm_barrierways')
   .doInMap((map) => {
     if (contours) {
       map.sqlLayer(
