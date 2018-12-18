@@ -5,7 +5,7 @@ const shading = config.get('shading');
 
 module.exports = (map) => map
   .sqlLayer('landcover',
-    'select name, type, geometry from osm_landusages order by z_order')
+    'select type, geometry from osm_landusages order by z_order')
   .sqlLayer('water_area',
     'select geometry, type from osm_waterareas')
   .sqlLayer('protected_areas',
@@ -13,7 +13,7 @@ module.exports = (map) => map
   .sqlLayer('borders',
     'select geometry from osm_admin where admin_level = 2')
   .sqlLayer('water_line',
-    'select geometry, name, type from osm_waterways')
+    'select geometry, type from osm_waterways')
   .sqlLayer('feature_lines',
     'select geometry, type from osm_feature_lines')
   .sqlLayer('higwayGlows',
@@ -44,7 +44,7 @@ module.exports = (map) => map
         osm_routes.type
       from osm_route_members join osm_routes using(osm_id)
       group by member, geometry, osm_routes.type`,
-    { minZoom: 9 })
+    { minZoom: 9, clearLabelCache: 'on' }) // NOTE clearing cache because of contour elevation labels
   .sqlLayer('feature_points',
     'select type, geometry, name, ele from osm_feature_points')
   .sqlLayer('feature_points',
