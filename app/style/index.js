@@ -78,7 +78,7 @@ function generateFreemapStyle() {
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, smooth: smoothness })
     .style('barrierways')
       .rule({ minZoom: 15 })
-        .lineSymbolizer({ stroke: colors.building, strokeWidth: 1, strokeDasharray: '2,1' })
+        .lineSymbolizer({ stroke: '#ff0000', strokeWidth: 1, strokeDasharray: '2,1' })
     .style('highways')
       .rule({ filter: types(['rail', 'tram', 'light_rail']) })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
