@@ -13,6 +13,7 @@
     "chokidar": "2.0.4",
     "config": "3.0.0",
     "generic-pool": "3.4.2",
+    "jsnik": "0.0.1",
     "koa": "2.6.2",
     "koa-router": "7.4.0",
     "koa-send": "5.0.0",

@@ -1,5 +1,5 @@
 const config = require('config');
-const { createMap } = require('../styleBuilder');
+const { createMap } = require('jsnik');
 const { mercSrs } = require('../projections');
 
 const dbParams = config.get('db');
