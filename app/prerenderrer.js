@@ -11,7 +11,7 @@ module.exports = {
 
 const prerenderConfig = config.get('prerender');
 
-const sortWorker = new Worker(__dirname + '/dirtyTilesSortWorker.js', {
+const sortWorker = prerenderConfig && new Worker(__dirname + '/dirtyTilesSortWorker.js', {
   workerData: {
     zoomPrio: prerenderConfig.zoomPrio,
   },
