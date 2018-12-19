@@ -9,7 +9,7 @@ const Router = require('koa-router');
 const send = require('koa-send');
 
 const { renderTile, toPdf } = require('./renderrer');
-const { mapnikConfig } = require('./style');
+const { generateFreemapStyle } = require('./style');
 
 const app = new Koa();
 const router = new Router();
@@ -44,18 +44,25 @@ let tmpIndex = Date.now();
 
 // example: http://localhost:4000/pdf?zoom=13&bbox=21.4389,48.6531,21.6231,48.7449&scale=0.75
 router.get('/pdf', async (ctx) => {
-  const zoom = Number.parseInt(ctx.query.zoom, 10);
-  const bbox = (ctx.query.bbox || '').split(',').map((c) => Number.parseFloat(c));
+  const q = ctx.query;
+  const zoom = Number.parseInt(q.zoom, 10);
+  const bbox = (q.bbox || '').split(',').map((c) => Number.parseFloat(c));
   if (zoom < 0 || zoom > 20 || bbox.length !== 4 || bbox.some((c) => Number.isNaN(c))) {
     ctx.status = 400;
     return;
   }
   const filename = `export-${tmpIndex++}.pdf`;
   const exportFile = path.resolve(tmpdir(), filename);
+  const mapnikConfig = generateFreemapStyle(
+    b(q.shading),
+    b(q.contours),
+    b(q.hikingTrails),
+    b(q.bicycleTrails),
+  );
   try {
     await toPdf(exportFile, mapnikConfig, zoom, bbox,
-      Number.parseFloat(ctx.query.scale) || undefined,
-      Number.parseFloat(ctx.query.width) || undefined,
+      Number.parseFloat(q.scale) || undefined,
+      Number.parseFloat(q.width) || undefined,
     );
     ctx.status = 200;
     await send(ctx, filename, { root: tmpdir() });
@@ -63,6 +70,10 @@ router.get('/pdf', async (ctx) => {
     await unlink(exportFile);
   }
 });
+
+function b(value) {
+  return value === undefined ? undefined : !/^(0|false|no)$/.test(value);
+}
 
 app
   .use(router.routes())

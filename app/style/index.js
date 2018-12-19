@@ -3,9 +3,13 @@ const { createMap } = require('jsnik');
 const { mercSrs } = require('../projections');
 
 const dbParams = config.get('db');
+const contoursCfg = config.get('mapFeatures.contours');
+const shadingCfg = config.get('mapFeatures.shading');
+const hikingTrailsCfg = config.get('mapFeatures.hikingTrails');
+const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 
-const layers = require('./layers');
-const addRoutes = require('./routes');
+const { layers } = require('./layers');
+const { routes } = require('./routes');
 
 const colors = {
   contour: '#000000',
@@ -21,7 +25,7 @@ const highwayDflt = { stroke: colors.track, smooth: smoothness };
 const fontDflt = { faceName: 'DejaVu Sans Book', haloFill: 'white', haloRadius: 1 };
 const fontDfltWrap = { ...fontDflt,wrapWidth: 100, wrapBefore: true };
 
-function generateFreemapStyle() {
+function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
   /* eslint-disable indent */
   return createMap({
     backgroundColor: 'white',
@@ -235,7 +239,15 @@ function generateFreemapStyle() {
           }
         }
       })
-    .doInMap(addRoutes)
+    .doInMap((map) => {
+      const s = map.style('routes');
+      if (hikingTrails) {
+        s.doInStyle(routes('hiking'));
+      }
+      if (bicycleTrails) {
+        s.doInStyle(routes('bicycle'));
+      }
+    })
     .style('contours', { opacity: 0.33 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: smoothness })
@@ -249,7 +261,7 @@ function generateFreemapStyle() {
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer({ ...fontDflt, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
 
-    .doInMap(layers)
+    .doInMap(layers(shading, contours))
 
     .stringify();
 }
@@ -266,4 +278,5 @@ if (config.get('dumpXml')) {
 
 module.exports = {
   mapnikConfig,
+  generateFreemapStyle,
 };

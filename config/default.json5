@@ -20,8 +20,12 @@
   },
   forceTileRendering: false, // useful for style development
   dumpXml: false,
-  contours: true,
-  shading: true,
+  mapFeatures: {
+    contours: true,
+    shading: true,
+    hikingTrails: true,
+    bicycleTrails: true,
+  },
   zoom: {
     min: 0,
     max: 18,

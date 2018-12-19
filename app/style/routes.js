@@ -2,10 +2,9 @@
 
 const routeColors = ['red', 'blue', 'green', 'yellow', 'black'];
 
-module.exports = (map) => map
-  .style('routes')
-    .doInStyle(routes('hiking'))
-    .doInStyle(routes('bicycle'));
+module.exports = {
+  routes,
+};
 
 function routes(type) {
   const isHiking = type === 'hiking';
