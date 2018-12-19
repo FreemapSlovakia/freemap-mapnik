@@ -8,7 +8,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const send = require('koa-send');
 
-const { renderTile } = require('./renderrer');
+const { renderTile, toPdf } = require('./renderrer');
 const { mapnikConfig } = require('./style');
 
 const app = new Koa();
@@ -53,7 +53,7 @@ router.get('/pdf', async (ctx) => {
   const filename = `export-${tmpIndex++}.pdf`;
   const exportFile = path.resolve(tmpdir(), filename);
   try {
-    await renderTile.toPdf(exportFile, mapnikConfig, zoom, bbox,
+    await toPdf(exportFile, mapnikConfig, zoom, bbox,
       Number.parseFloat(ctx.query.scale) || undefined,
       Number.parseFloat(ctx.query.width) || undefined,
     );

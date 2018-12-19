@@ -15,7 +15,7 @@ const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
 const merc = new mapnik.Projection(mercSrs);
 
-module.exports = { renderTile };
+module.exports = { renderTile, toPdf };
 
 let cnt = 0;
 
@@ -68,7 +68,7 @@ async function shouldRender(p, prerender, tile) {
 }
 
 // scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
-module.exports.toPdf = async (destFile, xml, zoom, bbox0, scale = 1, width) => {
+async function toPdf(destFile, xml, zoom, bbox0, scale = 1, width) {
   const bbox = merc.forward(bbox0);
   const q = 0.00310668945 * Math.pow(2, zoom); // 25.45 for zoom 13
   const map = new mapnik.Map(
@@ -78,7 +78,7 @@ module.exports.toPdf = async (destFile, xml, zoom, bbox0, scale = 1, width) => {
   await map.fromStringAsync(xml);
   map.zoomToBox(bbox);
   await map.renderFileAsync(destFile, { format: 'pdf', buffer_size: 256, scale_denominator: zoomDenoms[zoom], scale });
-};
+}
 
 function transformCoords(zoom, xtile, ytile) {
   const n = Math.pow(2, zoom);
