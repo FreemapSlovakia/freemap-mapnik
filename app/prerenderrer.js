@@ -2,6 +2,7 @@ const config = require('config');
 const { cpus } = require('os');
 const { dirtyTiles } = require('./dirtyTilesRegister');
 const { renderTile } = require('./renderrer');
+const { Worker } = require('worker_threads');
 
 module.exports = {
   prerender,
@@ -9,6 +10,12 @@ module.exports = {
 };
 
 const prerenderConfig = config.get('prerender');
+
+const sortWorker = new Worker(__dirname + '/dirtyTilesSortWorker.js', {
+  workerData: {
+    zoomPrio: prerenderConfig.zoomPrio,
+  },
+});
 
 const resumes = new Set();
 
@@ -33,7 +40,6 @@ async function prerender() {
 }
 
 async function* findTilesToRender() {
-  const { zoomPrio } = prerenderConfig;
   let restart = false;
   function setRestartFlag() {
     restart = true;
@@ -44,10 +50,11 @@ async function* findTilesToRender() {
 
     console.log('(Re)starting pre-rendering worker.');
 
-    const tiles = [...dirtyTiles.values()].sort((a, b) => {
-      const c = zoomPrio.indexOf(a.zoom);
-      const d = zoomPrio.indexOf(b.zoom);
-      return c === d ? a.ts - b.ts : c - d;
+    const tiles = await new Promise((resolve) => {
+      sortWorker.once('message', (value) => {
+        resolve(value);
+      });
+      sortWorker.postMessage([...dirtyTiles.values()]);
     });
 
     for (const t of tiles) {
