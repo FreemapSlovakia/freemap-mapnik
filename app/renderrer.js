@@ -25,7 +25,7 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
-  if (forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
+  if (scale !== 1 || forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
@@ -33,6 +33,9 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
     await mkdir(path.join(...frags), { recursive: true });
     const tmpName = `${p}_${cnt++}_${scale}_tmp.png`;
     await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale });
+    if (scale !== 1) {
+      return tmpName;
+    }
     await Promise.all([
       rename(tmpName, `${p}.png`).catch((err) => {
         console.error('Error renaming file:', err);
