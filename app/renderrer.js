@@ -10,8 +10,8 @@ const { pool } = require('./mapnikPool');
 
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
-const minZoom = config.get('zoom.min');
-const maxZoom = config.get('zoom.max');
+const minZoom = config.get('prerender.minZoom');
+const maxZoom = config.get('prerender.maxZoom');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
@@ -57,20 +57,10 @@ async function shouldRender(p, prerender, tile) {
   try {
     const s = await stat(`${p}.png`);
     const isOld = rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs;
-    if (isOld && (tile.zoom < minZoom || tile.zoom > maxZoom)) {
-      return true;
-    }
-    if (!prerender) {
-      return false;
-    }
-    if (isOld || dirtyTiles.has(tile2key(tile))) {
-      return true;
-    }
+    return isOld && (tile.zoom < minZoom || tile.zoom > maxZoom) || !prerender && (isOld || dirtyTiles.has(tile2key(tile)));
   } catch (err) {
     return true;
   }
-
-  return false;
 }
 
 // scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
