@@ -35,7 +35,6 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
       const tmpName = `${p}_${cnt++}_${scale}_tmp.png`;
       await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale });
       if (scale !== 1) {
-        pool.release(map);
         return tmpName;
       }
       await Promise.all([
