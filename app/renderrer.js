@@ -10,8 +10,7 @@ const { pool } = require('./mapnikPool');
 
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
-const minZoom = config.get('prerender.minZoom');
-const maxZoom = config.get('prerender.maxZoom');
+const prerenderConfig = config.get('prerender');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
@@ -62,7 +61,8 @@ async function shouldRender(p, prerender, tile) {
   try {
     const s = await stat(`${p}.png`);
     const isOld = rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs;
-    return isOld && (tile.zoom < minZoom || tile.zoom > maxZoom) || prerender && (isOld || dirtyTiles.has(tile2key(tile)));
+    return prerenderConfig && isOld && (tile.zoom < prerenderConfig.minZoom || tile.zoom > prerenderConfig.maxZoom)
+      || prerender && (isOld || dirtyTiles.has(tile2key(tile)));
   } catch (err) {
     return true;
   }
