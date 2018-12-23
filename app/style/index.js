@@ -90,7 +90,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
       .rule({ filter: types(['primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link']) })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 2 })
-      .rule({ filter: types(['residential', 'service', 'unclassified', 'road']), minZoom: 12 })
+      .rule({ filter: types(['living_street', 'residential', 'service', 'unclassified', 'road']), minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
       .rule({ filter: "[type] = 'path'", minZoom: 12 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,3' })
