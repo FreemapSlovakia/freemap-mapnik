@@ -52,7 +52,6 @@ async function* findTilesToRender() {
 
     const tiles = await new Promise((resolve) => {
       sortWorker.once('message', (value) => {
-
         resolve(value);
       });
       sortWorker.postMessage([...dirtyTiles.values()]);

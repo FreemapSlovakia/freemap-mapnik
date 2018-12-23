@@ -62,7 +62,7 @@ async function shouldRender(p, prerender, tile) {
   try {
     const s = await stat(`${p}.png`);
     const isOld = rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs;
-    return isOld && (tile.zoom < minZoom || tile.zoom > maxZoom) || !prerender && (isOld || dirtyTiles.has(tile2key(tile)));
+    return isOld && (tile.zoom < minZoom || tile.zoom > maxZoom) || prerender && (isOld || dirtyTiles.has(tile2key(tile)));
   } catch (err) {
     return true;
   }
