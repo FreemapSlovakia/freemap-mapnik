@@ -28,29 +28,32 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
   if (scale !== 1 || forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     const map = await pool.acquire(prerender ? 1 : 0);
-    map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
+    try {
+      map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
-    await mkdir(path.join(...frags), { recursive: true });
-    const tmpName = `${p}_${cnt++}_${scale}_tmp.png`;
-    await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale });
-    if (scale !== 1) {
-      return tmpName;
+      await mkdir(path.join(...frags), { recursive: true });
+      const tmpName = `${p}_${cnt++}_${scale}_tmp.png`;
+      await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale });
+      if (scale !== 1) {
+        pool.release(map);
+        return tmpName;
+      }
+      await Promise.all([
+        rename(tmpName, `${p}.png`).catch((err) => {
+          console.error('Error renaming file:', err);
+        }),
+        (async () => {
+          try {
+            await unlink(`${p}.dirty`);
+          } catch (_) {
+            // ignore
+          }
+          dirtyTiles.delete(tile2key({ zoom, x, y }));
+        })(),
+      ]);
+    } finally {
+      pool.release(map);
     }
-    await Promise.all([
-      rename(tmpName, `${p}.png`).catch((err) => {
-        console.error('Error renaming file:', err);
-      }),
-      (async () => {
-        try {
-          await unlink(`${p}.dirty`);
-        } catch (_) {
-          // ignore
-        }
-        dirtyTiles.delete(tile2key({ zoom, x, y }));
-      })(),
-    ]);
-
-    pool.release(map);
   }
 
   return `${p}.png`;
