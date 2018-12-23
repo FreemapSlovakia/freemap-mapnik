@@ -10,6 +10,8 @@ const { pool } = require('./mapnikPool');
 
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
+const minZoom = config.get('zoom.min');
+const maxZoom = config.get('zoom.max');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
@@ -19,7 +21,7 @@ module.exports = { renderTile, toPdf };
 
 let cnt = 0;
 
-async function renderTile(zoom, x, y, prerender) {
+async function renderTile(zoom, x, y, prerender, scale = 1) {
   const frags = [tilesDir, zoom.toString(10), x.toString(10)];
 
   const p = path.join(...frags, `${y}`);
@@ -29,8 +31,8 @@ async function renderTile(zoom, x, y, prerender) {
     map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
     await mkdir(path.join(...frags), { recursive: true });
-    const tmpName = `${p}_${cnt++}_tmp.png`;
-    await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale: 1 });
+    const tmpName = `${p}_${cnt++}_${scale}_tmp.png`;
+    await map.renderFileAsync(tmpName, { format: 'png', buffer_size: 256, scale });
     await Promise.all([
       rename(tmpName, `${p}.png`).catch((err) => {
         console.error('Error renaming file:', err);
@@ -54,10 +56,14 @@ async function renderTile(zoom, x, y, prerender) {
 async function shouldRender(p, prerender, tile) {
   try {
     const s = await stat(`${p}.png`);
+    const isOld = rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs;
+    if (isOld && (tile.zoom < minZoom || tile.zoom > maxZoom)) {
+      return true;
+    }
     if (!prerender) {
       return false;
     }
-    if (rerenderOlderThanMs && s.mtimeMs < rerenderOlderThanMs || dirtyTiles.has(tile2key(tile))) {
+    if (isOld || dirtyTiles.has(tile2key(tile))) {
       return true;
     }
   } catch (err) {

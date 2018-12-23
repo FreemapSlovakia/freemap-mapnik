@@ -23,10 +23,12 @@ const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
 router.get('/:zoom/:x/:y', async (ctx) => {
   const { zoom, x, y } = ctx.params;
-  if (zoom < minZoom || zoom > maxZoom) {
+  const zoomNum = Number.parseFloat(zoom);
+  if (Number.isNaN(zoomNum) || zoomNum < minZoom || zoomNum > maxZoom) {
     return;
   }
-  const file = await renderTile(Number.parseInt(zoom, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false);
+
+  const file = await renderTile(Number.parseInt(zoomNum, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false);
   const stats = await stat(file);
 
   ctx.status = 200;
@@ -37,7 +39,32 @@ router.get('/:zoom/:x/:y', async (ctx) => {
     return;
   }
 
-  await send(ctx, `${zoom}/${x}/${y}.png`, { root: tilesDir });
+  await send(ctx, path.relative(tilesDir, file), { root: tilesDir });
+});
+
+router.get('/scaled/:scale/:zoom/:x/:y', async (ctx) => {
+  const { zoom, x, y, scale } = ctx.params;
+  const scaleNum = Number.parseFloat(scale);
+  const zoomNum = Number.parseFloat(zoom);
+
+  if (Number.isNaN(scaleNum) || Number.isNaN(zoomNum) /* || zoomNum < minZoom || zoomNum > maxZoom */) {
+    return;
+  }
+
+  const file = await renderTile(Number.parseInt(zoomNum, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false, scaleNum);
+  // const stats = await stat(file);
+
+  ctx.status = 200;
+  // ctx.set('Last-Modified', stats.mtime.toUTCString());
+
+  // if (ctx.fresh) {
+  //   ctx.status = 304;
+  //   return;
+  // }
+
+  await send(ctx, path.relative(tilesDir, file), { root: tilesDir });
+
+  await unlink(file);
 });
 
 let tmpIndex = Date.now();
