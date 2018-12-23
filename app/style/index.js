@@ -84,7 +84,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ minZoom: 15 })
         .lineSymbolizer({ stroke: '#ff0000', strokeWidth: 1, strokeDasharray: '2,1' })
     .style('highways')
-      .rule({ filter: types(['rail', 'tram', 'light_rail']) })
+      .rule({ filter: "[class] = 'railway'" })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
       .rule({ filter: types(['motorway', 'trunk', 'motorway_link', 'trunk_link']) })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })

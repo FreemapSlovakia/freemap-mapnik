@@ -247,7 +247,6 @@ tables:
       - garages
       - military
       - plant_nursery
-      - railway
       highway:
       - pedestrian
       - footway
