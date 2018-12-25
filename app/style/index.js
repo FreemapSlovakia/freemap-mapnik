@@ -135,7 +135,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('buildings')
       .rule({ minZoom: 13 })
         .polygonSymbolizer({ fill: colors.building })
-      .rule({ minZoom: 14, filter: types('church', 'chapel', 'catedhral', 'temple', 'basilica') })
+      .typesRule(14, 'church', 'chapel', 'catedhral', 'temple', 'basilica')
         .markersSymbolizer({ file: 'images/church.svg' })
     .style('protected_areas')
       .rule({ minZoom: 11 })
@@ -226,7 +226,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
         .textSymbolizer({ ...fontDfltWrap, fill: 'blue', placement: 'interior' }, '[name]')
     .style('building_names', { filterMode: 'first' })
-      .rule({ minZoom: 14, filter: types('church', 'chapel', 'catedhral', 'temple', 'basilica') })
+      .typesRule(14, 'church', 'chapel', 'catedhral', 'temple', 'basilica')
         .textSymbolizer({ ...fontDfltWrap, placement: 'interior', dy: -10 }, '[name]')
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
@@ -234,10 +234,10 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...fontDflt, fill: '#3d1d1d', placement: 'line', spacing: 200 }, '[name]')
     .style('feature_line_names')
-      .rule({ filter: types('valley'), minZoom: 13 })
+      .typesRule(13, 'valley')
         .textSymbolizer({ ...fontDflt, size: 16, opacity: 0.5, haloOpacity: 0.5, placement: 'line', spacing: 400 }, '[name]') // TODO size by zoom as for placenames
     .style('water_line_names')
-      .rule({ minZoom: 12, filter: types('river') })
+      .typesRule(12, 'river')
         .textSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line', spacing: 400 }, '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
         .textSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line', spacing: 400 }, '[name]')
@@ -249,18 +249,18 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
           const sc = Math.pow(1.3, z);
 
           style
-            .rule({ filter: types('city', 'town'), minZoom: z, maxZoom: z })
+            .typesRule(z, z, 'city', 'town')
               .textSymbolizer({ ...fontDflt, size: 1.5 * sc, opacity, haloOpacity: opacity }, '[name]');
 
           if (z > 9) {
             style
-              .rule({ filter: types('village', 'suburb'), minZoom: z, maxZoom: z })
+              .typesRule(z, z, 'village', 'suburb')
                 .textSymbolizer({ ...fontDflt, size: 0.75 * sc, opacity, haloOpacity: opacity }, '[name]');
           }
 
           if (z > 10) {
             style
-              .rule({ filter: types('hamlet'), minZoom: z, maxZoom: z })
+              .typesRule(z, z, 'hamlet')
                 .textSymbolizer({ ...fontDflt, size: 0.5 * sc, opacity, haloOpacity: opacity }, '[name]');
           }
         }
