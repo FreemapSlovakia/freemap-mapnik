@@ -71,10 +71,10 @@ async function shouldRender(p, prerender, tile) {
 // scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
 async function toPdf(destFile, xml, zoom, bbox0, scale = 1, width) {
   const bbox = merc.forward(bbox0);
-  const q = 0.00310668945 * Math.pow(2, zoom); // 25.45 for zoom 13
+  const q = Math.pow(2, zoom) / 200000;
   const map = new mapnik.Map(
-    width || (bbox[2] - bbox[0]) / q,
-    width ? (bbox[3] - bbox[1]) / (bbox[2] - bbox[0]) * width : (bbox[3] - bbox[1]) / q,
+    width || (bbox[2] - bbox[0]) * q,
+    width ? (bbox[3] - bbox[1]) / (bbox[2] - bbox[0]) * width : (bbox[3] - bbox[1]) * q,
   );
   await map.fromStringAsync(xml);
   map.zoomToBox(bbox);
