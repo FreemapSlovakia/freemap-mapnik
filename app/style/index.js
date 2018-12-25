@@ -21,7 +21,7 @@ const colors = {
 const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
 const highwayDflt = { stroke: colors.track };
 const fontDflt = { faceName: 'DejaVu Sans Book', haloFill: 'white', haloRadius: 1 };
-const fontDfltWrap = { ...fontDflt,wrapWidth: 100, wrapBefore: true };
+const fontDfltWrap = { ...fontDflt, wrapWidth: 100, wrapBefore: true };
 
 const extensions = {
   style: {
