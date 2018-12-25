@@ -18,12 +18,35 @@ const colors = {
   track: '#804040',
 };
 
-const smoothness = 0;
-
-const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5, smooth: smoothness };
-const highwayDflt = { stroke: colors.track, smooth: smoothness };
+const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
+const highwayDflt = { stroke: colors.track };
 const fontDflt = { faceName: 'DejaVu Sans Book', haloFill: 'white', haloRadius: 1 };
 const fontDfltWrap = { ...fontDflt,wrapWidth: 100, wrapBefore: true };
+
+const extensions = {
+  style: {
+    typesRule(style, ...t) {
+      const q = [...t];
+      let minZoom, maxZoom;
+      if (typeof q[0] === 'number') {
+        minZoom = q.shift();
+      }
+      if (typeof q[0] === 'number') {
+        maxZoom = q.shift();
+      }
+      return style.rule({ filter: types(...q), minZoom, maxZoom });
+    },
+  },
+  rule: {
+    borderedPolygonSymbolizer(rule, color) {
+      return rule
+        .polygonSymbolizer({ fill: color })
+        .lineSymbolizer({ stroke: color, strokeWidth: 1 });
+    },
+  }
+};
+
+const nameWithEle = "[name] + '\n' + [ele]";
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
   /* eslint-disable indent */
@@ -31,74 +54,71 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     backgroundColor: 'white',
     srs: mercSrs,
     bufferSize: 256,
-  }, {
-    dbParams,
-  })
+  }, extensions)
+    .datasource({ name: 'db' }, dbParams)
     .style('landcover')
-      .rule({ filter: types('forest', 'wood') })
+      .typesRule('forest', 'wood')
         .borderedPolygonSymbolizer('hsl(120, 45%, 75%)')
-      .rule({ filter: types('forest', 'wood') })
-        .borderedPolygonSymbolizer('hsl(120, 45%, 75%)')
-      .rule({ filter: types('farmland') })
+      .typesRule('farmland')
         .borderedPolygonSymbolizer('hsl(60, 70%, 95%)')
-      .rule({ filter: types('meadow', 'grassland', 'grass', 'park', 'cemetery') })
+      .typesRule('meadow', 'grassland', 'grass', 'park', 'cemetery')
         .borderedPolygonSymbolizer('hsl(100, 85%, 85%)')
-      .rule({ filter: types('cemetery') })
+      .typesRule('cemetery')
         .polygonPatternSymbolizer({ file: 'images/grave.svg' })
-      .rule({ filter: types('heath') })
+      .typesRule('heath')
         .borderedPolygonSymbolizer('hsl(85, 60%, 80%)')
-      .rule({ filter: types('scrub') })
+      .typesRule('scrub')
         .borderedPolygonSymbolizer('hsl(140, 40%, 70%)')
-      .rule({ filter: types('quarry') })
+      .typesRule('quarry')
         .borderedPolygonSymbolizer('#9E9E9E')
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
-      .rule({ filter: types('landfill') })
+      .typesRule('landfill')
         .borderedPolygonSymbolizer('#A06D6D')
-      .rule({ filter: types('residential', 'living_street') })
+      .typesRule('residential', 'living_street')
         .borderedPolygonSymbolizer('#e0e0e0')
-      .rule({ filter: types('farmyard') })
+      .typesRule('farmyard')
         .borderedPolygonSymbolizer('hsl(50, 44%, 80%)')
-      .rule({ filter: types('allotments') })
+      .typesRule('allotments')
         .borderedPolygonSymbolizer('hsl(50, 45%, 85%)')
-      .rule({ filter: types('industrial') })
+      .typesRule('industrial')
         .borderedPolygonSymbolizer('#d0d0d0')
-      .rule({ filter: types('commercial') })
+      .typesRule('commercial')
         .borderedPolygonSymbolizer('#e79dcc')
-      .rule({ filter: types('orchard') })
+      .typesRule('orchard')
         .borderedPolygonSymbolizer('#e0ffcc')
-      .rule({ filter: types('wetland') })
+      .typesRule('wetland')
         .borderedPolygonSymbolizer('hsl(200, 80%, 90%)')
-      .rule({ filter: types('pitch', 'playground') })
+      .typesRule('pitch', 'playground')
         .borderedPolygonSymbolizer('hsl(140, 50%, 70%)')
         .lineSymbolizer({ stroke: 'hsl(140, 50%, 40%)', strokeWidth: 1 })
-      .rule({ filter: types('parking') })
+      .typesRule('parking')
         .borderedPolygonSymbolizer('#cc9999')
         .lineSymbolizer({ stroke: colors.track, strokeWidth: 1 })
     .style('water_area')
       .rule()
         .borderedPolygonSymbolizer(colors.water)
     .style('water_line')
-      .rule({ filter: types('river') })
-        .lineSymbolizer({ stroke: colors.water, strokeWidth: 2.2, smooth: smoothness })
+      .typesRule('river')
+        .lineSymbolizer({ stroke: colors.water, strokeWidth: 2.2 })
       .rule({ filter: "[type] <> 'river'", minZoom: 11 })
-        .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, smooth: smoothness })
+        .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2 })
     .style('barrierways')
       .rule({ minZoom: 15 })
         .lineSymbolizer({ stroke: '#ff0000', strokeWidth: 1, strokeDasharray: '2,1' })
     .style('highways')
       .rule({ filter: "[class] = 'railway'" })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
-      .rule({ filter: types('motorway', 'trunk', 'motorway_link', 'trunk_link') })
+      .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
-      .rule({ filter: types('primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link') })
+      .typesRule('primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 2 })
-      .rule({ filter: types('living_street', 'residential', 'service', 'unclassified', 'road'), minZoom: 12 })
+      .typesRule(12, 'living_street', 'residential', 'service', 'unclassified', 'road')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
-      .rule({ filter: types('path'), minZoom: 12 })
+      .typesRule(12, 'path')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,3' })
-      .rule({ filter: types('footway', 'pedestrian', 'steps'), minZoom: 12 })
+      .typesRule(12, 'footway', 'pedestrian', 'steps')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
-      .rule({ filter: types('cycleway'), minZoom: 12 })
+      .typesRule(12, 'cycleway')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '6,3' })
       .doInStyle((style) => {
         [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
@@ -108,9 +128,9 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         });
       })
     .style('higwayGlows')
-      .rule({ filter: types('path', 'footway', 'pedestrian', 'steps'), minZoom: 12 })
+      .typesRule(12, 'path', 'footway', 'pedestrian', 'steps')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
-      .rule({ filter: types('track'), minZoom: 12 })
+      .typesRule(12, 'track')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
     .style('buildings')
       .rule({ minZoom: 13 })
@@ -124,78 +144,78 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule()
       .lineSymbolizer({ stroke: '#a000ff', strokeWidth: 6, strokeOpacity: 0.5 })
     .style('feature_lines')
-      .rule({ filter: types('cliff'), minZoom: 13 })
+      .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
         .lineSymbolizer({ stroke: '#404040', strokeWidth: 1 })
-      .rule({ filter: types('line'), minZoom: 13 })
+      .typesRule(13, 'line')
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1, strokeOpacity: 0.5 })
-      .rule({ filter: types('minor_line'), minZoom: 14 })
+      .typesRule(14, 'minor_line')
         .lineSymbolizer({ stroke: '#808080', strokeWidth: 1, strokeOpacity: 0.5 })
     .style('hillshade')
       .rule()
         .rasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
     .style('infopoints')
-      .rule({ filter: types('guidepost'), minZoom: 12 }) // TODO show some dot on 11, 10
+      // TODO show some dot on 11, 10
+      .typesRule(12, 'guidepost')
         .markersSymbolizer({ file: 'images/guidepost.svg' })
-      .rule({ filter: types('guidepost'), minZoom: 13 })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
+      .typesRule(13, 'guidepost')
+        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
     .style('feature_points')
-      .rule({ filter: types('peak'), minZoom: 11 })
+      .typesRule(11, 'peak')
         .markersSymbolizer({ file: 'images/peak.svg', width: 6, height: 6, fill: '#000000' })
-      .rule({ filter: types('peak'), minZoom: 12 })
-        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, "[name] + '\n' + [ele]")
-      .rule({ filter: types('attraction'), minZoom: 13 })
+      .typesRule(12, 'peak')
+        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, nameWithEle)
+      .typesRule(13, 'attraction')
         .markersSymbolizer({ file: 'images/attraction.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]')
-      .rule({ filter: types('spring'), minZoom: 13 })
+      .typesRule(13, 'spring')
         .markersSymbolizer({ file: 'images/spring.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10, fill: 'blue' }, '[name]')
-      .rule({ filter: types('spring'), minZoom: 14 })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
-      .rule({ filter: types('cave_entrance'), minZoom: 13 })
+      .typesRule(14, 'spring')
+        .textSymbolizer({ ...fontDfltWrap, dy: -10, fill: 'blue' }, nameWithEle)
+      .typesRule(13, 'cave_entrance')
         .markersSymbolizer({ file: 'images/cave.svg' })
-      .rule({ filter: types('cave_entrance'), minZoom: 14 })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
-      .rule({ filter: types('viewpoint'), minZoom: 13 })
+      .typesRule(14, 'cave_entrance')
+        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
+      .typesRule(13, 'viewpoint')
         .markersSymbolizer({ file: 'images/view_point.svg' })
-      .rule({ filter: types('viewpoint'), minZoom: 14 })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
-      .rule({ filter: types('mine', 'adit', 'mineshaft'), minZoom: 13 })
+      .typesRule(14, 'viewpoint')
+        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
+      .typesRule(13, 'mine', 'adit', 'mineshaft')
         .markersSymbolizer({ file: 'images/mine.svg' })
-      .rule({ filter: types('mine', 'adit', 'mineshaft'), minZoom: 14 })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
-      .rule({ filter: types('hunting_stand'), minZoom: 15 })
+      .typesRule(14, 'mine', 'adit', 'mineshaft')
+        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
+      .typesRule(15, 'hunting_stand')
         .markersSymbolizer({ file: 'images/hunting_stand.svg' })
-      .rule({ filter: types('tower'), minZoom: 13 })
+      .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
-      .rule({ filter: types('pole'), minZoom: 14 })
+      .typesRule(14, 'pole')
         .markersSymbolizer({ file: 'images/power_pole.svg' })
-      .rule({ filter: types('hut', 'alpine_hut', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'cabin'), minZoom: 14 })
+      .typesRule(14, 'hut', 'alpine_hut', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'cabin')
         .markersSymbolizer({ file: 'images/hut.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, "[name] + '\n' + [ele]")
-      .rule({ filter: types('cross', 'wayside_cross', 'wayside_shrine'), minZoom: 16 })
+        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
+      .typesRule(16, 'cross', 'wayside_cross', 'wayside_shrine')
         .markersSymbolizer({ file: 'images/cross.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ filter: types('shelter'), minZoom: 15 })
+      .typesRule(15, 'shelter')
         .markersSymbolizer({ file: 'images/shelter.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ filter: types('stone', 'rock'), minZoom: 15 })
+      .typesRule(15, 'stone', 'rock')
         .markersSymbolizer({ file: 'images/rock.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ filter: types('monument'), minZoom: 13 })
+      .typesRule(13, 'monument')
         .markersSymbolizer({ file: 'images/monument.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ filter: types('memorial'), minZoom: 15 })
+      .typesRule(15, 'memorial')
         .markersSymbolizer({ file: 'images/memorial.svg' })
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ filter: types('pub'), minZoom: 16 })
+      .typesRule(16, 'pub')
         .markersSymbolizer({ file: 'images/pub.svg' })
-      .rule({ filter: types('picnic_site', 'picnic_table'), minZoom: 16 })
+      .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
-      .rule({ filter: types('pub'), minZoom: 17 })
+      .typesRule(17, 'pub')
         .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
       .rule({ minZoom: 16 }) // rest texts
-        .textSymbolizer({ ...fontDfltWrap }, "[name] + '\n' + [ele]")
+        .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
     // texts
 
@@ -256,14 +276,14 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     })
     .style('contours', { opacity: 0.33 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
-        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: smoothness })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3 })
         .textSymbolizer({ ...fontDflt, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
       .rule({ minZoom: 14, filter: '([height] % 10 = 0) and ([height] != 0)' })
-        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: smoothness })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ maxZoom: 13, minZoom: 13, filter: '([height] % 20 = 0) and ([height] != 0)' })
-        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: smoothness })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ maxZoom: 12, minZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
-        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: smoothness })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer({ ...fontDflt, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
 
