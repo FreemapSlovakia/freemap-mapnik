@@ -600,127 +600,132 @@ tables:
       name: type
       key:
     type: point
-    mapping:
-      natural:
-      - birds_nest
-      - cave_entrance
-      - geyser
-      - hot_spring
-      - peak
-      - rock
-      - saddle
-      - sinkhole
-      - spring
-      - stone
-      - tree
-      - waterfall
-      amenity:
-      - atm
-      - bank
-      - bar
-      - bbq
-      - bench
-      - bicycle_parking
-      - bicycle_rental
-      - biergarten
-      - bus_station
-      - cafe
-      - car_wash
-      - cinema
-      - clinic
-      - college
-      - community_centre
-      - dentist
-      - doctors
-      - drinking_water
-      - fast_food
-      - fire_station
-      - fountain
-      - fuel
-      - hospital
-      - hunting_stand
-      - ice_cream
-      - kindergarten
-      - library
-      - pharmacy
-      - police
-      - post_box
-      - post_office
-      - pub
-      - recycling
-      - restaurant
-      - school
-      - shelter
-      - swimming_pool
-      - taxi
-      - telephone
-      - theatre
-      - toilets
-      - townhall
-      - university
-      - veterinary
-      - waste_basket
-      - waste_disposal
-      - water_point
-      - watering_place
-      tourism:
-      - alpine_hut
-      - apartment
-      - artwork
-      - attraction
-      - cabin
-      - camp_site
-      - camping
-      - caravan_site
-      - castle
-      - chalet
-      - guest_house
-      - hostel
-      - hotel
-      - hut
-      - memorial
-      - monument
-      - motel
-      - museum
-      - picnic_site
-      - viewpoint
-      - wilderness_hut
-      - zoo
-      leisure:
-      - picnic_table
-      - playground
-      man_made:
-      - adit
-      - beehive
-      - bunker_silo
-      - chimney
-      - communications_tower
-      - cross
-      - mast
-      - mine
-      - mineshaft
-      - reservoir_covered
-      - silo
-      - tower # TODO to separate table to have tower:type
-      - water_tower
-      - water_well
-      - water_works
-      historic:
-      - archaeological_site
-      - bunker
-      - castle
-      - manor
-      - memorial
-      - mine
-      - mine_shaft
-      - monastery
-      - monument
-      - ruins
-      - wayside_cross
-      - wayside_shrine
-      power:
-      - pole
-      - tower # TODO to separate
+    mappings:
+      attractions:
+        mapping:
+          tourism:
+          - attraction # must be separate otherwise it wins against other types
+      standard:
+        mapping:
+          natural:
+          - birds_nest
+          - cave_entrance
+          - geyser
+          - hot_spring
+          - peak
+          - rock
+          - saddle
+          - sinkhole
+          - spring
+          - stone
+          - tree
+          - waterfall
+          amenity:
+          - atm
+          - bank
+          - bar
+          - bbq
+          - bench
+          - bicycle_parking
+          - bicycle_rental
+          - biergarten
+          - bus_station
+          - cafe
+          - car_wash
+          - cinema
+          - clinic
+          - college
+          - community_centre
+          - dentist
+          - doctors
+          - drinking_water
+          - fast_food
+          - fire_station
+          - fountain
+          - fuel
+          - hospital
+          - hunting_stand
+          - ice_cream
+          - kindergarten
+          - library
+          - pharmacy
+          - police
+          - post_box
+          - post_office
+          - pub
+          - recycling
+          - restaurant
+          - school
+          - shelter
+          - swimming_pool
+          - taxi
+          - telephone
+          - theatre
+          - toilets
+          - townhall
+          - university
+          - veterinary
+          - waste_basket
+          - waste_disposal
+          - water_point
+          - watering_place
+          tourism:
+          - alpine_hut
+          - apartment
+          - artwork
+          - cabin
+          - camp_site
+          - camping
+          - caravan_site
+          - castle
+          - chalet
+          - guest_house
+          - hostel
+          - hotel
+          - hut
+          - memorial
+          - monument
+          - motel
+          - museum
+          - picnic_site
+          - viewpoint
+          - wilderness_hut
+          - zoo
+          leisure:
+          - picnic_table
+          - playground
+          man_made:
+          - adit
+          - beehive
+          - bunker_silo
+          - chimney
+          - communications_tower
+          - cross
+          - mast
+          - mine
+          - mineshaft
+          - reservoir_covered
+          - silo
+          - tower # TODO to separate table to have tower:type
+          - water_tower
+          - water_well
+          - water_works
+          historic:
+          - archaeological_site
+          - bunker
+          - castle
+          - manor
+          - memorial
+          - mine
+          - mine_shaft
+          - monastery
+          - monument
+          - ruins
+          - wayside_cross
+          - wayside_shrine
+          power:
+          - pole
+          - tower # TODO to separate
 
   feature_polys:
     columns:
@@ -740,98 +745,103 @@ tables:
       name: type
       key:
     type: polygon
-    mapping:
-      natural:
-      - rock
-      - stone
-      amenity:
-      - bank
-      - bar
-      - bbq
-      - bicycle_parking
-      - bicycle_rental
-      - biergarten
-      - bus_station
-      - cafe
-      - car_wash
-      - cinema
-      - clinic
-      - college
-      - community_centre
-      - dentist
-      - doctors
-      - fast_food
-      - fire_station
-      - fountain
-      - fuel
-      - hospital
-      - ice_cream
-      - kindergarten
-      - library
-      - pharmacy
-      - police
-      - post_office
-      - pub
-      - recycling
-      - restaurant
-      - school
-      - shelter
-      - swimming_pool
-      - taxi
-      - theatre
-      - toilets
-      - townhall
-      - university
-      - veterinary
-      tourism:
-      - alpine_hut
-      - apartment
-      - artwork
-      - attraction
-      - cabin
-      - camp_site
-      - camping
-      - caravan_site
-      - castle
-      - chalet
-      - guest_house
-      - hostel
-      - hotel
-      - hut
-      - monument
-      - motel
-      - museum
-      - picnic_site
-      - wilderness_hut
-      - zoo
-      leisure:
-      - playground
-      man_made:
-      - adit
-      - bunker_silo
-      - chimney
-      - communications_tower
-      - cross
-      - mast
-      - mine
-      - mineshaft
-      - reservoir_covered
-      - silo
-      - tower # TODO to separate table to have tower:type
-      - water_tower
-      - water_works
-      historic:
-      - archaeological_site
-      - bunker
-      - castle
-      - manor
-      - memorial
-      - mine
-      - mine_shaft
-      - monastery
-      - monument
-      - ruins
-      - wayside_shrine
+    mappings:
+      attractions:
+        mapping:
+          tourism:
+          - attraction # must be separate otherwise it wins against other types
+      standard:
+        mapping:
+          natural:
+          - rock
+          - stone
+          amenity:
+          - bank
+          - bar
+          - bbq
+          - bicycle_parking
+          - bicycle_rental
+          - biergarten
+          - bus_station
+          - cafe
+          - car_wash
+          - cinema
+          - clinic
+          - college
+          - community_centre
+          - dentist
+          - doctors
+          - fast_food
+          - fire_station
+          - fountain
+          - fuel
+          - hospital
+          - ice_cream
+          - kindergarten
+          - library
+          - pharmacy
+          - police
+          - post_office
+          - pub
+          - recycling
+          - restaurant
+          - school
+          - shelter
+          - swimming_pool
+          - taxi
+          - theatre
+          - toilets
+          - townhall
+          - university
+          - veterinary
+          tourism:
+          - alpine_hut
+          - apartment
+          - artwork
+          - cabin
+          - camp_site
+          - camping
+          - caravan_site
+          - castle
+          - chalet
+          - guest_house
+          - hostel
+          - hotel
+          - hut
+          - monument
+          - motel
+          - museum
+          - picnic_site
+          - wilderness_hut
+          - zoo
+          leisure:
+          - playground
+          man_made:
+          - adit
+          - bunker_silo
+          - chimney
+          - communications_tower
+          - cross
+          - mast
+          - mine
+          - mineshaft
+          - reservoir_covered
+          - silo
+          - tower # TODO to separate table to have tower:type
+          - water_tower
+          - water_works
+          historic:
+          - archaeological_site
+          - bunker
+          - castle
+          - manor
+          - memorial
+          - mine
+          - mine_shaft
+          - monastery
+          - monument
+          - ruins
+          - wayside_shrine
 
   infopoints:
     columns:

@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 const config = require('config');
 const { createMap } = require('jsnik');
 const { mercSrs } = require('../projections');
@@ -36,6 +38,20 @@ const extensions = {
       }
       return style.rule({ filter: types(...q), minZoom, maxZoom });
     },
+    poi(style, type, minIcoZoom, minTextZoom, withEle) {
+      const types = Array.isArray(type) ? type : [type];
+      if (minIcoZoom === minTextZoom) {
+        return style
+          .typesRule(minIcoZoom, ...types)
+            .markersSymbolizer({ file: `images/${types[0]}.svg` })
+            .textSymbolizer({ ...fontDfltWrap, dy: -10 }, withEle ? nameWithEle : '[name]');
+      }
+      return style
+        .typesRule(minIcoZoom, ...types)
+          .markersSymbolizer({ file: `images/${types[0]}.svg` })
+        .typesRule(minTextZoom, ...types)
+          .textSymbolizer({ ...fontDfltWrap, dy: -10 }, withEle ? nameWithEle : '[name]');
+    }
   },
   rule: {
     borderedPolygonSymbolizer(rule, color) {
@@ -49,7 +65,6 @@ const extensions = {
 const nameWithEle = "[name] + '\n' + [ele]";
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
-  /* eslint-disable indent */
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
@@ -135,8 +150,6 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('buildings')
       .rule({ minZoom: 13 })
         .polygonSymbolizer({ fill: colors.building })
-      .typesRule(14, 'church', 'chapel', 'catedhral', 'temple', 'basilica')
-        .markersSymbolizer({ file: 'images/church.svg' })
     .style('protected_areas')
       .rule({ minZoom: 11 })
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
@@ -156,81 +169,56 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .rasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
     .style('infopoints')
       // TODO show some dot on 11, 10
-      .typesRule(12, 'guidepost')
-        .markersSymbolizer({ file: 'images/guidepost.svg' })
-      .typesRule(13, 'guidepost')
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
+      .poi('guidepost', 12, 13, true)
+      .poi('board', 16, 16)
+      .poi('map', 16, 16)
+      .poi('office', 15, 16)
     .style('feature_points')
       .typesRule(11, 'peak')
         .markersSymbolizer({ file: 'images/peak.svg', width: 6, height: 6, fill: '#000000' })
       .typesRule(12, 'peak')
         .textSymbolizer({ ...fontDfltWrap, dy: -8 }, nameWithEle)
-      .typesRule(13, 'attraction')
-        .markersSymbolizer({ file: 'images/attraction.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]')
-      .typesRule(13, 'spring')
-        .markersSymbolizer({ file: 'images/spring.svg' })
-      .typesRule(14, 'spring')
-        .textSymbolizer({ ...fontDfltWrap, dy: -10, fill: 'blue' }, nameWithEle)
-      .typesRule(13, 'cave_entrance')
-        .markersSymbolizer({ file: 'images/cave.svg' })
-      .typesRule(14, 'cave_entrance')
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
-      .typesRule(13, 'viewpoint')
-        .markersSymbolizer({ file: 'images/view_point.svg' })
-      .typesRule(14, 'viewpoint')
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
-      .typesRule(13, 'mine', 'adit', 'mineshaft')
-        .markersSymbolizer({ file: 'images/mine.svg' })
-      .typesRule(14, 'mine', 'adit', 'mineshaft')
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
-      .typesRule(15, 'hunting_stand')
-        .markersSymbolizer({ file: 'images/hunting_stand.svg' })
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
+      .poi('spring', 13, 14, true) // TODO fill: blue
+      .poi('cave_entrance', 13, 14, true)
+      .poi('monument', 13, 14, true)
+      .poi('viewpoint', 13, 14, true)
+      .poi(['mine', 'adit', 'mineshaft'], 13, 14, true)
       .typesRule(14, 'pole')
         .markersSymbolizer({ file: 'images/power_pole.svg' })
-      .typesRule(14, 'hut', 'alpine_hut', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'cabin')
-        .markersSymbolizer({ file: 'images/hut.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, nameWithEle)
-      .typesRule(16, 'cross', 'wayside_cross', 'wayside_shrine')
-        .markersSymbolizer({ file: 'images/cross.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(15, 'shelter')
-        .markersSymbolizer({ file: 'images/shelter.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(15, 'stone', 'rock')
-        .markersSymbolizer({ file: 'images/rock.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(13, 'monument')
-        .markersSymbolizer({ file: 'images/monument.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(16, 'pharmacy')
-        .markersSymbolizer({ file: 'images/pharmacy.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(15, 'hospital')
-        .markersSymbolizer({ file: 'images/hospital.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(15, 'cinema')
-        .markersSymbolizer({ file: 'images/cinema.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(15, 'theatre')
-        .markersSymbolizer({ file: 'images/theatre.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(15, 'memorial')
-        .markersSymbolizer({ file: 'images/memorial.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .typesRule(16, 'pub')
-        .markersSymbolizer({ file: 'images/pub.svg' })
-      .typesRule(16, 'convenience') // TODO this is in shops layer
-        .markersSymbolizer({ file: 'images/convenience.svg' })
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
+      .poi('hotel', 14, 14, true)
+      .poi('chalet', 14, 14, true)
+      .poi('hostel', 14, 14, true)
+      .poi('motel', 14, 14, true)
+      .poi('guest_house', 14, 14, true)
+      .poi('alpine_hut', 14, 14, true)
+      .poi('hospital', 14, 15)
+      .poi('museum', 15, 16)
+      .poi(['hut', 'cabin'], 14, 15, true) // fallback
+      .poi(['church', 'chapel', 'cathedral', 'temple', 'basilica'], 14, 15)
+      .typesRule(15, 'attraction')
+        .markersSymbolizer({ file: 'images/attraction.svg' })
+        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]')
+      .poi('hunting_stand', 15, 15)
+      .poi('shelter', 15, 16, true)
+      .poi(['rock', 'stone'], 15, 16)
+      .poi('pharmacy', 15, 16)
+      .poi('cinema', 15, 16)
+      .poi('theatre', 15, 16)
+      .poi('memorial', 15, 16)
+      .poi('artwork', 15, 16)
+      .poi('pub', 15, 16)
+      .poi('cafe', 15, 16)
+      .poi('restaurant', 15, 16)
+      .poi('convenience', 15, 16) // TODO not rendered yet - this is in shops layer
+      .poi('wayside_shrine', 16, 17)
+      .poi(['cross', 'wayside_cross'], 16, 17)
+
       .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
-      .typesRule(17, 'pub')
-        .textSymbolizer({ ...fontDfltWrap, dy: -10 }, '[name]')
-      .rule({ minZoom: 16 }) // rest texts
-        .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
+      // .rule({ minZoom: 16 }) // rest texts
+      //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
     // texts
 
@@ -240,11 +228,9 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('water_area_names')
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
         .textSymbolizer({ ...fontDfltWrap, fill: 'blue', placement: 'interior' }, '[name]')
-    .style('building_names', { filterMode: 'first' })
-      .typesRule(14, 'church', 'chapel', 'catedhral', 'temple', 'basilica')
-        .textSymbolizer({ ...fontDfltWrap, placement: 'interior', dy: -10 }, '[name]')
-      .rule({ minZoom: 15 })
-        .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
+    .style('building_names')
+      // .rule({ minZoom: 15 }) // rest names
+      //   .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...fontDflt, fill: '#3d1d1d', placement: 'line', spacing: 200 }, '[name]')

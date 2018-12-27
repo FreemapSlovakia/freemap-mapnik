@@ -46,14 +46,16 @@ function layers(shading, contours) {
         from osm_route_members join osm_routes using(osm_id)
         group by member, geometry, osm_routes.type`,
       { minZoom: 9, clearLabelCache: 'on' }) // NOTE clearing cache because of contour elevation labels
-    .sqlLayer('feature_points',
-      'select type, geometry, name, ele from osm_feature_points')
-    .sqlLayer('feature_points',
-      'select type, geometry, name, ele from osm_feature_polys')
     .sqlLayer('infopoints',
       'select type, geometry, name, ele from osm_infopoints',
       { /* bufferSize: 512 */ })
-
+    .sqlLayer('feature_points',
+      "select type, geometry, name, ele, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_points" // TODO until ordering is implemented attraction is forced to lowest prio
+        + " union select type, geometry, name, ele, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_polys" // TODO ^^^
+        + ' union select type, geometry, name, null as ele, 0 as z_order from osm_shops' // TODO maybe namespace type; TODO shop polys
+        + " union select type, geometry, name, null as ele, 0 as z_order from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
+        + ' order by z_order' // TODO implement ordering in yaml
+    )
     .sqlLayer('highway_names',
       'select name, geometry, type from osm_roads order by z_order desc')
     .sqlLayer('water_line_names',
@@ -62,13 +64,6 @@ function layers(shading, contours) {
       'select name, geometry, type from osm_waterareas')
     .sqlLayer('feature_line_names',
       'select geometry, name, type from osm_feature_lines')
-    // .sqlLayer('feature_point_names',
-    //   'select name, ele, type, geometry from osm_feature_points')
-    // .sqlLayer('feature_point_names',
-    //   'select name, ele, type, geometry from osm_feature_polys')
-    // .sqlLayer('infopoint_names',
-    //   'select name, ele, type, geometry from osm_infopoints',
-    //   { /* bufferSize: 512 */ })
     .sqlLayer('building_names',
       'select name, type, geometry from osm_buildings')
     .sqlLayer('protected_area_names',
