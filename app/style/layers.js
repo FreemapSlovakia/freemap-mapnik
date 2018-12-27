@@ -47,9 +47,18 @@ function layers(shading, contours) {
         group by member, geometry, osm_routes.type`,
       { minZoom: 9, clearLabelCache: 'on' }) // NOTE clearing cache because of contour elevation labels
     .sqlLayer('infopoints',
+      'select type, geometry from osm_infopoints')
+    .sqlLayer('feature_points',
+      "select type, geometry, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_points" // TODO until ordering is implemented attraction is forced to lowest prio
+        + " union select type, geometry, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_polys" // TODO ^^^
+        + ' union select type, geometry, 0 as z_order from osm_shops' // TODO maybe namespace type; TODO shop polys
+        + " union select type, geometry, 0 as z_order from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
+        + ' order by z_order' // TODO implement ordering in yaml
+    )
+    .sqlLayer('infopoint_names',
       'select type, geometry, name, ele from osm_infopoints',
       { /* bufferSize: 512 */ })
-    .sqlLayer('feature_points',
+    .sqlLayer('feature_point_names',
       "select type, geometry, name, ele, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_points" // TODO until ordering is implemented attraction is forced to lowest prio
         + " union select type, geometry, name, ele, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_polys" // TODO ^^^
         + ' union select type, geometry, name, null as ele, 0 as z_order from osm_shops' // TODO maybe namespace type; TODO shop polys
