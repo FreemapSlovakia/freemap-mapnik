@@ -41,4 +41,5 @@
     zoomPrio: [12, 13, 14, 15, 11, 16, 10, 9, 8],
   },
   rerenderOlderThanMs: 0, // use 0 to disable
+  renderToPdfConcurrency: 1,
 }

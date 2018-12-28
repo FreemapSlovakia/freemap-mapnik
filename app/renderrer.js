@@ -11,6 +11,7 @@ const { pool } = require('./mapnikPool');
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
 const prerenderConfig = config.get('prerender');
+const renderToPdfConcurrency = config.get('renderToPdfConcurrency');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
@@ -68,17 +69,36 @@ async function shouldRender(p, prerender, tile) {
   }
 }
 
+
+let pdfLockCount = 0;
+let pdfUnlocks = [];
+
 // scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
 async function toPdf(destFile, xml, zoom, bbox0, scale = 1, width) {
-  const bbox = merc.forward(bbox0);
-  const q = Math.pow(2, zoom) / 200000;
-  const map = new mapnik.Map(
-    width || (bbox[2] - bbox[0]) * q,
-    width ? (bbox[3] - bbox[1]) / (bbox[2] - bbox[0]) * width : (bbox[3] - bbox[1]) * q,
-  );
-  await map.fromStringAsync(xml);
-  map.zoomToBox(bbox);
-  await map.renderFileAsync(destFile, { format: 'pdf', buffer_size: 256, scale_denominator: zoomDenoms[zoom], scale });
+  if (pdfLockCount >= renderToPdfConcurrency) {
+    await new Promise((unlock) => {
+      pdfUnlocks.push(unlock);
+    });
+  }
+
+  pdfLockCount++;
+  try {
+    const bbox = merc.forward(bbox0);
+    const q = Math.pow(2, zoom) / 200000;
+    const map = new mapnik.Map(
+      width || (bbox[2] - bbox[0]) * q,
+      width ? (bbox[3] - bbox[1]) / (bbox[2] - bbox[0]) * width : (bbox[3] - bbox[1]) * q,
+    );
+    await map.fromStringAsync(xml);
+    map.zoomToBox(bbox);
+    await map.renderFileAsync(destFile, { format: 'pdf', buffer_size: 256, scale_denominator: zoomDenoms[zoom], scale });
+  } finally {
+    const unlock = pdfUnlocks.shift();
+    if (unlock) {
+      unlock();
+    }
+    pdfLockCount--;
+  }
 }
 
 function transformCoords(zoom, xtile, ytile) {
