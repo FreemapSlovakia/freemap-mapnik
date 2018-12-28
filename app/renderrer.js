@@ -74,11 +74,15 @@ let pdfLockCount = 0;
 let pdfUnlocks = [];
 
 // scale: my screen is 96 dpi, pdf is 72 dpi; 72 / 96 = 0.75
-async function toPdf(destFile, xml, zoom, bbox0, scale = 1, width) {
+async function toPdf(destFile, xml, zoom, bbox0, scale = 1, width, cancelHolder) {
   if (pdfLockCount >= renderToPdfConcurrency) {
     await new Promise((unlock) => {
       pdfUnlocks.push(unlock);
     });
+  }
+
+  if (cancelHolder && cancelHolder.cancelled) {
+    throw new Error('Cancelled');
   }
 
   pdfLockCount++;

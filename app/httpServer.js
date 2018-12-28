@@ -86,11 +86,26 @@ router.get('/pdf', async (ctx) => {
     b(q.hikingTrails),
     b(q.bicycleTrails),
   );
+
+  const cancelHolder = {};
+  const cancelHandler = () => {
+    cancelHolder.cancelled = true;
+  };
+
+  ctx.req.on('close', cancelHandler);
+
   try {
-    await toPdf(exportFile, mapnikConfig, zoom, bbox,
-      Number.parseFloat(q.scale) || undefined,
-      Number.parseFloat(q.width) || undefined,
-    );
+    try {
+      await toPdf(
+        exportFile, mapnikConfig, zoom, bbox,
+        Number.parseFloat(q.scale) || undefined,
+        Number.parseFloat(q.width) || undefined,
+        cancelHolder,
+      );
+    } finally {
+      ctx.req.off('close', cancelHandler);
+    }
+
     ctx.status = 200;
     await send(ctx, filename, { root: tmpdir() });
   } finally {
