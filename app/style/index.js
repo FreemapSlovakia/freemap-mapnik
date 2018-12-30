@@ -43,7 +43,7 @@ const extensions = {
         const types = Array.isArray(type) ? type : [type];
         style
           .typesRule(minIcoZoom, ...types)
-            .markersSymbolizer({ file: `images/${types[0]}.svg` })
+            .markersSymbolizer({ file: `images/${types[0]}.svg` });
       }
       return style; // TODO remove
     },
