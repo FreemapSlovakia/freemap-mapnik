@@ -21,50 +21,45 @@ const serverPort = config.get('server.port');
 
 const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 
-router.get('/:zoom/:x/:y', async (ctx) => {
-  const { zoom, x, y } = ctx.params;
+router.get('/:zoom/:x/:yy', async (ctx) => {
+  const { zoom, x, yy } = ctx.params;
+
+  console.log(yy);
+  const yyMatch = /(\d+)(?:@(\d+(?:\.\d+)?)x)?/.exec(yy);
+
+  if (!yyMatch) {
+    ctx.status = 400;
+    return;
+  }
+
+  let y = Number.parseInt(yyMatch[1], 10);
+  const r = yyMatch[2] ? Number.parseFloat(yyMatch[2], 10) : 1;
+
   const zoomNum = Number.parseFloat(zoom);
   if (Number.isNaN(zoomNum) || zoomNum < minZoom || zoomNum > maxZoom) {
+    ctx.status = 400;
     return;
   }
 
-  const file = await renderTile(Number.parseInt(zoomNum, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false);
-  const stats = await stat(file);
+  const file = await renderTile(Number.parseInt(zoomNum, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false, r);
 
   ctx.status = 200;
-  ctx.set('Last-Modified', stats.mtime.toUTCString());
 
-  if (ctx.fresh) {
-    ctx.status = 304;
-    return;
+  if (r === 1) {
+    const stats = await stat(file);
+    ctx.set('Last-Modified', stats.mtime.toUTCString());
+
+    if (ctx.fresh) {
+      ctx.status = 304;
+      return;
+    }
   }
 
   await send(ctx, path.relative(tilesDir, file), { root: tilesDir });
-});
 
-router.get('/scaled/:scale/:zoom/:x/:y', async (ctx) => {
-  const { zoom, x, y, scale } = ctx.params;
-  const scaleNum = Number.parseFloat(scale);
-  const zoomNum = Number.parseFloat(zoom);
-
-  if (Number.isNaN(scaleNum) || Number.isNaN(zoomNum) /* || zoomNum < minZoom || zoomNum > maxZoom */) {
-    return;
+  if (r !== 1) {
+    await unlink(file);
   }
-
-  const file = await renderTile(Number.parseInt(zoomNum, 10), Number.parseInt(x, 10), Number.parseInt(y, 10), false, scaleNum);
-  // const stats = await stat(file);
-
-  ctx.status = 200;
-  // ctx.set('Last-Modified', stats.mtime.toUTCString());
-
-  // if (ctx.fresh) {
-  //   ctx.status = 304;
-  //   return;
-  // }
-
-  await send(ctx, path.relative(tilesDir, file), { root: tilesDir });
-
-  await unlink(file);
 });
 
 let tmpIndex = Date.now();

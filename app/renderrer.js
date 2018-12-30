@@ -7,6 +7,7 @@ const { zoomDenoms } = require('jsnik');
 const { tile2key } = require('./tileCalc');
 const { dirtyTiles } = require('./dirtyTilesRegister');
 const { pool } = require('./mapnikPool');
+const { mapnikConfig } = require('./style');
 
 const forceTileRendering = config.get('forceTileRendering');
 const rerenderOlderThanMs = config.get('rerenderOlderThanMs');
@@ -27,7 +28,12 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
   const p = path.join(...frags, `${y}`);
   if (scale !== 1 || forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
-    const map = await pool.acquire(prerender ? 1 : 0);
+    let map = await pool.acquire(prerender ? 1 : 0);
+    if (scale !== 1) {
+      map = new mapnik.Map(256 * scale, 256 * scale); // TODO creatin new map - will it slow us down?
+      await map.fromStringAsync(mapnikConfig);
+    }
+
     try {
       map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
