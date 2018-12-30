@@ -79,6 +79,7 @@ const pois = [
   [14, 14, 'guest_house', true],
   [14, 14, 'alpine_hut', true],
   [14, 15, 'hospital'],
+  [14, 15, 'townhall'],
   [14, 15, ['hut', 'cabin'], true], // fallback
   [14, 15, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [15, 15, 'hunting_stand'],
