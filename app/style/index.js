@@ -95,7 +95,11 @@ const pois = [
   [15, 16, 'cafe'],
   [15, 16, 'restaurant'],
   [15, 16, 'convenience'],
+  [15, 16, 'supermarket'],
+  [15, 16, 'fast_food'],
+  [15, 16, 'confectionery'],
   [16, 17, 'wayside_shrine'],
+  [16, 17, 'fountain'],
   [16, 17, ['cross', 'wayside_cross']],
 ];
 
