@@ -28,7 +28,7 @@
   },
   zoom: {
     min: 0,
-    max: 18,
+    max: 19,
   },
   prerender: { // set to null to disable pre-rendering
     // workers: 8, commented out = use num of cpus
