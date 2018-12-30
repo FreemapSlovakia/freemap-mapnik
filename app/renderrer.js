@@ -29,9 +29,9 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
   if (scale !== 1 || forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
     let resource = await pool.acquire(prerender ? 1 : 0);
-    let map;
 
     try {
+      let map;
       if (scale === 1) {
         map = resource;
       } else {
@@ -61,7 +61,7 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
         })(),
       ]);
     } finally {
-      pool.release(map);
+      pool.release(resource);
     }
   }
 
