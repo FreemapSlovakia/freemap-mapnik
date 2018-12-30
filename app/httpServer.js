@@ -24,7 +24,6 @@ const tilesDir = path.resolve(__dirname, '..', config.get('dirs.tiles'));
 router.get('/:zoom/:x/:yy', async (ctx) => {
   const { zoom, x, yy } = ctx.params;
 
-  console.log(yy);
   const yyMatch = /(\d+)(?:@(\d+(?:\.\d+)?)x)?/.exec(yy);
 
   if (!yyMatch) {

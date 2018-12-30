@@ -28,13 +28,17 @@ async function renderTile(zoom, x, y, prerender, scale = 1) {
   const p = path.join(...frags, `${y}`);
   if (scale !== 1 || forceTileRendering || await shouldRender(p, prerender, { zoom, x, y })) {
     console.log(`${prerender ? 'Pre-rendering' : 'Rendering'} tile: ${zoom}/${x}/${y}`);
-    let map = await pool.acquire(prerender ? 1 : 0);
-    if (scale !== 1) {
-      map = new mapnik.Map(256 * scale, 256 * scale); // TODO creatin new map - will it slow us down?
-      await map.fromStringAsync(mapnikConfig);
-    }
+    let resource = await pool.acquire(prerender ? 1 : 0);
+    let map;
 
     try {
+      if (scale === 1) {
+        map = resource;
+      } else {
+        map = new mapnik.Map(256 * scale, 256 * scale); // TODO creatin new map - will it slow us down?
+        await map.fromStringAsync(mapnikConfig);
+      }
+
       map.zoomToBox(merc.forward([...transformCoords(zoom, x, y + 1), ...transformCoords(zoom, x + 1, y)]));
 
       await mkdir(path.join(...frags), { recursive: true });
