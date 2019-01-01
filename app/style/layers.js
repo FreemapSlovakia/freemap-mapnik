@@ -17,7 +17,7 @@ function layers(shading, contours) {
       'select geometry, type from osm_feature_lines')
     .sqlLayer(['higwayGlows', 'highways'],
       'select geometry, type, tracktype, class from osm_roads order by z_order',
-      {'cache-features': 'true'})
+      { cacheFeatures: true })
     .sqlLayer('buildings',
       'select geometry, type from osm_buildings')
     .sqlLayer('barrierways',
