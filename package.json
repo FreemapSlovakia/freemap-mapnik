@@ -11,17 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "chokidar": "2.0.4",
-    "config": "3.0.0",
+    "config": "3.0.1",
     "generic-pool": "3.4.2",
     "jsnik": "0.0.3",
     "koa": "2.6.2",
     "koa-router": "7.4.0",
     "koa-send": "5.0.0",
-    "mapnik": "4.0.2",
+    "mapnik": "4.2.0",
     "xmlbuilder": "10.1.1"
   },
   "devDependencies": {
-    "eslint": "5.10.0",
+    "eslint": "5.11.1",
     "nodemon": "1.18.9"
   }
 }
