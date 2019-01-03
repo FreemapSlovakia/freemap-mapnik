@@ -1,5 +1,12 @@
 # Installation
 
+## Requirements
+
+- Node.js 10
+- PostGIS
+- GDAL including python-gdal
+- imposm3
+
 ## Installing prerequisites
 
 1. Get OpenStreetMap data (eg. from [Geofabrik](http://download.geofabrik.de/))
@@ -10,7 +17,7 @@
 1. Run `npm i`
 1. Create `config/development.json5` where you can override settings from `config/default.json5` for your local environment
 1. Run `npm run watch`
-1. Open `preview.html` in your browser
+1. Open [preview.html](../preview.html) in your browser
 
 ## Get sources
 

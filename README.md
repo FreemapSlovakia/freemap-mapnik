@@ -15,13 +15,6 @@
 
 https://www.freemap.sk/?layers=X
 
-## Requirements
-
-- Node.js 10
-- PostGIS
-- GDAL including python-gdal
-- imposm3
-
 ## Installation
 
 ### Using Docker
