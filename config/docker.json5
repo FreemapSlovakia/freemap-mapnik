@@ -1,0 +1,19 @@
+{
+  db: {
+    type: 'postgis',
+    host: 'freemap-postgis',
+    port: 5432,
+    user: 'postgres',
+    dbname: 'postgres',
+    password: 'secret',
+  },
+  forceTileRendering: true,
+  dumpXml: false,
+  mapFeatures: {
+    contours: false,
+    shading: false,
+    hikingTrails: true,
+    bicycleTrails: true,
+  },
+  prerender: null,
+}

@@ -19,10 +19,3 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 ENV PATH "${PATH}:/node-v10.15.0-linux-x64/bin"
 EXPOSE 4000
-
-
-# VOLUME /app
-
-# FROM mdillon/postgis
-
-# docker run -v /home/martin/fm/freemap-mapnik:/freemap-mapnik -it node:10-stretch /bin/bash
