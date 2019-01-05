@@ -6,3 +6,5 @@ config/development.*
 cache
 diff
 expires
+sandbox
+

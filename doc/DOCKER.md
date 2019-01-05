@@ -16,14 +16,17 @@ cd freemap-mapnik
 Install Docker and from project home directory (freemap-mapnik) run following commands:
 
 ```
+# create network
 docker network create --driver bridge freemap-bridge
+
+# prepare volume for PostgreSQL
 docker volume create pgdata
 
 # start database
 docker run --rm --name=freemap-postgis -v pgdata:/var/lib/postgresql/data --network=freemap-bridge -e POSTGRES_PASSWORD=secret -d mdillon/postgis
 
-# clone the project and download the map
-docker run --rm --name=freemap-mapnik -v $(pwd):/freemap-mapnik --network=freemap-bridge -p 4000:4000 -w /freemap-mapnik -it zdila/freemap-mapnik-dev-env bash -c 'git clone https://github.com/FreemapSlovakia/freemap-mapnik.git . && ./scripts/init.sh'
+# clone the project and prepare map data (Slovakia)
+docker run --rm --name=freemap-mapnik -v $(pwd):/freemap-mapnik --network=freemap-bridge -p 4000:4000 -w /freemap-mapnik -it zdila/freemap-mapnik-dev-env bash -c 'git clone https://github.com/FreemapSlovakia/freemap-mapnik.git . && ./docker/prepare_osm.sh && ./docker/prepare_hillshading.sh && ./docker/prepare_contours.sh'
 ```
 
 ## Running mapserver

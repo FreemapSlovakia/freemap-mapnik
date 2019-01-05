@@ -10,8 +10,8 @@
   forceTileRendering: true,
   dumpXml: false,
   mapFeatures: {
-    contours: false,
-    shading: false,
+    contours: false, // contours are slow
+    shading: true,
     hikingTrails: true,
     bicycleTrails: true,
   },
