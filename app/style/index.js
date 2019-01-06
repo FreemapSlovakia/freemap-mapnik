@@ -22,7 +22,7 @@ const colors = {
 
 const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
 const highwayDflt = { stroke: colors.track };
-const fontDflt = { faceName: 'DejaVu Sans Book', haloFill: 'white', haloRadius: 1 };
+const fontDflt = { faceName: 'PT Sans Bold', haloFill: 'white', haloRadius: 1 };
 const fontDfltWrap = { ...fontDflt, wrapWidth: 100, wrapBefore: true };
 
 const extensions = {
@@ -234,16 +234,36 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
     // texts
-    .style('infopoint_names')
-      .poiNames(infoPois)
-    .style('feature_point_names')
-      .typesRule(12, 'peak')
-        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, nameWithEle)
-      .typesRule(15, 'attraction')
-        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]')
-      .poiNames(pois)
+    .style('infopoint_names').doInStyle((style) => {
+      const fontSizes = { 13: 11, 14: 12, 15: 13, 16: 14 };
+      let haloRadius = 2;
+      let haloOpacity = 0.4;
+      for (let z = 13; z < 20; z++) {
+        let size = fontSizes[z] || fontSizes[16];
+        if(z > 14) {
+          haloRadius = 3;
+          haloOpacity = 0.45;
+        }
+        style.typesRule(z, z, 'guidepost')
+          .textSymbolizer({ ...fontDfltWrap, fill: '#000000', opacity: 1.0, haloFill: '#ffffff', 
+          haloRadius, haloOpacity, size, textTransform: 'uppercase', faceName: 'Roboto Condensed Regular', 
+          dy: -8 }, nameWithEle);
+      }
+    })
+    .style('feature_point_names').doInStyle((style) => {
+      const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
+      for (let z = 12; z < 20; z++) {
+        let size = fontSizes[z] || fontSizes[16];
+        style.typesRule(z, z, 'peak')
+          .textSymbolizer({ ...fontDfltWrap, haloFill: '#edfe01', haloOpacity: 0.7, size, faceName: 'PT Sans Bold Italic', dy: -8 }, nameWithEle);
+      }
 
-    .style('protected_area_names')
+      style.typesRule(15, 'attraction')
+        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]');
+
+      style.poiNames(pois);
+      }
+    ).style('protected_area_names')
       .rule({ minZoom: 12 })
         .textSymbolizer({ ...fontDflt, fill: '#008000', placement: 'interior' }, '[name]')
     .style('water_area_names')
@@ -267,23 +287,24 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('placenames')
       .doInStyle((style) => {
         for (let z = 6; z < 20; z++) {
-          const opacity = 1 - ((z - 6) / (20 - 6));
           const sc = Math.pow(1.3, z);
+          const placenamesFontStyle = { fill: '#000000', haloFill: '#ffffff', opacity: 0.95, 
+            haloOpacity: 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
             .typesRule(z, z, 'city', 'town')
-              .textSymbolizer({ ...fontDflt, size: 1.5 * sc, opacity, haloOpacity: opacity }, '[name]');
+              .textSymbolizer({ ...fontDflt, ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]');
 
           if (z > 9) {
             style
-              .typesRule(z, z, 'village', 'suburb')
-                .textSymbolizer({ ...fontDflt, size: 0.75 * sc, opacity, haloOpacity: opacity }, '[name]');
+              .typesRule(z, z, 'village')
+                .textSymbolizer({ ...fontDflt, ...placenamesFontStyle, haloRadius: 1.5, textTransform: 'uppercase', size: 0.55 * sc}, '[name]');
           }
 
-          if (z > 10) {
+          if (z > 11) {
             style
-              .typesRule(z, z, 'hamlet')
-                .textSymbolizer({ ...fontDflt, size: 0.5 * sc, opacity, haloOpacity: opacity }, '[name]');
+              .typesRule(z, z, 'suburb', 'hamlet')
+                .textSymbolizer({ ...fontDflt, ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]');
           }
         }
       })

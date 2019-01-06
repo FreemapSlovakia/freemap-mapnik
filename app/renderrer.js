@@ -19,6 +19,8 @@ const merc = new mapnik.Projection(mercSrs);
 
 module.exports = { renderTile, toPdf };
 
+mapnik.registerFonts('./fonts', { recurse: true} );
+
 let cnt = 0;
 
 async function renderTile(zoom, x, y, prerender, scale = 1) {
