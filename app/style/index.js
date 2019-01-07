@@ -286,10 +286,13 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
     .style('placenames')
       .doInStyle((style) => {
+        const opacities = {6: 0.9, 7: 0.9, 8: 0.9, 9: 0.9, 10: 0.9,
+          11: 0.9, 12: 0.9, 13: 0.9, 14: 0.85, 15: 0.7, 16: 0.5 };
         for (let z = 6; z < 20; z++) {
+          const opacity = opacities[z] || 0.0;
           const sc = Math.pow(1.3, z);
-          const placenamesFontStyle = { fill: '#000000', haloFill: '#ffffff', opacity: 0.95, 
-            haloOpacity: 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
+          const placenamesFontStyle = { fill: '#000000', haloFill: '#ffffff', 
+          opacity, haloOpacity: opacity, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
             .typesRule(z, z, 'city', 'town')
