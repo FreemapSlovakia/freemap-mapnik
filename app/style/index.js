@@ -24,6 +24,8 @@ const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
 const highwayDflt = { stroke: colors.track };
 const fontDflt = { faceName: 'PT Sans Bold', haloFill: 'white', haloRadius: 1 };
 const fontDfltWrap = { ...fontDflt, wrapWidth: 100, wrapBefore: true };
+const natureRelatedFontWrap = { ...fontDfltWrap, fill: '#000000',
+  haloRadius: 1.5, haloOpacity: 0.7, faceName: 'PT Sans Italic' };
 
 const extensions = {
   style: {
@@ -235,19 +237,12 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
     // texts
     .style('infopoint_names').doInStyle((style) => {
-      const fontSizes = { 13: 11, 14: 12, 15: 13, 16: 14 };
-      let haloRadius = 2;
-      let haloOpacity = 0.4;
+      const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
       for (let z = 13; z < 20; z++) {
         let size = fontSizes[z] || fontSizes[16];
-        if(z > 14) {
-          haloRadius = 3;
-          haloOpacity = 0.45;
-        }
         style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...fontDfltWrap, fill: '#000000', opacity: 1.0, haloFill: '#ffffff', 
-          haloRadius, haloOpacity, size, textTransform: 'uppercase', faceName: 'Roboto Condensed Regular', 
-          dy: -8 }, nameWithEle);
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe',
+          size, dy: -8 }, nameWithEle);
       }
     })
     .style('feature_point_names').doInStyle((style) => {
@@ -255,7 +250,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       for (let z = 12; z < 20; z++) {
         let size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'peak')
-          .textSymbolizer({ ...fontDfltWrap, haloFill: '#edfe01', haloOpacity: 0.7, size, faceName: 'PT Sans Bold Italic', dy: -8 }, nameWithEle);
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd',
+          size, dy: -8 }, nameWithEle);
       }
 
       style.typesRule(15, 'attraction')
@@ -265,10 +261,10 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       }
     ).style('protected_area_names')
       .rule({ minZoom: 12 })
-        .textSymbolizer({ ...fontDflt, fill: '#008000', placement: 'interior' }, '[name]')
+        .textSymbolizer({ ...natureRelatedFontWrap, fill: '#042c01', haloFill: '#ffffff', haloRadius: 0.8, haloOpacity: 0.7, placement: 'interior' }, '[name]')
     .style('water_area_names')
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
-        .textSymbolizer({ ...fontDfltWrap, fill: 'blue', placement: 'interior' }, '[name]')
+        .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#b0cffd', placement: 'interior' }, '[name]')
     .style('building_names')
       // .rule({ minZoom: 15 }) // rest names
       //   .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
@@ -280,19 +276,19 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .textSymbolizer({ ...fontDflt, size: 16, opacity: 0.5, haloOpacity: 0.5, placement: 'line', spacing: 400 }, '[name]') // TODO size by zoom as for placenames
     .style('water_line_names')
       .typesRule(12, 'river')
-        .textSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line', spacing: 400 }, '[name]')
+        .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#b0cffd', placement: 'line', spacing: 400 }, '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer({ ...fontDflt, fill: 'blue', placement: 'line', spacing: 400 }, '[name]')
+        .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#b0cffd', placement: 'line', spacing: 400 }, '[name]')
 
     .style('placenames')
       .doInStyle((style) => {
-        const opacities = {6: 0.9, 7: 0.9, 8: 0.9, 9: 0.9, 10: 0.9,
+        const opacities = { 6: 0.9, 7: 0.9, 8: 0.9, 9: 0.9, 10: 0.9,
           11: 0.9, 12: 0.9, 13: 0.9, 14: 0.85, 15: 0.7, 16: 0.5 };
         for (let z = 6; z < 20; z++) {
           const opacity = opacities[z] || 0.0;
           const sc = Math.pow(1.3, z);
           const placenamesFontStyle = { fill: '#000000', haloFill: '#ffffff', 
-          opacity, haloOpacity: opacity, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
+          opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
             .typesRule(z, z, 'city', 'town')
