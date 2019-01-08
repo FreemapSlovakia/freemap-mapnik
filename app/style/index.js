@@ -16,9 +16,19 @@ const { routes } = require('./routes');
 const colors = {
   contour: '#000000',
   water: 'hsl(220, 65%, 75%)',
-  waterLabelHalo: '#b0cffd',
-  building: '#808080',
+  waterLabelHalo: 'hsl(220, 30%, 100%)',
+  building: 'hsl(0, 0%, 50%)',
   track: '#804040',
+  forest: 'hsl(120, 45%, 75%)',
+  heath: 'hsl(85, 60%, 80%)',
+  farmyard: 'hsl(50, 44%, 80%)',
+  farmland: 'hsl(60, 70%, 95%)',
+  wetland: 'hsl(200, 80%, 90%)',
+  scrub: 'hsl(140, 40%, 70%)',
+  grassy: 'hsl(100, 85%, 85%)',
+  orchard: 'hsl(95, 20%, 100%)',
+  allotments: 'hsl(50, 45%, 85%)',
+  landfill: 'hsl(0, 30%, 60%)',
 };
 
 const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
@@ -60,6 +70,10 @@ const extensions = {
       }
       return style; // TODO remove
     },
+    area(style, color, ...types) {
+      return style.typesRule(...types)
+        .borderedPolygonSymbolizer(color);
+    }
   },
   rule: {
     borderedPolygonSymbolizer(rule, color) {
@@ -124,42 +138,30 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
   }, extensions)
     .datasource({ name: 'db' }, dbParams)
     .style('landcover')
-      .typesRule('forest', 'wood')
-        .borderedPolygonSymbolizer('hsl(120, 45%, 75%)')
-      .typesRule('farmland')
-        .borderedPolygonSymbolizer('hsl(60, 70%, 95%)')
-      .typesRule('meadow', 'grassland', 'grass', 'park', 'cemetery')
-        .borderedPolygonSymbolizer('hsl(100, 85%, 85%)')
+      .area(colors.forest, 'forest', 'wood')
+      .area(colors.farmland, 'farmland')
+      .area(colors.grassy, 'meadow', 'grassland', 'grass', 'park', 'cemetery')
       .typesRule('cemetery')
         .polygonPatternSymbolizer({ file: 'images/grave.svg' })
-      .typesRule('heath')
-        .borderedPolygonSymbolizer('hsl(85, 60%, 80%)')
-      .typesRule('scrub')
-        .borderedPolygonSymbolizer('hsl(140, 40%, 70%)')
+      .area(colors.heath, 'heath')
+      .area(colors.scrub, 'scrub')
       .typesRule('quarry')
         .borderedPolygonSymbolizer('#9E9E9E')
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
-      .typesRule('landfill')
-        .borderedPolygonSymbolizer('#A06D6D')
-      .typesRule('residential', 'living_street')
-        .borderedPolygonSymbolizer('#e0e0e0')
-      .typesRule('farmyard')
-        .borderedPolygonSymbolizer('hsl(50, 44%, 80%)')
-      .typesRule('allotments')
-        .borderedPolygonSymbolizer('hsl(50, 45%, 85%)')
-      .typesRule('industrial')
-        .borderedPolygonSymbolizer('#d0d0d0')
-      .typesRule('commercial')
-        .borderedPolygonSymbolizer('#e79dcc')
-      .typesRule('orchard')
-        .borderedPolygonSymbolizer('#e0ffcc')
-      .typesRule('wetland')
-        .borderedPolygonSymbolizer('hsl(200, 80%, 90%)')
+      .area(colors.landfill, 'landfill')
+      .area('#e0e0e0', 'residential', 'living_street')
+      .area(colors.farmyard, 'farmyard')
+      .area(colors.allotments, 'allotments')
+      .area('#d0d0d0', 'industrial')
+      // .area('hsl(320, 32%, 90%)', 'commercial')
+      .area('#e69ccd', 'commercial')
+      .area(colors.orchard, 'orchard')
+      .area(colors.wetland, 'wetland')
       .typesRule('pitch', 'playground')
         .borderedPolygonSymbolizer('hsl(140, 50%, 70%)')
         .lineSymbolizer({ stroke: 'hsl(140, 50%, 40%)', strokeWidth: 1 })
       .typesRule('parking')
-        .borderedPolygonSymbolizer('#cc9999')
+        .borderedPolygonSymbolizer('hsl(0, 25%, 80%)')
         .lineSymbolizer({ stroke: colors.track, strokeWidth: 1 })
     .style('water_area')
       .rule()
@@ -241,33 +243,30 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('infopoint_names').doInStyle((style) => {
       const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
       for (let z = 13; z < 20; z++) {
-        let size = fontSizes[z] || fontSizes[16];
+        const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe',
-          size, dy: -8 }, nameWithEle);
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10 }, nameWithEle);
       }
     })
     .style('feature_point_names').doInStyle((style) => {
       const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
       for (let z = 12; z < 20; z++) {
-        let size = fontSizes[z] || fontSizes[16];
+        const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'peak')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd',
-          size, dy: -8 }, nameWithEle);
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe', size, dy: -8 }, nameWithEle);
       }
       for (let z = 14; z < 20; z++) {
-        let size = fontSizes[z] || fontSizes[16];
+        const size = (fontSizes[z] || fontSizes[16]) - 2;
         style.typesRule(z, z, 'spring')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo,
-          size: size - 2, dy: -10 }, '[name]');
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo, size, dy: -10 }, '[name]');
       }
 
       style.typesRule(15, 'attraction')
         .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]');
 
       style.poiNames(pois);
-      }
-    ).style('protected_area_names')
+    })
+    .style('protected_area_names')
       .rule({ minZoom: 12 })
         .textSymbolizer({ ...natureRelatedFontWrap, fill: '#042c01', haloFill: '#ffffff', haloRadius: 0.8, haloOpacity: 0.7, placement: 'interior' }, '[name]')
     .style('water_area_names')
@@ -295,8 +294,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         for (let z = 6; z < 20; z++) {
           const opacity = opacities[z] || 0.0;
           const sc = Math.pow(1.3, z);
-          const placenamesFontStyle = { ...fontDflt, fill: '#000000', haloFill: '#ffffff', 
-          opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
+          const placenamesFontStyle = { ...fontDflt, fill: '#000000', haloFill: '#ffffff',
+            opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
             .typesRule(z, z, 'city', 'town')
