@@ -7,12 +7,12 @@
       <cc:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs id="defs8880" />
-  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1058" id="namedview8878" showgrid="false" inkscape:zoom="16.857143" inkscape:cx="7" inkscape:cy="7" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg8876" />
-  <path style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-opacity:0.50196081;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" id="path9427" d="m 2,1 2,12 6,0 2,-12 z m 1.25,1 7.5,0 -0.33,2 -6.86,0 z" />
-  <rect width="14" height="14" x="0" y="0" id="canvas" style="fill:none;stroke:none;visibility:hidden" />
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview8878" showgrid="false" inkscape:zoom="16.857143" inkscape:cx="-14.148305" inkscape:cy="7.0000001" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg8876" inkscape:pagecheckerboard="true" />
+  <path style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.50196078" id="outline" d="M 2,1 L 4,13 H 10 L 12,1 Z M 3.25,2 H 10.75 L 10.42,4 H 3.56 Z" inkscape:connector-curvature="0" />
   <path d="m 2,1 2,12 6,0 2,-12 z m 1.25,1 7.5,0 -0.33,2 -6.86,0 z" id="pub" style="fill:#000000;fill-opacity:1;stroke:none" />
 </svg>
