@@ -165,7 +165,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .lineSymbolizer({ stroke: colors.track, strokeWidth: 1 })
     .style('water_area')
       .rule()
-        .borderedPolygonSymbolizer(colors.waterLabelHalo)
+        .borderedPolygonSymbolizer(colors.water)
     .style('water_line')
       .typesRule('river')
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 2.2 })
