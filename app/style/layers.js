@@ -76,6 +76,8 @@ function layers(shading, contours) {
       'select name, type, geometry from osm_buildings')
     .sqlLayer('protected_area_names',
       'select name, geometry from osm_protected_areas')
+    .sqlLayer('locality_names',
+      "select name, type, geometry from osm_places where type in ('locality')")
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { clearLabelCache: 'on', bufferSize: 1024 });

@@ -240,6 +240,16 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
     // texts
+    .style('locality_names').doInStyle((style) => {
+      const sizes = { 14: 10, 15: 11, 16: 12, 17: 12, 18: 12, 19: 12 };
+      const opacities = { 14: 0.5, 15: 0.6, 16: 0.65, 17: 0.7, 18: 0.8, 19: 0.9 };
+      for (let z = 14; z < 20; z++) {
+        style.typesRule(z, z, 'locality')
+          .textSymbolizer({ ...fontDflt, fill: '#000000', haloFill: '#000000', 
+          opacity: opacities[z], haloOpacity: 0, haloRadius: 0, 
+          size: sizes[z] }, '[name]'); 
+      }
+    })
     .style('infopoint_names').doInStyle((style) => {
       const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
       for (let z = 13; z < 20; z++) {
@@ -312,6 +322,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
               .typesRule(z, z, 'suburb', 'hamlet')
                 .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]');
           }
+
         }
       })
     .doInMap((map) => {
