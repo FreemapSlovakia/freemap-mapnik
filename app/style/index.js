@@ -2,7 +2,7 @@
 
 const config = require('config');
 const { createMap } = require('jsnik');
-const { mercSrs } = require('../projections');
+const { mercSrs } = require('freemap-mapserver/lib/projections'); // TODO ugly
 
 const dbParams = config.get('db');
 const contoursCfg = config.get('mapFeatures.contours');
@@ -245,9 +245,9 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       const opacities = { 15: 0.6, 16: 0.65, 17: 0.7, 18: 0.8, 19: 0.9 };
       for (let z = 15; z < 20; z++) {
         style.typesRule(z, z, 'locality')
-          .textSymbolizer({ ...fontDflt, fill: '#000000', haloFill: '#000000', 
-          opacity: opacities[z], haloOpacity: 0, haloRadius: 0, 
-          size: sizes[z] }, '[name]'); 
+          .textSymbolizer({ ...fontDflt, fill: '#000000', haloFill: '#000000',
+          opacity: opacities[z], haloOpacity: 0, haloRadius: 0,
+          size: sizes[z] }, '[name]');
       }
     })
     .style('infopoint_names').doInStyle((style) => {

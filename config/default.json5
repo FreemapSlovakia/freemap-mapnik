@@ -10,6 +10,7 @@
   dirs: {
     tiles: 'tiles',
     expires: 'expires',
+    fonts: 'fonts',
   },
   server: {
     port: 4000,

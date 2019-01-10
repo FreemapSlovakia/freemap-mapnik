@@ -10,15 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chokidar": "2.0.4",
     "config": "3.0.1",
-    "generic-pool": "3.4.2",
     "jsnik": "0.0.3",
-    "koa": "2.6.2",
-    "koa-router": "7.4.0",
-    "koa-send": "5.0.0",
-    "mapnik": "4.2.0",
-    "xmlbuilder": "10.1.1"
+    "freemap-mapserver": "FreemapSlovakia/freemap-mapserver"
   },
   "devDependencies": {
     "eslint": "5.11.1",
