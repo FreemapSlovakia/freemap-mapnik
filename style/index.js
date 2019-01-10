@@ -246,8 +246,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       for (let z = 15; z < 20; z++) {
         style.typesRule(z, z, 'locality')
           .textSymbolizer({ ...fontDflt, fill: '#000000', haloFill: '#000000',
-          opacity: opacities[z], haloOpacity: 0, haloRadius: 0,
-          size: sizes[z] }, '[name]');
+            opacity: opacities[z], haloOpacity: 0, haloRadius: 0,
+            size: sizes[z] }, '[name]');
       }
     })
     .style('infopoint_names').doInStyle((style) => {
@@ -322,7 +322,6 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
               .typesRule(z, z, 'suburb', 'hamlet')
                 .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]');
           }
-
         }
       })
     .doInMap((map) => {

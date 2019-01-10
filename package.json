@@ -2,10 +2,10 @@
   "name": "freemap-mapnik",
   "version": "1.0.0",
   "description": "",
-  "main": "app/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 --experimental-worker app",
-    "watch": "nodemon --ext js,xml,svg --watch app --watch images --exec npm run start"
+    "start": "node --max-old-space-size=4096 --experimental-worker .",
+    "watch": "nodemon --ext js,xml,svg --watch style --watch images --exec npm run start"
   },
   "author": "",
   "license": "ISC",
