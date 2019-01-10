@@ -241,9 +241,9 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
     // texts
     .style('locality_names').doInStyle((style) => {
-      const sizes = { 14: 10, 15: 11, 16: 12, 17: 12, 18: 12, 19: 12 };
-      const opacities = { 14: 0.5, 15: 0.6, 16: 0.65, 17: 0.7, 18: 0.8, 19: 0.9 };
-      for (let z = 14; z < 20; z++) {
+      const sizes = { 15: 11, 16: 12, 17: 12, 18: 12, 19: 12 };
+      const opacities = { 15: 0.6, 16: 0.65, 17: 0.7, 18: 0.8, 19: 0.9 };
+      for (let z = 15; z < 20; z++) {
         style.typesRule(z, z, 'locality')
           .textSymbolizer({ ...fontDflt, fill: '#000000', haloFill: '#000000', 
           opacity: opacities[z], haloOpacity: 0, haloRadius: 0, 
