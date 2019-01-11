@@ -7,12 +7,12 @@
       <cc:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs id="defs850" />
-  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1058" id="namedview848" showgrid="false" inkscape:zoom="30.892857" inkscape:cx="6.3109604" inkscape:cy="7.5245203" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg846" />
-  <path id="path854" d="M 7,0 C 6.75,0.0032 6.5,0.1644239 6.5,0.5 L 6.5,4.375 1,7 13,7 7.5,4.375 7.5,0.5 C 7.5,0.1516409 7.25,-0.0031957 7,0 z M 8,0 8,3 12,3 10,1.5 12,0 z m -7,8 0,1 1,0 0,4 -1,0 0,1 12,0 0,-1 -1,0 0,-4 1,0 0,-1 z m 6,1.5 c 1,0 2,0.5 2,1.5 l 0,2 -4,0 0,-2 C 5,10 6,9.5 7,9.5 z" style="stroke:#ffffff;stroke-opacity:0.50196081;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:round;stroke-linecap:round" />
-  <rect width="14" height="14" x="0" y="0" id="canvas" style="fill:none;stroke:none;visibility:hidden" />
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview848" showgrid="false" inkscape:zoom="30.892857" inkscape:cx="2.3503706" inkscape:cy="6.4112278" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg846" units="mm" inkscape:pagecheckerboard="true" />
+  <path id="outline" d="M 7,0 C 6.75,0.0032 6.5,0.1644239 6.5,0.5 V 4.375 L 1,7 H 13 L 7.5,4.375 V 0.5 C 7.5,0.1516409 7.25,-0.0031957 7,0 Z M 8,0 V 3 H 12 L 10,1.5 L 12,0 Z M 1,8 V 9 H 2 V 13 H 1 V 14 H 13 V 13 H 12 V 9 H 13 V 8 Z M 7,9.5 C 8,9.5 9,10 9,11 V 13 H 5 V 11 C 5,10 6,9.5 7,9.5 Z" style="stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.50196078" inkscape:connector-curvature="0" />
   <path d="M 7,0 C 6.75,0.0032 6.5,0.1644239 6.5,0.5 L 6.5,4.375 1,7 13,7 7.5,4.375 7.5,0.5 C 7.5,0.1516409 7.25,-0.0031957 7,0 z M 8,0 8,3 12,3 10,1.5 12,0 z m -7,8 0,1 1,0 0,4 -1,0 0,1 12,0 0,-1 -1,0 0,-4 1,0 0,-1 z m 6,1.5 c 1,0 2,0.5 2,1.5 l 0,2 -4,0 0,-2 C 5,10 6,9.5 7,9.5 z" id="town-hall" />
 </svg>

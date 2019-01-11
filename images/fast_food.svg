@@ -7,12 +7,12 @@
       <cc:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs id="defs2690" />
-  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1058" id="namedview2688" showgrid="false" inkscape:zoom="16.857143" inkscape:cx="7" inkscape:cy="7" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg2686" />
-  <path id="path3237" d="M 5,3 C 2,3 0.960032,5.000799 1,6 L 1,7 13,7 13,6 C 13,5 12,3 9,3 z M 1,8 C 0,8 0,9 1,9 l 12,0 c 1,0 1,-1 0,-1 z m 0,2.03125 0,0.625 C 1,11.34045 1.81579,12 2.5,12 l 9,0 c 0.68421,0 1.5,-0.65955 1.5,-1.34375 l 0,-0.625 z" style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-opacity:0.50196081;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:round;stroke-linecap:round" />
-  <rect width="14" height="14" x="0" y="0" id="canvas" style="fill:none;stroke:none;visibility:hidden" />
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview2688" showgrid="false" inkscape:zoom="16.857143" inkscape:cx="-3.4703389" inkscape:cy="7.0000001" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg2686" inkscape:pagecheckerboard="true" />
+  <path id="outline" d="M 5,3 C 2,3 0.960032,5.000799 1,6 V 7 H 13 V 6 C 13,5 12,3 9,3 Z M 1,8 C 0,8 0,9 1,9 H 13 C 14,9 14,8 13,8 Z M 1,10.03125 V 10.65625 C 1,11.34045 1.81579,12 2.5,12 H 11.5 C 12.18421,12 13,11.34045 13,10.65625 V 10.03125 Z" style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.50196078" inkscape:connector-curvature="0" />
   <path d="M 5,3 C 2,3 0.960032,5.000799 1,6 L 1,7 13,7 13,6 C 13,5 12,3 9,3 z M 1,8 C 0,8 0,9 1,9 l 12,0 c 1,0 1,-1 0,-1 z m 0,2.03125 0,0.625 C 1,11.34045 1.81579,12 2.5,12 l 9,0 c 0.68421,0 1.5,-0.65955 1.5,-1.34375 l 0,-0.625 z" id="fast-food" />
 </svg>
