@@ -292,11 +292,14 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .doInStyle((style) => {
       const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
       const sizes = { 14: 11, 15: 12, 16: 13, 17: 15, 18: 16, 19: 16 };
+      const spacing = { 14: 3, 15: 4, 16: 5, 17: 5, 18: 5, 19: 5 };
+      
       const vallyeText = { ...fontDflt, placement: 'line', repeatDistance: 400,
-        textTransform: 'uppercase', fill: '#000000', haloOpacity: 0, haloRadius: 0 }
+        fill: '#000000', haloOpacity: 0, haloRadius: 0 }
       for (let z = 14; z < 20; z++) {
         style.typesRule(z, z, 'valley')
-          .textSymbolizer({ ...vallyeText, size: sizes[z], opacity: opacities[z] }, '[name]')
+          .textSymbolizer({ ...vallyeText, size: sizes[z], opacity: opacities[z],
+            characterSpacing: spacing[z] }, '[name]')
       }
     })
     .style('water_line_names')
