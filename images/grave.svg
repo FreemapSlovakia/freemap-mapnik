@@ -15,8 +15,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" style="display:inline" transform="translate(0,-283.7708)">
-    <path style="opacity:0.15;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.63750297;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" d="m 8.62841,288.35691 c -0.480502,0 -0.8673068,0.39335 -0.8673068,0.88194 v 1.32292 h 1.763897 v -1.32292 c 0,-0.48859 -0.3868046,-0.88194 -0.8673068,-0.88194 z" id="rect1638" inkscape:connector-curvature="0" />
-    <rect style="opacity:0.55899999;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:0.22048646;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="rect1663" width="4.1892433" height="3.9687562" x="6.6586733" y="287.47498" ry="8.7215847e-07" />
-  </g>
+  <path style="opacity:0.15;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.63750297;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" d="m 8.62841,288.35691 c -0.480502,0 -0.8673068,0.39335 -0.8673068,0.88194 v 1.32292 h 1.763897 v -1.32292 c 0,-0.48859 -0.3868046,-0.88194 -0.8673068,-0.88194 z" id="rect1638" inkscape:connector-curvature="0" />
+  <rect style="opacity:0.55899999;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:0.22048646;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="rect1663" width="4.1892433" height="3.9687562" x="6.6586733" y="287.47498" ry="8.7215847e-07" />
 </svg>

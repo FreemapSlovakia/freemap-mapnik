@@ -14,6 +14,5 @@
   <defs id="defs12421" />
   <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview12419" showgrid="false" inkscape:zoom="16.857143" inkscape:cx="-3.4703389" inkscape:cy="7.0000001" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg12417" showborder="true" inkscape:pagecheckerboard="true" />
   <path id="outline" d="M 6,2 C 5,2 4,3 4,4 V 12 H 12 V 4 C 12,3 11,2 10,2 Z M 7,4 H 9 V 5 H 7 Z M 5,6 H 11 V 7 H 5 Z M 6,8 H 10 V 9 H 6 Z M 3,13 L 2,14 V 15 H 14 V 14 L 13,13 Z" style="stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.50196078;fill:none" inkscape:connector-curvature="0" />
-  <rect width="14" height="14" x="0" y="0" id="canvas" style="fill:none;stroke:none;visibility:hidden" />
   <path d="M 6,2 C 5,2 4,3 4,4 l 0,8 8,0 0,-8 C 12,3 11,2 10,2 z M 7,4 9,4 9,5 7,5 z m -2,2 6,0 0,1 -6,0 z m 1,2 4,0 0,1 -4,0 z m -3,5 -1,1 0,1 12,0 0,-1 -1,-1 z" id="memorial" />
 </svg>

@@ -15,7 +15,5 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-292.76665)">
-    <path sodipodi:type="star" style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="path4749" sodipodi:sides="3" sodipodi:cx="2.1166668" sodipodi:cy="295.42087" sodipodi:r1="2.1250512" sodipodi:r2="1.0751294" sodipodi:arg1="-1.5707964" sodipodi:arg2="-0.52359888" inkscape:flatsided="true" inkscape:rounded="-3.46945e-18" inkscape:randomized="0" d="m 2.1166666,293.29582 l 1.8403486,3.18757 l -3.6806967,0 z" inkscape:transform-center-y="-0.53756473" />
-  </g>
+  <path sodipodi:type="star" style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="path4749" sodipodi:sides="3" sodipodi:cx="2.1166668" sodipodi:cy="295.42087" sodipodi:r1="2.1250512" sodipodi:r2="1.0751294" sodipodi:arg1="-1.5707964" sodipodi:arg2="-0.52359888" inkscape:flatsided="true" inkscape:rounded="-3.46945e-18" inkscape:randomized="0" d="m 2.1166666,293.29582 l 1.8403486,3.18757 l -3.6806967,0 z" inkscape:transform-center-y="-0.53756473" />
 </svg>

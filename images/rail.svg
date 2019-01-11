@@ -15,8 +15,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-294.35415)">
-    <rect y="295.40289" x="0.76199692" height="0.39687499" width="2.794003" id="rect4778" style="opacity:1;fill:#210e0e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.32028344;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <rect style="opacity:1;fill:#210e0e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.2311445;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="rect9413" width="1.4552083" height="0.39687499" x="294.87274" y="-2.3580205" transform="rotate(90)" />
-  </g>
+  <rect y="295.40289" x="0.76199692" height="0.39687499" width="2.794003" id="rect4778" style="opacity:1;fill:#210e0e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.32028344;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <rect style="opacity:1;fill:#210e0e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.2311445;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="rect9413" width="1.4552083" height="0.39687499" x="294.87274" y="-2.3580205" transform="rotate(90)" />
 </svg>
