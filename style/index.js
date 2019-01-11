@@ -10,6 +10,8 @@ const shadingCfg = config.get('mapFeatures.shading');
 const hikingTrailsCfg = config.get('mapFeatures.hikingTrails');
 const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 
+const poiOpacities = { 12: 0.65, 13: 0.8, 14: 0.9, 15: 0.9, 16: 0.9, 17: 0.9, 18: 0.9, 19: 0.9};
+const poiScales = { 12: 0.8, 13: 0.9, 14: 0.9, 15:1.0, 16: 1.0, 17: 1.0, 18: 1.0, 19: 1.0};
 const { layers } = require('./layers');
 const { routes } = require('./routes');
 
@@ -54,9 +56,10 @@ const extensions = {
     poiIcons(style, pois) {
       for (const [minIcoZoom, , type] of pois) {
         const types = Array.isArray(type) ? type : [type];
-        style
-          .typesRule(minIcoZoom, ...types)
-            .markersSymbolizer({ file: `images/${types[0]}.svg` });
+        for (let z = minIcoZoom; z < 20; z++) {
+          style.typesRule(z, z, ...types)
+            .markersSymbolizer({ file: `images/${types[0]}.svg`, opacity: poiOpacities[z], transform: 'scale('+poiScales[z]+')' });
+        }
       }
       return style; // TODO remove
     },
@@ -223,19 +226,23 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .rasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
     .style('infopoints')
       .poiIcons(infoPois)
-    .style('feature_points')
-      .typesRule(11, 'peak')
-        .markersSymbolizer({ file: 'images/peak.svg', width: 6, height: 6, fill: '#000000' })
-      .typesRule(13, 'tower')
+    .style('feature_points').doInStyle((style) => {
+      for (let z = 12; z < 20; z++) {
+        style.typesRule(z, z, 'peak')
+        .markersSymbolizer({ file: 'images/peak.svg', opacity: poiOpacities[z], 
+        width: 6, height: 6, transform: 'scale('+poiScales[z]+')', fill: '#000000' })
+      }
+      
+      style.typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
       .typesRule(14, 'pole')
         .markersSymbolizer({ file: 'images/power_pole.svg' })
       .typesRule(15, 'attraction')
         .markersSymbolizer({ file: 'images/attraction.svg' })
-      .poiIcons(pois)
-
       .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
+      .poiIcons(pois)
+    })
       // .rule({ minZoom: 16 }) // rest texts
       //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
