@@ -262,7 +262,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       for (let z = 13; z < 20; z++) {
         const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10,  },
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10 },
             nameWithSmallerEle(size-2))
       }
     })
