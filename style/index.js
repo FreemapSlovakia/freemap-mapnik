@@ -242,9 +242,6 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('infopoints')
       .poiIcons(infoPois)
     .style('feature_points')
-    //   .typesRule(11, 'peak')
-    //     .markersSymbolizer({ file: 'images/peak.svg',
-    //       width: 6, height: 6, fill: 'black' })
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
       .typesRule(14, 'pole')
