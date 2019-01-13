@@ -132,7 +132,7 @@ const infoPois = [
 ];
 
 const nameWithEle = "[name] + '\n' + [ele]";
-const nameWithSmallerEle = (eleSize) => '[name] + "\n"<<Format size="'+(eleSize)+'">>[ele]<</Format>>'
+const nameWithSmallerEle = (eleSize) => '[name] + "\n"<<Format size="'+(eleSize)+'">>[ele]<</Format>>';
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
   return createMap({
@@ -230,10 +230,10 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('feature_points').doInStyle((style) => {
       for (let z = 12; z < 20; z++) {
         style.typesRule(z, z, 'peak')
-        .markersSymbolizer({ file: 'images/peak.svg', opacity: poiOpacities[z], 
-        width: 6, height: 6, transform: 'scale('+poiScales[z]+')', fill: '#000000' })
+        .markersSymbolizer({ file: 'images/peak.svg', opacity: poiOpacities[z],
+        width: 6, height: 6, transform: 'scale('+poiScales[z]+')', fill: '#000000' });
       }
-      
+
       style.typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
       .typesRule(14, 'pole')
@@ -242,7 +242,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .markersSymbolizer({ file: 'images/attraction.svg' })
       .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
-      .poiIcons(pois)
+      .poiIcons(pois);
     })
       // .rule({ minZoom: 16 }) // rest texts
       //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
@@ -263,7 +263,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'guidepost')
           .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10 },
-            nameWithSmallerEle(size-2))
+            nameWithSmallerEle(size - 2));
       }
     })
     .style('feature_point_names').doInStyle((style) => {
@@ -302,13 +302,13 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
       const sizes = { 14: 11, 15: 12, 16: 13, 17: 15, 18: 16, 19: 16 };
       const spacing = { 14: 3, 15: 4, 16: 5, 17: 5, 18: 5, 19: 5 };
-      
+
       const vallyeText = { ...fontDflt, placement: 'line', repeatDistance: 400,
-        fill: '#000000', haloOpacity: 0, haloRadius: 0 }
+        fill: '#000000', haloOpacity: 0, haloRadius: 0 };
       for (let z = 14; z < 20; z++) {
         style.typesRule(z, z, 'valley')
           .textSymbolizer({ ...vallyeText, size: sizes[z], opacity: opacities[z],
-            characterSpacing: spacing[z] }, '[name]')
+            characterSpacing: spacing[z] }, '[name]');
       }
     })
     .style('water_line_names')
@@ -376,8 +376,8 @@ function types(...type) {
 }
 
 const mapnikConfig = generateFreemapStyle()
-  .replace(/&lt;&lt;/g, "<")
-  .replace(/&gt;&gt;/g, ">");
+  .replace(/&lt;&lt;/g, '<')
+  .replace(/&gt;&gt;/g, '>');
 
 if (config.get('dumpXml')) {
   console.log('Mapnik config:', mapnikConfig);
