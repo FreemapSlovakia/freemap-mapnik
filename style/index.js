@@ -292,8 +292,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
         for (let z = 14; z < 20; z++) {
           style.typesRule(z, z, 'valley')
-            .textSymbolizer({ ...valleyFont, size: 11 + (z - 14) * 2, opacity: opacities[z],
-              characterSpacing: 3 + z - 14 }, '[name]');
+            .textSymbolizer({ ...valleyFont, size: 10 + Math.pow(3, z - 14), opacity: opacities[z],
+              characterSpacing: 3 + Math.pow(3, z - 14) }, '[name]');
         }
       })
     .style('water_line_names')
@@ -309,7 +309,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         for (let z = 6; z < 20; z++) {
           const opacity = opacities[z] || 0.0;
           const sc = Math.pow(1.3, z);
-          const placenamesFontStyle = { ...wrapFont, fill: 'black', haloFill: 'white',
+          const placenamesFontStyle = { ...dfltFont, fill: 'black', haloFill: 'white', // TODO wrap it respecting its size
             opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
