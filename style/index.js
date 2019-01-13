@@ -285,11 +285,12 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .textSymbolizer({ ...dfltFont, fill: hsl(0, 36, 18), placement: 'line', spacing: 200 }, '[name]')
     .style('feature_line_names')
       .doInStyle((style) => {
-        const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
+        // TODO i've disabled opacity - we should re-enable it to see things behind text; then also prevent label cache for it
+        // const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
 
         for (let z = 14; z < 20; z++) {
           style.typesRule(z, z, 'valley')
-            .textSymbolizer({ ...valleyFont, size: 10 + Math.pow(3, z - 14), opacity: opacities[z],
+            .textSymbolizer({ ...valleyFont, size: 10 + Math.pow(3, z - 14), fill: hsl(0, 0, 40), // opacity: opacities[z],
               characterSpacing: 3 + Math.pow(3, z - 14) }, '[name]');
         }
       })
