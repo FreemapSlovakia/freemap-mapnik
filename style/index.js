@@ -272,7 +272,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'peak')
           .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe', size, dy: -8 },
-            nameWithSmallerEle(size-2));
+            nameWithSmallerEle(size - 2));
       }
       for (let z = 14; z < 20; z++) {
         const size = (fontSizes[z] || fontSizes[16]) - 2;
@@ -298,19 +298,19 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...fontDflt, fill: '#3d1d1d', placement: 'line', spacing: 200 }, '[name]')
     .style('feature_line_names')
-    .doInStyle((style) => {
-      const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
-      const sizes = { 14: 11, 15: 12, 16: 13, 17: 15, 18: 16, 19: 16 };
-      const spacing = { 14: 3, 15: 4, 16: 5, 17: 5, 18: 5, 19: 5 };
+      .doInStyle((style) => {
+        const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
+        const sizes = { 14: 11, 15: 12, 16: 13, 17: 15, 18: 16, 19: 16 };
+        const spacing = { 14: 3, 15: 4, 16: 5, 17: 5, 18: 5, 19: 5 };
 
-      const vallyeText = { ...fontDflt, placement: 'line', repeatDistance: 400,
-        fill: '#000000', haloOpacity: 0, haloRadius: 0 };
-      for (let z = 14; z < 20; z++) {
-        style.typesRule(z, z, 'valley')
-          .textSymbolizer({ ...vallyeText, size: sizes[z], opacity: opacities[z],
-            characterSpacing: spacing[z] }, '[name]');
-      }
-    })
+        const vallyeText = { ...fontDflt, placement: 'line', repeatDistance: 400,
+          fill: '#000000', haloOpacity: 0, haloRadius: 0 };
+        for (let z = 14; z < 20; z++) {
+          style.typesRule(z, z, 'valley')
+            .textSymbolizer({ ...vallyeText, size: sizes[z], opacity: opacities[z],
+              characterSpacing: spacing[z] }, '[name]');
+        }
+      })
     .style('water_line_names')
       .typesRule(12, 'river')
         .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo, placement: 'line', spacing: 400 }, '[name]')
