@@ -33,10 +33,13 @@ const colors = {
 
 const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
 const highwayDflt = { stroke: colors.track };
-const fontDflt = { faceName: 'PT Sans Regular', haloFill: 'white', haloRadius: 1 };
-const fontDfltWrap = { ...fontDflt, wrapWidth: 100, wrapBefore: true };
-const natureRelatedFontWrap = { ...fontDfltWrap, fill: '#000000',
-  haloRadius: 1.5, haloOpacity: 0.7, faceName: 'PT Sans Italic' };
+
+// fonts
+const dfltFont = { faceName: 'PT Sans Regular', fill: '#000000', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, size: 12 };
+const wrapFont = { ...dfltFont, wrapWidth: 100, wrapBefore: true };
+const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: '#004000' };
+const waterFont = { ...natureRelatedFont, fill: '#0064ff', haloFill: colors.waterLabelHalo };
+const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: '#000000', haloRadius: 0 };
 
 const extensions = {
   style: {
@@ -52,7 +55,7 @@ const extensions = {
       return style.rule({ filter: types(...q), minZoom, maxZoom });
     },
     poiIcons(style, pois) {
-      for (const [minIcoZoom, , type] of pois) {
+      for (const [minIcoZoom, , , , type] of pois) {
         const types = Array.isArray(type) ? type : [type];
         for (let z = minIcoZoom; z < 20; z++) {
           style.typesRule(z, z, ...types)
@@ -62,12 +65,12 @@ const extensions = {
       return style; // TODO remove
     },
     poiNames(style, pois) {
-      const poiFontWrap = { ...fontDfltWrap, faceName: 'PT Sans Narrow Bold', spacing: 0.8 };
-      for (const [, minTextZoom, type, withEle] of pois) {
+      for (const [, minTextZoom, withEle, natural, type, fontOverrides = {}] of pois) {
         const types = Array.isArray(type) ? type : [type];
         style
           .typesRule(minTextZoom, ...types)
-            .textSymbolizer({ ...poiFontWrap, dy: -10 }, withEle ? nameWithEle : '[name]');
+            .textSymbolizer({ ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...fontOverrides },
+              withEle ? nameWithSmallerEle(10) : '[name]');
       }
       return style; // TODO remove
     },
@@ -85,51 +88,52 @@ const extensions = {
   }
 };
 
+// minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  [13, 14, 'spring', true],
-  [13, 14, 'cave_entrance', true],
-  [13, 14, 'monument', true],
-  [13, 14, 'viewpoint', true],
-  [13, 14, ['mine', 'adit', 'mineshaft'], true],
-  [14, 14, 'hotel', true],
-  [14, 14, 'chalet', true],
-  [14, 14, 'hostel', true],
-  [14, 14, 'motel', true],
-  [14, 14, 'guest_house', true],
-  [14, 14, 'alpine_hut', true],
-  [14, 15, 'hospital'],
-  [14, 15, 'townhall'],
-  [14, 15, ['hut', 'cabin'], true], // fallback
-  [14, 15, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
-  [15, 15, 'hunting_stand'],
-  [15, 16, 'museum'],
-  [15, 16, 'shelter', true],
-  [15, 16, ['rock', 'stone']],
-  [15, 16, 'pharmacy'],
-  [15, 16, 'cinema'],
-  [15, 16, 'theatre'],
-  [15, 16, 'memorial'],
-  [15, 16, 'artwork'],
-  [15, 16, 'pub'],
-  [15, 16, 'cafe'],
-  [15, 16, 'restaurant'],
-  [15, 16, 'convenience'],
-  [15, 16, 'supermarket'],
-  [15, 16, 'fast_food'],
-  [15, 16, 'confectionery'],
-  [16, 17, 'wayside_shrine'],
-  [16, 17, 'fountain'],
-  [16, 17, ['cross', 'wayside_cross']],
+  [12, 12, true , true , 'peak'],
+  [13, 14, true , true , 'spring', { fill: colors.water }],
+  [13, 14, true , true , 'cave_entrance'],
+  [13, 14, true , false, 'monument'],
+  [13, 14, true , true , 'viewpoint'],
+  [13, 14, true , false, ['mine', 'adit', 'mineshaft']],
+  [14, 14, true , false, 'hotel'],
+  [14, 14, true , false, 'chalet'],
+  [14, 14, true , false, 'hostel'],
+  [14, 14, true , false, 'motel'],
+  [14, 14, true , false, 'guest_house'],
+  [14, 14, true , false, 'alpine_hut'],
+  [14, 15, false, false, 'hospital'],
+  [14, 15, false, false, 'townhall'],
+  [14, 15, false, true , ['hut', 'cabin']], //  fallback
+  [14, 15, false, false, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
+  [15, 15, false, false, 'hunting_stand'],
+  [15, 16, false, false, 'museum'],
+  [15, 16, true , false, 'shelter'],
+  [15, 16, false, true , ['rock', 'stone']],
+  [15, 16, false, false, 'pharmacy'],
+  [15, 16, false, false, 'cinema'],
+  [15, 16, false, false, 'theatre'],
+  [15, 16, false, false, 'memorial'],
+  [15, 16, false, false, 'artwork'],
+  [15, 16, false, false, 'pub'],
+  [15, 16, false, false, 'cafe'],
+  [15, 16, false, false, 'restaurant'],
+  [15, 16, false, false, 'convenience'],
+  [15, 16, false, false, 'supermarket'],
+  [15, 16, false, false, 'fast_food'],
+  [15, 16, false, false, 'confectionery'],
+  [16, 17, false, false, 'wayside_shrine'],
+  [16, 17, false, false, 'fountain'],
+  [16, 17, false, false, ['cross', 'wayside_cross']],
 ];
 
 const infoPois = [
-  [12, 13, 'guidepost', true], // TODO show some dot on 11, 10
-  [15, 16, 'office'],
-  [16, 16, 'board'],
-  [16, 16, 'map'],
+  [12, 13, true, false, 'guidepost'], // TODO show some dot on 11, 10
+  [15, 16, false, false, 'office'],
+  [16, 16, false, false, 'board'],
+  [16, 16, false, false, 'map'],
 ];
 
-const nameWithEle = "[name] + '\n' + [ele]";
 const nameWithSmallerEle = (eleSize) => '[name] + "\n"<<Format size="'+(eleSize)+'">>[ele]<</Format>>';
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
@@ -226,90 +230,69 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('infopoints')
       .poiIcons(infoPois)
     .style('feature_points')
-    .typesRule(11, 'peak')
-      .markersSymbolizer({ file: 'images/peak.svg',
-        width: 6, height: 6, fill: '#000000' })
-    .typesRule(13, 'tower')
-      .markersSymbolizer({ file: 'images/power_tower.svg' })
-    .typesRule(14, 'pole')
-      .markersSymbolizer({ file: 'images/power_pole.svg' })
-    .typesRule(15, 'attraction')
-      .markersSymbolizer({ file: 'images/attraction.svg' })
-    .typesRule(16, 'picnic_site', 'picnic_table')
-      .markersSymbolizer({ file: 'images/picnic.svg' })
-    .poiIcons(pois)
-      // .rule({ minZoom: 16 }) // rest texts
-      //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
+    //   .typesRule(11, 'peak')
+    //     .markersSymbolizer({ file: 'images/peak.svg',
+    //       width: 6, height: 6, fill: '#000000' })
+      .typesRule(13, 'tower')
+        .markersSymbolizer({ file: 'images/power_tower.svg' })
+      .typesRule(14, 'pole')
+        .markersSymbolizer({ file: 'images/power_pole.svg' })
+      .typesRule(15, 'attraction')
+        .markersSymbolizer({ file: 'images/attraction.svg' })
+      .typesRule(16, 'picnic_site', 'picnic_table')
+        .markersSymbolizer({ file: 'images/picnic.svg' })
+      .poiIcons(pois)
+        // .rule({ minZoom: 16 }) // rest texts
+        //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
     // texts
     .style('locality_names').doInStyle((style) => {
       const sizes = { 15: 11, 16: 12, 17: 12, 18: 12, 19: 12 };
       for (let z = 15; z < 20; z++) {
         style.typesRule(z, z, 'locality')
-          .textSymbolizer({ ...fontDflt, fill: 'hsl(0, 0%, 40%)',
-            opacity: 0.95, haloOpacity: 0, haloRadius: 0,
-            size: sizes[z] }, '[name]');
+          .textSymbolizer({ ...dfltFont, fill: 'hsl(0, 0%, 40%)',
+            opacity: 0.95, haloOpacity: 0, haloRadius: 0, size: sizes[z] }, '[name]');
       }
     })
     .style('infopoint_names').doInStyle((style) => {
-      const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
+      // i probably agree with different font sizes per zoom but i'd like to try to solve it somewhat globally later
+      // const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
       for (let z = 13; z < 20; z++) {
-        const size = fontSizes[z] || fontSizes[16];
+        // const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10 },
-            nameWithSmallerEle(size - 2));
+          .textSymbolizer({ ...wrapFont, faceName: 'PT Sans Bold', dy: -10 },
+            nameWithSmallerEle(10));
       }
     })
-    .style('feature_point_names').doInStyle((style) => {
-      const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
-      for (let z = 12; z < 20; z++) {
-        const size = fontSizes[z] || fontSizes[16];
-        style.typesRule(z, z, 'peak')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe', size, dy: -8 },
-            nameWithSmallerEle(size - 2));
-      }
-      for (let z = 14; z < 20; z++) {
-        const size = (fontSizes[z] || fontSizes[16]) - 2;
-        style.typesRule(z, z, 'spring')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo, size, dy: -10 }, '[name]');
-      }
-
-      style.typesRule(15, 'attraction')
-        .textSymbolizer({ ...fontDfltWrap, dy: -8 }, '[name]');
-
-      style.poiNames(pois);
-    })
+    .style('feature_point_names')
+      .poiNames(pois)
     .style('protected_area_names')
       .rule({ minZoom: 12 })
-        .textSymbolizer({ ...natureRelatedFontWrap, fill: '#042c01', haloFill: '#ffffff', haloRadius: 0.8, haloOpacity: 0.7, placement: 'interior' }, '[name]')
+        .textSymbolizer({ ...natureRelatedFont, fill: '#008000', haloFill: '#ffffff', haloRadius: 1.5, haloOpacity: 0.5, placement: 'interior' }, '[name]')
     .style('water_area_names')
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
-        .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo, placement: 'interior' }, '[name]')
-    .style('building_names')
+        .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
+    // .style('building_names')
       // .rule({ minZoom: 15 }) // rest names
       //   .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
     .style('highway_names')
       .rule({ minZoom: 15 })
-        .textSymbolizer({ ...fontDflt, fill: '#3d1d1d', placement: 'line', spacing: 200 }, '[name]')
+        .textSymbolizer({ ...dfltFont, fill: '#3d1d1d', placement: 'line', spacing: 200 }, '[name]')
     .style('feature_line_names')
       .doInStyle((style) => {
         const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
-        const sizes = { 14: 11, 15: 12, 16: 13, 17: 15, 18: 16, 19: 16 };
-        const spacing = { 14: 3, 15: 4, 16: 5, 17: 5, 18: 5, 19: 5 };
 
-        const vallyeText = { ...fontDflt, placement: 'line', repeatDistance: 400,
-          fill: '#000000', haloOpacity: 0, haloRadius: 0 };
         for (let z = 14; z < 20; z++) {
           style.typesRule(z, z, 'valley')
-            .textSymbolizer({ ...vallyeText, size: sizes[z], opacity: opacities[z],
-              characterSpacing: spacing[z] }, '[name]');
+            .textSymbolizer({ ...valleyFont, size: 11 + (z - 14) * 2, opacity: opacities[z],
+              characterSpacing: 3 + z - 14 }, '[name]');
         }
       })
     .style('water_line_names')
       .typesRule(12, 'river')
-        .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo, placement: 'line', spacing: 400 }, '[name]')
+        .textSymbolizer({ ...waterFont, placement: 'line', spacing: 400 }, '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer({ ...natureRelatedFontWrap, haloFill: colors.waterLabelHalo, placement: 'line', spacing: 400 }, '[name]')
+        .textSymbolizer({ ...waterFont, placement: 'line', spacing: 400 }, '[name]')
 
     .style('placenames')
       .doInStyle((style) => {
@@ -318,7 +301,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         for (let z = 6; z < 20; z++) {
           const opacity = opacities[z] || 0.0;
           const sc = Math.pow(1.3, z);
-          const placenamesFontStyle = { ...fontDflt, fill: '#000000', haloFill: '#ffffff',
+          const placenamesFontStyle = { ...wrapFont, fill: '#000000', haloFill: '#ffffff',
             opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
@@ -350,7 +333,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('contours', { opacity: 0.33 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3 })
-        .textSymbolizer({ ...fontDflt, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
+        .textSymbolizer({ ...dfltFont, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
       .rule({ minZoom: 14, filter: '([height] % 10 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ maxZoom: 13, minZoom: 13, filter: '([height] % 20 = 0) and ([height] != 0)' })
@@ -358,7 +341,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ maxZoom: 12, minZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
-        .textSymbolizer({ ...fontDflt, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
+        .textSymbolizer({ ...dfltFont, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
 
     .doInMap(layers(shading, contours))
 

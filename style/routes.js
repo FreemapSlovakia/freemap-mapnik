@@ -38,11 +38,11 @@ function routes(type) {
             .rule({ filter, minZoom: a === 0 ? 12 : 9, maxZoom: a === 0 ? undefined : 11 })
               .lineSymbolizer({
                 stroke: isHiking ? colors[colorIdx].slice(1) : colors[colorIdx],
-                strokeWidth: isHiking ? 2 : 3,
+                strokeWidth: isHiking ? 2 : 4,
                 strokeLinejoin: 'round',
                 strokeLinecap: isHiking ? 'butt' : 'round',
-                offset: ((a === 0 ? 3 : 1) + ones * (isHiking ? 2 : 3)) * (isHiking ? 1 : -1),
-                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '0.01,5' }),
+                offset: ((a === 0 ? 3 : 1) + ones * (isHiking ? 2 : 4)) * (isHiking ? 1 : -1) + (isHiking ? 0 : -1),
+                ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '0.001,6' }),
               });
         }
       });

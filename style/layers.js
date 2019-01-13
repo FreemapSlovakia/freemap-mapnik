@@ -72,8 +72,8 @@ function layers(shading, contours) {
       'select name, geometry, type from osm_waterareas')
     .sqlLayer('feature_line_names',
       'select geometry, name, type from osm_feature_lines')
-    .sqlLayer('building_names',
-      'select name, type, geometry from osm_buildings')
+    // .sqlLayer('building_names',
+    //   'select name, type, geometry from osm_buildings')
     .sqlLayer('protected_area_names',
       'select name, geometry from osm_protected_areas')
     .sqlLayer('locality_names',
