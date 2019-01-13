@@ -132,6 +132,7 @@ const infoPois = [
 ];
 
 const nameWithEle = "[name] + '\n' + [ele]";
+const nameWithSmallerEle = (eleSize) => '[name] + "\n"<<Format size="'+(eleSize)+'">>[ele]<</Format>>'
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
   return createMap({
@@ -261,7 +262,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       for (let z = 13; z < 20; z++) {
         const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10 }, nameWithEle);
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#dddddd', size, dy: -10 },
+            nameWithSmallerEle(size-2))
       }
     })
     .style('feature_point_names').doInStyle((style) => {
@@ -269,7 +271,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       for (let z = 12; z < 20; z++) {
         const size = fontSizes[z] || fontSizes[16];
         style.typesRule(z, z, 'peak')
-          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe', size, dy: -8 }, nameWithEle);
+          .textSymbolizer({ ...natureRelatedFontWrap, haloFill: '#c3ffbe', size, dy: -8 },
+            nameWithSmallerEle(size-2));
       }
       for (let z = 14; z < 20; z++) {
         const size = (fontSizes[z] || fontSizes[16]) - 2;
@@ -372,7 +375,9 @@ function types(...type) {
   return type.map((x) => `[type] = '${x}'`).join(' or ');
 }
 
-const mapnikConfig = generateFreemapStyle();
+const mapnikConfig = generateFreemapStyle()
+  .replace(/&lt;&lt;/g, "<")
+  .replace(/&gt;&gt;/g, ">");
 
 if (config.get('dumpXml')) {
   console.log('Mapnik config:', mapnikConfig);
