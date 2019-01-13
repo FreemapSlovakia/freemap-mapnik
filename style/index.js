@@ -46,6 +46,11 @@ const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'blac
 const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
 const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: 'black', haloRadius: 0 };
 
+function addNameWithEle(textSymbolizerEle, eleSize) {
+  textSymbolizerEle.text('[name] + "\n"');
+  textSymbolizerEle.ele('Format', { size: eleSize }, '[ele]');
+}
+
 const extensions = {
   style: {
     typesRule(style, ...t) {
@@ -73,10 +78,13 @@ const extensions = {
       for (const [, minTextZoom, withEle, natural, type, fontOverrides = {}] of pois) {
         const types = Array.isArray(type) ? type : [type];
         const font = { ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...fontOverrides };
-        style
+        const { textSymbolizerEle } = style
           .typesRule(minTextZoom, ...types)
             .textSymbolizer(font,
-              withEle ? nameWithSmallerEle(font.size - 2) : '[name]');
+              withEle ? undefined : '[name]');
+        if (withEle) {
+          addNameWithEle(textSymbolizerEle, font.size - 2);
+        }
       }
       return style; // TODO remove
     },
@@ -139,8 +147,6 @@ const infoPois = [
   [16, 16, false, false, 'board'],
   [16, 16, false, false, 'map'],
 ];
-
-const nameWithSmallerEle = (eleSize) => '[name] + "\n"<<Format size="'+(eleSize)+'">>[ele]<</Format>>';
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
   return createMap({
@@ -260,9 +266,10 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       // const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
       for (let z = 13; z < 20; z++) {
         // const size = fontSizes[z] || fontSizes[16];
-        style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...wrapFont, faceName: 'PT Sans Bold', dy: -10 },
-            nameWithSmallerEle(10));
+        const { textSymbolizerEle } = style.typesRule(z, z, 'guidepost')
+          .textSymbolizer({ ...wrapFont, faceName: 'PT Sans Bold', dy: -10 });
+
+        addNameWithEle(textSymbolizerEle, 10);
       }
     })
     .style('feature_point_names')
@@ -353,9 +360,7 @@ function types(...type) {
   return type.map((x) => `[type] = '${x}'`).join(' or ');
 }
 
-const mapnikConfig = generateFreemapStyle()
-  .replace(/&lt;&lt;/g, '<')
-  .replace(/&gt;&gt;/g, '>');
+const mapnikConfig = generateFreemapStyle();
 
 if (config.get('dumpXml')) {
   console.log('Mapnik config:', mapnikConfig);
