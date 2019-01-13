@@ -259,7 +259,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
     // texts
     .style('locality_names')
-      .typesRule(15, 15, 'locality')
+      .typesRule(15, 'locality')
           .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), haloRadius: 0, size: 11 }, '[name]')
     .style('infopoint_names').doInStyle((style) => {
       // i probably agree with different font sizes per zoom but i'd like to try to solve it somewhat globally later
