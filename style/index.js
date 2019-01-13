@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 
 const config = require('config');
+const convert = require('color-convert');
 const { createMap } = require('jsnik');
 const { mercSrs } = require('freemap-mapserver/lib/projections'); // TODO ugly
 
@@ -13,33 +14,37 @@ const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 const { layers } = require('./layers');
 const { routes } = require('./routes');
 
+function hsl(h, s, l) {
+  return `#${convert.hsl.hex(h, s, l)}`;
+}
+
 const colors = {
-  contour: '#000000',
-  water: 'hsl(220, 65%, 75%)',
-  waterLabelHalo: 'hsl(220, 30%, 100%)',
-  building: 'hsl(0, 0%, 50%)',
-  track: '#804040',
-  forest: 'hsl(120, 45%, 75%)',
-  heath: 'hsl(85, 60%, 80%)',
-  farmyard: 'hsl(50, 44%, 80%)',
-  farmland: 'hsl(60, 70%, 95%)',
-  wetland: 'hsl(200, 80%, 90%)',
-  scrub: 'hsl(140, 40%, 70%)',
-  grassy: 'hsl(100, 85%, 85%)',
-  orchard: 'hsl(95, 20%, 100%)',
-  allotments: 'hsl(50, 45%, 85%)',
-  landfill: 'hsl(0, 30%, 60%)',
+  contour: 'black',
+  water: hsl(220, 65, 75),
+  waterLabelHalo: hsl(220, 30, 100),
+  building: hsl(0, 0, 50),
+  track: hsl(0, 33, 38),
+  forest: hsl(120, 45, 75),
+  heath: hsl(85, 60, 80),
+  farmyard: hsl(50, 44, 80),
+  farmland: hsl(60, 70, 95),
+  wetland: hsl(200, 80, 90),
+  scrub: hsl(140, 40, 70),
+  grassy: hsl(100, 85, 85),
+  orchard: hsl(95, 20, 100),
+  allotments: hsl(50, 45, 85),
+  landfill: hsl(0, 30, 60),
 };
 
-const glowDflt = { stroke: '#ffffff', strokeOpacity: 0.5 };
+const glowDflt = { stroke: 'white', strokeOpacity: 0.5 };
 const highwayDflt = { stroke: colors.track };
 
 // fonts
-const dfltFont = { faceName: 'PT Sans Regular', fill: '#000000', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, size: 12 };
+const dfltFont = { faceName: 'PT Sans Regular', fill: 'black', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, size: 12 };
 const wrapFont = { ...dfltFont, wrapWidth: 100, wrapBefore: true };
-const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: '#004000' };
-const waterFont = { ...natureRelatedFont, fill: '#0064ff', haloFill: colors.waterLabelHalo };
-const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: '#000000', haloRadius: 0 };
+const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'black' };
+const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
+const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: 'black', haloRadius: 0 };
 
 const extensions = {
   style: {
@@ -67,10 +72,11 @@ const extensions = {
     poiNames(style, pois) {
       for (const [, minTextZoom, withEle, natural, type, fontOverrides = {}] of pois) {
         const types = Array.isArray(type) ? type : [type];
+        const font = { ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...fontOverrides };
         style
           .typesRule(minTextZoom, ...types)
-            .textSymbolizer({ ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...fontOverrides },
-              withEle ? nameWithSmallerEle(10) : '[name]');
+            .textSymbolizer(font,
+              withEle ? nameWithSmallerEle(font.size - 2) : '[name]');
       }
       return style; // TODO remove
     },
@@ -90,8 +96,8 @@ const extensions = {
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  [12, 12, true , true , 'peak'],
-  [13, 14, true , true , 'spring', { fill: colors.water }],
+  [12, 12, true , true , 'peak', { size: 13, dy: -8 }],
+  [13, 14, true , true , 'spring', { fill: hsl(216, 100, 50) }],
   [13, 14, true , true , 'cave_entrance'],
   [13, 14, true , false, 'monument'],
   [13, 14, true , true , 'viewpoint'],
@@ -152,22 +158,22 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .area(colors.heath, 'heath')
       .area(colors.scrub, 'scrub')
       .typesRule('quarry')
-        .borderedPolygonSymbolizer('#9E9E9E')
+        .borderedPolygonSymbolizer(hsl(0, 0, 62))
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
       .area(colors.landfill, 'landfill')
-      .area('#e0e0e0', 'residential', 'living_street')
+      .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
       .area(colors.allotments, 'allotments')
-      .area('#d0d0d0', 'industrial')
-      // .area('hsl(320, 32%, 90%)', 'commercial')
-      .area('#e69ccd', 'commercial')
+      .area(hsl(0, 0, 80), 'industrial')
+      // .area(hsl(320, 32, 90), 'commercial')
+      .area(hsl(320, 60, 76), 'commercial')
       .area(colors.orchard, 'orchard')
       .area(colors.wetland, 'wetland')
       .typesRule('pitch', 'playground')
-        .borderedPolygonSymbolizer('hsl(140, 50%, 70%)')
-        .lineSymbolizer({ stroke: 'hsl(140, 50%, 40%)', strokeWidth: 1 })
+        .borderedPolygonSymbolizer(hsl(140, 50, 70))
+        .lineSymbolizer({ stroke: hsl(140, 50, 40), strokeWidth: 1 })
       .typesRule('parking')
-        .borderedPolygonSymbolizer('hsl(0, 25%, 80%)')
+        .borderedPolygonSymbolizer(hsl(0, 25, 80))
         .lineSymbolizer({ stroke: colors.track, strokeWidth: 1 })
     .style('water_area')
       .rule()
@@ -179,7 +185,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2 })
     .style('barrierways')
       .rule({ minZoom: 16 })
-        .lineSymbolizer({ stroke: '#ff0000', strokeWidth: 1, strokeDasharray: '2,1' })
+        .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
     .style('highways')
       .rule({ filter: "[class] = 'railway'" })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
@@ -215,15 +221,15 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
     .style('borders')
       .rule()
-      .lineSymbolizer({ stroke: '#a000ff', strokeWidth: 6, strokeOpacity: 0.5 })
+      .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6, strokeOpacity: 0.5 })
     .style('feature_lines')
       .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
-        .lineSymbolizer({ stroke: '#404040', strokeWidth: 1 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1 })
       .typesRule(13, 'line')
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1, strokeOpacity: 0.5 })
       .typesRule(14, 'minor_line')
-        .lineSymbolizer({ stroke: '#808080', strokeWidth: 1, strokeOpacity: 0.5 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 1, strokeOpacity: 0.5 })
     .style('hillshade')
       .rule()
         .rasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
@@ -232,7 +238,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('feature_points')
     //   .typesRule(11, 'peak')
     //     .markersSymbolizer({ file: 'images/peak.svg',
-    //       width: 6, height: 6, fill: '#000000' })
+    //       width: 6, height: 6, fill: 'black' })
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
       .typesRule(14, 'pole')
@@ -246,14 +252,9 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 
     // texts
-    .style('locality_names').doInStyle((style) => {
-      const sizes = { 15: 11, 16: 12, 17: 12, 18: 12, 19: 12 };
-      for (let z = 15; z < 20; z++) {
-        style.typesRule(z, z, 'locality')
-          .textSymbolizer({ ...dfltFont, fill: 'hsl(0, 0%, 40%)',
-            opacity: 0.95, haloOpacity: 0, haloRadius: 0, size: sizes[z] }, '[name]');
-      }
-    })
+    .style('locality_names')
+      .typesRule(15, 15, 'locality')
+          .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), haloRadius: 0, size: 11 }, '[name]')
     .style('infopoint_names').doInStyle((style) => {
       // i probably agree with different font sizes per zoom but i'd like to try to solve it somewhat globally later
       // const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
@@ -268,7 +269,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .poiNames(pois)
     .style('protected_area_names')
       .rule({ minZoom: 12 })
-        .textSymbolizer({ ...natureRelatedFont, fill: '#008000', haloFill: '#ffffff', haloRadius: 1.5, haloOpacity: 0.5, placement: 'interior' }, '[name]')
+        .textSymbolizer({ ...natureRelatedFont, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, placement: 'interior' }, '[name]')
     .style('water_area_names')
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
         .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
@@ -277,7 +278,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       //   .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
     .style('highway_names')
       .rule({ minZoom: 15 })
-        .textSymbolizer({ ...dfltFont, fill: '#3d1d1d', placement: 'line', spacing: 200 }, '[name]')
+        .textSymbolizer({ ...dfltFont, fill: hsl(0, 36, 18), placement: 'line', spacing: 200 }, '[name]')
     .style('feature_line_names')
       .doInStyle((style) => {
         const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
@@ -296,12 +297,12 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
     .style('placenames')
       .doInStyle((style) => {
-        const opacities = { 6: 0.9, 7: 0.9, 8: 0.9, 9: 0.9, 10: 0.9,
-          11: 0.9, 12: 0.9, 13: 0.9, 14: 0.85, 15: 0.7, 16: 0.5 };
+        const opacities = { 6: 1, 7: 1, 8: 1, 9: 1, 10: 1,
+          11: 1, 12: 1, 13: 1, 14: 1, 15: 0.5, 16: 0.5 };
         for (let z = 6; z < 20; z++) {
           const opacity = opacities[z] || 0.0;
           const sc = Math.pow(1.3, z);
-          const placenamesFontStyle = { ...wrapFont, fill: '#000000', haloFill: '#ffffff',
+          const placenamesFontStyle = { ...wrapFont, fill: 'black', haloFill: 'white',
             opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style

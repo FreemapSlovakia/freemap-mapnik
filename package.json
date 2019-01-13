@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "color-convert": "1.9.3",
     "config": "3.0.1",
-    "jsnik": "0.0.3",
-    "freemap-mapserver": "FreemapSlovakia/freemap-mapserver"
+    "freemap-mapserver": "FreemapSlovakia/freemap-mapserver",
+    "jsnik": "0.0.3"
   },
   "devDependencies": {
     "eslint": "5.11.1",
