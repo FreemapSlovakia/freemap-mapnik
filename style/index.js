@@ -108,7 +108,7 @@ const extensions = {
 const pois = [
   [11, 20, true, false, 'guidepost', { icon: 'guidepost_small', maxZoom: 12 }],
   [13, 13, true, false, 'guidepost', { font: { faceName: 'PT Sans Bold' } }],
-  // [12, 20, true , true , 'peak', { icon: 'peak_small', maxZoom: 12 }], // TODO show only prominent peaks and include label
+  [12, 20, true , true , 'peak', { icon: 'peak_small', maxZoom: 12 }], // TODO show only prominent peaks and include label
   [13, 13, true , true , 'peak', { font: { size: 13, dy: -8 } }],
 
   [14, 15, true , true , 'cave_entrance'],
