@@ -49,24 +49,21 @@ function layers(shading, contours) {
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { clearLabelCache: 'on', bufferSize: 1024, maxZoom: 14 }) // NOTE clearing cache because of contour elevation labels
-    .sqlLayer('infopoints',
-      'select type, geometry from osm_infopoints')
     .sqlLayer('feature_points',
-      "select type, geometry, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_points" // TODO until ordering is implemented attraction is forced to lowest prio
-        + " union select type, geometry, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_polys" // TODO ^^^
-        + ' union select type, geometry, 0 as z_order from osm_shops' // TODO maybe namespace type; TODO shop polys
-        + " union select type, geometry, 0 as z_order from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
-        + ' order by z_order' // TODO implement ordering in yaml
+      'select * from (select type, geometry from osm_feature_points' // TODO until ordering is implemented attraction is forced to lowest prio
+        + ' union all select type, geometry from osm_feature_polys' // TODO ^^^
+        + ' union all select type, geometry from osm_shops' // TODO maybe namespace type; TODO shop polys
+        + " union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
+        + ' union all select type, geometry from osm_infopoints) as abc left join zindex using (type)'
+        + ' order by z'
     )
-    .sqlLayer('infopoint_names',
-      'select type, geometry, name, ele from osm_infopoints',
-      { /* bufferSize: 512 */ })
     .sqlLayer('feature_point_names',
-      "select type, geometry, name, ele, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_points" // TODO until ordering is implemented attraction is forced to lowest prio
-        + " union select type, geometry, name, ele, case when type = 'attraction' then 1 else 0 end as z_order from osm_feature_polys" // TODO ^^^
-        + ' union select type, geometry, name, null as ele, 0 as z_order from osm_shops' // TODO maybe namespace type; TODO shop polys
-        + " union select type, geometry, name, null as ele, 0 as z_order from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
-        + ' order by z_order' // TODO implement ordering in yaml
+      'select * from (select type, geometry, name, ele from osm_feature_points' // TODO until ordering is implemented attraction is forced to lowest prio
+        + ' union all select type, geometry, name, ele from osm_feature_polys' // TODO ^^^
+        + ' union all select type, geometry, name, null as ele from osm_shops' // TODO maybe namespace type; TODO shop polys
+        + " union all select type, geometry, name, null as ele from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
+        + ' union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)'
+        + ' order by z'
     )
     .sqlLayer('highway_names',
       'select name, geometry, type from osm_roads order by z_order desc')

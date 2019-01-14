@@ -65,19 +65,21 @@ const extensions = {
       return style.rule({ filter: types(...q), minZoom, maxZoom });
     },
     poiIcons(style, pois) {
-      for (const [minIcoZoom, , , , type] of pois) {
+      for (const [minIcoZoom, , , , type, extra = {}] of pois) {
         const types = Array.isArray(type) ? type : [type];
-        for (let z = minIcoZoom; z < 20; z++) {
-          style.typesRule(z, z, ...types)
-            .markersSymbolizer({ file: `images/${types[0]}.svg` });
+        const zoom = [minIcoZoom];
+        if (extra.maxZoom) {
+          zoom.push(extra.maxZoom);
         }
+        style.typesRule(...zoom, ...types)
+          .markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg` });
       }
       return style; // TODO remove
     },
     poiNames(style, pois) {
-      for (const [, minTextZoom, withEle, natural, type, fontOverrides = {}] of pois) {
+      for (const [, minTextZoom, withEle, natural, type, extra = {}] of pois) {
         const types = Array.isArray(type) ? type : [type];
-        const font = { ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...fontOverrides };
+        const font = { ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...(extra.font || {}) };
         const { textSymbolizerEle } = style
           .typesRule(minTextZoom, ...types)
             .textSymbolizer(font,
@@ -104,31 +106,36 @@ const extensions = {
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  [12, 12, true , true , 'peak', { size: 13, dy: -8 }],
-  [13, 14, true , true , 'spring', { fill: hsl(216, 100, 50) }],
-  [13, 14, true , true , 'cave_entrance'],
-  [13, 14, true , false, 'monument'],
-  [13, 14, true , true , 'viewpoint'],
-  [13, 14, true , false, ['mine', 'adit', 'mineshaft']],
-  [14, 14, true , false, 'hotel'],
-  [14, 14, true , false, 'chalet'],
-  [14, 14, true , false, 'hostel'],
-  [14, 14, true , false, 'motel'],
-  [14, 14, true , false, 'guest_house'],
-  [14, 14, true , false, 'alpine_hut'],
+  [11, 20, true, false, 'guidepost', { icon: 'guidepost_small', maxZoom: 12 }],
+  [13, 14, true, false, 'guidepost', { font: { faceName: 'PT Sans Bold' } }],
+  // [12, 20, true , true , 'peak', { icon: 'peak_small', maxZoom: 12 }], // TODO show only prominent peaks and include label
+  [13, 13, true , true , 'peak', { font: { size: 13, dy: -8 } }],
+
+  [14, 15, true , true , 'cave_entrance'],
+  [14, 15, true , true , 'spring', { font: { fill: hsl(216, 100, 50) } }],
+  [14, 15, true , false, 'monument'],
+  [14, 15, true , true , 'viewpoint'],
+  [14, 15, true , false, ['mine', 'adit', 'mineshaft']],
+  [14, 15, true , false, 'hotel'],
+  [14, 15, true , false, 'chalet'],
+  [14, 15, true , false, 'hostel'],
+  [14, 15, true , false, 'motel'],
+  [14, 15, true , false, 'guest_house'],
+  [14, 15, true , false, 'alpine_hut'],
   [14, 15, false, false, 'hospital'],
   [14, 15, false, false, 'townhall'],
   [14, 15, false, true , ['hut', 'cabin']], //  fallback
   [14, 15, false, false, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
-  [15, 15, false, false, 'hunting_stand'],
-  [15, 16, false, false, 'museum'],
+
+  [15, 16, false, false, 'office'], // information=office
+  [15, 16, false, false, 'hunting_stand'],
   [15, 16, true , false, 'shelter'],
   [15, 16, false, true , ['rock', 'stone']],
+  [15, 16, false, false, 'museum'],
   [15, 16, false, false, 'pharmacy'],
   [15, 16, false, false, 'cinema'],
   [15, 16, false, false, 'theatre'],
   [15, 16, false, false, 'memorial'],
-  [15, 16, false, false, 'artwork'],
   [15, 16, false, false, 'pub'],
   [15, 16, false, false, 'cafe'],
   [15, 16, false, false, 'restaurant'],
@@ -136,16 +143,14 @@ const pois = [
   [15, 16, false, false, 'supermarket'],
   [15, 16, false, false, 'fast_food'],
   [15, 16, false, false, 'confectionery'],
+
+  [16, 16, false, false, 'board'],
+
+  [16, 17, false, false, 'map'],
+  [16, 17, false, false, 'artwork'],
   [16, 17, false, false, 'wayside_shrine'],
   [16, 17, false, false, 'fountain'],
   [16, 17, false, false, ['cross', 'wayside_cross']],
-];
-
-const infoPois = [
-  [12, 13, true, false, 'guidepost'], // TODO show some dot on 11, 10
-  [15, 16, false, false, 'office'],
-  [16, 16, false, false, 'board'],
-  [16, 16, false, false, 'map'],
 ];
 
 function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
@@ -239,8 +244,6 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('hillshade')
       .rule()
         .rasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
-    .style('infopoints')
-      .poiIcons(infoPois)
     .style('feature_points')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
@@ -258,17 +261,6 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('locality_names')
       .typesRule(15, 'locality')
           .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), haloRadius: 0, size: 11 }, '[name]')
-    .style('infopoint_names').doInStyle((style) => {
-      // i probably agree with different font sizes per zoom but i'd like to try to solve it somewhat globally later
-      // const fontSizes = { 12: 12, 13: 12, 14: 13, 15: 14, 16: 15 };
-      for (let z = 13; z < 20; z++) {
-        // const size = fontSizes[z] || fontSizes[16];
-        const { textSymbolizerEle } = style.typesRule(z, z, 'guidepost')
-          .textSymbolizer({ ...wrapFont, faceName: 'PT Sans Bold', dy: -10 });
-
-        addNameWithEle(textSymbolizerEle, 10);
-      }
-    })
     .style('feature_point_names')
       .poiNames(pois)
     .style('protected_area_names')
