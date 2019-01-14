@@ -47,6 +47,5 @@ insert into zindex (type) values
 ('wayside_cross'),
 ('rock'),
 ('stone'),
-('attraction')
-('peak'),
-;
+('attraction'),
+('peak');
