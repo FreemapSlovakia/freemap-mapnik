@@ -50,16 +50,16 @@ function layers(shading, contours) {
       'select name, type, geometry from osm_places order by z_order desc',
       { clearLabelCache: 'on', bufferSize: 1024, maxZoom: 14 }) // NOTE clearing cache because of contour elevation labels
     .sqlLayer('feature_points',
-      'select * from (select type, geometry from osm_feature_points' // TODO until ordering is implemented attraction is forced to lowest prio
-        + ' union all select type, geometry from osm_feature_polys' // TODO ^^^
+      'select * from (select type, geometry from osm_feature_points'
+        + ' union all select type, geometry from osm_feature_polys'
         + ' union all select type, geometry from osm_shops' // TODO maybe namespace type; TODO shop polys
         + " union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
         + ' union all select type, geometry from osm_infopoints) as abc left join zindex using (type)'
         + ' order by z'
     )
     .sqlLayer('feature_point_names',
-      'select * from (select type, geometry, name, ele from osm_feature_points' // TODO until ordering is implemented attraction is forced to lowest prio
-        + ' union all select type, geometry, name, ele from osm_feature_polys' // TODO ^^^
+      'select * from (select type, geometry, name, ele from osm_feature_points'
+        + ' union all select type, geometry, name, ele from osm_feature_polys'
         + ' union all select type, geometry, name, null as ele from osm_shops' // TODO maybe namespace type; TODO shop polys
         + " union all select type, geometry, name, null as ele from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
         + ' union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)'
