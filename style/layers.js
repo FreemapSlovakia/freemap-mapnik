@@ -44,11 +44,11 @@ function layers(shading, contours) {
           osm_routes.type
         from osm_route_members join osm_routes using(osm_id)
         group by member, geometry, osm_routes.type`,
-      { minZoom: 9 })
+      { minZoom: 9, clearLabelCache: 'on' }) // NOTE clearing cache because of contour elevation labels
 
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
-      { clearLabelCache: 'on', bufferSize: 1024, maxZoom: 14 }) // NOTE clearing cache because of contour elevation labels
+      { bufferSize: 1024, maxZoom: 14 })
     .sqlLayer('feature_points',
       'select * from (select type, geometry from osm_feature_points'
         + ' union all select type, geometry from osm_feature_polys'
