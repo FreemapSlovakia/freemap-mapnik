@@ -34,7 +34,7 @@ function layers(shading, contours) {
       if (shading) {
         map.layer('hillshade', {
           type: 'gdal',
-          file: '/home/martin/fm/hillshade-overlay.tif', //'hgt/hillshade_warped.tif',
+          file: 'hgt/hillshade_warped.tif',
         });
       }
     })
