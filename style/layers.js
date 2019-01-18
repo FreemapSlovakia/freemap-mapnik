@@ -17,7 +17,8 @@ function layers(shading, contours) {
       'select geometry, type from osm_feature_lines')
     .sqlLayer(['higwayGlows', 'highways'],
       'select geometry, type, tracktype, class from osm_roads order by z_order',
-      { cacheFeatures: true })
+      { cacheFeatures: true },
+    )
     .sqlLayer('buildings',
       'select geometry, type from osm_buildings')
     .sqlLayer('barrierways',
@@ -33,19 +34,19 @@ function layers(shading, contours) {
       if (shading) {
         map.layer('hillshade', {
           type: 'gdal',
-          file: 'hgt/hillshade_warped.tif',
+          file: '/home/martin/fm/hillshade-overlay.tif', //'hgt/hillshade_warped.tif',
         });
       }
     })
-    .sqlLayer('routes',
+    .sqlLayer(['routeGlows', 'routes'],
       `select geometry,
           concat('/', string_agg(concat(case when network in ('rwn', 'nwn', 'iwn') then '0' else '1' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
           concat('/', string_agg(colour, '/'), '/') AS colour,
           osm_routes.type
         from osm_route_members join osm_routes using(osm_id)
         group by member, geometry, osm_routes.type`,
-      { minZoom: 9, clearLabelCache: 'on' }) // NOTE clearing cache because of contour elevation labels
-
+      { minZoom: 9, clearLabelCache: 'on', cacheFeatures: true }, // NOTE clearing cache because of contour elevation labels
+    )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { bufferSize: 1024, maxZoom: 14 })

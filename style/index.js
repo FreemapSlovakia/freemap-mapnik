@@ -12,7 +12,7 @@ const hikingTrailsCfg = config.get('mapFeatures.hikingTrails');
 const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 
 const { layers } = require('./layers');
-const { routes } = require('./routes');
+const { routes, routeGlows } = require('./routes');
 
 function hsl(h, s, l) {
   return `#${convert.hsl.hex(h, s, l)}`;
@@ -320,12 +320,19 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         }
       })
     .doInMap((map) => {
-      const s = map.style('routes');
+      const s = map.style('routeGlows', { filterMode: 'first' });
       if (hikingTrails) {
-        s.doInStyle(routes('hiking'));
+        s.doInStyle(routeGlows('hiking'));
+      }
+      // if (bicycleTrails) {
+      //   s.doInStyle(routeGlows('bicycle'));
+      // }
+      const s1 = map.style('routes');
+      if (hikingTrails) {
+        s1.doInStyle(routes('hiking'));
       }
       if (bicycleTrails) {
-        s.doInStyle(routes('bicycle'));
+        s1.doInStyle(routes('bicycle'));
       }
     })
     .style('contours', { opacity: 0.33 })
