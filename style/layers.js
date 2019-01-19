@@ -38,14 +38,15 @@ function layers(shading, contours) {
         });
       }
     })
-    .sqlLayer(['routeGlows', 'routes'],
+    // .sqlLayer(['routeGlows', 'routes'],
+    .sqlLayer('routes',
       `select geometry,
           concat('/', string_agg(concat(case when network in ('rwn', 'nwn', 'iwn') then '0' else '1' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
           concat('/', string_agg(colour, '/'), '/') AS colour,
           osm_routes.type
         from osm_route_members join osm_routes using(osm_id)
         group by member, geometry, osm_routes.type`,
-      { minZoom: 9, clearLabelCache: 'on', cacheFeatures: true }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 9, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
