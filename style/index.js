@@ -243,7 +243,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 1, strokeOpacity: 0.5 })
     .style('hillshade')
       .rule()
-        .rasterSymbolizer({ opacity: 0.5, compOp: 'multiply', scaling: 'bilinear' })
+        .rasterSymbolizer({ scaling: 'bilinear' })
     .style('feature_points')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
