@@ -12,7 +12,7 @@ const hikingTrailsCfg = config.get('mapFeatures.hikingTrails');
 const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 
 const { layers } = require('./layers');
-const { routes, routeGlows } = require('./routes');
+const { routes } = require('./routes');
 
 function hsl(h, s, l) {
   return `#${convert.hsl.hex(h, s, l)}`;
@@ -20,7 +20,7 @@ function hsl(h, s, l) {
 
 const colors = {
   contour: 'black',
-  water: hsl(210, 65, 75),
+  water: hsl(210, 65, 65),
   waterLabelHalo: hsl(210, 30, 100),
   building: hsl(0, 0, 50),
   track: hsl(0, 33, 38),
@@ -243,7 +243,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 1, strokeOpacity: 0.5 })
     .style('hillshade')
       .rule()
-        .rasterSymbolizer({ scaling: 'bilinear' })
+        .rasterSymbolizer({ scaling: 'bicubic' })
     .style('feature_points')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
