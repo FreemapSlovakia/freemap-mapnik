@@ -320,10 +320,10 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         }
       })
     .doInMap((map) => {
-      const s = map.style('routeGlows', { filterMode: 'first' });
-      if (hikingTrails) {
-        s.doInStyle(routeGlows('hiking'));
-      }
+      // const s = map.style('routeGlows', { filterMode: 'first' });
+      // if (hikingTrails) {
+      //   s.doInStyle(routeGlows('hiking'));
+      // }
       // if (bicycleTrails) {
       //   s.doInStyle(routeGlows('bicycle'));
       // }

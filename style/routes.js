@@ -33,11 +33,11 @@ function routeGlows() {
         .rule({ filter: `([type] = 'hiking' or [type] = 'foot') and (${f})` })
           .lineSymbolizer({
             stroke: 'white',
-            // strokeOpacity: 0.66,
+            strokeOpacity: 0.5,
             strokeWidth: 2 + ones * 2,
             strokeLinejoin: 'round',
             strokeLinecap: 'butt',
-            offset: 3 + ones,
+            offset: 2 + ones,
           });
 
     });
@@ -79,7 +79,7 @@ function routes(type) {
                 strokeWidth: isHiking ? 2 : 4,
                 strokeLinejoin: 'round',
                 strokeLinecap: isHiking ? 'butt' : 'round',
-                offset: ((zoomVar === 0 ? 3 : 1) + ones * (isHiking ? 2 : 4)) * (isHiking ? 1 : -1) + (isHiking ? 1 : -1),
+                offset: ((zoomVar === 0 ? 3 : 1) + ones * (isHiking ? 2 : 4)) * (isHiking ? 1 : -1) + (isHiking ? 0 : -1),
                 ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '0.001,6' }),
               });
         }
@@ -104,7 +104,7 @@ const colorMap = {
   red: 'red',
   blue: '#4040ff',
   green: '#00a000',
-  yellow: '#d0d000',
+  yellow: '#f0f000',
   black: 'black',
 };
 
