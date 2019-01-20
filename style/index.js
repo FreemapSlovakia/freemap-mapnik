@@ -198,7 +198,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
     .style('highways')
-      .rule({ filter: "[class] = 'railway'" })
+      .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
       .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
