@@ -165,7 +165,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .area(colors.farmland, 'farmland')
       .area(colors.grassy, 'meadow', 'grassland', 'grass', 'park', 'cemetery')
       .typesRule('cemetery')
-        .polygonPatternSymbolizer({ file: 'images/grave.svg' })
+        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
       .area(colors.heath, 'heath')
       .area(colors.scrub, 'scrub')
       .typesRule('quarry')
