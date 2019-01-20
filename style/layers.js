@@ -34,8 +34,12 @@ function layers(shading, contours) {
       if (shading) {
         map.layer('hillshade', {
           type: 'gdal',
+          file: 'hgt/hillshade_warped_lz.tif',
+        }, { minZoom: 14 });
+        map.layer('hillshade', {
+          type: 'gdal',
           file: 'hgt/hillshade_warped.tif',
-        });
+        }, { maxZoom: 14 });
       }
     })
     // .sqlLayer(['routeGlows', 'routes'],
