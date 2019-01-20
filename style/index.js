@@ -272,7 +272,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     // texts
     .style('locality_names')
       .typesRule(15, 'locality')
-          .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), haloRadius: 0, size: 11 }, '[name]')
+          .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }, '[name]')
     .style('feature_point_names')
       .poiNames(pois)
     .style('protected_area_names')
@@ -295,7 +295,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         for (let z = 14; z < 20; z++) {
           style.typesRule(z, z, 'valley')
             .textSymbolizer({ ...valleyFont, size: 10 + Math.pow(3, z - 14), fill: hsl(0, 0, 40), // opacity: opacities[z],
-              characterSpacing: 3 + Math.pow(3, z - 14) }, '[name]');
+              characterSpacing: 3 + Math.pow(3, z - 14), haloRadius: 1.5, haloOpacity: 0.2 }, '[name]');
         }
       })
     .style('water_line_names')
