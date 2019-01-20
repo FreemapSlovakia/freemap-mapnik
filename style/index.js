@@ -254,6 +254,8 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('military_area_borders')
       .rule({ minZoom: 10, maxZoom: 13 })
         .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global', opacity: 0.5 })
+      .rule({ minZoom: 14 })
+        .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global', opacity: 0.2 })
     .style('feature_points')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
