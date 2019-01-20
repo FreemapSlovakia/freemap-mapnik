@@ -231,13 +231,12 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
       .rule({ minZoom: 11 })
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
     .style('military_areas').doInStyle((style) => {
-      const lineOpts = { stroke: '#c30404', strokeWidth: 3, strokeDasharray: '25,7',
-      strokeOpacity: 0.8, smooth: 0.7 }
+      const lineOpts = { stroke: '#c30404', strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8, smooth: 0.7 };
       style.rule({ minZoom: 10, maxZoom: 13 })
-        .polygonPatternSymbolizer({ file: 'images/military_area.png' })
-          .lineSymbolizer(lineOpts)
+        .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global' })
+        .lineSymbolizer(lineOpts);
       style.rule({ minZoom: 14 })
-          .lineSymbolizer(lineOpts)
+        .lineSymbolizer(lineOpts);
     })
     .style('borders')
       .rule()
