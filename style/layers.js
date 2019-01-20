@@ -9,6 +9,8 @@ function layers(shading, contours) {
       'select geometry, type from osm_waterareas')
     .sqlLayer('protected_areas',
       'select geometry from osm_protected_areas')
+    .sqlLayer('military_areas',
+      "select geometry from osm_landusages where type='military'")
     .sqlLayer('borders',
       'select geometry from osm_admin where admin_level = 2')
     .sqlLayer('water_line',
