@@ -230,14 +230,6 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     .style('protected_areas')
       .rule({ minZoom: 11 })
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
-    .style('military_areas').doInStyle((style) => {
-      const lineOpts = { stroke: '#c30404', strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8, smooth: 0.7 };
-      style.rule({ minZoom: 10, maxZoom: 13 })
-        .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global' })
-        .lineSymbolizer(lineOpts);
-      style.rule({ minZoom: 14 })
-        .lineSymbolizer(lineOpts);
-    })
     .style('borders')
       .rule()
       .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6, strokeOpacity: 0.5 })
@@ -256,6 +248,12 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .rasterSymbolizer({ scaling: 'bicubic', opacity: 0.5 })
       .rule({ minZoom: 15 })
         .rasterSymbolizer({ scaling: 'bicubic' })
+    .style('military_areas')
+      .rule({ minZoom: 10 })
+        .lineSymbolizer({ stroke: '#c30404', strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8, smooth: 0.7 })
+    .style('military_area_borders')
+      .rule({ minZoom: 10, maxZoom: 13 })
+        .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global', opacity: 0.5 })
     .style('feature_points')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })

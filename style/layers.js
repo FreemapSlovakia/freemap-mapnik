@@ -9,8 +9,8 @@ function layers(shading, contours) {
       'select geometry, type from osm_waterareas')
     .sqlLayer('protected_areas',
       'select geometry from osm_protected_areas')
-    .sqlLayer('military_areas',
-      "select geometry from osm_landusages where type='military'")
+    .sqlLayer('military_area_borders',
+      "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('borders',
       'select geometry from osm_admin where admin_level = 2')
     .sqlLayer('water_line',
@@ -54,6 +54,8 @@ function layers(shading, contours) {
         group by member, geometry, osm_routes.type`,
       { minZoom: 9, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
+    .sqlLayer('military_areas',
+      "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { bufferSize: 1024, maxZoom: 14 })
