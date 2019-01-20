@@ -6,17 +6,18 @@
   <title>Map Preview</title>
   <link rel='stylesheet' href='https://unpkg.com/leaflet@1.3.4/dist/leaflet.css'>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js'></script>
+  <script type="text/javascript" src="preview/leaflet-hash.js"></script>
 </head>
 
-<body>
-  <div id="mapid" style="width: 600px; height: 400px;"></div>
-
+<body style="margin: 0">
+  <div id="mapid" style="width: 100vw; height: 100vh;"></div>
   <script>
     const mymap = L.map('mapid').setView([49, 20], 10);
     L.tileLayer('http://localhost:4000/{z}/{x}/{y}', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
     }).addTo(mymap);
+    new L.Hash(mymap);
   </script>
 </body>
 
