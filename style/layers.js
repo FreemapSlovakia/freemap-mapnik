@@ -7,12 +7,6 @@ function layers(shading, contours) {
       'select type, geometry from osm_landusages order by z_order')
     .sqlLayer('water_area',
       'select geometry, type from osm_waterareas')
-    .sqlLayer('protected_areas',
-      'select geometry from osm_protected_areas')
-    .sqlLayer('military_area_borders',
-      "select geometry from osm_landusages where type = 'military'")
-    .sqlLayer('borders',
-      'select geometry from osm_admin where admin_level = 2')
     .sqlLayer('water_line',
       'select geometry, type from osm_waterways')
     .sqlLayer('feature_lines',
@@ -45,6 +39,12 @@ function layers(shading, contours) {
       }
     })
     // .sqlLayer(['routeGlows', 'routes'],
+    .sqlLayer('protected_areas',
+      'select type, geometry from osm_protected_areas')
+    .sqlLayer('borders',
+      'select geometry from osm_admin where admin_level = 2')
+    .sqlLayer('military_areas',
+      "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('routes',
       `select geometry,
           concat('/', string_agg(concat(case when network in ('rwn', 'nwn', 'iwn') then '0' else '1' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
@@ -52,10 +52,8 @@ function layers(shading, contours) {
           osm_routes.type
         from osm_route_members join osm_routes using(osm_id)
         group by member, geometry, osm_routes.type`,
-      { minZoom: 9, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 10, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
-    .sqlLayer('military_areas',
-      "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { bufferSize: 1024, maxZoom: 14 })
@@ -86,7 +84,7 @@ function layers(shading, contours) {
     // .sqlLayer('building_names',
     //   'select name, type, geometry from osm_buildings')
     .sqlLayer('protected_area_names',
-      'select name, geometry from osm_protected_areas')
+      'select type, name, geometry from osm_protected_areas')
     .sqlLayer('locality_names',
       "select name, type, geometry from osm_places where type in ('locality')")
     .sqlLayer('placenames',
