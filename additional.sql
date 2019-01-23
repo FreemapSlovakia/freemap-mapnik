@@ -41,10 +41,12 @@ insert into zindex (type) values
 ('board'),
 ('map'),
 ('artwork'),
-('wayside_shrine'),
 ('fountain'),
-('cross'),
+('fire_station');
+('police');
+('wayside_shrine'),
 ('wayside_cross'),
+('cross'),
 ('rock'),
 ('stone'),
 ('attraction'),
