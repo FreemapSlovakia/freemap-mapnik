@@ -279,7 +279,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
     // texts
     .style('locality_names')
       .typesRule(15, 'locality')
-          .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }, '[name]')
+        .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }, '[name]')
     .style('feature_point_names')
       .poiNames(pois)
     .style('protected_area_names')
