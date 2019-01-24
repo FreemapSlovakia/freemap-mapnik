@@ -92,7 +92,7 @@ function layers(shading, contours) {
     .sqlLayer('routes',
       `select geometry,
           concat('/', string_agg(concat(case when network in ('rwn', 'nwn', 'iwn') then '0' else '1' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
-          concat('/', string_agg(colour, '/'), '/') AS colour,
+          concat('/', string_agg(concat(case when osm_routes.type in ('bicycle', 'mtb') then '0' when osm_routes.type in ('ski', 'piste') then '1' else '2' end, colour), '/'), '/') AS colour,
           osm_routes.type
         from osm_route_members join osm_routes using(osm_id)
         group by member, geometry, osm_routes.type`,
