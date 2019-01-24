@@ -25,4 +25,4 @@ Please see [doc/DOCKER.md](./doc/DOCKER.md).
 
 ### Regular
 
-Please see [doc/INSTALL.md](./doc/DOCKER.md).
+Please see [doc/INSTALL.md](./doc/INSTALL.md).
