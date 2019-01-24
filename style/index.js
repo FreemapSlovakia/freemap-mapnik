@@ -208,11 +208,11 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 2 })
       .typesRule(12, 'living_street', 'residential', 'service', 'unclassified', 'road')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
-      .typesRule(12, 'path')
+      .typesRule(14, 'path')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,3' })
-      .typesRule(12, 'footway', 'pedestrian', 'steps')
+      .typesRule(14, 'footway', 'pedestrian', 'steps')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
-      .typesRule(12, 'cycleway')
+      .typesRule(14, 'cycleway')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '6,3' })
       .doInStyle((style) => {
         [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
