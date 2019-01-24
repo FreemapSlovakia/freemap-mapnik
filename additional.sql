@@ -1,3 +1,4 @@
+drop table if exists zindex;
 create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
 ('guidepost'),
@@ -42,8 +43,8 @@ insert into zindex (type) values
 ('map'),
 ('artwork'),
 ('fountain'),
-('fire_station');
-('police');
+('fire_station'),
+('police'),
 ('wayside_shrine'),
 ('wayside_cross'),
 ('cross'),
