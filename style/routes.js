@@ -16,7 +16,6 @@ module.exports = {
   RP,
 };
 
-// 0 - global hiking, 1 - local hiking, 2 - bicycle, 3 - ski
 // types 'hiking' or combination of ['bicycle', 'ski']
 function routes(...types) {
   const isHiking = types.includes('hiking');
