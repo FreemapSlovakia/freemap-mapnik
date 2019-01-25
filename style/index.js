@@ -146,6 +146,8 @@ const pois = [
   [15, 16, false, false, 'supermarket'],
   [15, 16, false, false, 'fast_food'],
   [15, 16, false, false, 'confectionery'],
+  [15, 16, false, false, 'toilets'],
+  [15, 16, false, false, 'fuel'],
 
   [16, 16, false, false, 'board'],
 

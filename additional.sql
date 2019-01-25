@@ -27,6 +27,7 @@ insert into zindex (type) values
 ('pub'),
 ('convenience'),
 ('supermarket'),
+('fuel'),
 ('fast_food'),
 ('cafe'),
 ('confectionery'),
@@ -51,5 +52,6 @@ insert into zindex (type) values
 ('cross'),
 ('rock'),
 ('stone'),
+('toilets'),
 ('attraction'),
 ('peak');
