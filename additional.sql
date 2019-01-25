@@ -43,6 +43,7 @@ insert into zindex (type) values
 ('map'),
 ('artwork'),
 ('fountain'),
+('community_centre'),
 ('fire_station'),
 ('police'),
 ('wayside_shrine'),

@@ -128,6 +128,7 @@ const pois = [
   [14, 15, false, false, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
 
   [15, 16, false, false, 'fire_station'],
+  [15, 16, false, false, 'community_centre'],
   [15, 16, false, false, 'police'],
   [15, 16, false, false, 'office'], // information=office
   [15, 16, false, false, 'hunting_stand'],
