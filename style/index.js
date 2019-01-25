@@ -10,6 +10,8 @@ const contoursCfg = config.get('mapFeatures.contours');
 const shadingCfg = config.get('mapFeatures.shading');
 const hikingTrailsCfg = config.get('mapFeatures.hikingTrails');
 const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
+const skiTrailsCfg = config.get('mapFeatures.skiTrails');
+const dumpXml = config.get('dumpXml');
 
 const { layers } = require('./layers');
 const { routes } = require('./routes');
@@ -158,7 +160,13 @@ const pois = [
   [16, 17, false, false, ['cross', 'wayside_cross']],
 ];
 
-function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hikingTrails = hikingTrailsCfg, bicycleTrails = bicycleTrailsCfg) {
+function generateFreemapStyle(
+  shading = shadingCfg,
+  contours = contoursCfg,
+  hikingTrails = hikingTrailsCfg,
+  bicycleTrails = bicycleTrailsCfg,
+  skiTrails = skiTrailsCfg,
+) {
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
@@ -348,19 +356,19 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
         }
       })
     .doInMap((map) => {
-      // const s = map.style('routeGlows', { filterMode: 'first' });
-      // if (hikingTrails) {
-      //   s.doInStyle(routeGlows('hiking'));
-      // }
-      // if (bicycleTrails) {
-      //   s.doInStyle(routeGlows('bicycle'));
-      // }
-      const s1 = map.style('routes');
+      const s = map.style('routes');
       if (hikingTrails) {
-        s1.doInStyle(routes('hiking'));
+        s.doInStyle(routes('hiking'));
       }
+      const x = [];
       if (bicycleTrails) {
-        s1.doInStyle(routes('bicycle'));
+        x.push('bicycle');
+      }
+      if (skiTrails) {
+        x.push('ski');
+      }
+      if (x.length) {
+        s.doInStyle(routes(...x));
       }
     })
     .style('contours', { opacity: 0.33 })
@@ -378,7 +386,7 @@ function generateFreemapStyle(shading = shadingCfg, contours = contoursCfg, hiki
 
     .doInMap(layers(shading, contours))
 
-    .stringify();
+    .stringify({ pretty: dumpXml });
 }
 
 function types(...type) {
@@ -387,7 +395,7 @@ function types(...type) {
 
 const mapnikConfig = generateFreemapStyle();
 
-if (config.get('dumpXml')) {
+if (dumpXml) {
   console.log('Mapnik config:', mapnikConfig);
 }
 

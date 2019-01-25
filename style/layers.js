@@ -1,5 +1,5 @@
-
 module.exports = { layers };
+const { RP } = require('./routes');
 
 function layers(shading, contours) {
   return map => map
@@ -82,7 +82,6 @@ function layers(shading, contours) {
         }, { maxZoom: 14 });
       }
     })
-    // .sqlLayer(['routeGlows', 'routes'],
     .sqlLayer('protected_areas',
       'select type, geometry from osm_protected_areas')
     .sqlLayer('borders',
@@ -91,32 +90,32 @@ function layers(shading, contours) {
       "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('routes',
       `select geometry,
-          concat('/', string_agg(concat(case when network in ('rwn', 'nwn', 'iwn') then '0' else '1' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
-          concat('/', string_agg(concat(case when osm_routes.type in ('bicycle', 'mtb') then '0' when osm_routes.type in ('ski', 'piste') then '1' else '2' end, colour), '/'), '/') AS colour,
-          osm_routes.type
+          concat('/', string_agg(concat(case when osm_routes.type in ('foot', 'hiking') then case when network in ('rwn', 'nwn', 'iwn') then '${RP.GLOBAL_HIKING}' else '${RP.LOCAL_HIKING}' end else '#' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
+          concat('/', string_agg(concat(case when osm_routes.type in ('bicycle', 'mtb') then '${RP.BICYCLE}' when osm_routes.type in ('ski', 'piste') then '${RP.SKI}' else '#' end, colour), '/'), '/') AS colour,
+          case when osm_routes.type in ('foot', 'hiking') then 'hiking' when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then 'bicycleAndSki' else '???' end AS groupType
         from osm_route_members join osm_routes using(osm_id)
-        group by member, geometry, osm_routes.type`,
+        group by member, geometry, groupType`,
       { minZoom: 10, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { bufferSize: 1024, maxZoom: 14 })
     .sqlLayer('feature_points',
-      'select * from (select type, geometry from osm_feature_points'
-        + ' union all select type, geometry from osm_feature_polys'
-        + ' union all select type, geometry from osm_shops' // TODO maybe namespace type; TODO shop polys
-        + " union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
-        + ' union all select type, geometry from osm_infopoints) as abc left join zindex using (type)'
-        + ' order by z',
+      `select * from (select type, geometry from osm_feature_points
+        union all select type, geometry from osm_feature_polys
+        union all select type, geometry from osm_shops
+        union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
+        union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
+        order by z`,
       { minZoom: 10 },
     )
     .sqlLayer('feature_point_names',
-      'select * from (select type, geometry, name, ele from osm_feature_points'
-        + ' union all select type, geometry, name, ele from osm_feature_polys'
-        + ' union all select type, geometry, name, null as ele from osm_shops' // TODO maybe namespace type; TODO shop polys
-        + " union all select type, geometry, name, null as ele from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
-        + ' union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)'
-        + ' order by z',
+      `select * from (select type, geometry, name, ele from osm_feature_points
+        union all select type, geometry, name, ele from osm_feature_polys
+        union all select type, geometry, name, null as ele from osm_shops
+        union all select type, geometry, name, null as ele from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
+        union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
+        order by z`,
       { minZoom: 10 },
     )
     .sqlLayer('highway_names',

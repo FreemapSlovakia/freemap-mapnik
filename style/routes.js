@@ -1,53 +1,32 @@
 /* eslint-disable indent */
 
+// NOTE more colors slows rendering rapidly; maybe we should try to move the combination computation to SQL
+// black ski is missing (but would bake it slow)
 const routeColors = ['red', 'blue', 'green', 'yellow', 'black'];
+
+const RP = {
+  GLOBAL_HIKING: '0',
+  LOCAL_HIKING: '1',
+  BICYCLE: '2',
+  SKI: '3',
+};
 
 module.exports = {
   routes,
-  routeGlows,
+  RP,
 };
 
-function routeGlows() {
-  return (style) => {
-    const m = new Map();
+// 0 - global hiking, 1 - local hiking, 2 - bicycle, 3 - ski
+// types 'hiking' or combination of ['bicycle', 'ski']
+function routes(...types) {
+  const isHiking = types.includes('hiking');
+  const isBicycle = types.includes('bicycle');
+  const isSki = types.includes('ski');
 
-    for (let i = 1; i < Math.pow(2, routeColors.length * 2); i++) {
-      const comb = i.toString(2);
-      const ones = (comb.match(/1/g) || []).length;
-      let q = m.get(ones);
-      if (!q) {
-        q = [];
-        m.set(ones, q);
-      }
-      q.push(comb.padStart(routeColors.length * 2, '0'));
-    }
-
-    [...m].reverse().forEach(([ones, q]) => {
-      const f = q.map(
-        x => x.split('').map(
-          (v, i) => (v === '1' ? osmcMatch(Math.floor(i / routeColors.length) + routeColors[i % routeColors.length]) : false)
-        ).filter(x => x).join(' and ')
-      ).map(x => `(${x})`).join(' or ');
-
-      style
-        .rule({ filter: `([type] = 'hiking' or [type] = 'foot') and (${f})` })
-          .lineSymbolizer({
-            stroke: 'white',
-            strokeOpacity: 0.5,
-            strokeWidth: 2 + ones * 2,
-            strokeLinejoin: 'round',
-            strokeLinecap: 'butt',
-            offset: 2 + ones,
-          });
-
-    });
-  };
-}
-
-function routes(type) {
-  const isHiking = type === 'hiking'; // otherwise bicycle (color prefix 0) or ski (color prefix 1)
   const matchFn = isHiking ? osmcMatch : colourMatch;
-  const colors = [...routeColors.map(c => `0${c}`), ...routeColors.map(c => `1${isHiking ? c : c.replace('black', 'white') /*ski*/}`)];
+  const colors = [
+    ...isHiking || isBicycle ? routeColors.map(c => `${isHiking ? RP.GLOBAL_HIKING : RP.BICYCLE}${c}`) : [],
+    ...isHiking || isSki ? routeColors.map(c => `${isHiking ? RP.LOCAL_HIKING : RP.SKI}${isHiking ? c : c.replace('black', 'white') /*ski*/}`) : []];
 
   return (style) => {
     for (let colorIdx = 0; colorIdx < colors.length; colorIdx++) {
@@ -69,29 +48,41 @@ function routes(type) {
             .map((x, i) => condNot(matchFn(colors[i]), x === '0'))
             .join(' and ')
         );
-        const typeCond = isHiking ? "([type] = 'hiking' or [type] = 'foot')" : "([type] = 'bicycle' or [type] = 'mtb' or [type] = 'ski' or [type] = 'piste')";
-        const filter = `${typeCond} and ${matchFn(colors[colorIdx])}${ors.length ? ` and (${ors.map(or => `(${or})`).join(' or ')})` : ''}`;
+
+        const filter = `${matchFn(colors[colorIdx])}${ors.length ? ` and (${ors.map(or => `(${or})`).join(' or ')})` : ''}`;
+
         for (let zoomVar = 0; zoomVar < 2; zoomVar++) {
           style
             .rule({ filter, minZoom: zoomVar === 0 ? 12 : 9, maxZoom: zoomVar === 0 ? undefined : 11 })
               .doInRule((rule) => {
-                if (!isHiking && colors[colorIdx][0] === '1') {
-                  return rule.linePatternSymbolizer({
-                    file: `images/piste_${colors[colorIdx].slice(1)}.svg`,
-                    offset: ((zoomVar === 0 ? 3 : 1) + ones * (isHiking ? 2 : 4)) * (isHiking ? 1 : -1) + (isHiking ? 0 : -1),
-                    ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '0.001,6' }),
-                  });
-                } else {
-                  return rule.lineSymbolizer({
-                    stroke: mapColor(colors[colorIdx].slice(1)),
-                    strokeWidth: isHiking ? 2 : 4,
+                const prefix = colors[colorIdx][0];
+                const color = colors[colorIdx].slice(1);
+
+                if (prefix === RP.GLOBAL_HIKING || prefix === RP.LOCAL_HIKING) {
+                  rule.lineSymbolizer({
+                    stroke: mapColor(color),
+                    strokeWidth: 2,
                     strokeLinejoin: 'round',
-                    strokeLinecap: isHiking ? 'butt' : colors[colorIdx][0] === '1' ? 'square' : 'round',
-                    offset: ((zoomVar === 0 ? 3 : 1) + ones * (isHiking ? 2 : 4)) * (isHiking ? 1 : -1) + (isHiking ? 0 : -1),
-                    ...(isHiking ? (colors[colorIdx][0] === '1' ? { strokeDasharray: '6,4' } : {}) : { strokeDasharray: '0.001,6' }),
+                    strokeLinecap: 'butt',
+                    offset: (zoomVar === 0 ? 3 : 1) + ones * 2,
+                    ...prefix === RP.LOCAL_HIKING ? { strokeDasharray: '6,4' } : {},
+                  });
+                } else if (prefix === RP.SKI) {
+                  rule.linePatternSymbolizer({
+                    file: `images/piste_${color}.svg`,
+                    offset: -((zoomVar === 0 ? 3 : 1) + ones * 4) - 1,
+                  });
+                } else if (prefix === RP.BICYCLE) {
+                  rule.lineSymbolizer({
+                    stroke: mapColor(color),
+                    strokeWidth: 4,
+                    strokeLinejoin: 'round',
+                    strokeLinecap: 'round',
+                    offset: -((zoomVar === 0 ? 3 : 1) + ones * 4) - 1,
+                    strokeDasharray: '0.001,6',
                   });
                 }
-              });
+            });
         }
       });
     }

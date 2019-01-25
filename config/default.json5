@@ -26,6 +26,7 @@
     shading: true,
     hikingTrails: true,
     bicycleTrails: true,
+    skiTrails: true,
   },
   zoom: {
     min: 0,
