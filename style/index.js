@@ -104,8 +104,9 @@ const extensions = {
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  [11, 20, true, false, 'guidepost', { icon: 'guidepost_small', maxZoom: 12 }],
-  [13, 13, true, false, 'guidepost', { font: { faceName: 'PT Sans Bold' } }],
+  [11, 20, true, false, 'guidepost', { icon: 'guidepost_x', maxZoom: 11 }],
+  [12, 12, true, false, 'guidepost', { icon: 'guidepost_x', font: { faceName: 'PT Sans Bold', dy: -8 }, maxZoom: 12 }],
+  [13, 13, true, false, 'guidepost', { icon: 'guidepost_xx', font: { faceName: 'PT Sans Bold' } }],
   [12, 20, true , true , 'peak', { icon: 'peak_small', maxZoom: 12 }], // TODO show only prominent peaks and include label
   [13, 13, true , true , 'peak', { font: { size: 13, dy: -8 } }],
 
