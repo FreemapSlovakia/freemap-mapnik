@@ -1,3 +1,11 @@
+CREATE EXTENSION intarray;
+
+-- not sure if those indexes help ;-)
+create index idx_colour on osm_routes (colour);
+create index idx_symbol on osm_routes ("osmc:symbol");
+create index idx_network on osm_routes (network);
+create index idx_type on osm_routes (type);
+
 drop table if exists zindex;
 create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
