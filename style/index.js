@@ -108,7 +108,6 @@ const extensions = {
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  [11, 20, true, false, 'guidepost', { icon: 'guidepost_small', maxZoom: 12 }],
   [13, 13, true, false, 'guidepost', { font: { faceName: 'PT Sans Bold' } }],
   [12, 20, true , true , 'peak', { icon: 'peak_small', maxZoom: 12 }], // TODO show only prominent peaks and include label
   [13, 13, true , true , 'peak', { font: { size: 13, dy: -8 } }],
@@ -288,6 +287,18 @@ function generateFreemapStyle(
       .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
       .poiIcons(pois)
+    .style('guidepost_icons').doInStyle((style) => {
+      style.rule({ filter: "[guidepost_type] = 'horse'", minZoom: 13 })
+        .markersSymbolizer({ file: `images/theatre.svg` });
+        style.rule({ filter: "[guidepost_type] = 'ski'", minZoom: 13 })
+        .markersSymbolizer({ file: `images/pub.svg` });
+      style.rule({ filter: "[guidepost_type] = 'bicycle'", minZoom: 13 })
+        .markersSymbolizer({ file: `images/cafe.svg` });
+      style.rule({ filter: "[guidepost_type] = 'foot'", minZoom: 11, maxZoom: 12 })
+        .markersSymbolizer({ file: `images/guidepost_small.svg` });
+      style.rule({ filter: "[guidepost_type] = 'foot'", minZoom: 13 })
+        .markersSymbolizer({ file: `images/guidepost.svg` });
+    })
         // .rule({ minZoom: 16 }) // rest texts
         //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
 

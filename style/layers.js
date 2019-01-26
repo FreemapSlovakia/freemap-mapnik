@@ -105,9 +105,22 @@ function layers(shading, contours) {
         union all select type, geometry from osm_feature_polys
         union all select type, geometry from osm_shops
         union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
-        union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
+        ) as abc left join zindex using (type)
         order by z`,
       { minZoom: 10 },
+    )
+    .sqlLayer('guidepost_icons',
+      `(select
+          type,
+          geometry,
+          case
+            when bicycle then 'bicycle'
+            when ski then 'ski'
+            when horse then 'horse'
+            else 'foot'
+          end as guidepost_type
+        from osm_infopoints)`,
+      { minZoom: 11 },
     )
     .sqlLayer('feature_point_names',
       `select * from (select type, geometry, name, ele from osm_feature_points
