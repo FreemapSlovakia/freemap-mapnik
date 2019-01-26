@@ -61,7 +61,7 @@ function routes(...types) {
             strokeWidth: 4,
             strokeLinejoin: 'round',
             strokeLinecap: 'round',
-            offset: `-(3 + ([s_${color}] - 1) * 4) - 1`,
+            offset: `-(${zo} + ([s_${color}] - 1) * 4) - 1`,
           });
 
           // ski fg
@@ -70,7 +70,7 @@ function routes(...types) {
             strokeWidth: 2,
             strokeLinejoin: 'round',
             strokeLinecap: 'butt',
-            offset: `-(3 + ([s_${color}] - 1) * 4) - 1`,
+            offset: `-(${zo} + ([s_${color}] - 1) * 4) - 1`,
             strokeDasharray: '6,2',
           });
         }
