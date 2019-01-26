@@ -1,7 +1,6 @@
 module.exports = { layers };
-const { RP } = require('./routes');
 
-function layers(shading, contours) {
+function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) {
   return map => map
     .sqlLayer('landcover',
       'select type, geometry from osm_landusages_gen0 order by z_order',
@@ -89,12 +88,80 @@ function layers(shading, contours) {
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('routes',
-      `select geometry,
-          concat('/', string_agg(concat(case when osm_routes.type in ('foot', 'hiking') then case when network in ('rwn', 'nwn', 'iwn') then '${RP.GLOBAL_HIKING}' else '${RP.LOCAL_HIKING}' end else '#' end, regexp_replace("osmc:symbol", ':.*', '')), '/'), '/') AS osmc_colour,
-          concat('/', string_agg(concat(case when osm_routes.type in ('bicycle', 'mtb') then '${RP.BICYCLE}' when osm_routes.type in ('ski', 'piste') then '${RP.SKI}' else '#' end, colour), '/'), '/') AS colour,
-          case when osm_routes.type in ('foot', 'hiking') then 'hiking' when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then 'bicycleAndSki' else '???' end AS groupType
-        from osm_route_members join osm_routes using(osm_id)
-        group by member, geometry, groupType`,
+      `select
+        geometry,
+        idx(arr, 0) as h_red,
+        idx(arr, 1) as h_blue,
+        idx(arr, 2) as h_green,
+        idx(arr, 3) as h_yellow,
+        idx(arr, 4) as h_black,
+        idx(arr, 5) as h_white,
+        idx(arr, 6) as h_orange,
+        idx(arr, 7) as h_purple,
+        idx(arr, 10) as h_red_loc,
+        idx(arr, 11) as h_blue_loc,
+        idx(arr, 12) as h_green_loc,
+        idx(arr, 13) as h_yellow_loc,
+        idx(arr, 14) as h_black_loc,
+        idx(arr, 15) as h_white_loc,
+        idx(arr, 16) as h_orange_loc,
+        idx(arr, 17) as h_purple_loc,
+        idx(arr, 20) as b_red,
+        idx(arr, 21) as b_blue,
+        idx(arr, 22) as b_green,
+        idx(arr, 23) as b_yellow,
+        idx(arr, 24) as b_black,
+        idx(arr, 25) as b_white,
+        idx(arr, 26) as b_orange,
+        idx(arr, 27) as b_purple,
+        idx(arr, 30) as s_red,
+        idx(arr, 31) as s_blue,
+        idx(arr, 32) as s_green,
+        idx(arr, 33) as s_yellow,
+        idx(arr, 34) as s_black,
+        idx(arr, 35) as s_white,
+        idx(arr, 36) as s_orange,
+        idx(arr, 37) as s_purple
+      from (
+        select
+          geometry,
+          case
+            when osm_routes.type in ('foot', 'hiking') then 'hiking'
+            when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then 'bicycleAndSki'
+            else null end as groupType,
+          uniq(sort(array_agg(
+            case
+              when osm_routes.type in ('hiking', 'foot') then
+                case when network in ('iwn', 'nwn', 'rwn') then 0 else 10 end +
+                  case
+                    when "osmc:symbol" like 'red:%' then 0
+                    when "osmc:symbol" like 'blue:%' then 1
+                    when "osmc:symbol" like 'green:%' then 2
+                    when "osmc:symbol" like 'yellow:%' then 3
+                    when "osmc:symbol" like 'black:%' then 4
+                    when "osmc:symbol" like 'white:%' then 5
+                    when "osmc:symbol" like 'orange:%' then 6
+                    when "osmc:symbol" like 'violet:%' then 7
+                    when "osmc:symbol" like 'purple:%' then 7
+                    else 1000 end
+              when osm_routes.type in (${bicycleTrails ? "'bicycle', 'mtb', " : ''}'ski', 'piste') then
+                20 + case when osm_routes.type in ('bicycle', 'mtb') then 0 else 10 end +
+                  case colour
+                    when 'red' then 0
+                    when 'blue' then 1
+                    when 'green' then 2
+                    when 'yellow' then 3
+                    when 'black' then 4
+                    when 'white' then 5
+                    when 'orange' then 6
+                    when 'violet' then 7
+                    when 'purple' then 7
+                    else 1000 end
+            else
+              1000
+            end
+          ))) as arr from osm_route_members join osm_routes using (osm_id) group by member, groupType, geometry
+      ) as aaa`,
       { minZoom: 10, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',

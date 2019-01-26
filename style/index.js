@@ -48,11 +48,6 @@ const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'blac
 const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
 const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: 'black', haloRadius: 0 };
 
-function addNameWithEle(textSymbolizerEle, eleSize) {
-  textSymbolizerEle.text('[name] + "\n"');
-  textSymbolizerEle.ele('Format', { size: eleSize }, '[ele]');
-}
-
 const extensions = {
   style: {
     typesRule(style, ...t) {
@@ -87,7 +82,8 @@ const extensions = {
             .textSymbolizer(font,
               withEle ? undefined : '[name]');
         if (withEle) {
-          addNameWithEle(textSymbolizerEle, font.size - 2);
+          textSymbolizerEle.text('[name] + "\n"');
+          textSymbolizerEle.ele('Format', { size: font.size - 2 }, '[ele]');
         }
       }
       return style; // TODO remove
@@ -357,10 +353,10 @@ function generateFreemapStyle(
       })
     .doInMap((map) => {
       const s = map.style('routes');
-      if (hikingTrails) {
-        s.doInStyle(routes('hiking'));
-      }
       const x = [];
+      if (hikingTrails) {
+        x.push('hiking');
+      }
       if (bicycleTrails) {
         x.push('bicycle');
       }
@@ -384,7 +380,7 @@ function generateFreemapStyle(
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer({ ...dfltFont, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
 
-    .doInMap(layers(shading, contours))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails))
 
     .stringify({ pretty: dumpXml });
 }
