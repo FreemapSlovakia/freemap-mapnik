@@ -162,11 +162,11 @@ const pois = [
   [16, 17, false, false, 'wayside_shrine'],
   [16, 17, false, false, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
   [16, 17, false, false, ['cross', 'wayside_cross']],
-  [16, 17, false, false, 'post_box'],
-  [16, 17, false, false, 'telephone'],
-  [16, null, false, false, 'gate'],
-  [16, null, false, false, 'lift_gate'],
 
+  [17, 18, false, false, 'post_box'],
+  [17, 18, false, false, 'telephone'],
+  [17, null, false, false, 'gate'],
+  [17, null, false, false, 'lift_gate'],
   [17, null, false, false, 'waste_disposal'],
   [17, null, false, false, 'waste_basket'],
 ];
