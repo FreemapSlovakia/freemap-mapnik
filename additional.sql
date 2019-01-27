@@ -68,4 +68,6 @@ insert into zindex (type) values
 ('attraction'),
 ('peak'),
 ('waste_basket'),
-('waste_disposal');
+('waste_disposal'),
+('gate'),
+('lift_gate');
