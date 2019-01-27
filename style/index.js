@@ -147,6 +147,7 @@ const pois = [
   [15, 16, false, false, 'confectionery'],
   [15, 16, false, false, 'toilets'],
   [15, 16, false, false, 'fuel'],
+  [15, 16, false, false, 'post_office'],
 
   [16, 16, false, false, 'board'],
 
@@ -155,6 +156,11 @@ const pois = [
   [16, 17, false, false, 'wayside_shrine'],
   [16, 17, false, false, 'fountain'],
   [16, 17, false, false, ['cross', 'wayside_cross']],
+  [16, 17, false, false, 'post_box'],
+  [16, 17, false, false, 'telephone'],
+
+  [17, 18, false, false, 'waste_disposal'],
+  [17, 18, false, false, 'waste_basket'],
 ];
 
 function generateFreemapStyle(
