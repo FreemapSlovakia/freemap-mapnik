@@ -25,7 +25,7 @@ const colors = {
   water: hsl(210, 65, 65),
   waterLabelHalo: hsl(210, 30, 100),
   building: hsl(0, 0, 50),
-  track: hsl(0, 33, 38),
+  track: hsl(0, 33, 20),
   forest: hsl(120, 45, 78),
   heath: hsl(85, 60, 80),
   farmyard: hsl(50, 44, 80),
@@ -38,7 +38,7 @@ const colors = {
   landfill: hsl(0, 30, 60),
 };
 
-const glowDflt = { stroke: 'white', strokeOpacity: 0.5 };
+const glowDflt = { stroke: hsl(0, 33, 70)};
 const highwayDflt = { stroke: colors.track };
 
 // fonts
@@ -237,6 +237,7 @@ function generateFreemapStyle(
       .typesRule(12, 'cycleway')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '6,3' })
       .doInStyle((style) => {
+        // [undefined, '11,2', '8,5', '5,8', '2,11', '3,7,7,3'].forEach((strokeDasharray, i) => {
         [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
           style
             .rule({ filter: `[type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`, minZoom: 12 })
