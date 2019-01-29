@@ -48,6 +48,9 @@ const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'blac
 const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
 const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: 'black', haloRadius: 0 };
 
+const aeroBgLine = { stroke: hsl(240, 50, 35) };
+const aeroFgLine = { stroke: 'white', strokeDasharray: '10,10' };
+
 const extensions = {
   style: {
     typesRule(style, ...t) {
@@ -221,20 +224,16 @@ function generateFreemapStyle(
     .style('barrierways')
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
-    .style('aeroways').doInStyle((style) => {
-      const aeroBgLine = { stroke: '#000080', strokeOpacity: 0.9 };
-      const aeroFgLine = { stroke: 'white', strokeOpacity: 1.0, strokeDasharray: '10,10' };
-      style
-        .rule({ minZoom: 11, maxZoom: 11 })
-          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 2 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.7 })
-        .rule({ minZoom: 12, maxZoom: 13 })
-          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 3 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
-        .rule({ minZoom: 14 })
-          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
-    })
+    .style('aeroways')
+      .rule({ minZoom: 11, maxZoom: 11 })
+        .lineSymbolizer({ ...aeroBgLine, strokeWidth: 2 })
+        .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.7 })
+      .rule({ minZoom: 12, maxZoom: 13 })
+        .lineSymbolizer({ ...aeroBgLine, strokeWidth: 3 })
+        .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
+      .rule({ minZoom: 14 })
+        .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
+        .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
@@ -270,13 +269,13 @@ function generateFreemapStyle(
         .polygonSymbolizer({ fill: colors.building })
     .style('protected_areas')
       .typesRule(8, 11, 'national_park', 'nature_reserve')
-        .lineSymbolizer({ stroke: '#00a000', strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
+        .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
         .polygonPatternSymbolizer({ file: 'images/national_park_area.svg', alignment: 'global', opacity: 0.4 })
       .typesRule(12, 12, 'national_park', 'nature_reserve')
         .polygonPatternSymbolizer({ file: 'images/national_park_area.svg', alignment: 'global', opacity: 0.2 })
-        .lineSymbolizer({ stroke: '#00a000', strokeWidth: 4, strokeDasharray: '25,7', strokeOpacity: 0.4 })
+        .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 4, strokeDasharray: '25,7', strokeOpacity: 0.4 })
       .typesRule(13, 'national_park', 'nature_reserve')
-        .lineSymbolizer({ stroke: '#00a000', strokeWidth: 4, strokeDasharray: '25,7', strokeOpacity: 0.4 })
+        .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 4, strokeDasharray: '25,7', strokeOpacity: 0.4 })
       .typesRule(12, 'protected_area')
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
     .style('borders')
@@ -299,7 +298,7 @@ function generateFreemapStyle(
         .rasterSymbolizer({ scaling: 'bicubic' })
     .style('military_areas')
       .rule({ minZoom: 10 })
-        .lineSymbolizer({ stroke: '#c30404', strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
+        .lineSymbolizer({ stroke: hsl(0, 96, 39), strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
       .rule({ minZoom: 10, maxZoom: 13 })
         .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global', opacity: 0.5 })
       .rule({ minZoom: 14 })
@@ -333,12 +332,9 @@ function generateFreemapStyle(
         .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
     .style('aeroport_names')
       .rule({ minZoom: 12 })
-        .textSymbolizer({ ...natureRelatedFont, haloFill: 'white', opacity: 1.0, haloOpacity: 1.0, placement: 'interior', dy: -10 }, '[name]')
-      .rule({ minZoom: 11, maxZoom: 11 })
-        .markersSymbolizer({ file: 'images/aerodrome.svg', width: 8, height: 8, fill: '#000000', placement: 'interior' })
-      .rule({ minZoom: 12 })
-        .markersSymbolizer({ file: 'images/aerodrome.svg', width: 12, height: 12, fill: '#000000', placement: 'interior' })
-    // .style('building_names')
+        .textSymbolizer({ ...wrapFont, placement: 'interior', dy: -10 }, '[name]')
+        .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
+      // .style('building_names')
       // .rule({ minZoom: 15 }) // rest names
       //   .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
     .style('highway_names')
