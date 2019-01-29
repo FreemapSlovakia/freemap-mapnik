@@ -221,6 +221,20 @@ function generateFreemapStyle(
     .style('barrierways')
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
+    .style('aeroways').doInStyle((style) => {
+      const aeroBgLine = { stroke: '#000080', strokeOpacity: 0.9 };
+      const aeroFgLine = { stroke: 'white', strokeOpacity: 1.0, strokeDasharray: '10,10' };
+      style
+        .rule({ minZoom: 11, maxZoom: 11 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 2 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.7 })
+        .rule({ minZoom: 12, maxZoom: 13 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 3 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
+        .rule({ minZoom: 14 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
+    })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
@@ -317,6 +331,13 @@ function generateFreemapStyle(
     .style('water_area_names')
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
         .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
+    .style('aeroport_names')
+      .rule({ minZoom: 12 })
+        .textSymbolizer({ ...natureRelatedFont, haloFill: 'white', opacity: 1.0, haloOpacity: 1.0, placement: 'interior', dy: -10 }, '[name]')
+      .rule({ minZoom: 11, maxZoom: 11 })
+        .markersSymbolizer({ file: 'images/aerodrome.svg', width: 8, height: 8, fill: '#000000', placement: 'interior' })
+      .rule({ minZoom: 12 })
+        .markersSymbolizer({ file: 'images/aerodrome.svg', width: 12, height: 12, fill: '#000000', placement: 'interior' })
     // .style('building_names')
       // .rule({ minZoom: 15 }) // rest names
       //   .textSymbolizer({ ...fontDfltWrap, placement: 'interior' }, '[name]')
