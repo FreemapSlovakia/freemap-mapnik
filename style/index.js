@@ -236,6 +236,7 @@ function generateFreemapStyle(
         .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: 1.5 })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
       .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
