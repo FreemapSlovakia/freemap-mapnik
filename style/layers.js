@@ -54,6 +54,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     //   'select geometry, type, tracktype, class from osm_roads_gen0 order by z_order',
     //   { maxZoom: 13 },
     // )
+    .sqlLayer('aeroways',
+      'select geometry, type from osm_aeroways',
+    )
     .sqlLayer('buildings',
       'select geometry, type from osm_buildings',
       { minZoom: 13 },
@@ -201,6 +204,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('feature_line_names',
       'select geometry, name, type from osm_feature_lines',
       { minZoom: 14 },
+    )
+    .sqlLayer('aeroport_names',
+      "select name, geometry from osm_transport_areas where type='aerodrome'",
+      { minZoom: 12 },
     )
     // .sqlLayer('building_names',
     //   'select name, type, geometry from osm_buildings')
