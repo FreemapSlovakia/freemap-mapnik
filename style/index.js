@@ -130,6 +130,7 @@ const pois = [
   [14, 15, true , false, 'motel'],
   [14, 15, true , false, 'guest_house'],
   [14, 15, true , false, 'alpine_hut'],
+  [14, 15, false , false, 'attraction'],
   [14, 15, false, false, 'hospital'],
   [14, 15, false, false, 'townhall'],
   [14, 15, false, true , ['hut', 'cabin']], //  fallback
@@ -309,8 +310,6 @@ function generateFreemapStyle(
         .markersSymbolizer({ file: 'images/power_tower.svg' })
       .typesRule(14, 'pole')
         .markersSymbolizer({ file: 'images/power_pole.svg' })
-      .typesRule(15, 'attraction')
-        .markersSymbolizer({ file: 'images/attraction.svg' })
       .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
       .poiIcons(pois)
