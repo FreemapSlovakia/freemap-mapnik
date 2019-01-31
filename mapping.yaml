@@ -289,6 +289,25 @@ tables:
       shop:
       - __any__
 
+  shop_polys:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: mapping_value
+      name: type
+      key:
+    type: polygon
+    mapping:
+      shop:
+      - __any__
+
   places:
     columns:
     - type: id

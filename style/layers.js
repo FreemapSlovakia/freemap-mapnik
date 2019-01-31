@@ -174,6 +174,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       `select * from (select type, geometry from osm_feature_points
         union all select type, geometry from osm_feature_polys
         union all select type, geometry from osm_shops
+        union all select type, geometry from osm_shop_polys
         union all select type, geometry from osm_barrierpoints
         union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
         union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
@@ -184,6 +185,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       `select * from (select type, geometry, name, ele from osm_feature_points
         union all select type, geometry, name, ele from osm_feature_polys
         union all select type, geometry, name, null as ele from osm_shops
+        union all select type, geometry, name, null as ele from osm_shop_polys
         union all select type, geometry, name, null as ele from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
         union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
         order by z`,

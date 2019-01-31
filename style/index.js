@@ -340,9 +340,9 @@ function generateFreemapStyle(
       .rule({ minZoom: 12 })
         .textSymbolizer({ ...wrapFont, placement: 'interior', dy: -10 }, '[name]')
         .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
-      .style('building_names')
-       .rule({ minZoom: 17 }) // rest names
-         .textSymbolizer({ ...wrapFont, placement: 'interior' }, '[name]')
+    .style('building_names')
+      .rule({ minZoom: 17 }) // rest names
+        .textSymbolizer({ ...wrapFont, placement: 'interior' }, '[name]')
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...dfltFont, fill: colors.track, haloOpacity: 0.75, placement: 'line', spacing: 200 }, '[name]')
