@@ -54,25 +54,24 @@ function routes(...types) {
         }
 
         if (isSki) {
-          // ski bg
-          style.rule({ filter: `[s_${color}] > 0`, ...zoomParams }).lineSymbolizer({
-            // stroke: mapColor(color),
-            stroke: 'orange',
-            strokeWidth: 4,
-            strokeLinejoin: 'round',
-            strokeLinecap: 'round',
-            offset: `-(${zo} + ([s_${color}] - 1) * 4) - 1`,
-          });
+          const offset = `-(${zo} + ([s_${color}] - 1) * 4) - 1`;
 
-          // ski fg
-          style.rule({ filter: `[s_${color}] > 0`, ...zoomParams }).lineSymbolizer({
-            stroke: mapColor(color),
-            strokeWidth: 2,
-            strokeLinejoin: 'round',
-            strokeLinecap: 'butt',
-            offset: `-(${zo} + ([s_${color}] - 1) * 4) - 1`,
-            strokeDasharray: '6,2',
-          });
+          style.rule({ filter: `[s_${color}] > 0`, ...zoomParams })
+            .lineSymbolizer({
+              stroke: 'orange',
+              strokeWidth: 4,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'round',
+              offset,
+            })
+            .lineSymbolizer({
+              stroke: mapColor(color),
+              strokeWidth: 2,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'butt',
+              offset,
+              strokeDasharray: '6,2',
+            });
         }
       }
     }

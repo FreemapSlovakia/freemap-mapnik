@@ -48,9 +48,6 @@ const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'blac
 const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
 const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: 'black', haloRadius: 0 };
 
-const aeroBgLine = { stroke: hsl(240, 50, 35) };
-const aeroFgLine = { stroke: 'white', strokeDasharray: '10,10' };
-
 const extensions = {
   style: {
     typesRule(style, ...t) {
@@ -225,16 +222,21 @@ function generateFreemapStyle(
     .style('barrierways')
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
-    .style('aeroways')
-      .rule({ minZoom: 11, maxZoom: 11 })
-        .lineSymbolizer({ ...aeroBgLine, strokeWidth: 2 })
-        .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.7 })
-      .rule({ minZoom: 12, maxZoom: 13 })
-        .lineSymbolizer({ ...aeroBgLine, strokeWidth: 3 })
-        .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
-      .rule({ minZoom: 14 })
-        .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
-        .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
+    .style('aeroways').doInStyle((style) => {
+      const aeroBgLine = { stroke: hsl(240, 50, 35) };
+      const aeroFgLine = { stroke: 'white', strokeDasharray: '10,10' };
+
+      style
+        .rule({ minZoom: 11, maxZoom: 11 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 2 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.7 })
+        .rule({ minZoom: 12, maxZoom: 13 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 3 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
+        .rule({ minZoom: 14 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
+    })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1.5 })
