@@ -209,8 +209,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       "select name, geometry from osm_transport_areas where type='aerodrome'",
       { minZoom: 12 },
     )
-    // .sqlLayer('building_names',
-    //   'select name, type, geometry from osm_buildings')
+    .sqlLayer('building_names',
+      'select name, type, geometry from osm_buildings')
     .sqlLayer('protected_area_names',
       'select type, name, geometry from osm_protected_areas')
     .sqlLayer('locality_names',
