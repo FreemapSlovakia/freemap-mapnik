@@ -655,9 +655,11 @@ tables:
           - doctors
           - drinking_water
           - fast_food
+          - feeding_place
           - fire_station
           - fountain
           - fuel
+          - game_feeding
           - hospital
           - hunting_stand
           - ice_cream
@@ -709,6 +711,7 @@ tables:
           leisure:
           - picnic_table
           - playground
+          - firepit
           man_made:
           - adit
           - beehive
@@ -721,7 +724,6 @@ tables:
           - mineshaft
           - reservoir_covered
           - silo
-          - tower # TODO to separate table to have tower:type
           - water_tower
           - water_well
           - water_works
@@ -735,12 +737,11 @@ tables:
           - mine_shaft
           - monastery
           - monument
-          - ruins
           - wayside_cross
           - wayside_shrine
           power:
           - pole
-          - tower # TODO to separate
+          - tower
 
   feature_polys:
     columns:
@@ -787,9 +788,11 @@ tables:
           - dentist
           - doctors
           - fast_food
+          - feeding_place
           - fire_station
           - fountain
           - fuel
+          - game_feeding
           - hospital
           - ice_cream
           - kindergarten
@@ -830,6 +833,7 @@ tables:
           - wilderness_hut
           - zoo
           leisure:
+          - firepit
           - playground
           man_made:
           - adit
@@ -842,7 +846,6 @@ tables:
           - mineshaft
           - reservoir_covered
           - silo
-          - tower # TODO to separate table to have tower:type
           - water_tower
           - water_works
           historic:
@@ -855,8 +858,133 @@ tables:
           - mine_shaft
           - monastery
           - monument
-          - ruins
           - wayside_shrine
+
+  power_generators:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: source
+      key: generator:source
+    - type: string
+      name: method
+      key: generator:method
+    type: point
+    mappings:
+      power:
+        - generator
+
+  power_generator_polys:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: source
+      key: generator:source
+    - type: string
+      name: method
+      key: generator:method
+    type: polygon
+    mappings:
+      power:
+        - generator
+
+  ruins:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: type
+      key: ruins
+    type: point
+    mappings:
+      historic:
+        - ruins
+
+  ruin_polys:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: type
+      key: ruins
+    type: point
+    mappings:
+      historic:
+        - ruins
+
+  towers:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: ele
+      key: ele
+    - type: string
+      name: type
+      key: tower:type
+    type: point
+    mappings:
+      man_made:
+        - tower
+
+  towers:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: ele
+      key: ele
+    - type: string
+      name: type
+      key: tower:type
+    type: polygon
+    mappings:
+      man_made:
+        - tower
 
   infopoints:
     columns:
@@ -925,6 +1053,29 @@ tables:
     mapping:
       addr:interpolation:
       - __any__
+
+  aerialways:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: mapping_value
+      name: type
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: ref
+      key: ref
+    type: linestring
+    mapping:
+      aerialway:
+      - __any__
+
   roads:
     columns:
     - type: id
@@ -971,7 +1122,6 @@ tables:
       reject:
         area:
         - 'yes'
-    mappings:
       railway:
         mapping:
           railway:
