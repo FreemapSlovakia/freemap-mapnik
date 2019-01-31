@@ -239,6 +239,7 @@ function generateFreemapStyle(
     })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 3, opacity: 0.5 })
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1.5 })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
       .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
