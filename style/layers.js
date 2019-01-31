@@ -35,23 +35,23 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { minZoom: 13 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class from osm_roads_gen0 order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads_gen0 order by z_order',
       { maxZoom: 9 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class from osm_roads_gen1 order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads_gen1 order by z_order',
       { minZoom: 10, maxZoom: 11 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class from osm_roads_gen1 order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads_gen1 order by z_order',
       { maxZoom: 11 },
     )
     .sqlLayer(['higwayGlows', 'highways'],
-      'select geometry, type, tracktype, class from osm_roads order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads order by z_order',
       { minZoom: 12, cacheFeatures: true },
     )
     // .sqlLayer('highways',
-    //   'select geometry, type, tracktype, class from osm_roads_gen0 order by z_order',
+    //   'select geometry, type, tracktype, class, service from osm_roads_gen0 order by z_order',
     //   { maxZoom: 13 },
     // )
     .sqlLayer('aeroways',
