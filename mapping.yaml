@@ -878,7 +878,7 @@ tables:
       name: method
       key: generator:method
     type: point
-    mappings:
+    mapping:
       power:
         - generator
 
@@ -900,7 +900,7 @@ tables:
       name: method
       key: generator:method
     type: polygon
-    mappings:
+    mapping:
       power:
         - generator
 
@@ -919,7 +919,7 @@ tables:
       name: type
       key: ruins
     type: point
-    mappings:
+    mapping:
       historic:
         - ruins
 
@@ -938,7 +938,7 @@ tables:
       name: type
       key: ruins
     type: point
-    mappings:
+    mapping:
       historic:
         - ruins
 
@@ -959,8 +959,8 @@ tables:
     - type: string
       name: type
       key: tower:type
-    type: point
-    mappings:
+    types: point
+    mapping:
       man_made:
         - tower
 
@@ -982,7 +982,7 @@ tables:
       name: type
       key: tower:type
     type: polygon
-    mappings:
+    mapping:
       man_made:
         - tower
 
@@ -1122,6 +1122,7 @@ tables:
       reject:
         area:
         - 'yes'
+    mappings:
       railway:
         mapping:
           railway:
