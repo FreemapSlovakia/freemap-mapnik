@@ -692,7 +692,6 @@ tables:
           - artwork
           - cabin
           - camp_site
-          - camping
           - caravan_site
           - castle
           - chalet
@@ -820,7 +819,6 @@ tables:
           - artwork
           - cabin
           - camp_site
-          - camping
           - caravan_site
           - castle
           - chalet

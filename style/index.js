@@ -127,6 +127,7 @@ const pois = [
   [14, 15, true , false, 'motel'],
   [14, 15, true , false, 'guest_house'],
   [14, 15, true , false, 'alpine_hut'],
+  [14, 15, true , false, 'camp_site'],
   [14, 15, false , false, 'attraction'],
   [14, 15, false, false, 'hospital'],
   [14, 15, false, false, 'townhall'],
