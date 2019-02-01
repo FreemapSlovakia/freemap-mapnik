@@ -166,10 +166,10 @@ const pois = [
 
   [17, 18, false, false, 'post_box'],
   [17, 18, false, false, 'telephone'],
-  [17, null, false, false, 'gate'],
-  [17, null, false, false, 'lift_gate'],
-  [17, null, false, false, 'waste_disposal'],
-  [17, null, false, false, 'waste_basket'],
+  [18, null, false, false, 'gate'],
+  [18, null, false, false, 'lift_gate'],
+  [18, null, false, false, 'waste_disposal'],
+  [18, null, false, false, 'waste_basket'],
 ];
 
 function generateFreemapStyle(
