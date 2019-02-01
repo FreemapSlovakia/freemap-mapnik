@@ -742,6 +742,8 @@ tables:
           power:
           - pole
           - tower
+          military:
+          - bunker
 
   feature_polys:
     columns:
@@ -859,6 +861,8 @@ tables:
           - monastery
           - monument
           - wayside_shrine
+          military:
+          - bunker
 
   power_generators:
     columns:
@@ -1225,3 +1229,19 @@ tables:
       - swimming_pool
       leisure:
       - swimming_pool
+
+  fixmes:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: mapping_value
+      name: type
+      key:
+    type: point
+    mapping:
+      fixme:
+        - __any__
