@@ -227,6 +227,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       "select name, type, geometry from osm_places where type in ('locality')",
       { minZoom: 15 },
     )
+    .sqlLayer('fixmes',
+      'select geometry from osm_fixmes',
+      { minZoom: 14 },
+    )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },

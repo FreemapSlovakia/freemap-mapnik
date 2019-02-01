@@ -239,7 +239,7 @@ function generateFreemapStyle(
     })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
-        .lineSymbolizer({ stroke: 'white', strokeWidth: 3, opacity: 0.5 })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 3 })
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1.5 })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
       .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
@@ -274,7 +274,7 @@ function generateFreemapStyle(
       .typesRule(12, 'track')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
     .style('aerialways')
-      .rule({ minZoom: 12 })
+      .rule()
         .lineSymbolizer({ strokeWidth: 1, stroke: 'black' })
         .lineSymbolizer({ strokeWidth: 5, stroke: 'black',strokeDasharray: '1,25' })
     .style('buildings')
@@ -352,7 +352,7 @@ function generateFreemapStyle(
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...dfltFont, fill: colors.track, haloOpacity: 0.75, placement: 'line', spacing: 200 }, '[name]')
     .style('aerialway_names')
-      .rule({ minZoom: 16 })
+      .rule()
         .textSymbolizer({ ...dfltFont, fill: 'black', placement: 'line', spacing: 200, dy: 6 }, '[name]')
     .style('feature_line_names')
       .doInStyle((style) => {
@@ -370,7 +370,9 @@ function generateFreemapStyle(
         .textSymbolizer({ ...waterFont, placement: 'line', spacing: 400 }, '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
         .textSymbolizer({ ...waterFont, placement: 'line', spacing: 400 }, '[name]')
-
+    .style('fixmes')
+      .rule()
+        .markersSymbolizer({ file: 'images/fixme.svg' })
     .style('placenames')
       .doInStyle((style) => {
         const opacities = { 6: 1, 7: 1, 8: 1, 9: 1, 10: 1,
