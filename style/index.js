@@ -152,7 +152,6 @@ const pois = [
   [15, 16, false, false, 'supermarket'],
   [15, 16, false, false, 'fast_food'],
   [15, 16, false, false, 'confectionery'],
-  [15, 16, false, false, 'toilets'],
   [15, 16, false, false, 'fuel'],
   [15, 16, false, false, 'post_office'],
 
@@ -160,9 +159,11 @@ const pois = [
   [16, 17, false, false, 'map'],
   [16, 17, false, false, 'artwork'],
   [16, 17, false, false, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
+  [16, null, false, false, 'toilets'],
 
   [17, 18, false, false, 'wayside_shrine'],
   [17, 18, false, false, ['cross', 'wayside_cross']],
+  [17, null, false, false, 'firepit'],
 
   [18, 19, false, false, 'post_box'],
   [18, 19, false, false, 'telephone'],

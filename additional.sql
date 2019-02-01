@@ -66,6 +66,7 @@ insert into zindex (type) values
 ('telephone'),
 ('attraction'),
 ('peak'),
+('firepit'),
 ('waste_basket'),
 ('waste_disposal'),
 ('gate'),
