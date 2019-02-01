@@ -42,7 +42,7 @@ const glowDflt = { stroke: hsl(0, 33, 70)};
 const highwayDflt = { stroke: colors.track };
 
 // fonts
-const dfltFont = { faceName: 'PT Sans Regular', fill: 'black', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, size: 12, lineSpacing: -2 };
+const dfltFont = { faceName: 'PT Sans Regular', fill: 'black', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.75, size: 12, lineSpacing: -2 };
 const wrapFont = { ...dfltFont, wrapWidth: 100, wrapBefore: true };
 const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'black' };
 const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
@@ -337,9 +337,9 @@ function generateFreemapStyle(
       .poiNames(pois)
     .style('protected_area_names')
       .typesRule(8, 11, 'national_park', 'nature_reserve')
-        .textSymbolizer({ ...natureRelatedFont, size: 16, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, placement: 'interior' }, '[name]')
+        .textSymbolizer({ ...natureRelatedFont, size: 16, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
       .typesRule(12, 'protected_area')
-        .textSymbolizer({ ...natureRelatedFont, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, placement: 'interior' }, '[name]')
+        .textSymbolizer({ ...natureRelatedFont, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
     .style('water_area_names')
       .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
         .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
@@ -352,7 +352,7 @@ function generateFreemapStyle(
         .textSymbolizer({ ...wrapFont, placement: 'interior' }, '[name]')
     .style('highway_names')
       .rule({ minZoom: 15 })
-        .textSymbolizer({ ...dfltFont, fill: colors.track, haloOpacity: 0.75, placement: 'line', spacing: 200 }, '[name]')
+        .textSymbolizer({ ...dfltFont, fill: colors.track, placement: 'line', spacing: 200 }, '[name]')
     .style('aerialway_names')
       .rule()
         .textSymbolizer({ ...dfltFont, fill: 'black', placement: 'line', spacing: 200, dy: 6 }, '[name]')
