@@ -273,6 +273,10 @@ function generateFreemapStyle(
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
       .typesRule(12, 'track')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
+    .style('aerialways')
+      .rule({ minZoom: 12 })
+        .lineSymbolizer({ strokeWidth: 1, stroke: 'black' })
+        .lineSymbolizer({ strokeWidth: 5, stroke: 'black',strokeDasharray: '1,25' })
     .style('buildings')
       .rule({ minZoom: 13 })
         .polygonSymbolizer({ fill: colors.building })
@@ -347,6 +351,9 @@ function generateFreemapStyle(
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer({ ...dfltFont, fill: colors.track, haloOpacity: 0.75, placement: 'line', spacing: 200 }, '[name]')
+    .style('aerialway_names')
+      .rule({ minZoom: 16 })
+        .textSymbolizer({ ...dfltFont, fill: 'black', placement: 'line', spacing: 200, dy: 6 }, '[name]')
     .style('feature_line_names')
       .doInStyle((style) => {
         // TODO i've disabled opacity - we should re-enable it to see things behind text; then also prevent label cache for it

@@ -50,6 +50,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       'select geometry, type, tracktype, class, service from osm_roads order by z_order',
       { minZoom: 12, cacheFeatures: true },
     )
+    .sqlLayer('aerialways',
+      'select geometry, type from osm_aerialways',
+      { minZoom: 12 },
+    )
     // .sqlLayer('highways',
     //   'select geometry, type, tracktype, class, service from osm_roads_gen0 order by z_order',
     //   { maxZoom: 13 },
@@ -194,6 +198,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('highway_names',
       'select name, geometry, type from osm_roads order by z_order desc',
       { minZoom: 15 },
+    )
+    .sqlLayer('aerialway_names',
+      'select geometry, name, type from osm_aerialways',
+      { minZoom: 16 },
     )
     .sqlLayer('water_line_names',
       'select geometry, name, type from osm_waterways',
