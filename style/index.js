@@ -89,7 +89,7 @@ const extensions = {
               withEle ? undefined : '[name]');
         if (withEle) {
           textSymbolizerEle.text('[name] + "\n"');
-          textSymbolizerEle.ele('Format', { size: font.size - 2 }, '[ele]');
+          textSymbolizerEle.ele('Format', { size: font.size * 0.8 }, '[ele]');
         }
       }
       return style; // TODO remove
