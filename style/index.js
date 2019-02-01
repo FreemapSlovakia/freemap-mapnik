@@ -42,7 +42,7 @@ const glowDflt = { stroke: hsl(0, 33, 70)};
 const highwayDflt = { stroke: colors.track };
 
 // fonts
-const dfltFont = { faceName: 'PT Sans Regular', fill: 'black', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, size: 12 };
+const dfltFont = { faceName: 'PT Sans Regular', fill: 'black', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.5, size: 12, lineSpacing: -2 };
 const wrapFont = { ...dfltFont, wrapWidth: 100, wrapBefore: true };
 const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'black' };
 const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
