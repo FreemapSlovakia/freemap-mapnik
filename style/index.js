@@ -134,6 +134,7 @@ const pois = [
   [14, 15, false, false, 'townhall'],
   [14, 15, false, true, ['hut', 'cabin']], //  fallback
   [14, 15, false, false, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
+  [14, 15, true, false, 'tower_observation'],
 
   [15, 16, false, false, 'fire_station'],
   [15, 16, false, false, 'community_centre'],
@@ -157,32 +158,27 @@ const pois = [
   [15, 16, false, false, 'fuel'],
   [15, 16, false, false, 'post_office'],
   [15, 16, false, false, 'bunker'],
+  [15, null, false, false, 'mast_other'],
+  [15, null, false, false, 'tower_other'],
+  [15, null, false, false, ['tower_communication', 'mast_communication']],
 
   [16, 16, false, false, 'board'],
   [16, 17, false, false, 'map'],
   [16, 17, false, false, 'artwork'],
   [16, 17, false, false, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
-  [16, null, false, false, 'toilets'],
+  [16, null, false, false, 'feeding_place', { icon: 'manger' }],
+  [16, null, false, false, 'game_feedng', { icon: 'manger' }],
 
   [17, 18, false, false, 'wayside_shrine'],
   [17, 18, false, false, ['cross', 'wayside_cross']],
   [17, null, false, false, 'firepit'],
+  [17, null, false, false, 'toilets'],
 
   [18, 19, false, false, 'post_box'],
   [18, 19, false, false, 'telephone'],
   [18, null, false, false, 'gate'],
   [18, null, false, false, 'lift_gate'],
   [18, null, false, false, 'waste_disposal'],
-
-  [15, null, false, false, 'mast_other'],
-  [15, null, false, false, 'tower_other'],
-  [15, null, false, false, 'mast_communication'], // now visualy same as tower_communication
-  [15, null, false, false, 'tower_communication'],
-  [14, 15, true, false, 'tower_observation'],
-
-  [16, null, false, false, 'feeding_place', { icon: 'manger' }],
-  [16, null, false, false, 'game_feedng', { icon: 'manger' }],
-
 ];
 
 function generateFreemapStyle(
