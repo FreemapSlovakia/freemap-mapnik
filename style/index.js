@@ -201,7 +201,7 @@ function generateFreemapStyle(
       .typesRule('cemetery')
         .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
       .area(colors.heath, 'heath')
-      .area(colors.scrub, 'scrub')
+      .area(colors.scrub, 'scrub', 'vineyard') // TODO use different color/pattern for vineyard
       .typesRule('quarry')
         .borderedPolygonSymbolizer(hsl(0, 0, 62))
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
