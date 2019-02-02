@@ -76,5 +76,7 @@ insert into zindex (type) values
 ('firepit'),
 ('waste_basket'),
 ('waste_disposal'),
-('gate'),
-('lift_gate');
+('lift_gate'),
+('feeding_place'),
+('game_feedng'),
+('gate');

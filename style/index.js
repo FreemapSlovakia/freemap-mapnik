@@ -175,9 +175,13 @@ const pois = [
 
   [15, null, false, false, 'mast_other'],
   [15, null, false, false, 'tower_other'],
-  [15, null, false, false, 'mast_communication'],
+  [15, null, false, false, 'mast_communication'], // now visualy same as tower_communication
   [15, null, false, false, 'tower_communication'],
-  [14, 15, false, false, 'tower_observation'],
+  [14, 15, true, false, 'tower_observation'],
+
+  [16, null, false, false, 'feeding_place', { icon: 'manger' }],
+  [16, null, false, false, 'game_feedng', { icon: 'manger' }],
+
 ];
 
 function generateFreemapStyle(
