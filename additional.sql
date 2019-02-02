@@ -21,6 +21,7 @@ insert into zindex (type) values
 ('guest_house'),
 ('alpine_hut'),
 ('camp_site'),
+('castle'),
 ('hut'),
 ('cabin'),
 ('church'),
