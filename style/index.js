@@ -247,7 +247,7 @@ function generateFreemapStyle(
           .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
         .rule({ minZoom: 14 })
           .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 });
     })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })

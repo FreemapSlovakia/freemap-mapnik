@@ -1004,6 +1004,50 @@ tables:
           man_made:
             - mast
 
+  place_of_worships:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: building
+      key: building
+    - type: string
+      name: religion
+      key: religion
+    type: point
+    mapping:
+      amenity:
+        - place_of_worship
+
+  place_of_worship_polys:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    - type: string
+      name: building
+      key: building
+    - type: string
+      name: religion
+      key: religion
+    type: polygon
+    mapping:
+      amenity:
+        - place_of_worship
+
   infopoints:
     columns:
     - type: id
