@@ -10,6 +10,7 @@ drop table if exists zindex;
 create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
 ('guidepost'),
+('tower_observation'),
 ('cave_entrance'),
 ('monument'),
 ('office'),
@@ -67,6 +68,10 @@ insert into zindex (type) values
 ('post_box'),
 ('telephone'),
 ('attraction'),
+('tower_communication'),
+('mast_communication'),
+('tower_other'),
+('mast_other'),
 ('peak'),
 ('firepit'),
 ('waste_basket'),

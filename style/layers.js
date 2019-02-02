@@ -1,5 +1,10 @@
 module.exports = { layers };
 
+const towerType = `concat("class", '_', case type
+  when 'communication' then 'communication'
+  when 'observation' then 'observation'
+  else 'other' end) as type`;
+
 function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) {
   return map => map
     .sqlLayer('landcover',
@@ -176,9 +181,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { bufferSize: 1024, maxZoom: 14 })
     .sqlLayer('feature_points',
       `select * from (select type, geometry from osm_feature_points
-        union all select type, geometry from osm_feature_polys
+        union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry from osm_feature_polys
         union all select type, geometry from osm_shops
         union all select type, geometry from osm_shop_polys
+        union all select ${towerType}, geometry from osm_towers
+        union all select ${towerType}, geometry from osm_tower_polys
         union all select type, geometry from osm_barrierpoints
         union all select type, geometry from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
         union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
@@ -187,9 +194,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     )
     .sqlLayer('feature_point_names',
       `select * from (select type, geometry, name, ele from osm_feature_points
-        union all select type, geometry, name, ele from osm_feature_polys
+        union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry, name, ele from osm_feature_polys
         union all select type, geometry, name, null as ele from osm_shops
         union all select type, geometry, name, null as ele from osm_shop_polys
+        union all select ${towerType}, geometry, name, ele from osm_towers
+        union all select ${towerType}, geometry, name, ele from osm_tower_polys
         union all select type, geometry, name, null as ele from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')
         union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
         order by z`,

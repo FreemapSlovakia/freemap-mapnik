@@ -172,7 +172,12 @@ const pois = [
   [18, null, false, false, 'gate'],
   [18, null, false, false, 'lift_gate'],
   [18, null, false, false, 'waste_disposal'],
-  [19, null, false, false, 'waste_basket'],
+
+  [15, null, false, false, 'mast_other'],
+  [15, null, false, false, 'tower_other'],
+  [15, null, false, false, 'mast_communication'],
+  [15, null, false, false, 'tower_communication'],
+  [14, 15, false, false, 'tower_observation'],
 ];
 
 function generateFreemapStyle(

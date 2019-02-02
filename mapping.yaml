@@ -718,7 +718,6 @@ tables:
           - chimney
           - communications_tower
           - cross
-          - mast
           - mine
           - mineshaft
           - reservoir_covered
@@ -841,7 +840,6 @@ tables:
           - chimney
           - communications_tower
           - cross
-          - mast
           - mine
           - mineshaft
           - reservoir_covered
@@ -961,12 +959,21 @@ tables:
     - type: string
       name: type
       key: tower:type
-    types: point
-    mapping:
-      man_made:
-        - tower
+    - type: mapping_value
+      name: class
+      key:
+    type: point
+    mappings:
+      tower:
+        mapping:
+          man_made:
+            - tower
+      mast:
+        mapping:
+          man_made:
+            - mast
 
-  towers:
+  tower_polys:
     columns:
     - type: id
       name: osm_id
@@ -983,10 +990,19 @@ tables:
     - type: string
       name: type
       key: tower:type
+    - type: mapping_value
+      name: class
+      key:
     type: polygon
-    mapping:
-      man_made:
-        - tower
+    mappings:
+      tower:
+        mapping:
+          man_made:
+            - tower
+      mast:
+        mapping:
+          man_made:
+            - mast
 
   infopoints:
     columns:
