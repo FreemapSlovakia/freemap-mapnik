@@ -1041,37 +1041,6 @@ tables:
       - map
       - office
 
-  housenumbers_interpolated:
-    columns:
-    - type: id
-      name: osm_id
-      key:
-    - type: geometry
-      name: geometry
-      key:
-    - type: string
-      name: name
-      key: name
-    - type: mapping_value
-      name: type
-      key:
-    - type: string
-      name: addr:street
-      key: addr:street
-    - type: string
-      name: addr:postcode
-      key: addr:postcode
-    - type: string
-      name: addr:city
-      key: addr:city
-    - type: string
-      name: addr:inclusion
-      key: addr:inclusion
-    type: linestring
-    mapping:
-      addr:interpolation:
-      - __any__
-
   aerialways:
     columns:
     - type: id
