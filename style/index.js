@@ -25,7 +25,7 @@ const colors = {
   water: hsl(210, 65, 65),
   waterLabelHalo: hsl(210, 30, 100),
   building: hsl(0, 0, 50),
-  track: hsl(0, 33, 20),
+  track: hsl(0, 33, 25),
   forest: hsl(120, 45, 78),
   heath: hsl(85, 60, 80),
   farmyard: hsl(50, 44, 80),
@@ -260,19 +260,30 @@ function generateFreemapStyle(
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
       .rule({ filter: "[type] = 'service' and [service] = 'parking_aisle'", minZoom: 14 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1 })
-      .typesRule(12, 'path')
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '3,3' })
       .typesRule(14, 'footway', 'pedestrian', 'steps')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
-      .typesRule(12, 'cycleway')
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '6,3' })
       .doInStyle((style) => {
-        // [undefined, '11,2', '8,5', '5,8', '2,11', '3,7,7,3'].forEach((strokeDasharray, i) => {
-        [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
+        const w = [0.5, 0.75, 1];
+        const zz = [[12, 12], [13, 13], [14]];
+        for (const a of [0, 1, 2]) {
+          const k = w[a];
           style
-            .rule({ filter: `[type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`, minZoom: 12 })
-              .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray });
-        });
+            .typesRule(...zz[a], 'path')
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
+            .typesRule(...zz[a], 'cycleway')
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3' })
+            .doInStyle((style) => {
+              [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
+                style
+                  .rule({
+                      filter: `[type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`,
+                      minZoom: zz[a][0],
+                      maxZoom: zz[a][1],
+                  })
+                    .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray });
+              });
+            });
+        }
       })
     .style('higwayGlows')
       .typesRule(14, 'footway', 'pedestrian', 'steps')
