@@ -44,6 +44,7 @@ insert into zindex (type) values
 ('confectionery'),
 ('hospital'),
 ('pharmacy'),
+('waterfall'),
 ('spring'),
 ('viewpoint'),
 ('mine'),

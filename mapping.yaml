@@ -634,6 +634,7 @@ tables:
           - spring
           - stone
           - tree
+          waterway:
           - waterfall
           amenity:
           - atm
