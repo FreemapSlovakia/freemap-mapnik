@@ -62,6 +62,7 @@ insert into zindex (type) values
 ('fire_station'),
 ('police'),
 ('post_office'),
+('playground'),
 ('wayside_shrine'),
 ('wayside_cross'),
 ('cross'),

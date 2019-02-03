@@ -171,6 +171,7 @@ const pois = [
   [16, 17, false, false, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
   [16, null, false, false, 'feeding_place', { icon: 'manger' }],
   [16, null, false, false, 'game_feedng', { icon: 'manger' }],
+  [16, 17, false, false, 'playground'],
 
   [17, 18, false, false, 'wayside_shrine'],
   [17, 18, false, false, ['cross', 'wayside_cross']],
