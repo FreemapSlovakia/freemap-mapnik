@@ -70,6 +70,7 @@ insert into zindex (type) values
 ('toilets'),
 ('post_box'),
 ('telephone'),
+('chimney'),
 ('attraction'),
 ('tower_communication'),
 ('mast_communication'),
