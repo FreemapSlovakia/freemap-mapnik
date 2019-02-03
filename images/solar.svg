@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="12"
-   height="12"
-   viewBox="0 0 12 12"
+   width="7"
+   height="7"
+   viewBox="0 0 7 7"
    version="1.1"
    id="svg818"
    sodipodi:docname="solar.svg"
@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,20 +40,25 @@
      inkscape:window-width="1280"
      inkscape:window-height="778"
      id="namedview820"
-     showgrid="false"
+     showgrid="true"
      inkscape:pagecheckerboard="true"
      inkscape:zoom="35.75"
-     inkscape:cx="-0.75910861"
+     inkscape:cx="1.4786536"
      inkscape:cy="7.3638251"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg818" />
+     inkscape:current-layer="svg818"
+     showguides="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid5215" />
+  </sodipodi:namedview>
   <rect
-     style="fill:#5f4ed3;stroke:#ffffff;stroke-opacity:1;fill-opacity:1"
+     style="fill:#5f4ed3;fill-opacity:1;stroke:#ffffff;stroke-opacity:1"
      id="rect4646"
      width="7"
      height="7"
-     x="1.0629371"
-     y="1.0349652" />
+     x="0"
+     y="0" />
 </svg>
