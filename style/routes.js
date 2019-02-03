@@ -82,7 +82,7 @@ function routes(...types) {
 const colorMap = {
   red: 'red',
   blue: '#4040ff',
-  green: '#00a000',
+  green: '#008000',
   yellow: '#f0f000',
   black: 'black',
   white: 'white',
