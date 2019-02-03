@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="14" height="14" viewBox="0 0 14 14" id="svg2" sodipodi:docname="water_tower.svg" inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview1481" showgrid="false" inkscape:pagecheckerboard="true" inkscape:zoom="16.857143" inkscape:cx="7" inkscape:cy="7" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg2" />
+  <metadata id="metadata8">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs6" />
+  <path id="outline" d="M 2,0 V 3.5 C 2,4.9469172 2.7905512,5.9802716 3.90625,6.625 L 3,14 H 4.5 L 4.6875,12.53125 L 7,11 L 9.3125,12.5625 L 9.5,14 H 11 L 10.09375,6.65625 C 11.21821,6.0132746 12,4.9628112 12,3.5 V 0 H 10.5 V 1.5 H 10 C 8.8728814,2 8,2 7,1.5 C 6,1 5.0381356,1 4,1.5 H 3.5 V 0 Z M 5.34375,7.1875 C 6.412974,7.4546613 7.5864346,7.4810662 8.65625,7.21875 L 8.84375,8.78125 L 7,10 L 5.15625,8.78125 Z M 5.03125,9.6875 L 6.25,10.5 L 4.8125,11.46875 Z M 8.96875,9.6875 L 9.1875,11.46875 L 7.75,10.5 Z" style="opacity:0.5;fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" />
+  <path d="M 2,0 2,3.5 C 2,4.9469172 2.7905512,5.9802716 3.90625,6.625 L 3,14 4.5,14 4.6875,12.53125 7,11 9.3125,12.5625 9.5,14 11,14 10.09375,6.65625 C 11.21821,6.0132746 12,4.9628112 12,3.5 l 0,-3.5 -1.5,0 0,1.5 -0.5,0 C 8.8728814,2 8,2 7,1.5 6,1 5.0381356,1 4,1.5 l -0.5,0 0,-1.5 z m 3.34375,7.1875 c 1.069224,0.2671613 2.2426846,0.2935662 3.3125,0.03125 L 8.84375,8.78125 7,10 5.15625,8.78125 z m -0.3125,2.5 L 6.25,10.5 4.8125,11.46875 z m 3.9375,0 L 9.1875,11.46875 7.75,10.5 z" id="water-tower" />
+</svg>

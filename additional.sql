@@ -72,6 +72,7 @@ insert into zindex (type) values
 ('post_box'),
 ('telephone'),
 ('chimney'),
+('water_tower'),
 ('attraction'),
 ('tower_communication'),
 ('mast_communication'),
