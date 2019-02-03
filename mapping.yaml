@@ -481,6 +481,7 @@ tables:
       - 'yes'
       - wire_fence
 
+  # TODO merge with feature points
   transport_points:
     columns:
     - type: id

@@ -54,6 +54,7 @@ insert into zindex (type) values
 ('townhall'),
 ('memorial'),
 ('hunting_stand'),
+('bus_stop'),
 ('board'),
 ('map'),
 ('artwork'),

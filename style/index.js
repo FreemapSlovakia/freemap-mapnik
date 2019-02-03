@@ -173,6 +173,7 @@ const pois = [
   [16, null, false, false, 'feeding_place', { icon: 'manger' }],
   [16, null, false, false, 'game_feedng', { icon: 'manger' }],
   [16, 17, false, false, 'playground'],
+  [16, 17, false, false, 'bus_stop'],
 
   [17, 18, false, false, 'wayside_shrine'],
   [17, 18, false, false, ['cross', 'wayside_cross']],
