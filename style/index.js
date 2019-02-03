@@ -119,6 +119,7 @@ const pois = [
   [14, 15, false, false , 'castle'],
   [14, 15, true, true, 'cave_entrance'],
   [14, 15, true, true, 'spring', { font: { fill: hsl(216, 100, 50) } }],
+  [14, 15, true, true, 'waterfall', { font: { fill: hsl(216, 100, 50) } }],
   [14, 15, true, false, 'monument'],
   [14, 15, true, true, 'viewpoint'],
   [14, 15, true, false, ['mine', 'adit', 'mineshaft']],
@@ -135,6 +136,7 @@ const pois = [
   [14, 15, false, true, ['hut', 'cabin']], //  fallback
   [14, 15, false, false, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [14, 15, true, false, 'tower_observation'],
+  [14, 15, true, false, 'archaeological_site'],
 
   [15, 16, false, false, 'fire_station'],
   [15, 16, false, false, 'community_centre'],
