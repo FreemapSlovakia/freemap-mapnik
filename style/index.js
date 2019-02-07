@@ -411,15 +411,21 @@ function generateFreemapStyle(
           11: 1, 12: 1, 13: 1, 14: 1, 15: 0.5, 16: 0.5 };
         for (let z = 6; z < 20; z++) {
           const opacity = opacities[z] || 0.0;
-          const sc = Math.pow(1.3, z);
+          const sc = 2.5 * Math.pow(1.2, z);
           const placenamesFontStyle = { ...dfltFont, fill: 'black', haloFill: 'white', // TODO wrap it respecting its size
             opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
 
           style
-            .typesRule(z, z, 'city', 'town')
-              .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]');
+            .typesRule(z, z, 'city')
+              .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 1.2 * sc }, '[name]');
 
-          if (z > 9) {
+          if (z > 8) {
+            style
+              .typesRule(z, z, 'town')
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]');
+          }
+
+          if (z > 10) {
             style
               .typesRule(z, z, 'village')
                 .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, textTransform: 'uppercase', size: 0.55 * sc}, '[name]');
