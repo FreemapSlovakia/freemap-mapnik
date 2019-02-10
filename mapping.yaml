@@ -939,7 +939,7 @@ tables:
     - type: string
       name: type
       key: ruins
-    type: point
+    type: polygon
     mapping:
       historic:
         - ruins
