@@ -162,6 +162,7 @@ const pois = [
   [15, 16, false, false, 'fuel'],
   [15, 16, false, false, 'post_office'],
   [15, 16, false, false, 'bunker'],
+  [15, 16, false, false, 'boundary_stone'],
   [15, null, false, false, 'mast_other'],
   [15, null, false, false, 'tower_other'],
   [15, null, false, false, ['tower_communication', 'mast_communication']],

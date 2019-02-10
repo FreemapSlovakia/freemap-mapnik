@@ -729,6 +729,7 @@ tables:
           - water_works
           historic:
           - archaeological_site
+          - boundary_stone
           - bunker
           - castle
           - manor
