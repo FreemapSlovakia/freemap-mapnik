@@ -73,6 +73,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       'select geometry, type from osm_buildings',
       { minZoom: 13 },
     )
+    .sqlLayer('ruin_polys',
+      'select geometry from osm_ruin_polys',
+      { minZoom: 13 },
+    )
     .sqlLayer('barrierways',
       'select geometry, type from osm_barrierways',
       { minZoom: 16 },
@@ -193,6 +197,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         union all select building as type, geometry from osm_place_of_worships
         union all select building as type, geometry from osm_place_of_worship_polys
         union all select type, geometry from osm_transport_points where type = 'bus_stop'
+        union all select 'ruins' as type, geometry from osm_ruins
+        union all select 'ruins' as type, geometry from osm_ruin_polys
         union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
         order by z`,
       { minZoom: 10 },
@@ -207,6 +213,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         union all select building as type, geometry, name, null as ele from osm_place_of_worships
         union all select building as type, geometry, name, null as ele from osm_place_of_worship_polys
         union all select type, geometry, name, null as ele from osm_transport_points where type = 'bus_stop'
+        union all select 'ruins' as type, geometry, name, null from osm_ruins
+        union all select 'ruins' as type, geometry, name, null from osm_ruin_polys
         union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
         order by z`,
       { minZoom: 10 },

@@ -25,6 +25,7 @@ const colors = {
   water: hsl(210, 65, 65),
   waterLabelHalo: hsl(210, 30, 100),
   building: hsl(0, 0, 50),
+  ruin: hsl(0, 0, 60),
   track: hsl(0, 33, 25),
   forest: hsl(120, 45, 78),
   heath: hsl(85, 60, 80),
@@ -117,6 +118,7 @@ const pois = [
   [13, 13, true, true, 'peak', { font: { size: 13, dy: -8 } }],
 
   [14, 15, false, false , 'castle'],
+  [14, 15, false, false , 'ruins'],
   [14, 15, true, true, 'cave_entrance'],
   [14, 15, true, true, 'spring', { font: { fill: hsl(216, 100, 50) } }],
   [14, 15, true, true, 'waterfall', { font: { fill: hsl(216, 100, 50) } }],
@@ -313,6 +315,9 @@ function generateFreemapStyle(
     .style('buildings')
       .rule({ minZoom: 13 })
         .polygonSymbolizer({ fill: colors.building })
+    .style('ruin_polys')
+      .rule({ minZoom: 13 })
+        .polygonSymbolizer({ fill: colors.ruin })
     .style('protected_areas')
       .typesRule(8, 11, 'national_park', 'nature_reserve')
         .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
