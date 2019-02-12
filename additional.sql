@@ -85,5 +85,6 @@ insert into zindex (type) values
 ('waste_disposal'),
 ('lift_gate'),
 ('feeding_place'),
-('game_feedng'),
-('gate');
+('game_feeding'),
+('gate'),
+('ruins');
