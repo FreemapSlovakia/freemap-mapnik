@@ -371,9 +371,13 @@ function generateFreemapStyle(
         .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }, '[name]')
     .style('feature_point_names')
       .poiNames(pois)
-    .style('protected_area_names')
-      .typesRule(8, 11, 'national_park', 'nature_reserve')
-        .textSymbolizer({ ...natureRelatedFont, size: 16, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
+    .style('protected_area_names').doInStyle((style) => {
+      for (const z of [8, 9, 10]) {
+        style
+          .typesRule(z, z, 'national_park', 'nature_reserve')
+            .textSymbolizer({ ...natureRelatedFont, size: 9 + Math.pow(2, z - 7), fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
+      }
+    })
       .typesRule(12, 'protected_area')
         .textSymbolizer({ ...natureRelatedFont, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
     .style('water_area_names')
