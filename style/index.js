@@ -27,7 +27,7 @@ const colors = {
   building: hsl(0, 0, 50),
   ruin: hsl(0, 0, 60),
   track: hsl(0, 33, 25),
-  forest: hsl(120, 45, 78),
+  forest: hsl(120, 40, 78),
   heath: hsl(85, 60, 80),
   farmyard: hsl(50, 44, 80),
   farmland: hsl(60, 70, 95),
