@@ -413,10 +413,8 @@ function generateFreemapStyle(
         .markersSymbolizer({ file: 'images/fixme.svg' })
     .style('placenames')
       .doInStyle((style) => {
-        const opacities = { 6: 1, 7: 1, 8: 1, 9: 1, 10: 1,
-          11: 1, 12: 1, 13: 1, 14: 1, 15: 0.5, 16: 0.5 };
         for (let z = 6; z < 20; z++) {
-          const opacity = opacities[z] || 0.0;
+          const opacity = z <= 14 ? 1 : 0.5;
           const sc = 2.5 * Math.pow(1.2, z);
           const placenamesFontStyle = { ...dfltFont, fill: 'black', haloFill: 'white', // TODO wrap it respecting its size
             opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
