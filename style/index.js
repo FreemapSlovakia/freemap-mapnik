@@ -206,7 +206,7 @@ function generateFreemapStyle(
     .style('landcover')
       .area(colors.forest, 'forest', 'wood')
       .area(colors.farmland, 'farmland')
-      .area(colors.grassy, 'meadow', 'grassland', 'grass', 'park', 'cemetery')
+      .area(colors.grassy, 'meadow', 'grassland', 'grass', 'park', 'cemetery', 'village_green')
       .typesRule('cemetery')
         .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
       .area(colors.heath, 'heath')
