@@ -251,6 +251,29 @@ tables:
       - pedestrian
       - footway
 
+  # ST_GeometryType(ST_ApproximateMedialAxis(st_simplify(geometry, 100)))
+  # https://lists.osgeo.org/pipermail/postgis-users/2010-December/028325.html
+  regions:
+    columns:
+    - type: id
+      name: osm_id
+      key:
+    - type: geometry
+      name: geometry
+      key:
+    - type: string
+      name: name
+      key: name
+    type: polygon
+    mapping:
+      boundary:
+      - geomorphological-unit
+      place:
+      - region
+      natural:
+      - valley
+      - mountain_range
+
   buildings:
     columns:
     - type: id

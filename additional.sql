@@ -1,4 +1,5 @@
 CREATE EXTENSION intarray;
+CREATE EXTENSION postgis_sfcgal;
 
 -- not sure if those indexes help ;-)
 create index idx_colour on osm_routes (colour);
