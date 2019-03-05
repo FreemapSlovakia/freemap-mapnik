@@ -375,7 +375,7 @@ function generateFreemapStyle(
       for (const z of [8, 9, 10]) {
         style
           .typesRule(z, z, 'national_park', 'nature_reserve')
-            .textSymbolizer({ ...natureRelatedFont, size: 9 + Math.pow(2, z - 7), fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
+            .textSymbolizer({ ...natureRelatedFont, size: 9 + Math.pow(2, z - 7), fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]');
       }
     })
       .typesRule(12, 'protected_area')
