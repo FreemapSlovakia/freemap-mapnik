@@ -25,7 +25,7 @@ gdaldem slope -p hgt_warped.tiff slope.tiff &
 
 wait
 
-gdaldem color-relief slope.tiff slope.ramp s.tif
+gdaldem color-relief slope.tiff slope.ramp _d.tiff
 
 rm hgt_warped.tiff
 
@@ -36,18 +36,18 @@ d='0.0 * (255 - D)' # note - intensity is zero = not used
 
 echo Bands
 
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D s.tif --outfile=R.tiff \
+gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=R.tiff \
   --calc="(${a} * 0x20 + ${b} * 0xFF + ${c} * 0x00 + ${d} * 0x00) / (0.01 + ${a} + ${b} + ${c} + ${d})" &
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D s.tif --outfile=G.tiff \
+gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=G.tiff \
   --calc="(${a} * 0x30 + ${b} * 0xEE + ${c} * 0x00 + ${d} * 0x00) / (0.01 + ${a} + ${b} + ${c} + ${d})" &
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D s.tif --outfile=B.tiff \
+gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=B.tiff \
   --calc="(${a} * 0x60 + ${b} * 0x00 + ${c} * 0x00 + ${d} * 0x00) / (0.01 + ${a} + ${b} + ${c} + ${d})" &
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D s.tif --outfile=A.tiff \
+gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=A.tiff \
   --calc="255.0 - 255.0 * ((1.0 - ${a} / 255.0) * (1.0 - ${b} / 255.0) * (1.0 - ${c} / 255.0) * (1.0 - ${d} / 255.0))" &
 
 wait
 
-rm final.tiff _a.tiff _b.tiff _c.tiff
+rm final.tiff _a.tiff _b.tiff _c.tiff _d.tiff
 
 echo Merge
 
