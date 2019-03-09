@@ -1,5 +1,4 @@
 #!/bin/bash
-N48E020.hgt
 
 echo Translate
 gdal_translate -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" N48E020.hgt hgt_translated.tiff
@@ -15,7 +14,7 @@ gen_relief() {
   gdaldem hillshade hgt_warped.tiff _$1.tiff -az $2 -igor -compute_edges -z 1.7
 }
 
-echo Reliefs
+echo Sub-reliefs
 
 gen_relief a -120 &
 gen_relief b   60 &
@@ -25,10 +24,13 @@ gdaldem slope -p hgt_warped.tiff slope.tiff &
 
 wait
 
-gdaldem color-relief slope.tiff slope.ramp _d.tiff
-
 rm hgt_warped.tiff
 
+gdaldem color-relief slope.tiff slope.ramp _d.tiff
+
+rm slope.tiff
+
+# multiplicator is intensity
 a='0.8 * (255 - A)'
 b='0.7 * (255 - B)'
 c='1.0 * (255 - C)'
@@ -36,14 +38,22 @@ d='0.0 * (255 - D)' # note - intensity is zero = not used
 
 echo Bands
 
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=R.tiff \
-  --calc="(${a} * 0x20 + ${b} * 0xFF + ${c} * 0x00 + ${d} * 0x00) / (0.01 + ${a} + ${b} + ${c} + ${d})" &
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=G.tiff \
-  --calc="(${a} * 0x30 + ${b} * 0xEE + ${c} * 0x00 + ${d} * 0x00) / (0.01 + ${a} + ${b} + ${c} + ${d})" &
-gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=B.tiff \
-  --calc="(${a} * 0x60 + ${b} * 0x00 + ${c} * 0x00 + ${d} * 0x00) / (0.01 + ${a} + ${b} + ${c} + ${d})" &
+gen_band() {
+  echo gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=$1.tiff \
+    --calc="($a * $2 + $b * $3 + $c * $4 + $d * $5) / (0.01 + $a + $b + $c + $d)"
+  gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=$1.tiff \
+    --calc="($a * $2 + $b * $3 + $c * $4 + $d * $5) / (0.01 + $a + $b + $c + $d)"
+}
+
+# RGB colors per sub-relief are defined in columns
+#          [a]  [b]  [c]  [d]
+gen_band R 0x20 0xFF 0x00 0x00 &
+gen_band G 0x30 0xEE 0x00 0x00 &
+gen_band B 0x60 0x00 0x00 0x00 &
+
+# alpha
 gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=A.tiff \
-  --calc="255.0 - 255.0 * ((1.0 - ${a} / 255.0) * (1.0 - ${b} / 255.0) * (1.0 - ${c} / 255.0) * (1.0 - ${d} / 255.0))" &
+  --calc="255.0 - 255.0 * ((1.0 - $a / 255.0) * (1.0 - $b / 255.0) * (1.0 - $c / 255.0) * (1.0 - $d / 255.0))" &
 
 wait
 
