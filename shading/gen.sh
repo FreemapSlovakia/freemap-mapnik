@@ -39,8 +39,6 @@ d='0.0 * (255 - D)' # note - intensity is zero = not used
 echo Bands
 
 gen_band() {
-  echo gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=$1.tiff \
-    --calc="($a * $2 + $b * $3 + $c * $4 + $d * $5) / (0.01 + $a + $b + $c + $d)"
   gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=$1.tiff \
     --calc="($a * $2 + $b * $3 + $c * $4 + $d * $5) / (0.01 + $a + $b + $c + $d)"
 }
