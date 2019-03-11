@@ -1,16 +1,23 @@
 all: final.tiff
 
 clean:
-	rm *.tiff
+	rm -f *.tiff *.vrt
 
-hgt_translated.tiff: N48E020.hgt
-	gdal_translate -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" N48E020.hgt hgt_translated.tiff
+%.aa.tiff: %.hgt
+	node antialiaser $< $@
+
+antialiased = $(patsubst %.hgt,%.aa.tiff,$(wildcard *.hgt))
+
+merged.tiff: $(antialiased)
+	gdal_merge.py -o merged.tiff $(antialiased)
+
+hgt_translated.tiff: merged.tiff
+	gdal_translate -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" merged.tiff hgt_translated.tiff
 
 hgt_warped.tiff: hgt_translated.tiff
 	gdalwarp -overwrite -of GTiff -ot Float64 -co "TILED=YES" -srcnodata 32767 -r cubicspline -order 3 -tr 20 20 -multi \
 		-t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" \
 		hgt_translated.tiff hgt_warped.tiff
-
 
 define gen_relief
 	gdaldem hillshade hgt_warped.tiff _$(1).tiff -az $(2) -igor -compute_edges -z 1.7
@@ -36,9 +43,12 @@ b := 0.7 * (255 - B)
 c := 1.0 * (255 - C)
 d := 0.0 * (255 - D) # note - intensity is zero = not used
 
+contrast := 1.0
+brightness := 0.0
+
 define gen_band
 	gdal_calc.py -A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=$(1).tiff \
-		--calc="($(a) * $(2) + $(b) * $(3) + $(c) * $(4) + $(d) * $(5)) / (0.01 + $(a) + $(b) + $(c) + $(d))"
+		--calc="$(contrast) * (($(a) * $(2) + $(b) * $(3) + $(c) * $(4) + $(d) * $(5)) / (0.01 + $(a) + $(b) + $(c) + $(d)) - 128.0) + 128.0 + $(brightness)"
 endef
 
 # RGB colors per sub-relief are defined in columns

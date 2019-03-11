@@ -1,12 +1,12 @@
 const gdal = require('gdal');
 
-const dataset = gdal.open('N48E021.hgt');
+const dataset = gdal.open(process.argv[2]);
 
-const threshold = 4; // minimal length of the run to smooth; prevents blurring
+const threshold = Number.parseInt(process.argv[4]) || 4; // minimal length of the run to smooth; prevents blurring
 
 const { x: width, y: height } = dataset.rasterSize;
 
-const dataset1 = gdal.open('N48E021.tiff', 'w', 'GTiff', width, height, 1, 'Float32');
+const dataset1 = gdal.open(process.argv[3], 'w', 'GTiff', width, height, 1, 'Float32');
 dataset1.srs = dataset.srs;
 dataset1.geoTransform = dataset.geoTransform;
 
