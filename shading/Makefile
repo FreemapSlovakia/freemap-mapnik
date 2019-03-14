@@ -1,12 +1,22 @@
 all: final.tiff
 
 clean:
-	rm -f *.tiff *.vrt
+	rm -f *.tiff *.vrt contours*
 
 %.aa.tiff: %.hgt
 	node antialiaser $< $@
 
 antialiased = $(patsubst %.hgt,%.aa.tiff,$(wildcard *.hgt))
+
+contours.shp: clipped.tiff limit.shp
+	gdal_contour -i 10 -a height clipped.tiff contours.shp
+
+contours_split.geojson: contours.shp
+	node contour_splitter contours.shp > contours_split.geojson
+
+contours_split.shp: contours_split.geojson
+	ogr2ogr -F 'ESRI Shapefile' contours_split.shp contours_split.geojson
+	shapeindex contours_split.shp
 
 limit.shp: ../limit.geojson
 	ogr2ogr -f 'ESRI Shapefile' limit.shp ../limit.geojson
