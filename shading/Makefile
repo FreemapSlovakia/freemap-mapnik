@@ -8,35 +8,41 @@ clean:
 
 antialiased = $(patsubst %.hgt,%.aa.tiff,$(wildcard *.hgt))
 
+limit.shp: ../limit.geojson
+	ogr2ogr -f 'ESRI Shapefile' limit.shp ../limit.geojson
+
 merged.tiff: $(antialiased)
 	gdal_merge.py -o merged.tiff $(antialiased)
 
-hgt_translated.tiff: merged.tiff
-	gdal_translate -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" merged.tiff hgt_translated.tiff
+clipped.tiff: merged.tiff
+	gdalwarp -cutline limit.shp -crop_to_cutline merged.tiff clipped.tiff
 
-hgt_warped.tiff: hgt_translated.tiff
+translated.tiff: clipped.tiff
+	gdal_translate -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" clipped.tiff translated.tiff
+
+warped.tiff: translated.tiff
 	gdalwarp -overwrite -of GTiff -ot Float64 -co "TILED=YES" -srcnodata 32767 -r cubicspline -order 3 -tr 20 20 -multi \
 		-t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" \
-		hgt_translated.tiff hgt_warped.tiff
+		translated.tiff warped.tiff
 
 define gen_relief
-	gdaldem hillshade hgt_warped.tiff _$(1).tiff -az $(2) -igor -compute_edges -z 1.7
+	gdaldem hillshade warped.tiff _$(1).tiff -az $(2) -igor -compute_edges -z 1.7
 endef
 
-_a.tiff: hgt_warped.tiff
+_a.tiff: warped.tiff
 	$(call gen_relief,a,-120)
 
-_b.tiff: hgt_warped.tiff
+_b.tiff: warped.tiff
 	$(call gen_relief,b,60)
 
-_c.tiff: hgt_warped.tiff
+_c.tiff: warped.tiff
 	$(call gen_relief,c,-45)
 
 _d.tiff: slope.tiff slope.ramp
 	gdaldem color-relief slope.tiff slope.ramp _d.tiff
 
-slope.tiff: hgt_warped.tiff
-	gdaldem slope -p hgt_warped.tiff slope.tiff
+slope.tiff: warped.tiff
+	gdaldem slope -p warped.tiff slope.tiff
 
 a := 0.8 * (255 - A)
 b := 0.7 * (255 - B)
@@ -72,3 +78,4 @@ stack.vrt: R.tiff G.tiff B.tiff A.tiff
 
 final.tiff: stack.vrt R.tiff G.tiff B.tiff A.tiff
 	gdal_translate -of GTiff -co "TILED=YES" stack.vrt final.tiff
+
