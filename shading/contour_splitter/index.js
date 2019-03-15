@@ -22,7 +22,7 @@ function split(coords, height) {
   }
 }
 
-async function process() {
+async function run() {
   // /media/martin/data/martin/mapping/dmr20/new/contours.shp
   const source = await shapefile.open(process.argv[2]);
 
@@ -40,4 +40,4 @@ async function process() {
   console.log(']}');
 }
 
-process();
+run();
