@@ -7,7 +7,7 @@
     "start": "node --max-old-space-size=4096 --experimental-worker .",
     "watch": "nodemon --ext js,xml,svg --watch style --watch images --exec npm run start"
   },
-  "author": "",
+  "author": "Martin Ždila <martin.zdila@freemap.sk>",
   "license": "ISC",
   "dependencies": {
     "color-convert": "1.9.3",

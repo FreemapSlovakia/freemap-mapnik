@@ -7,6 +7,8 @@ cache
 diff
 expires
 sandbox
-*.tiff
 *.hgt
-*.vrt
+shading/*.tiff
+shading/*.vrt
+shading/contours*
+shading/limit.*

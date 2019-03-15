@@ -74,10 +74,8 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
 
 1. Obtain digital elevation data from [EarthExplorer](https://earthexplorer.usgs.gov/)
    - recommended Data Set is _SRTM 1 Arc-Second Global_
-   - use GeoTIFF format
-1. Create `hgt` directory and put there downloaded files.
-1. To generate shaded relief run `scripts/generate_shaded_relief.sh`
-1. To generate shaded relief run `scripts/import_contours.sh`
+   - use GeoTIFF format; then convert it to HGT or modify `shading/Makefile` ;-)
+1. To generate shaded relief and contours run `npm i -g dem-iron shp-polyline-splitter && cd shading && make -j 8`
 
 ## Setting up minutely diff applying (working notes)
 

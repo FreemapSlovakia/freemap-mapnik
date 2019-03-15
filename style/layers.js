@@ -91,6 +91,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       if (shading) {
         map.layer('hillshade', {
           type: 'gdal',
+          // file: '/media/martin/data/martin/mapping/dmr20/new/final.tiff',
           file: 'shading/final.tiff',
         });
       }

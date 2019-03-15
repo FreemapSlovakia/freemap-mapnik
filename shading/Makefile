@@ -1,10 +1,10 @@
-all: final.tiff
+all: final.tiff contours_split.shp
 
 clean:
-	rm -f *.tiff *.vrt contours*
+	rm -f *.tiff *.vrt contours* limit.*
 
 %.aa.tiff: %.hgt
-	node antialiaser $< $@
+	dem-iron $< $@
 
 antialiased = $(patsubst %.hgt,%.aa.tiff,$(wildcard *.hgt))
 
@@ -12,7 +12,7 @@ contours.shp: clipped.tiff limit.shp
 	gdal_contour -i 10 -a height clipped.tiff contours.shp
 
 contours_split.geojson: contours.shp
-	node contour_splitter contours.shp > contours_split.geojson
+	shp-polyline-splitter contours.shp height > contours_split.geojson
 
 contours_split.shp: contours_split.geojson
 	ogr2ogr -F 'ESRI Shapefile' contours_split.shp contours_split.geojson
@@ -25,6 +25,7 @@ merged.tiff: $(antialiased)
 	gdal_merge.py -o merged.tiff $(antialiased)
 
 clipped.tiff: merged.tiff
+	# cp merged.tiff clipped.tiff
 	gdalwarp -cutline limit.shp -crop_to_cutline merged.tiff clipped.tiff
 
 translated.tiff: clipped.tiff
