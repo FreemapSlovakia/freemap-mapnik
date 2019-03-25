@@ -183,7 +183,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       'select name, type, geometry from osm_places order by z_order desc',
       { bufferSize: 1024, maxZoom: 14 })
     .sqlLayer('feature_points',
-      `select * from (select type, geometry from osm_feature_points
+      `select * from (
+        select case when type = 'peak' then
+          case when isolation > 4500 then 'peak1'
+            when isolation between 3000 and 4500 then 'peak2'
+            when isolation between 1500 and 3000 then 'peak3'
+            else 'peak' end else type end, geometry from osm_feature_points natural join isolations
         union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry from osm_feature_polys
         union all select type, geometry from osm_shops
         union all select type, geometry from osm_shop_polys
@@ -200,7 +205,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { minZoom: 10 },
     )
     .sqlLayer('feature_point_names',
-      `select * from (select type, geometry, name, ele from osm_feature_points
+      `select * from (
+        select case when type = 'peak' then
+          case when isolation > 4500 then 'peak1'
+            when isolation between 3000 and 4500 then 'peak2'
+            when isolation between 1500 and 3000 then 'peak3'
+            else 'peak' end else type end, geometry, name, ele from osm_feature_points natural join isolations
         union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry, name, ele from osm_feature_polys
         union all select type, geometry, name, null as ele from osm_shops
         union all select type, geometry, name, null as ele from osm_shop_polys
@@ -227,16 +237,18 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       'select geometry, name, type from osm_waterways',
       { minZoom: 12 },
     )
+    // TODO to feature_point_names to consider zindex
     .sqlLayer('water_area_names',
-      'select name, geometry, type from osm_waterareas',
-      { minZoom: 12 },
+      "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
+      { minZoom: 10 },
     )
     .sqlLayer('feature_line_names',
       'select geometry, name, type from osm_feature_lines',
       { minZoom: 14 },
     )
+    // TODO to feature_point_names to consider zindex
     .sqlLayer('aeroport_names',
-      "select name, geometry from osm_transport_areas where type='aerodrome'",
+      "select name, geometry from osm_transport_areas where type = 'aerodrome'",
       { minZoom: 12 },
     )
     .sqlLayer('building_names',
@@ -244,7 +256,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('protected_area_names',
       'select type, name, geometry from osm_protected_areas')
     .sqlLayer('locality_names',
-      "select name, type, geometry from osm_places where type in ('locality')",
+      "select name, type, geometry from osm_places where type = 'locality'",
       { minZoom: 15 },
     )
     .sqlLayer('fixmes',

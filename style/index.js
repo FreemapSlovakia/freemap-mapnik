@@ -109,85 +109,91 @@ const extensions = {
   }
 };
 
+const N = false;
+const Y = true;
+const NN = null;
+
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  [11, 20, true, false, 'guidepost', { icon: 'guidepost_x', maxZoom: 11 }],
-  [12, 12, true, false, 'guidepost', { icon: 'guidepost_x', font: { faceName: 'PT Sans Bold', dy: -8 }, maxZoom: 12 }],
-  [13, 13, true, false, 'guidepost', { icon: 'guidepost_xx', font: { faceName: 'PT Sans Bold' } }],
-  [12, 20, true, true, 'peak', { icon: 'peak_small', maxZoom: 12 }], // TODO show only prominent peaks and include label
-  [13, 13, true, true, 'peak', { font: { size: 13, dy: -8 } }],
+  // [11, 20, X, O, 'guidepost', { icon: 'guidepost_x', maxZoom: 11 }],
+  [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { faceName: 'PT Sans Bold', dy: -8 }, maxZoom: 12 }],
+  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { faceName: 'PT Sans Bold' } }],
+  [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
+  [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
+  [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
+  [13, 13, Y, Y, 'peak', { font: { size: 13, dy: -8 } }],
 
-  [14, 15, false, false , 'castle'],
-  [14, 15, false, false , 'ruins'],
-  [14, 15, true, true, 'cave_entrance'],
-  [14, 15, true, true, 'spring', { font: { fill: hsl(216, 100, 50) } }],
-  [14, 15, true, true, 'waterfall', { font: { fill: hsl(216, 100, 50) } }],
-  [14, 15, true, false, 'monument'],
-  [14, 15, true, true, 'viewpoint'],
-  [14, 15, true, false, ['mine', 'adit', 'mineshaft']],
-  [14, 15, true, false, 'hotel'],
-  [14, 15, true, false, 'chalet'],
-  [14, 15, true, false, 'hostel'],
-  [14, 15, true, false, 'motel'],
-  [14, 15, true, false, 'guest_house'],
-  [14, 15, true, false, 'alpine_hut'],
-  [14, 15, true, false, 'camp_site'],
-  [14, 15, false, false, 'attraction'],
-  [14, 15, false, false, 'hospital'],
-  [14, 15, false, false, 'townhall'],
-  [14, 15, false, true, ['hut', 'cabin']], //  fallback
-  [14, 15, false, false, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
-  [14, 15, true, false, 'tower_observation'],
-  [14, 15, true, false, 'archaeological_site'],
+  [14, 15, N, N, 'castle'],
+  [14, 15, N, N, 'ruins'],
+  [14, 15, Y, Y, 'cave_entrance'],
+  [14, 15, Y, Y, 'spring', { font: { fill: hsl(216, 100, 50) } }],
+  [14, 15, Y, Y, 'waterfall', { font: { fill: hsl(216, 100, 50) } }],
+  [14, 15, Y, N, 'monument'],
+  [14, 15, Y, Y, 'viewpoint'],
+  [14, 15, Y, N, ['mine', 'adit', 'mineshaft']],
+  [14, 15, Y, N, 'hotel'],
+  [14, 15, Y, N, 'chalet'],
+  [14, 15, Y, N, 'hostel'],
+  [14, 15, Y, N, 'motel'],
+  [14, 15, Y, N, 'guest_house'],
+  [14, 15, Y, N, 'alpine_hut'],
+  [14, 15, Y, N, 'camp_site'],
+  [14, 15, N, N, 'attraction'],
+  [14, 15, N, N, 'hospital'],
+  [14, 15, N, N, 'townhall'],
+  [14, 15, N, Y, ['hut', 'cabin']], //  fallback
+  [14, 15, N, N, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
+  [14, 15, Y, N, 'tower_observation'],
+  [14, 15, Y, N, 'archaeological_site'],
 
-  [15, 16, false, false, 'water_tower'],
-  [15, 16, false, false, 'chimney'],
-  [15, 16, false, false, 'fire_station'],
-  [15, 16, false, false, 'community_centre'],
-  [15, 16, false, false, 'police'],
-  [15, 16, false, false, 'office'], // information=office
-  [15, 16, false, false, 'hunting_stand'],
-  [15, 16, true, false, 'shelter'],
-  [15, 16, false, true, ['rock', 'stone']],
-  [15, 16, false, false, 'museum'],
-  [15, 16, false, false, 'pharmacy'],
-  [15, 16, false, false, 'cinema'],
-  [15, 16, false, false, 'theatre'],
-  [15, 16, false, false, 'memorial'],
-  [15, 16, false, false, 'pub'],
-  [15, 16, false, false, 'cafe'],
-  [15, 16, false, false, 'restaurant'],
-  [15, 16, false, false, 'convenience'],
-  [15, 16, false, false, 'supermarket'],
-  [15, 16, false, false, 'fast_food'],
-  [15, 16, false, false, 'confectionery'],
-  [15, 16, false, false, 'fuel'],
-  [15, 16, false, false, 'post_office'],
-  [15, 16, false, false, 'bunker'],
-  [15, 16, false, false, 'boundary_stone'],
-  [15, null, false, false, 'mast_other'],
-  [15, null, false, false, 'tower_other'],
-  [15, null, false, false, ['tower_communication', 'mast_communication']],
+  [15, 16, N, N, 'water_tower'],
+  [15, 16, N, N, 'chimney'],
+  [15, 16, N, N, 'fire_station'],
+  [15, 16, N, N, 'community_centre'],
+  [15, 16, N, N, 'police'],
+  [15, 16, N, N, 'office'], // information=office
+  [15, 16, N, N, 'hunting_stand'],
+  [15, 16, Y, N, 'shelter'],
+  [15, 16, N, Y, ['rock', 'stone']],
+  [15, 16, N, N, 'museum'],
+  [15, 16, N, N, 'pharmacy'],
+  [15, 16, N, N, 'cinema'],
+  [15, 16, N, N, 'theatre'],
+  [15, 16, N, N, 'memorial'],
+  [15, 16, N, N, 'pub'],
+  [15, 16, N, N, 'cafe'],
+  [15, 16, N, N, 'restaurant'],
+  [15, 16, N, N, 'convenience'],
+  [15, 16, N, N, 'supermarket'],
+  [15, 16, N, N, 'fast_food'],
+  [15, 16, N, N, 'confectionery'],
+  [15, 16, N, N, 'fuel'],
+  [15, 16, N, N, 'post_office'],
+  [15, 16, N, N, 'bunker'],
+  [15, 16, N, N, 'boundary_stone'],
+  [15, NN, N, N, 'mast_other'],
+  [15, NN, N, N, 'tower_other'],
+  [15, NN, N, N, ['tower_communication', 'mast_communication']],
 
-  [16, 16, false, false, 'board'],
-  [16, 17, false, false, 'map'],
-  [16, 17, false, false, 'artwork'],
-  [16, 17, false, false, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
-  [16, null, false, false, 'feeding_place', { icon: 'manger' }],
-  [16, null, false, false, 'game_feedng', { icon: 'manger' }],
-  [16, 17, false, false, 'playground'],
-  [16, 17, false, false, 'bus_stop'],
+  [16, 16, N, N, 'board'],
+  [16, 17, N, N, 'map'],
+  [16, 17, N, N, 'artwork'],
+  [16, 17, N, N, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
+  [16, NN, N, N, 'feeding_place', { icon: 'manger' }],
+  [16, NN, N, N, 'game_feedng', { icon: 'manger' }],
+  [16, 17, N, N, 'playground'],
+  [16, 17, N, N, 'bus_stop'],
 
-  [17, 18, false, false, 'wayside_shrine'],
-  [17, 18, false, false, ['cross', 'wayside_cross']],
-  [17, null, false, false, 'firepit'],
-  [17, null, false, false, 'toilets'],
+  [17, 18, N, N, 'wayside_shrine'],
+  [17, 18, N, N, ['cross', 'wayside_cross']],
+  [17, NN, N, N, 'firepit'],
+  [17, NN, N, N, 'toilets'],
 
-  [18, 19, false, false, 'post_box'],
-  [18, 19, false, false, 'telephone'],
-  [18, null, false, false, 'gate'],
-  [18, null, false, false, 'lift_gate'],
-  [18, null, false, false, 'waste_disposal'],
+  [18, 19, N, N, 'post_box'],
+  [18, 19, N, N, 'telephone'],
+  [18, NN, N, N, 'gate'],
+  [18, NN, N, N, 'lift_gate'],
+  [18, NN, N, N, 'waste_disposal'],
 ];
 
 function generateFreemapStyle(
@@ -381,7 +387,13 @@ function generateFreemapStyle(
       .typesRule(12, 'protected_area')
         .textSymbolizer({ ...natureRelatedFont, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
     .style('water_area_names')
-      .rule({ filter: "not([type] = 'riverbank')", minZoom: 12 })
+      .doInStyle((style) => {
+        for (let z = 10; z <= 16; z++) {
+          style.rule({ filter: `[area] > ${800000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
+            .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]');
+        }
+      })
+      .rule({ minZoom: 17 })
         .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
     .style('aeroport_names')
       .rule({ minZoom: 12 })

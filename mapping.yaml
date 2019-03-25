@@ -133,6 +133,7 @@ tables:
         - farm
         - farmyard
         - grassland
+        - grass
         - forest
         - wood
         - industrial
