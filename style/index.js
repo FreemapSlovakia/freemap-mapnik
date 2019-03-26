@@ -27,6 +27,7 @@ const colors = {
   building: hsl(0, 0, 50),
   ruin: hsl(0, 0, 60),
   track: hsl(0, 33, 25),
+  road: hsl(40, 60, 50),
   forest: hsl(120, 40, 78),
   heath: hsl(85, 60, 80),
   farmyard: hsl(50, 44, 80),
@@ -54,10 +55,10 @@ const extensions = {
     typesRule(style, ...t) {
       const q = [...t];
       let minZoom, maxZoom;
-      if (typeof q[0] === 'number') {
+      if (typeof q[0] === 'number' || typeof q[0] === 'undefined') {
         minZoom = q.shift();
       }
-      if (typeof q[0] === 'number') {
+      if (typeof q[0] === 'number' || typeof q[0] === 'undefined') {
         maxZoom = q.shift();
       }
       return style.rule({ filter: types(...q), minZoom, maxZoom });
@@ -272,14 +273,20 @@ function generateFreemapStyle(
         .lineSymbolizer({ stroke: 'white', strokeWidth: 3 })
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1.5 })
         .linePatternSymbolizer({ file: 'images/rail.svg' })
-      .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
+
+      .typesRule(undefined, 11, 'motorway', 'trunk', 'motorway_link', 'trunk_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
-      .typesRule('primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link')
+      .typesRule(undefined, 11, 'primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 2 })
-      .typesRule(12, 'living_street', 'residential', 'unclassified', 'road')
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
-      .rule({ filter: "[type] = 'service' and [service] != 'parking_aisle'", minZoom: 12 })
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.5 })
+
+      .typesRule(12, 'motorway', 'trunk', 'motorway_link', 'trunk_link')
+        .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 2.5 })
+      .typesRule(12, 'primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link')
+        .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 })
+      .typesRule(12, 14, 'living_street', 'residential', 'unclassified', 'road')
+        .lineSymbolizer({ ...highwayDflt, strokeWidth: 1 }) // NOTE used to be 1.5
+      .typesRule(14, 'living_street', 'residential', 'unclassified', 'road')
+        .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1 })
       .rule({ filter: "[type] = 'service' and [service] = 'parking_aisle'", minZoom: 14 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1 })
       .typesRule(14, 'footway', 'pedestrian', 'steps')
@@ -290,6 +297,8 @@ function generateFreemapStyle(
         for (const a of [0, 1, 2]) {
           const k = w[a];
           style
+            .rule({ minZoom: zz[a][0], maxZoom: zz[a][1], filter: "[type] = 'service' and [service] != 'parking_aisle'" })
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1.2 })
             .typesRule(...zz[a], 'path')
               .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
             .typesRule(...zz[a], 'cycleway')
@@ -314,6 +323,12 @@ function generateFreemapStyle(
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
       .typesRule(12, 'track')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
+      .typesRule('motorway', 'trunk', 'motorway_link', 'trunk_link')
+        .lineSymbolizer({ ...highwayDflt, strokeWidth: 4 })
+      .typesRule('primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link')
+        .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
+      .typesRule(14, 'living_street', 'residential', 'unclassified', 'road')
+        .lineSymbolizer({ ...highwayDflt, strokeWidth: 2.5 })
     .style('aerialways')
       .rule()
         .lineSymbolizer({ strokeWidth: 1, stroke: 'black' })
