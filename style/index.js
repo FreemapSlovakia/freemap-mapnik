@@ -247,7 +247,7 @@ function generateFreemapStyle(
     .style('water_line')
       .typesRule('river')
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 2.2 })
-      .rule({ filter: "[type] <> 'river'", minZoom: 11 })
+      .rule({ filter: "[type] <> 'river'", minZoom: 12 })
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2 })
     .style('barrierways')
       .rule({ minZoom: 16 })
