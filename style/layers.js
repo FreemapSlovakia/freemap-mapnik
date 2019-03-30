@@ -188,7 +188,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
           case when isolation > 4500 then 'peak1'
             when isolation between 3000 and 4500 then 'peak2'
             when isolation between 1500 and 3000 then 'peak3'
-            else 'peak' end else type end, geometry from osm_feature_points natural join isolations
+            else 'peak' end else type end, geometry from osm_feature_points natural left join isolations
         union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry from osm_feature_polys
         union all select type, geometry from osm_shops
         union all select type, geometry from osm_shop_polys
@@ -210,7 +210,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
           case when isolation > 4500 then 'peak1'
             when isolation between 3000 and 4500 then 'peak2'
             when isolation between 1500 and 3000 then 'peak3'
-            else 'peak' end else type end, geometry, name, ele from osm_feature_points natural join isolations
+            else 'peak' end else type end, geometry, name, ele from osm_feature_points natural left join isolations
         union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry, name, ele from osm_feature_polys
         union all select type, geometry, name, null as ele from osm_shops
         union all select type, geometry, name, null as ele from osm_shop_polys
