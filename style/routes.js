@@ -1,7 +1,5 @@
 /* eslint-disable indent */
 
-// NOTE more colors slows rendering rapidly; maybe we should try to move the combination computation to SQL
-// black ski is missing (but would bake it slow)
 const routeColors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'orange', 'purple'];
 
 module.exports = {
