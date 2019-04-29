@@ -139,7 +139,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         idx(arr, 37) as s_purple
       from (
         select
-          geometry,
+          first(geometry) as geometry,
           case
             when osm_routes.type in ('foot', 'hiking') then 'hiking'
             when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then 'bicycleAndSki'
@@ -175,7 +175,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
             else
               1000
             end
-          ))) as arr from osm_route_members join osm_routes using (osm_id) group by member, groupType, geometry
+          ))) as arr from osm_route_members join osm_routes using (osm_id) group by member, groupType
       ) as aaa`,
       { minZoom: 10, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
