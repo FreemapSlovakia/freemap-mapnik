@@ -175,7 +175,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
             else
               1000
             end
-          ))) as arr from osm_route_members join osm_routes using (osm_id) group by member, groupType
+          ))) as arr
+        from osm_route_members join osm_routes using (osm_id)
+        where geometry && !bbox!
+        group by member, groupType
       ) as aaa`,
       { minZoom: 10, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
     )
