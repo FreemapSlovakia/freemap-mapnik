@@ -249,10 +249,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
       { minZoom: 10 },
     )
-    .sqlLayer('feature_line_names',
-      'select geometry, name, type from osm_feature_lines',
-      { minZoom: 14 },
-    )
+    // .sqlLayer('feature_line_names',
+    //   'select geometry, name, type from osm_feature_lines',
+    //   { minZoom: 14 },
+    // )
     // TODO to feature_point_names to consider zindex
     .sqlLayer('aeroport_names',
       "select name, geometry from osm_transport_areas where type = 'aerodrome'",
@@ -273,5 +273,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
       { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
+    )
+    .sqlLayer('valleys',
+      "select geometry, name from osm_feature_lines where type = 'valley'",
+      { minZoom: 13, clearLabelCache: 'on' },
     );
+
 }

@@ -26,8 +26,6 @@ const N = false;
 const Y = true;
 const NN = null;
 
-console.log('DDDDDDD', font().line(666).end({ fill: colors.track }));
-
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
   // [11, 20, X, O, 'guidepost', { icon: 'guidepost_x', maxZoom: 11 }],
@@ -365,20 +363,21 @@ function generateFreemapStyle(
     .style('aerialway_names')
       .rule()
         .textSymbolizer(font().line().end({ fill: 'black', dy: 6 }), '[name]')
-    .style('feature_line_names')
+    .style('valleys')
       .doInStyle((style) => {
-        // TODO i've disabled opacity - we should re-enable it to see things behind text; then also prevent label cache for it
-        // const opacities = { 14: 0.4, 15: 0.4, 16: 0.35, 17: 0.35, 18: 0.35, 19: 0.35 };
-
-        for (let z = 14; z < 20; z++) {
-          style.typesRule(z, z, 'valley')
-            .textSymbolizer(font().nature().line(400).end({
-              size: 10 + Math.pow(3, z - 14),
-              fill: hsl(0, 0, 40), // opacity: opacities[z],
-              characterSpacing: 3 + Math.pow(3, z - 14),
+        for (let z = 13; z < 18; z++) {
+          const opacity = 0.5 - (z - 13) / 10;
+          style.rule({ minZoom: z, maxZoom: z })
+            .textSymbolizer(font().nature().line(200).end({
+              size: 10 + Math.pow(2.5, z - 12),
+              // dy: -10 - Math.pow(2.5, z - 13),
+              characterSpacing: 3 + Math.pow(2.5, z - 12),
               haloRadius: 1.5,
-              haloOpacity: 0.2
-            }), '[name]');
+              haloOpacity: opacity * 0.9,
+              opacity,
+              smooth: 1,
+              lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
+            }), '[name] + "\n "');
         }
       })
     .style('water_line_names')
