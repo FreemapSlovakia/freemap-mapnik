@@ -289,7 +289,7 @@ function generateFreemapStyle(
         .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1 })
       .rule({ filter: "[type] = 'service' and [service] = 'parking_aisle'", minZoom: 14 })
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1 })
-      .typesRule(14, 'footway', 'pedestrian', 'steps')
+      .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
       .doInStyle((style) => {
         const w = [0.5, 0.75, 1];
@@ -317,7 +317,7 @@ function generateFreemapStyle(
         }
       })
     .style('higwayGlows')
-      .typesRule(14, 'footway', 'pedestrian', 'steps')
+      .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
       .typesRule(12, 'path')
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })

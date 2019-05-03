@@ -1201,6 +1201,7 @@ tables:
           - unclassified
           - residential
           - raceway
+          - platform
 
   housenumbers:
     columns:
