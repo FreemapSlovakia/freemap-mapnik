@@ -389,14 +389,14 @@ function generateFreemapStyle(
           const size = 2 + Math.pow(2, z - 15);
           style
             .rule({ minZoom: z, maxZoom: z })
-            .markersSymbolizer({ file: 'images/tree.svg', width: size, height: size, fill: colors.forest, allowOverlap: true });
+            .markersSymbolizer({ file: 'images/tree.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true });
         }
       })
     .style('feature_points')
       .typesRule(13, 'tower')
-        .markersSymbolizer({ file: 'images/power_tower.svg' })
+        .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(14, 'pole')
-        .markersSymbolizer({ file: 'images/power_pole.svg' })
+        .markersSymbolizer({ file: 'images/power_pole.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(16, 'picnic_site', 'picnic_table')
         .markersSymbolizer({ file: 'images/picnic.svg' })
       .poiIcons(pois)

@@ -33,7 +33,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     )
     .sqlLayer('water_line',
       'select geometry, type from osm_waterways_gen1',
-      { maxZoom: 11, clearLabelCache: 'on' }, // clearLabelCache because of trees
+      { maxZoom: 11 },
     )
     .sqlLayer('water_line',
       'select geometry, type from osm_waterways',
