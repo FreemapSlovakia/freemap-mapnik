@@ -383,6 +383,15 @@ function generateFreemapStyle(
         .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global', opacity: 0.5 })
       .rule({ minZoom: 14 })
         .polygonPatternSymbolizer({ file: 'images/military_area.svg', alignment: 'global', opacity: 0.2 })
+    .style('trees')
+      .doInStyle((style) => {
+        for (let z = 16; z <= 19; z++) {
+          const size = 2 + Math.pow(2, z - 15);
+          style
+            .rule({ minZoom: z, maxZoom: z })
+            .markersSymbolizer({ file: 'images/tree.svg', width: size, height: size, fill: colors.forest, allowOverlap: true });
+        }
+      })
     .style('feature_points')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg' })
