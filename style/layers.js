@@ -28,7 +28,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { minZoom: 12 },
     )
     .sqlLayer('trees',
-      `select geometry from osm_feature_points where type = 'tree'`,
+      "select geometry from osm_feature_points where type = 'tree'",
       { minZoom: 16 },
     )
     .sqlLayer('water_line',

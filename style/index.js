@@ -1,7 +1,6 @@
 /* eslint-disable indent */
 
 const config = require('config');
-const convert = require('color-convert');
 const { createMap } = require('jsnik');
 const { mercSrs } = require('freemap-mapserver/lib/projections'); // TODO ugly
 
@@ -13,106 +12,21 @@ const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 const skiTrailsCfg = config.get('mapFeatures.skiTrails');
 const dumpXml = config.get('dumpXml');
 
+const { font } = require('./fontFactory');
+const { colors, hsl } = require('./colors');
+const { extensions } = require('./jsnikExtensions');
+
 const { layers } = require('./layers');
 const { routes } = require('./routes');
-
-function hsl(h, s, l) {
-  return `#${convert.hsl.hex(h, s, l)}`;
-}
-
-const colors = {
-  contour: 'black',
-  water: hsl(210, 65, 65),
-  waterLabelHalo: hsl(210, 30, 100),
-  building: hsl(0, 0, 50),
-  ruin: hsl(0, 0, 60),
-  track: hsl(0, 33, 25),
-  road: hsl(40, 60, 50),
-  forest: hsl(120, 40, 78),
-  heath: hsl(85, 60, 80),
-  farmyard: hsl(50, 44, 80),
-  farmland: hsl(60, 70, 95),
-  wetland: hsl(200, 80, 90),
-  scrub: hsl(100, 40, 65),
-  grassy: hsl(100, 85, 90),
-  orchard: hsl(95, 20, 100),
-  allotments: hsl(50, 45, 85),
-  landfill: hsl(0, 30, 60),
-};
 
 const glowDflt = { stroke: hsl(0, 33, 70)};
 const highwayDflt = { stroke: colors.track };
 
-// fonts
-const dfltFont = { faceName: 'PT Sans Regular', fill: 'black', haloFill: 'white', haloRadius: 1.5, haloOpacity: 0.75, size: 12, lineSpacing: -2 };
-const wrapFont = { ...dfltFont, wrapWidth: 100, wrapBefore: true };
-const natureRelatedFont = { ...wrapFont, faceName: 'PT Sans Italic', fill: 'black' };
-const waterFont = { ...natureRelatedFont, fill: hsl(216, 100, 50), haloFill: colors.waterLabelHalo };
-const valleyFont = { ...dfltFont, faceName: 'PT Sans Italic', placement: 'line', repeatDistance: 400, fill: 'black', haloRadius: 0 };
-
-const extensions = {
-  style: {
-    typesRule(style, ...t) {
-      const q = [...t];
-      let minZoom, maxZoom;
-      if (typeof q[0] === 'number' || typeof q[0] === 'undefined') {
-        minZoom = q.shift();
-      }
-      if (typeof q[0] === 'number' || typeof q[0] === 'undefined') {
-        maxZoom = q.shift();
-      }
-      return style.rule({ filter: types(...q), minZoom, maxZoom });
-    },
-    poiIcons(style, pois) {
-      for (const [minIcoZoom, , , , type, extra = {}] of pois) {
-        if (typeof minIcoZoom !== 'number') {
-          continue;
-        }
-        const types = Array.isArray(type) ? type : [type];
-        const zoom = [minIcoZoom];
-        if (extra.maxZoom) {
-          zoom.push(extra.maxZoom);
-        }
-        style.typesRule(...zoom, ...types)
-          .markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg` });
-      }
-      return style; // TODO remove
-    },
-    poiNames(style, pois) {
-      for (const [, minTextZoom, withEle, natural, type, extra = {}] of pois) {
-        if (typeof minTextZoom !== 'number') {
-          continue;
-        }
-        const types = Array.isArray(type) ? type : [type];
-        const font = { ...(natural ? natureRelatedFont : wrapFont), dy: -10, ...(extra.font || {}) };
-        const { textSymbolizerEle } = style
-          .typesRule(minTextZoom, ...types)
-            .textSymbolizer(font,
-              withEle ? undefined : '[name]');
-        if (withEle) {
-          textSymbolizerEle.text('[name] + "\n"');
-          textSymbolizerEle.ele('Format', { size: font.size * 0.8 }, '[ele]');
-        }
-      }
-      return style; // TODO remove
-    },
-    area(style, color, ...types) {
-      return style.typesRule(...types)
-        .borderedPolygonSymbolizer(color);
-    }
-  },
-  rule: {
-    borderedPolygonSymbolizer(rule, color) {
-      return rule
-        .polygonSymbolizer({ fill: color })
-        .lineSymbolizer({ stroke: color, strokeWidth: 1 });
-    },
-  }
-};
-
 const N = false;
 const Y = true;
 const NN = null;
+
+console.log('DDDDDDD', font().line(666).end({ fill: colors.track }));
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
@@ -406,40 +320,51 @@ function generateFreemapStyle(
     // texts
     .style('locality_names')
       .typesRule(15, 'locality')
-        .textSymbolizer({ ...dfltFont, fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }, '[name]')
+        .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }), '[name]')
     .style('feature_point_names')
       .poiNames(pois)
     .style('protected_area_names').doInStyle((style) => {
       for (const z of [8, 9, 10]) {
         style
           .typesRule(z, z, 'national_park', 'nature_reserve')
-            .textSymbolizer({ ...natureRelatedFont, size: 9 + Math.pow(2, z - 7), fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]');
+            .textSymbolizer(font().nature().wrap().end({
+              size: 9 + Math.pow(2, z - 7),
+              fill: hsl(120, 100, 25),
+              haloFill: 'white',
+              haloRadius: 1.5,
+              placement: 'interior',
+            }), '[name]');
       }
     })
       .typesRule(12, 'protected_area')
-        .textSymbolizer({ ...natureRelatedFont, fill: hsl(120, 100, 25), haloFill: 'white', haloRadius: 1.5, placement: 'interior' }, '[name]')
+        .textSymbolizer(font().nature().wrap().end({
+          fill: hsl(120, 100, 25),
+          haloFill: 'white',
+          haloRadius: 1.5,
+          placement: 'interior',
+        }), '[name]')
     .style('water_area_names')
       .doInStyle((style) => {
         for (let z = 10; z <= 16; z++) {
           style.rule({ filter: `[area] > ${800000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]');
+            .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]');
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer({ ...waterFont, placement: 'interior' }, '[name]')
+        .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
     .style('aeroport_names')
       .rule({ minZoom: 12 })
-        .textSymbolizer({ ...wrapFont, placement: 'interior', dy: -10 }, '[name]')
+        .textSymbolizer(font().water().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
         .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
     .style('building_names')
       .rule({ minZoom: 17 }) // rest names
-        .textSymbolizer({ ...wrapFont, placement: 'interior' }, '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
     .style('highway_names')
       .rule({ minZoom: 15 })
-        .textSymbolizer({ ...dfltFont, fill: colors.track, placement: 'line', spacing: 200 }, '[name]')
+        .textSymbolizer(font().line().end({ fill: colors.track }), '[name]')
     .style('aerialway_names')
       .rule()
-        .textSymbolizer({ ...dfltFont, fill: 'black', placement: 'line', spacing: 200, dy: 6 }, '[name]')
+        .textSymbolizer(font().line().end({ fill: 'black', dy: 6 }), '[name]')
     .style('feature_line_names')
       .doInStyle((style) => {
         // TODO i've disabled opacity - we should re-enable it to see things behind text; then also prevent label cache for it
@@ -447,15 +372,20 @@ function generateFreemapStyle(
 
         for (let z = 14; z < 20; z++) {
           style.typesRule(z, z, 'valley')
-            .textSymbolizer({ ...valleyFont, size: 10 + Math.pow(3, z - 14), fill: hsl(0, 0, 40), // opacity: opacities[z],
-              characterSpacing: 3 + Math.pow(3, z - 14), haloRadius: 1.5, haloOpacity: 0.2 }, '[name]');
+            .textSymbolizer(font().nature().line(400).end({
+              size: 10 + Math.pow(3, z - 14),
+              fill: hsl(0, 0, 40), // opacity: opacities[z],
+              characterSpacing: 3 + Math.pow(3, z - 14),
+              haloRadius: 1.5,
+              haloOpacity: 0.2
+            }), '[name]');
         }
       })
     .style('water_line_names')
       .typesRule(12, 'river')
-        .textSymbolizer({ ...waterFont, placement: 'line', spacing: 400 }, '[name]')
+        .textSymbolizer(font().water().line(400).end(), '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer({ ...waterFont, placement: 'line', spacing: 400 }, '[name]')
+        .textSymbolizer(font().water().line(400).end(), '[name]')
     .style('fixmes')
       .rule()
         .markersSymbolizer({ file: 'images/fixme.svg' })
@@ -464,8 +394,14 @@ function generateFreemapStyle(
         for (let z = 6; z < 20; z++) {
           const opacity = z <= 14 ? 1 : 0.5;
           const sc = 2.5 * Math.pow(1.2, z);
-          const placenamesFontStyle = { ...dfltFont, fill: 'black', haloFill: 'white', // TODO wrap it respecting its size
-            opacity, haloOpacity: opacity * 0.9, faceName: 'PT Sans Narrow Bold', characterSpacing: 1 };
+          // TODO wrap it respecting its size
+          const placenamesFontStyle = font().wrap().end({
+            haloFill: 'white',
+            opacity,
+            haloOpacity: opacity * 0.9,
+            faceName: 'PT Sans Narrow Bold',
+            characterSpacing: 1,
+          });
 
           style
             .typesRule(z, z, 'city')
@@ -509,7 +445,7 @@ function generateFreemapStyle(
     .style('contours', { opacity: 0.33 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3 })
-        .textSymbolizer({ ...dfltFont, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
+        .textSymbolizer(font().line().end({ fill: colors.contour }), '[height]')
       .rule({ minZoom: 12, maxZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ minZoom: 13, maxZoom: 14, filter: '([height] % 20 = 0) and ([height] != 0)' })
@@ -517,15 +453,11 @@ function generateFreemapStyle(
       .rule({ minZoom: 15, filter: '([height] % 10 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
-        .textSymbolizer({ ...dfltFont, fill: colors.contour, placement: 'line', spacing: 200 }, '[height]')
+        .textSymbolizer(font().line().end({ fill: colors.contour }), '[height]')
 
     .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails))
 
     .stringify({ pretty: dumpXml });
-}
-
-function types(...type) {
-  return type.map((x) => `[type] = '${x}'`).join(' or ');
 }
 
 const mapnikConfig = generateFreemapStyle();
