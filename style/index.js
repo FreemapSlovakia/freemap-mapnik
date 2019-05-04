@@ -368,25 +368,27 @@ function generateFreemapStyle(
         for (let z = 13; z < 18; z++) {
           const opacity = 0.5 - (z - 13) / 10;
           const cs = 3 + Math.pow(2.5, z - 12);
-          style.rule({ minZoom: z, maxZoom: z })
+          const size = 10 + Math.pow(2.5, z - 12);
+          const ts = style.rule({ minZoom: z, maxZoom: z })
             .textSymbolizer(font().nature().line(200).end({
-              size: 10 + Math.pow(2.5, z - 12),
+              size,
               characterSpacing: cs * 3,
               haloRadius: 1.5,
               haloOpacity: opacity * 0.9,
               opacity,
               lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
               placementType: 'list',
-              // alternetives:
-              // dy: -10 - Math.pow(2.5, z - 13),
-              // horizontalAlignment: 'adjust',
-              // smooth: 0.5,
-              // maxCharAngleDelta: 0,
+              smooth: 0.2,
+              maxCharAngleDelta: 0,
             }), '[name] + "\n "')
               .placement({ characterSpacing: cs * 2 })
               .placement({ characterSpacing: cs })
               .placement({ characterSpacing: cs / 2 })
               .placement({ characterSpacing: 0 });
+
+            if (z > 13) {
+              ts.placement({ characterSpacing: 0, size: size * 0.75 });
+            }
         }
       })
     .style('water_line_names')
