@@ -367,24 +367,33 @@ function generateFreemapStyle(
       .doInStyle((style) => {
         for (let z = 13; z < 18; z++) {
           const opacity = 0.5 - (z - 13) / 10;
+          const cs = 3 + Math.pow(2.5, z - 12);
           style.rule({ minZoom: z, maxZoom: z })
             .textSymbolizer(font().nature().line(200).end({
               size: 10 + Math.pow(2.5, z - 12),
-              // dy: -10 - Math.pow(2.5, z - 13),
-              characterSpacing: 3 + Math.pow(2.5, z - 12),
+              characterSpacing: cs * 3,
               haloRadius: 1.5,
               haloOpacity: opacity * 0.9,
               opacity,
-              smooth: 1,
               lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
-            }), '[name] + "\n "');
+              placementType: 'list',
+              // alternetives:
+              // dy: -10 - Math.pow(2.5, z - 13),
+              // horizontalAlignment: 'adjust',
+              // smooth: 0.5,
+              // maxCharAngleDelta: 0,
+            }), '[name] + "\n "')
+              .placement({ characterSpacing: cs * 2 })
+              .placement({ characterSpacing: cs })
+              .placement({ characterSpacing: cs / 2 })
+              .placement({ characterSpacing: 0 });
         }
       })
     .style('water_line_names')
       .typesRule(12, 'river')
-        .textSymbolizer(font().water().line(400).end(), '[name]')
+        .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer(font().water().line(400).end(), '[name]')
+        .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
     .style('fixmes')
       .rule()
         .markersSymbolizer({ file: 'images/fixme.svg' })
