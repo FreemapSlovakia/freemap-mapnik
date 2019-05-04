@@ -107,6 +107,7 @@ insert into zindex (type) values
 ('mast_communication'),
 ('tower_other'),
 ('mast_other'),
+('saddle'),
 ('peak1'),
 ('peak2'),
 ('peak3'),
