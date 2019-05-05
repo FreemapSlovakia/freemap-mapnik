@@ -28,9 +28,14 @@
     bicycleTrails: true,
     skiTrails: true,
   },
-  zoom: {
-    min: 0,
-    max: 19,
+  limits: {
+    minZoom: 0,
+    maxZoom: 19,
+    minLon: 16.63330078125,
+    maxLon: 22.785644531249996,
+    minLat: 47.517200697839414,
+    maxLat: 49.82380908513249,
+    scales: [1, 2, 3],
   },
   prerender: { // set to null to disable pre-rendering
     // workers: 8, commented out = use num of cpus
