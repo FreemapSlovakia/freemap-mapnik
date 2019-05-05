@@ -572,10 +572,13 @@ tables:
       natural:
       - cliff
       - valley
-      - tree_row
+      - tree_row # TODO
+      - ridge # TODO
       power:
       - line
       - minor_line
+      man_made:
+      - cutline # TODO
 
   protected_areas:
     columns:
