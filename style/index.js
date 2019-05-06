@@ -167,19 +167,19 @@ function generateFreemapStyle(
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
     .style('aeroways').doInStyle((style) => {
-      const aeroBgLine = { stroke: hsl(240, 50, 35) };
-      const aeroFgLine = { stroke: 'white', strokeDasharray: '10,10' };
+      const aeroBgLine = { stroke: hsl(240, 30, 40) };
+      const aeroFgLine = { stroke: 'white', strokeWidth: 1 };
 
       style
         .rule({ minZoom: 11, maxZoom: 11 })
-          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 2 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.7 })
-        .rule({ minZoom: 12, maxZoom: 13 })
           .lineSymbolizer({ ...aeroBgLine, strokeWidth: 3 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1 })
+          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 0.5, strokeDasharray: '3,3' })
+        .rule({ minZoom: 12, maxZoom: 13 })
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 5 })
+          .lineSymbolizer({ ...aeroFgLine, strokeDasharray: '4,4' })
         .rule({ minZoom: 14 })
-          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 4 })
-          .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 });
+          .lineSymbolizer({ ...aeroBgLine, strokeWidth: 8 })
+          .lineSymbolizer({ ...aeroFgLine, strokeDasharray: '6,6' });
     })
     .style('highways')
       .rule({ filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
@@ -376,7 +376,7 @@ function generateFreemapStyle(
         .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
     .style('aeroport_names')
       .rule({ minZoom: 12 })
-        .textSymbolizer(font().water().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
         .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
     .style('building_names')
       .rule({ minZoom: 17 }) // rest names
