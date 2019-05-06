@@ -14,7 +14,7 @@ const dumpXml = config.get('dumpXml');
 
 const { font } = require('./fontFactory');
 const { colors, hsl } = require('./colors');
-const { extensions } = require('./jsnikExtensions');
+const { extensions, types } = require('./jsnikExtensions');
 
 const { layers } = require('./layers');
 const { routes } = require('./routes');
@@ -182,10 +182,33 @@ function generateFreemapStyle(
           .lineSymbolizer({ ...aeroFgLine, strokeWidth: 1.5 });
     })
     .style('highways')
-      .rule({ filter: "[class] = 'railway' and [type] != 'abandoned'" })
+      .rule({ filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
         .lineSymbolizer({ stroke: 'white', strokeWidth: 3 })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 6.5, strokeDasharray: '0,3,3.5,3' })
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1.5 })
-        .linePatternSymbolizer({ file: 'images/rail.svg' })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: 5, strokeDasharray: '0,4,1.5,4' })
+      .rule({
+        minZoom: 13,
+        filter: `[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`,
+      })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 2.5 })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 6, strokeDasharray: '0,3,3,3' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 20), strokeWidth: 1 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 20), strokeWidth: 4.5, strokeDasharray: '0,4,1,4' })
+      .rule({
+        minZoom: 13,
+        filter: `[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`,
+      })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 2.5 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1.5 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 5, strokeDasharray: '1.5,8.5' })
+      .rule({
+        minZoom: 14,
+        filter: `[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`,
+      })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: 2.5 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 33), strokeWidth: 1.5 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 33), strokeWidth: 5, strokeDasharray: '1.5,8.5' })
 
       .typesRule(undefined, 11, 'motorway', 'trunk', 'motorway_link', 'trunk_link')
         .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
