@@ -49,4 +49,5 @@
   },
   rerenderOlderThanMs: 0, // use 0 to disable
   renderToPdfConcurrency: 1,
+  pngquantOptions: [],
 }
