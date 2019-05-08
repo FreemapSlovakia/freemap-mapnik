@@ -277,6 +277,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('valleys',
       "select geometry, name from osm_feature_lines where type = 'valley'",
       { minZoom: 13, clearLabelCache: 'on' },
-    );
-
+    )
+    .layer('clip', {
+      file: 'limit.geojson',
+      type: 'geojson',
+    }, { srs: '+init=epsg:4326' });
 }

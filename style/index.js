@@ -488,6 +488,9 @@ function generateFreemapStyle(
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour }), '[height]')
+    .style('clip')
+      .rule()
+        .polygonSymbolizer({ fill: hsl(0, 0, 0), compOp: 'dst-over' })
 
     .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails))
 
