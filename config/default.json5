@@ -50,4 +50,9 @@
   rerenderOlderThanMs: 0, // use 0 to disable
   renderToPdfConcurrency: 1,
   pngquantOptions: [],
+  crop: {
+    blurRadius: 20,
+    geojsonFile: 'limit.geojson'
+  },
+  notFoundAsTransparent: true,
 }
