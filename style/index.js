@@ -305,7 +305,7 @@ function generateFreemapStyle(
       .rule({ minZoom: 10, maxZoom: 11 })
         .rasterSymbolizer({ scaling: 'lanczos', opacity: 0.75 })
       .rule({ minZoom: 12, maxZoom: 12 })
-        .rasterSymbolizer({ scaling: 'bilinear', opacity: 0.65 })
+        .rasterSymbolizer({ scaling: 'lanczos', opacity: 0.65 })
       .rule({ minZoom: 13, maxZoom: 13 })
         .rasterSymbolizer({ scaling: 'bilinear', opacity: 0.55 })
       .rule({ minZoom: 14, maxZoom: 14 })
