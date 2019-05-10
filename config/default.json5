@@ -55,4 +55,5 @@
     geojsonFile: 'limit.geojson'
   },
   notFoundAsTransparent: true,
+  maxMapUseCount: 10, // set to falsy to disable
 }
