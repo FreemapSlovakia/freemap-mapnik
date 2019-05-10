@@ -10,13 +10,13 @@
   "author": "Martin Ždila <martin.zdila@freemap.sk>",
   "license": "ISC",
   "dependencies": {
-    "color-convert": "1.9.3",
-    "config": "3.0.1",
+    "color-convert": "2.0.0",
+    "config": "3.1.0",
     "freemap-mapserver": "FreemapSlovakia/freemap-mapserver",
     "jsnik": "0.0.6"
   },
   "devDependencies": {
-    "eslint": "5.11.1",
-    "nodemon": "1.18.9"
+    "eslint": "5.16.0",
+    "nodemon": "1.19.0"
   }
 }
