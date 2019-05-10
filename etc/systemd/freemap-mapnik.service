@@ -1,0 +1,15 @@
+[Unit]
+Description=Freemap Mapserver
+Requires=postgresql.service
+After=postgresql.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=freemap
+WorkingDirectory=/home/freemap/freemap-mapnik/
+ExecStart=/usr/bin/node --max-old-space-size=4096 --experimental-worker index.js
+
+[Install]
+WantedBy=multi-user.target

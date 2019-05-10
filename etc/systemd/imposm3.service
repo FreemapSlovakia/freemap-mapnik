@@ -1,0 +1,15 @@
+[Unit]
+Description=Imposm 3
+Requires=postgresql.service
+After=postgresql.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=freemap
+WorkingDirectory=/home/freemap/freemap-mapnik/
+ExecStart=/home/freemap-mapnik/go/bin/imposm run -connection postgis://freemap:freemap@localhost/freemap -mapping mapping.yaml -limitto limit.geojson -cachedir ./cache -diffdir ./diff -expiretiles-zoom 15 -expiretiles-dir ./expires
+
+[Install]
+WantedBy=multi-user.target
