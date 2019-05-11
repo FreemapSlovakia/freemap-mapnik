@@ -100,3 +100,28 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
    ```
    nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -limitto limit.geojson -cachedir ./cache -diffdir ./diff -expiretiles-zoom 15 -expiretiles-dir ./expires &
    ```
+
+## Nginx as front tier
+
+```
+server {
+    ...
+
+    location /pdf {
+      proxy_pass http://localhost:4000/pdf;
+    }
+
+    location / {
+      rewrite ^(.*)$ $1.png break;
+      root    /home/freemap/freemap-mapnik/tiles/;
+      error_page 404 = @fallback;
+    }
+
+    location @fallback {
+      proxy_pass http://localhost:4000;
+      error_page 404 /40x.html;
+    }
+
+    ...
+}
+```
