@@ -60,7 +60,9 @@ Then deploy the import to production:
 ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
 ```
 
-Finally Import `additional.sql` to Postgresql.
+Import `additional.sql` to Postgresql.
+
+See also [instructions to compute and import peak isolations](./PEAK_ISOLATION.md).
 
 #### Building Imposm on MacOS
 
@@ -82,11 +84,11 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
 1. Download `europe-latest.osm.pbf` from Geofabrik
 1. Extract area of focus with Osmium:
    ```
-   osmium extract -p limit.geojson -s smart -S types=multipolygon,route,boundary europe-latest.osm.pbf -o sk.pbf
+   osmium extract -p limit.geojson -s smart -S types=multipolygon,route,boundary europe-latest.osm.pbf -o extract.pbf
    ```
 1. Import the extract:
    ```
-   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read sk.pbf -diff -write -cachedir ./cache -diffdir ./diff
+   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read extract.pbf -diff -write -cachedir ./cache -diffdir ./diff
    ```
 1. Deploy the import to production:
    ```
