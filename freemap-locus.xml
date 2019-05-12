@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Put this file to your Andrid phone into /CARD_ROOT/Locus/mapsOnline/custom/ directory -->
+<providers>
+  <provider id="33333" type="0" visible="true" required="true" background="-1">
+    <name>Freemap</name>
+    <mode>New Outdoor</mode>
+    <url><![CDATA[https://outdoor.tiles.freemap.sk/{z}/{x}/{y}]]></url>
+    <zoomPart>{z}-8</zoomPart>
+    <zoomMin>8</zoomMin>
+    <zoomMax>27</zoomMax>
+    <tileSize>256</tileSize>
+  </provider>
+  <provider id="33334" type="0" visible="true" required="true" background="-1">
+    <name>Freemap</name>
+    <mode>New Outdoor XHDPI</mode>
+    <url><![CDATA[https://outdoor.tiles.freemap.sk/{z}/{x}/{y}@2x]]></url>
+    <zoomPart>{z}-8</zoomPart>
+    <zoomMin>8</zoomMin>
+    <zoomMax>27</zoomMax>
+    <tileSize>256</tileSize>
+  </provider>
+  <provider id="33335" type="0" visible="true" required="true" background="-1">
+    <name>Freemap</name>
+    <mode>New Outdoor XXHDPI</mode>
+    <url><![CDATA[https://outdoor.tiles.freemap.sk/{z}/{x}/{y}@3x]]></url>
+    <zoomPart>{z}-8</zoomPart>
+    <zoomMin>8</zoomMin>
+    <zoomMax>27</zoomMax>
+    <tileSize>256</tileSize>
+  </provider>
+  <provider id="33337" type="0" visible="true" required="true" background="-1">
+    <name>Freemap</name>
+    <mode>New Outdoor (for future Locus)</mode>
+    <url><![CDATA[https://outdoor.tiles.freemap.sk/{z}/{x}/{y}{ts}]]></url>
+    <zoomPart>{z}-8</zoomPart>
+    <zoomMin>8</zoomMin>
+    <zoomMax>27</zoomMax>
+    <tileSize>256</tileSize>
+    <tileScales>
+      <tileScale dpi="0" multi="1" replace="" />
+      <tileScale dpi="160" multi="2" replace="@2x" />
+      <tileScale dpi="240" multi="3" replace="@3x" />
+    </tileScales>
+  </provider>
+</providers>
+
