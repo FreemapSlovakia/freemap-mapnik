@@ -289,6 +289,12 @@ function generateFreemapStyle(
     .style('borders')
       .rule()
         .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6, strokeOpacity: 0.5 })
+    .style('cutlines').doInStyle((style) => {
+      for (let z = 12; z <= 16; z++) {
+        style.typesRule(z, z === 16 ? 20 : z, 'cutline')
+          .lineSymbolizer({ stroke: colors.scrub, strokeWidth: 2 + 0.33 * Math.pow(2, z - 12) });
+      }
+    })
     .style('feature_lines')
       .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })

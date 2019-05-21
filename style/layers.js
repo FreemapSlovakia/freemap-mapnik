@@ -19,6 +19,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       'select type, geometry from osm_landusages order by z_order',
       { minZoom: 12 },
     )
+    .sqlLayer('cutlines',
+      "select geometry, type from osm_feature_lines where type = 'cutline'",
+      { minZoom: 13 },
+    )
     .sqlLayer('water_area',
       'select geometry, type from osm_waterareas_gen1',
       { maxZoom: 11 },

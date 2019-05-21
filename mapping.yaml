@@ -578,7 +578,7 @@ tables:
       - line
       - minor_line
       man_made:
-      - cutline # TODO
+      - cutline
 
   protected_areas:
     columns:
