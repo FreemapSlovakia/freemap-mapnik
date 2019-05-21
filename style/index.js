@@ -303,6 +303,12 @@ function generateFreemapStyle(
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1, strokeOpacity: 0.5 })
       .typesRule(14, 'minor_line')
         .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 1, strokeOpacity: 0.5 })
+      .doInStyle((style) => {
+        for (let z = 13; z <= 19; z++) {
+          style.typesRule(z, z === 16 ? 20 : z, 'tree_row')
+            .linePatternSymbolizer({ file: 'images/tree.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
+        }
+      })
     .style('hillshade')
       .rule({ /* minZoom: 8, */ maxZoom: 8 })
         .rasterSymbolizer({ scaling: 'lanczos', opacity: 1.00 })
