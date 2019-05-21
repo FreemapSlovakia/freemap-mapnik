@@ -12,7 +12,7 @@
   "dependencies": {
     "color-convert": "2.0.0",
     "config": "3.1.0",
-    "freemap-mapserver": "FreemapSlovakia/freemap-mapserver",
+    "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver",
     "jsnik": "0.0.6"
   },
   "devDependencies": {
