@@ -1,4 +1,4 @@
-all: final.tiff.ovr contours_split.shp
+all: final.tiff.ovr contours.sql
 
 clean:
 	rm -f *.tiff *.vrt contours* limit.*
@@ -92,3 +92,6 @@ final.tiff: stack.vrt R.tiff G.tiff B.tiff A.tiff
 
 final.tiff.ovr: final.tiff
 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro final.tiff
+
+contours.sql: contours_split.shp
+	shp2pgsql contours_split.shp contours > contours.sql
