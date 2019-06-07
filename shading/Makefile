@@ -1,4 +1,4 @@
-all: final.tiff contours_split.shp
+all: final.tiff.ovr contours_split.shp
 
 clean:
 	rm -f *.tiff *.vrt contours* limit.*
@@ -90,3 +90,5 @@ stack.vrt: R.tiff G.tiff B.tiff A.tiff
 final.tiff: stack.vrt R.tiff G.tiff B.tiff A.tiff
 	gdal_translate -of GTiff -co "TILED=YES" stack.vrt final.tiff
 
+final.tiff.ovr: final.tiff
+	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro final.tiff
