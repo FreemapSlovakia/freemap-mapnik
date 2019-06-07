@@ -127,3 +127,10 @@ server {
     ...
 }
 ```
+
+## Notes
+Fixing irregular DEM for `dem-iron`:
+
+```
+gdalwarp -of Gtiff -srcnodata 32767 -ts 3601 3601 N51E011.hgt 0/N51E011.hgt
+```
