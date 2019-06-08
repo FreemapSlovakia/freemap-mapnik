@@ -129,8 +129,17 @@ server {
 ```
 
 ## Notes
-Fixing irregular DEM for `dem-iron`:
+Fixing 1201x3601 SRTM (skips `dem-iron`ing):
 
-```
-gdalwarp -of Gtiff -srcnodata 32767 -ts 3601 3601 N51E011.hgt 0/N51E011.hgt
+TODO: integrate to `shading/Makefile`.
+
+```bash
+for x in `seq 11 22`; do
+  for y in `seq 50 51`; do
+    gdalwarp N${y}E0${x}.hgt -multi -r cubicspline \
+      -te $((x-1)).99986111 $((y-1)).99986111 $((x+1)).00013889 $((y+1)).00013889 \
+      -tr 0.000277777777778 -0.000277777777778 \
+      N${y}E0${x}.aa.tiff
+  done
+done
 ```

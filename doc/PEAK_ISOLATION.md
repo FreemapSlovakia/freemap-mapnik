@@ -6,7 +6,7 @@ For `isolations` command use one at https://github.com/der-stefan/OpenTopoMap/tr
 
 ```
 osmconvert extract.pbf -o=extract.o5
-osmfilter extract.o5m --keep="natural=peak" > peaks.osm
+osmfilter extract.o5 --keep="natural=peak" > peaks.osm
 osmconvert peaks.osm --out-csv --csv="@id @lon @lat ele" --csv-separator=";" > peaks.csv
 cat ~/peaks.csv | ./isolation -f dem.tiff | sed 's/;/,/g' > isolations.csv
 psql
