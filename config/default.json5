@@ -32,8 +32,7 @@
     minZoom: 0,
     maxZoom: 19,
     polygon: 'limit.geojson',
-    scales: [1],
-    // scales: [1, 2, 3],
+    scales: [1, 2, 3],
   },
   prerender: { // set to null to disable pre-rendering
     // workers: 8, commented out = use num of cpus
@@ -45,10 +44,6 @@
   rerenderOlderThanMs: 0, // use 0 to disable
   renderToPdfConcurrency: 1,
   pngquantOptions: [],
-  crop: {
-    blurRadius: 20,
-    geojsonFile: 'limit.geojson'
-  },
   notFoundAsTransparent: true,
   maxMapUseCount: 1000, // set to falsy to disable
 }

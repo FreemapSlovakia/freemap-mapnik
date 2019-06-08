@@ -58,6 +58,14 @@ const extensions = {
         .polygonSymbolizer({ fill: color })
         .lineSymbolizer({ stroke: color, strokeWidth: 1 });
     },
+  },
+  map: {
+    sqlLayer(map, styleName, sql, atts = {}, nestedLayerFactory) {
+      const dsParams = {
+        table: `(${sql}) as foo`,
+      };
+      return map.layer(styleName, dsParams, atts, { base: 'db' }, nestedLayerFactory);
+    },
   }
 };
 
