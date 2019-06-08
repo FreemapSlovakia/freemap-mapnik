@@ -1,7 +1,7 @@
 all: final.tiff.ovr contours_split.shp
 
 clean:
-	rm -f *.tiff *.vrt contours* limit.*
+	rm -f *.tiff *.vrt contours* limit.* *.ovr
 
 %.aa.tiff: %.hgt
 	dem-iron $< $@
@@ -26,10 +26,10 @@ merged.tiff: $(antialiased)
 
 clipped.tiff: merged.tiff
 	# cp merged.tiff clipped.tiff
-	gdalwarp -cutline limit.shp -crop_to_cutline merged.tiff clipped.tiff
+	gdalwarp -r cubicspline -cutline limit.shp -crop_to_cutline merged.tiff clipped.tiff
 
 translated.tiff: clipped.tiff
-	gdal_translate -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" clipped.tiff translated.tiff
+	gdal_translate -r cubicspline -of GTiff -ot Float64 -co "TILED=YES" -a_srs "+proj=latlong" clipped.tiff translated.tiff
 
 warped.tiff: translated.tiff
 	gdalwarp -overwrite -of GTiff -ot Float64 -co "TILED=YES" -srcnodata 32767 -r cubicspline -order 3 -tr 20 20 -multi \
@@ -88,7 +88,7 @@ stack.vrt: R.tiff G.tiff B.tiff A.tiff
 	gdalbuildvrt -separate stack.vrt R.tiff G.tiff B.tiff A.tiff
 
 final.tiff: stack.vrt R.tiff G.tiff B.tiff A.tiff
-	gdal_translate -of GTiff -co "TILED=YES" stack.vrt final.tiff
+	gdal_translate -r cubicspline -of GTiff -co "TILED=YES" stack.vrt final.tiff
 
 final.tiff.ovr: final.tiff
 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro final.tiff
