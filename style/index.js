@@ -501,7 +501,7 @@ function generateFreemapStyle(
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour }), '[height]')
 
-    .style('crop', { imageFilters: 'agg-stack-blur(10,10)', imageFiltersInflate: true })
+    .style('crop', { imageFilters: 'agg-stack-blur(20,20)', imageFiltersInflate: true })
       .rule()
         .polygonSymbolizer({ fill: 'red' })
     .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails))

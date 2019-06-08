@@ -9,6 +9,7 @@ expires
 sandbox
 *.hgt
 shading/*.tiff
+shading/*.ovr
 shading/*.vrt
 shading/contours*
 shading/limit.*
