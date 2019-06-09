@@ -210,10 +210,21 @@ function generateFreemapStyle(
         .lineSymbolizer({ stroke: hsl(0, 0, 33), strokeWidth: 1.5 })
         .lineSymbolizer({ stroke: hsl(0, 0, 33), strokeWidth: 5, strokeDasharray: '1.5,8.5' })
 
-      .typesRule(undefined, 11, 'motorway', 'trunk', 'motorway_link', 'trunk_link')
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
-      .typesRule(undefined, 11, 'primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link')
-        .lineSymbolizer({ ...highwayDflt, strokeWidth: 2 })
+      .doInStyle((style) => {
+        for (let z = 8; z <= 11; z++) {
+          const koef = 0.5 * Math.pow(1.5, z - 8);
+          style
+            .typesRule(z, z, 'motorway', 'trunk', 'motorway_link', 'trunk_link')
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.6 * koef })
+            .typesRule(z, z, 'primary', 'primary_link')
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.4 * koef })
+            .typesRule(z, z, 'secondary', 'secondary_link')
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.2 * koef })
+            .typesRule(z, z,'tertiary', 'tertiary_link')
+              .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.0 * koef })
+            ;
+        }
+      })
 
       .typesRule(12, 'motorway', 'trunk', 'motorway_link', 'trunk_link')
         .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 2.5 })
