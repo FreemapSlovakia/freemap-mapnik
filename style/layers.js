@@ -105,8 +105,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     })
     .sqlLayer('protected_areas',
       'select type, geometry from osm_protected_areas')
+    // fixing border artefacts; TODO maybe just change mapping in yaml from polygon to linestring
     .sqlLayer('borders',
-      'select geometry from osm_admin where admin_level = 2')
+      "select ST_Intersection(ST_ExteriorRing(geometry), ST_GeomFromText('POLYGON ((1581386.55460302 6648014.89118127,1720670.99955893 6647339.2371164,1848629.52429968 6578227.98677137,1977006.71121578 6509822.81451568,2041183.95556769 6475675.76765187,2105523.63099206 6441773.55575551,2169856.13805682 6407849.84833374,2202076.73413559 6390942.93314035,2234406.00217144 6374237.7594486,2438645.74174887 6375460.75190286,2539925.99855668 6291027.69386122,2467538.93844144 6090656.38451244,2132793.72202364 6087029.20865307,2103444.29181903 6036866.21451276,1951390.73897441 6041195.65556792,1869954.86280349 6118020.2291413,1843185.76513689 6190944.15427701,1697512.3154958 6232370.63495041,1641184.1972933 6177519.90118629,1553284.00342162 6178779.91782377,1323276.62501158 6414596.51038329,1322239.94781654 6511099.45292315,1581386.55460302 6648014.89118127))', 3857)) AS geometry from osm_admin where admin_level = 2")
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
     .sqlLayer('routes',
@@ -282,7 +283,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { minZoom: 13, clearLabelCache: 'on' },
     )
     .layer('crop',
-      { type: 'geojson', file: 'limit.geojson' },
+      { type: 'geojson', file: 'limit-inner.geojson' },
       { srs: '+init=epsg:4326', compOp: 'dst-in' },
     );
 }
