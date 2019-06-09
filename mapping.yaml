@@ -396,7 +396,7 @@ tables:
     - type: integer
       name: admin_level
       key: admin_level
-    type: polygon
+    type: linestring
     mapping:
       boundary:
       - administrative
