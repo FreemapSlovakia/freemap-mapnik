@@ -11,8 +11,8 @@
     <tileSize>256</tileSize>
     <tileScales>
       <tileScale dpi="0" multi="1" replace="" />
-      <tileScale dpi="160" multi="2" replace="@2x" />
-      <tileScale dpi="240" multi="3" replace="@3x" />
+      <tileScale dpi="320" multi="2" replace="@2x" />
+      <tileScale dpi="480" multi="3" replace="@3x" />
     </tileScales>
   </provider>
   <provider id="33338" type="0" visible="true" required="true" background="-1">
