@@ -58,6 +58,14 @@ const extensions = {
         .polygonSymbolizer({ fill: color })
         .lineSymbolizer({ stroke: color, strokeWidth: 1 });
     },
+    rail(rule, { color, weight, sleeperWeight, spacing }) {
+      const gw = weight + 2;
+      return rule
+        .lineSymbolizer({ stroke: 'white', strokeWidth: gw })
+        .lineSymbolizer({ stroke: 'white', strokeWidth: sleeperWeight + 2, strokeDasharray: `0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}` })
+        .lineSymbolizer({ stroke: color, strokeWidth: weight })
+        .lineSymbolizer({ stroke: color, strokeWidth: sleeperWeight, strokeDasharray: `0,${(spacing - weight) / 2},${weight},${(spacing - weight) / 2}` });
+    },
   },
   map: {
     sqlLayer(map, styleName, sql, atts = {}, nestedLayerFactory) {
