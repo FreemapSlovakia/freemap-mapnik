@@ -3,7 +3,7 @@
 <providers>
   <provider id="33337" type="0" visible="true" required="true" background="-1">
     <name>Freemap</name>
-    <mode>Outdoor</mode>
+    <mode>Outdoor (with HDPI support)</mode>
     <url><![CDATA[https://outdoor.tiles.freemap.sk/{z}/{x}/{y}{ts}]]></url>
     <zoomPart>{z}-8</zoomPart>
     <zoomMin>8</zoomMin>
@@ -14,6 +14,15 @@
       <tileScale dpi="160" multi="2" replace="@2x" />
       <tileScale dpi="240" multi="3" replace="@3x" />
     </tileScales>
+  </provider>
+  <provider id="33338" type="0" visible="true" required="true" background="-1">
+    <name>Freemap</name>
+    <mode>Outdoor</mode>
+    <url><![CDATA[https://outdoor.tiles.freemap.sk/{z}/{x}/{y}]]></url>
+    <zoomPart>{z}-8</zoomPart>
+    <zoomMin>8</zoomMin>
+    <zoomMax>27</zoomMax>
+    <tileSize>256</tileSize>
   </provider>
 </providers>
 
