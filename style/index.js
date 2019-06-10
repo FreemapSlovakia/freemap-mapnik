@@ -150,7 +150,7 @@ function generateFreemapStyle(
       .rule()
         .borderedPolygonSymbolizer(colors.water)
     .style('solar_power_plants')
-      .rule({ minZoom: 13, maxZoom: 14, })
+      .rule({ minZoom: 12, maxZoom: 14, })
         .polygonPatternSymbolizer({ file: 'images/solar_small.svg', alignment: 'global' })
         .lineSymbolizer({ stroke: hsl(176, 153, 200), strokeWidth: 1 })
       .rule({ minZoom: 15 })

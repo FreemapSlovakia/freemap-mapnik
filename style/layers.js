@@ -76,6 +76,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     )
     .sqlLayer('solar_power_plants',
       "select geometry from osm_power_generator_polys where source = 'solar'",
+      { minZoom: 12 }
     )
     .sqlLayer('buildings',
       'select geometry, type from osm_buildings',
