@@ -202,7 +202,7 @@ function generateFreemapStyle(
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
     .style('borders')
       .rule()
-        .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6, strokeOpacity: 0.5 })
+        .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6 })
     .style('cutlines').doInStyle((style) => {
       for (let z = 12; z <= 16; z++) {
         style.typesRule(z, z === 16 ? 20 : z, 'cutline')
