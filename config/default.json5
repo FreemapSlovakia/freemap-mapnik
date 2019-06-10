@@ -33,6 +33,7 @@
     maxZoom: 19,
     polygon: 'limit.geojson',
     scales: [1, 2, 3],
+    cleanup: true,
   },
   prerender: { // set to null to disable pre-rendering
     // workers: 8, commented out = use num of cpus
