@@ -56,8 +56,8 @@ tables:
       - hiking
       - bicycle
       - ski
-      - piste
       - horse
+      - piste
       - foot
       - mtb
     columns:
@@ -93,6 +93,9 @@ tables:
       - bicycle
       - ski
       - horse
+      - piste
+      - foot
+      - mtb
     columns:
     - type: id
       name: osm_id
