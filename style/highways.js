@@ -13,25 +13,32 @@ function highways() {
   return (map) => {
     map
       .style('highways')
-        .rule({ filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
-          .rail({ color: 'black', weight: 1.5, sleeperWeight: 5, spacing: 9.5 })
-        .rule({
+      .rule({ minZoom: 12, filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
+        .rail({ color: 'black', weight: 1.5, sleeperWeight: 5, spacing: 9.5, glowWidth: 1 })
+      .rule({
           minZoom: 13,
           filter: `[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`,
         })
-          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 9.5 })
+          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 9.5, glowWidth: 1 })
         .rule({
           minZoom: 13,
           filter: `[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`,
         })
-          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 7.5 })
+          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
         .rule({
           minZoom: 14,
           filter: `[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`,
         })
-          .rail({ color: hsl(0, 0, 33), weight: 1, sleeperWeight: 4.5, spacing: 7.5 })
+          .rail({ color: hsl(0, 0, 33), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
 
         .doInStyle((style) => {
+          for (let z = 8; z <= 11; z++) {
+            const koef = 0.8 * Math.pow(1.15, z - 8);
+
+            style
+              .rule({ minZoom: z, maxZoom: z, filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
+                .rail({ color: 'black', weight: koef, sleeperWeight: 10 / 3 * koef, spacing: 9.5 / 1.5 * koef, glowWidth: 0.5 * koef });
+          }
           for (let z = 8; z <= 11; z++) {
             const koef = 0.5 * Math.pow(1.5, z - 8);
             style
