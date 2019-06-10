@@ -60,6 +60,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { maxZoom: 11 },
     )
     .sqlLayer(['higwayGlows', 'highways'],
+      // order bycase when type = 'rail' AND (service = 'main' OR service = '') then 1000 else z_order end
       'select geometry, type, tracktype, class, service from osm_roads order by z_order',
       { minZoom: 12, cacheFeatures: true },
     )
