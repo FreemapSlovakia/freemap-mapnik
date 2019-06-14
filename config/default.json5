@@ -47,4 +47,9 @@
   pngquantOptions: [],
   notFoundAsTransparent: true,
   maxMapUseCount: 1000, // set to falsy to disable
+  format: {
+    extension: 'jpeg',
+    mimeType: 'image/jpeg',
+    codec: 'jpeg92',
+  }
 }
