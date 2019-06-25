@@ -93,10 +93,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     )
     .doInMap((map) => {
       if (contours) {
-        map.layer('contours', {
-          type: 'shape',
-          file: 'shading/contours_split.shp',
-        }, { minZoom: 12, srs: '+init=epsg:4326' });
+        map.sqlLayer('contours',
+          'select geom, height from contour_split',
+          { minZoom: 12 },
+        );
       }
       if (shading) {
         map.layer('hillshade', {
