@@ -143,3 +143,27 @@ for x in `seq 11 22`; do
   done
 done
 ```
+
+EPSG:3857: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
+
+```
+gdalwarp -overwrite -of GTiff -ot Float32 -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -srcnodata -9999 -r cubicspline -order 3 -tr 20 20 -multi -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" -s_srs "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=542.5,89.2,456.9,5.517,2.275,5.516,6.96 +pm=greenwich +units=m +nadgrids=slovak +no_defs" sk.tiff sk_w.tiff
+
+# -s_srs "+proj=krovak +ellps=bessel +nadgrids=slovak"
+```
+
+Convert HGT to tiff
+
+```
+for i in *.HGT; do gdalwarp -overwrite -of GTiff -ot Float32 -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -r cubicspline -order 3 -tr 20 20 -multi -dstnodata NaN -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" $i ${i%.HGT}.tiff; done
+```
+
+Fill nodata in tiffs
+
+```
+for i in N*.tiff; do gdal_fillnodata.py -of GTiff -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" $i ${i%.tiff}.filled.tiff; done
+```
+
+```
+gdal_merge.py -of GTiff -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -n NaN -a_nodata NaN -o merged.tiff N*.filled.tiff sk_w.tiff
+```

@@ -285,7 +285,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { minZoom: 13, clearLabelCache: 'on' },
     )
     .layer('crop',
-      { type: 'geojson', file: 'limit-inner.geojson' },
+      { type: 'geojson', file: 'limit.geojson' },
       { srs: '+init=epsg:4326', compOp: 'dst-in' },
     );
 }
