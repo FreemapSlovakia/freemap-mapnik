@@ -39,6 +39,7 @@ create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
 ('guidepost'),
 ('archaeological_site'),
+('water_park'),
 ('tower_observation'),
 ('cave_entrance'),
 ('monument'),

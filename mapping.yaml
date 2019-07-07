@@ -720,6 +720,7 @@ tables:
           - picnic_table
           - playground
           - firepit
+          - water_park
           man_made:
           - adit
           - beehive
@@ -844,6 +845,7 @@ tables:
           leisure:
           - firepit
           - playground
+          - water_park
           man_made:
           - adit
           - bunker_silo
