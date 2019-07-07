@@ -210,7 +210,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         union all select type, geometry from osm_barrierpoints
         union all select building as type, geometry from osm_place_of_worships
         union all select building as type, geometry from osm_place_of_worship_polys
-        union all select type, geometry from osm_transport_points where type = 'bus_stop'
+        union all select type, geometry from osm_transport_points
+        union all select type, geometry from osm_transport_areas
         union all select 'ruins' as type, geometry from osm_ruins
         union all select 'ruins' as type, geometry from osm_ruin_polys
         union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
@@ -231,7 +232,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         union all select ${towerType}, geometry, name, ele from osm_tower_polys
         union all select building as type, geometry, name, null as ele from osm_place_of_worships
         union all select building as type, geometry, name, null as ele from osm_place_of_worship_polys
-        union all select type, geometry, name, null as ele from osm_transport_points where type = 'bus_stop'
+        union all select type, geometry, name, null as ele from osm_transport_points
+        union all select type, geometry, name, null as ele from osm_transport_areas
         union all select 'ruins' as type, geometry, name, null from osm_ruins
         union all select 'ruins' as type, geometry, name, null from osm_ruin_polys
         union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
