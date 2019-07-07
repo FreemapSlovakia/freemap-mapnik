@@ -123,6 +123,7 @@ insert into zindex (type) values
 ('waste_basket'),
 ('waste_disposal'),
 ('lift_gate'),
+('watering_place'),
 ('feeding_place'),
 ('game_feeding'),
 ('gate'),

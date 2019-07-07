@@ -95,6 +95,7 @@ const pois = [
   [16, 17, N, N, 'map'],
   [16, 17, N, N, 'artwork'],
   [16, 17, N, N, 'fountain', { font: { fill: hsl(216, 100, 50) } }],
+  [16, NN, N, N, 'watering_place'],
   [16, NN, N, N, 'feeding_place', { icon: 'manger' }],
   [16, NN, N, N, 'game_feedng', { icon: 'manger' }],
   [16, 17, N, N, 'playground'],
