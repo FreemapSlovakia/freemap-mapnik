@@ -13,23 +13,25 @@ function highways() {
   return (map) => {
     map
       .style('highways')
-      .rule({ minZoom: 12, filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
-        .rail({ color: 'black', weight: 1.5, sleeperWeight: 5, spacing: 9.5, glowWidth: 1 })
-      .rule({
-          minZoom: 13,
-          filter: `[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`,
-        })
-          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 9.5, glowWidth: 1 })
+        .typesRule(14, 'pier')
+          .lineSymbolizer({ stroke: 'black', strokeWidth: 2 })
+        .rule({ minZoom: 12, filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
+          .rail({ color: 'black', weight: 1.5, sleeperWeight: 5, spacing: 9.5, glowWidth: 1 })
         .rule({
-          minZoom: 13,
-          filter: `[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`,
-        })
-          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
-        .rule({
-          minZoom: 14,
-          filter: `[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`,
-        })
-          .rail({ color: hsl(0, 0, 33), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
+            minZoom: 13,
+            filter: `[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`,
+          })
+            .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 9.5, glowWidth: 1 })
+          .rule({
+            minZoom: 13,
+            filter: `[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`,
+          })
+            .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
+          .rule({
+            minZoom: 14,
+            filter: `[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`,
+          })
+            .rail({ color: hsl(0, 0, 33), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
 
         .doInStyle((style) => {
           for (let z = 8; z <= 11; z++) {
