@@ -57,6 +57,7 @@ const pois = [
   [14, 15, N, N, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [14, 15, Y, N, 'tower_observation'],
   [14, 15, Y, N, 'archaeological_site'],
+  [14, 15, N, N, ['station', 'halt']],
   [14, 15, N, N, 'bus_station'],
 
   [15, 16, N, N, 'water_tower'],

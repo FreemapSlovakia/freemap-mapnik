@@ -53,6 +53,8 @@ insert into zindex (type) values
 ('castle'),
 ('hut'),
 ('cabin'),
+('station'),
+('halt'),
 ('bus_station'),
 ('church'),
 ('chapel'),
