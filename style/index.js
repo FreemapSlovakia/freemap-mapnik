@@ -91,6 +91,8 @@ const pois = [
   [15, NN, N, N, 'mast_other'],
   [15, NN, N, N, 'tower_other'],
   [15, NN, N, N, ['tower_communication', 'mast_communication']],
+  [15, 16, N, N, 'bus_stop'],
+  [15, 16, N, N, 'taxi'],
 
   [16, 16, N, N, 'board'],
   [16, 17, N, N, 'map'],
@@ -100,7 +102,6 @@ const pois = [
   [16, NN, N, N, 'feeding_place', { icon: 'manger' }],
   [16, NN, N, N, 'game_feedng', { icon: 'manger' }],
   [16, 17, N, N, 'playground'],
-  [16, 17, N, N, 'bus_stop'],
 
   [17, 18, N, N, 'wayside_shrine'],
   [17, 18, N, N, ['cross', 'wayside_cross']],

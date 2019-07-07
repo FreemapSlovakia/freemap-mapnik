@@ -89,6 +89,7 @@ insert into zindex (type) values
 ('townhall'),
 ('memorial'),
 ('hunting_stand'),
+('taxi'),
 ('bus_stop'),
 ('board'),
 ('map'),
