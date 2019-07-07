@@ -18,6 +18,7 @@ const colors = {
   orchard: hsl(95, 20, 100),
   allotments: hsl(50, 45, 85),
   landfill: hsl(0, 30, 60),
+  brownfield: hsl(30, 30, 60),
 };
 
 function hsl(h, s, l) {

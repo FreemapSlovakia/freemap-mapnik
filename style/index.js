@@ -136,6 +136,7 @@ function generateFreemapStyle(
         .borderedPolygonSymbolizer(hsl(0, 0, 62))
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
       .area(colors.landfill, 'landfill')
+      .area(colors.brownfield, 'brownfield')
       .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
       .area(colors.allotments, 'allotments')
