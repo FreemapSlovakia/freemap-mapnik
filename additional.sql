@@ -79,6 +79,7 @@ insert into zindex (type) values
 ('pharmacy'),
 ('waterfall'),
 ('spring'),
+('drinking_water'),
 ('viewpoint'),
 ('mine'),
 ('adit'),

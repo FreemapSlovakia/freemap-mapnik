@@ -40,6 +40,7 @@ const pois = [
   [14, 15, Y, Y, 'cave_entrance'],
   [14, 15, Y, Y, 'spring', { font: { fill: hsl(216, 100, 50) } }],
   [14, 15, Y, Y, 'waterfall', { font: { fill: hsl(216, 100, 50) } }],
+  [14, 15, N, N, 'drinking_water'],
   [14, 15, Y, N, 'monument'],
   [14, 15, Y, Y, 'viewpoint'],
   [14, 15, Y, N, ['mine', 'adit', 'mineshaft']],
