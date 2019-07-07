@@ -80,6 +80,7 @@ insert into zindex (type) values
 ('waterfall'),
 ('spring'),
 ('drinking_water'),
+('water_point'),
 ('viewpoint'),
 ('mine'),
 ('adit'),
