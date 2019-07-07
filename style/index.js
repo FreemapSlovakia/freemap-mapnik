@@ -48,6 +48,7 @@ const pois = [
   [14, 15, Y, N, 'hostel'],
   [14, 15, Y, N, 'motel'],
   [14, 15, Y, N, 'guest_house'],
+  [14, 15, Y, N, 'wilderness_hut'],
   [14, 15, Y, N, 'alpine_hut'],
   [14, 15, Y, N, 'camp_site'],
   [14, 15, N, N, 'attraction'],

@@ -49,6 +49,7 @@ insert into zindex (type) values
 ('motel'),
 ('guest_house'),
 ('alpine_hut'),
+('wilderness_hut'),
 ('camp_site'),
 ('castle'),
 ('hut'),
