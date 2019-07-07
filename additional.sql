@@ -82,6 +82,7 @@ insert into zindex (type) values
 ('spring'),
 ('drinking_water'),
 ('water_point'),
+('water_well'),
 ('viewpoint'),
 ('mine'),
 ('adit'),
