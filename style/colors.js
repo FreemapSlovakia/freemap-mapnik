@@ -15,7 +15,7 @@ const colors = {
   wetland: hsl(200, 80, 90),
   scrub: hsl(100, 40, 65),
   grassy: hsl(100, 85, 90),
-  orchard: hsl(95, 20, 100),
+  orchard: hsl(70, 60, 60),
   allotments: hsl(50, 45, 85),
   landfill: hsl(0, 30, 60),
   brownfield: hsl(30, 30, 60),
