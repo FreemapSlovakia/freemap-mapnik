@@ -150,12 +150,16 @@ function generateFreemapStyle(
       .area(hsl(320, 40, 85), 'commercial', 'retail')
       .area(colors.orchard, 'orchard')
       .area(colors.wetland, 'wetland')
+      .area(colors.wetland, 'wetland')
       .typesRule(12, 'pitch', 'playground')
         .borderedPolygonSymbolizer(hsl(140, 50, 70))
         .lineSymbolizer({ stroke: hsl(140, 50, 40), strokeWidth: 1 })
       .typesRule(13, 'parking')
         .polygonSymbolizer({ fill: hsl(0, 33, 80) })
         .lineSymbolizer({ stroke: hsl(0, 33, 65), strokeWidth: 1 })
+      .typesRule(13, 'feat:bunker_silo')
+        .polygonSymbolizer({ fill: hsl(50, 34, 35) })
+        .lineSymbolizer({ stroke: hsl(50, 34, 20), strokeWidth: 1 })
     .style('water_area')
       .rule()
         .borderedPolygonSymbolizer(colors.water)
@@ -397,7 +401,6 @@ function generateFreemapStyle(
         }
       })
     .doInMap((map) => {
-      const s = map.style('routes');
       const x = [];
       if (hikingTrails) {
         x.push('hiking');
@@ -409,7 +412,9 @@ function generateFreemapStyle(
         x.push('ski');
       }
       if (x.length) {
-        s.doInStyle(routes(...x));
+        map
+          .style('routeGlows').doInStyle(routes(true, ...x))
+          .style('routes').doInStyle(routes(false, ...x));
       }
     })
     .style('contours', { opacity: 0.33 })

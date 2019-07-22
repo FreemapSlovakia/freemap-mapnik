@@ -6,11 +6,14 @@ module.exports = {
   routes,
 };
 
+const { hsl } = require('./colors');
+
 // types 'hiking' or combination of ['bicycle', 'ski']
-function routes(...types) {
+function routes(glows, ...types) {
   const isHiking = types.includes('hiking');
   const isBicycle = types.includes('bicycle');
   const isSki = types.includes('ski');
+  const isHorse = true; // types.includes('horse');
 
   return (style) => {
     for (let zoomVar = 0; zoomVar < 2; zoomVar++) {
@@ -19,28 +22,59 @@ function routes(...types) {
       const wf = zoomVar === 0 ? 2 : 1.5;
 
       for (const color of routeColors) {
-        if (isHiking) {
-          // major hiking
-          style.rule({ filter: `[h_${color}] > 0`, ...zoomParams }).lineSymbolizer({
-            stroke: mapColor(color),
-            strokeWidth: wf,
-            strokeLinejoin: 'round',
-            strokeLinecap: 'butt',
-            offset: `${zo} + ([h_${color}] - 1) * ${wf}`,
-          });
+        if (isHorse) {
+          // horse riding
 
-          // local hiking
-          style.rule({ filter: `[h_${color}_loc] > 0`, ...zoomParams }).lineSymbolizer({
-            stroke: mapColor(color),
-            strokeWidth: wf,
-            strokeLinejoin: 'round',
-            strokeLinecap: 'butt',
-            offset: `${zo} + ([h_${color}_loc] - 1) * ${wf}`,
-            strokeDasharray: `${wf * 3},${wf * 2}`,
-          });
+          const offset = `(${zo} + ([r_${color}] - 1) * ${wf * 1.5}) + 1`;
+
+          const rRule = style.rule({ filter: `[r_${color}] > 0`, ...zoomParams });
+          if (glows) {
+            rRule.lineSymbolizer({
+              stroke: hsl(40, 50, 40),
+              strokeWidth: wf * 2,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'round',
+              offset,
+              strokeOpacity: 0.75,
+            });
+          } else {
+            rRule.lineSymbolizer({
+              stroke: mapColor(color),
+              strokeWidth: wf,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'butt',
+              offset,
+              strokeDasharray: `${wf * 2},${wf * 2}`,
+            });
+          }
         }
 
-        if (isBicycle) {
+        if (isSki) {
+          const offset = `-(${zo} + ([s_${color}] - 1) * ${wf * 1.5}) - 1`;
+
+          const sRule = style.rule({ filter: `[s_${color}] > 0`, ...zoomParams });
+          if (glows) {
+            sRule.lineSymbolizer({
+              stroke: 'orange',
+              strokeWidth: wf * 2,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'round',
+              offset,
+              strokeOpacity: 0.75,
+            });
+          } else {
+            sRule.lineSymbolizer({
+              stroke: mapColor(color),
+              strokeWidth: wf,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'butt',
+              offset,
+              strokeDasharray: `${wf * 2},${wf * 2}`,
+            });
+          }
+        }
+
+        if (isBicycle && !glows) {
           // bicycle
           style.rule({ filter: `[b_${color}] > 0`, ...zoomParams }).lineSymbolizer({
             stroke: mapColor(color),
@@ -52,26 +86,56 @@ function routes(...types) {
           });
         }
 
-        if (isSki) {
-          const offset = `-(${zo} + ([s_${color}] - 1) * ${wf * 2}) - 1`;
+        // hiking is last to draw it last (highest prio)
+        if (isHiking) {
+          const o1 = `${zo} + ([h_${color}] - 1) * ${wf * 1.5} + 1`;
 
-          style.rule({ filter: `[s_${color}] > 0`, ...zoomParams })
-            .lineSymbolizer({
-              stroke: 'orange',
+          // major hiking
+          const hRule = style.rule({ filter: `[h_${color}] > 0`, ...zoomParams });
+          if (glows) {
+            hRule.lineSymbolizer({
+              stroke: 'white',
               strokeWidth: wf * 2,
               strokeLinejoin: 'round',
               strokeLinecap: 'round',
-              offset,
-            })
-            .lineSymbolizer({
+              offset: o1,
+              strokeOpacity: 0.75,
+            });
+          } else {
+            hRule.lineSymbolizer({
               stroke: mapColor(color),
               strokeWidth: wf,
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
-              offset,
-              strokeDasharray: `${wf * 3},${wf}`,
+              offset: o1,
             });
+          }
+
+          const o2 = `${zo} + ([h_${color}_loc] - 1) * ${wf * 1.5} + 1`;
+
+          // local hiking
+          const lhRule = style.rule({ filter: `[h_${color}_loc] > 0`, ...zoomParams });
+          if (glows) {
+            lhRule.lineSymbolizer({
+              stroke: 'white',
+              strokeWidth: wf * 2,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'round',
+              offset: o2,
+              strokeOpacity: 0.75,
+            });
+          } else {
+            lhRule.lineSymbolizer({
+              stroke: mapColor(color),
+              strokeWidth: wf,
+              strokeLinejoin: 'round',
+              strokeLinecap: 'butt',
+              offset: o2,
+              strokeDasharray: `${wf * 3},${wf * 1}`,
+            });
+          }
         }
+
       }
     }
   };

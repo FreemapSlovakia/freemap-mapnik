@@ -100,7 +100,7 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
 1. Delete cached tiles
 1. Run minutely diff importing in the background:
    ```
-   nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -limitto limit.geojson -cachedir ./cache -diffdir ./diff -expiretiles-zoom 15 -expiretiles-dir ./expires &
+   nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -limitto limit.geojson -cachedir ./cache -diffdir ./diff -expiretiles-zoom 14 -expiretiles-dir ./expires &
    ```
 
 ## Nginx as front tier

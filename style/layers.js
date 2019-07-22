@@ -15,8 +15,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       'select type, geometry from osm_landusages_gen1 order by z_order',
       { minZoom: 10, maxZoom: 11 },
     )
+    // TODO instead of union with osm_feature_polys put it to landusages
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages order by z_order',
+      `select type, geometry, z_order from osm_landusages
+        union all select 'feat:' || type, geometry, 1000 as z_order from osm_feature_polys
+        order by z_order`,
       { minZoom: 12 },
     )
     .sqlLayer('cutlines',
@@ -112,7 +115,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { opacity: 0.5 })
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
-    .sqlLayer('routes',
+    .sqlLayer(['routeGlows', 'routes'],
       `select
         geometry,
         idx(arr, 0) as h_red,
@@ -146,31 +149,43 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         idx(arr, 34) as s_black,
         idx(arr, 35) as s_white,
         idx(arr, 36) as s_orange,
-        idx(arr, 37) as s_purple
+        idx(arr, 37) as s_purple,
+        idx(arr, 40) as r_red,
+        idx(arr, 41) as r_blue,
+        idx(arr, 42) as r_green,
+        idx(arr, 43) as r_yellow,
+        idx(arr, 44) as r_black,
+        idx(arr, 45) as r_white,
+        idx(arr, 46) as r_orange,
+        idx(arr, 47) as r_purple
       from (
         select
           first(geometry) as geometry,
           case
-            when osm_routes.type in ('foot', 'hiking') then 'hiking'
+            when osm_routes.type in ('foot', 'hiking', 'horse') then 'hikingAndHorse'
             when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then 'bicycleAndSki'
             else null end as groupType,
           uniq(sort(array_agg(
             case
-              when osm_routes.type in ('hiking', 'foot') then
-                case when network in ('iwn', 'nwn', 'rwn') then 0 else 10 end +
-                  case
-                    when "osmc:symbol" like 'red:%' then 0
-                    when "osmc:symbol" like 'blue:%' then 1
-                    when "osmc:symbol" like 'green:%' then 2
-                    when "osmc:symbol" like 'yellow:%' then 3
-                    when "osmc:symbol" like 'black:%' then 4
-                    when "osmc:symbol" like 'white:%' then 5
-                    when "osmc:symbol" like 'orange:%' then 6
-                    when "osmc:symbol" like 'violet:%' then 7
-                    when "osmc:symbol" like 'purple:%' then 7
-                    else 1000 end
+              when osm_routes.type in ('hiking', 'foot', 'horse') then
+                case
+                  when osm_routes.type in ('hiking', 'foot') then (case when network in ('iwn', 'nwn', 'rwn') then 0 else 10 end)
+                  when osm_routes.type = 'horse' then 40
+                  else 1000 end +
+                case
+                  when "osmc:symbol" like 'red:%' then 0
+                  when "osmc:symbol" like 'blue:%' then 1
+                  when "osmc:symbol" like 'green:%' then 2
+                  when "osmc:symbol" like 'yellow:%' then 3
+                  when "osmc:symbol" like 'black:%' then 4
+                  when "osmc:symbol" like 'white:%' then 5
+                  when "osmc:symbol" like 'orange:%' then 6
+                  when "osmc:symbol" like 'violet:%' then 7
+                  when "osmc:symbol" like 'purple:%' then 7
+                  else 1000 end
               when osm_routes.type in (${bicycleTrails ? "'bicycle', 'mtb', " : ''}'ski', 'piste') then
-                20 + case when osm_routes.type in ('bicycle', 'mtb') then 0 else 10 end +
+                20 +
+                  case when osm_routes.type in ('bicycle', 'mtb') then 0 else 10 end +
                   case colour
                     when 'red' then 0
                     when 'blue' then 1
@@ -190,7 +205,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         where geometry && !bbox!
         group by member, groupType
       ) as aaa`,
-      { minZoom: 10, clearLabelCache: 'on' /*, cacheFeatures: true*/ }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
