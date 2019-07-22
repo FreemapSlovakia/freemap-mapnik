@@ -46,7 +46,7 @@ function routes(glows, ...types) {
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
               offset,
-              strokeDasharray: `${wf * 2},${wf * 2}`,
+              strokeDasharray: `${wf * 3},${wf * 2}`,
             });
           }
         }
@@ -71,7 +71,7 @@ function routes(glows, ...types) {
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
               offset,
-              strokeDasharray: `${wf * 2},${wf * 2}`,
+              strokeDasharray: `${wf * 3},${wf * 2}`,
             });
           }
         }
