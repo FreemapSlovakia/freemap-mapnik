@@ -144,10 +144,10 @@ function routes(glows, ...types) {
 
 
 const colorMap = {
-  red: 'red',
-  blue: '#4040ff',
-  green: '#008000',
-  yellow: '#f0f000',
+  red: '#ff3030',
+  blue: '#5050ff',
+  green: '#00a000',
+  yellow: '#e0e000',
   black: 'black',
   white: 'white',
   purple: '#b000b0',
