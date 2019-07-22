@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-const routeColors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'orange', 'purple'];
+const routeColors = ['purple', 'orange', 'white', 'black', 'yellow', 'green', 'blue', 'red'];
 
 module.exports = {
   routes,
@@ -22,6 +22,8 @@ function routes(glows, ...types) {
       const wf = zoomVar === 0 ? 2 : 1.5;
 
       for (const color of routeColors) {
+        // (maybe) order of route types influences drawing order (last = highest prio)
+
         if (isHorse) {
           // horse riding
 
@@ -33,7 +35,7 @@ function routes(glows, ...types) {
               stroke: hsl(40, 50, 40),
               strokeWidth: wf * 2,
               strokeLinejoin: 'round',
-              strokeLinecap: 'round',
+              strokeLinecap: 'butt',
               offset,
               strokeOpacity: 0.75,
             });
@@ -58,7 +60,7 @@ function routes(glows, ...types) {
               stroke: 'orange',
               strokeWidth: wf * 2,
               strokeLinejoin: 'round',
-              strokeLinecap: 'round',
+              strokeLinecap: 'butt',
               offset,
               strokeOpacity: 0.75,
             });
@@ -86,7 +88,6 @@ function routes(glows, ...types) {
           });
         }
 
-        // hiking is last to draw it last (highest prio)
         if (isHiking) {
           const o1 = `${zo} + ([h_${color}] - 1) * ${wf * 1.5} + 1`;
 
@@ -97,7 +98,7 @@ function routes(glows, ...types) {
               stroke: 'white',
               strokeWidth: wf * 2,
               strokeLinejoin: 'round',
-              strokeLinecap: 'round',
+              strokeLinecap: 'butt',
               offset: o1,
               strokeOpacity: 0.75,
             });
@@ -120,7 +121,7 @@ function routes(glows, ...types) {
               stroke: 'white',
               strokeWidth: wf * 2,
               strokeLinejoin: 'round',
-              strokeLinecap: 'round',
+              strokeLinecap: 'butt',
               offset: o2,
               strokeOpacity: 0.75,
             });
