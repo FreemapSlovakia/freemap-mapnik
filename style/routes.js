@@ -55,7 +55,7 @@ function routes(glows, ...types) {
         if (isHorse) {
           // horse riding
 
-          const offset = `(${zo} + ([r_${color}] - 1) * ${wf} * ${df}) + 1`;
+          const offset = `(${zo} + ([r_${color}] - 1) * ${wf} * ${df}) + 0.5`;
 
           const rRule = style.rule({ filter: `[r_${color}] > 0`, ...zoomParams });
           if (glows) {

@@ -5,7 +5,7 @@ const towerType = `concat("class", '_', case type
   when 'observation' then 'observation'
   else 'other' end) as type`;
 
-function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) {
+function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails) {
   return map => map
     .sqlLayer('landcover',
       'select type, geometry from osm_landusages_gen0 order by z_order',
@@ -116,63 +116,68 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
     // .sqlLayer(['routeGlows', 'routes'],
-      // st_linemerge(st_union(geometry)) as geometry,
     .sqlLayer('routes',
       `select
-        geometry,
-        idx(arr, 0) as h_red,
-        idx(arr, 1) as h_blue,
-        idx(arr, 2) as h_green,
-        idx(arr, 3) as h_yellow,
-        idx(arr, 4) as h_black,
-        idx(arr, 5) as h_white,
-        idx(arr, 6) as h_orange,
-        idx(arr, 7) as h_purple,
-        idx(arr, 10) as h_red_loc,
-        idx(arr, 11) as h_blue_loc,
-        idx(arr, 12) as h_green_loc,
-        idx(arr, 13) as h_yellow_loc,
-        idx(arr, 14) as h_black_loc,
-        idx(arr, 15) as h_white_loc,
-        idx(arr, 16) as h_orange_loc,
-        idx(arr, 17) as h_purple_loc,
-        idx(arr, 20) as b_red,
-        idx(arr, 21) as b_blue,
-        idx(arr, 22) as b_green,
-        idx(arr, 23) as b_yellow,
-        idx(arr, 24) as b_black,
-        idx(arr, 25) as b_white,
-        idx(arr, 26) as b_orange,
-        idx(arr, 27) as b_purple,
-        idx(arr, 30) as s_red,
-        idx(arr, 31) as s_blue,
-        idx(arr, 32) as s_green,
-        idx(arr, 33) as s_yellow,
-        idx(arr, 34) as s_black,
-        idx(arr, 35) as s_white,
-        idx(arr, 36) as s_orange,
-        idx(arr, 37) as s_purple,
-        idx(arr, 40) as r_red,
-        idx(arr, 41) as r_blue,
-        idx(arr, 42) as r_green,
-        idx(arr, 43) as r_yellow,
-        idx(arr, 44) as r_black,
-        idx(arr, 45) as r_white,
-        idx(arr, 46) as r_orange,
-        idx(arr, 47) as r_purple
+        st_linemerge(st_union(geometry)) as geometry,
+        idx(arr1, 0) as h_red,
+        idx(arr1, 1) as h_blue,
+        idx(arr1, 2) as h_green,
+        idx(arr1, 3) as h_yellow,
+        idx(arr1, 4) as h_black,
+        idx(arr1, 5) as h_white,
+        idx(arr1, 6) as h_orange,
+        idx(arr1, 7) as h_purple,
+        idx(arr1, 10) as h_red_loc,
+        idx(arr1, 11) as h_blue_loc,
+        idx(arr1, 12) as h_green_loc,
+        idx(arr1, 13) as h_yellow_loc,
+        idx(arr1, 14) as h_black_loc,
+        idx(arr1, 15) as h_white_loc,
+        idx(arr1, 16) as h_orange_loc,
+        idx(arr1, 17) as h_purple_loc,
+        idx(arr2, 20) as b_red,
+        idx(arr2, 21) as b_blue,
+        idx(arr2, 22) as b_green,
+        idx(arr2, 23) as b_yellow,
+        idx(arr2, 24) as b_black,
+        idx(arr2, 25) as b_white,
+        idx(arr2, 26) as b_orange,
+        idx(arr2, 27) as b_purple,
+        idx(arr2, 30) as s_red,
+        idx(arr2, 31) as s_blue,
+        idx(arr2, 32) as s_green,
+        idx(arr2, 33) as s_yellow,
+        idx(arr2, 34) as s_black,
+        idx(arr2, 35) as s_white,
+        idx(arr2, 36) as s_orange,
+        idx(arr2, 37) as s_purple,
+        idx(arr1, 40) as r_red,
+        idx(arr1, 41) as r_blue,
+        idx(arr1, 42) as r_green,
+        idx(arr1, 43) as r_yellow,
+        idx(arr1, 44) as r_black,
+        idx(arr1, 45) as r_white,
+        idx(arr1, 46) as r_orange,
+        idx(arr1, 47) as r_purple
       from (
         select
           first(geometry) as geometry,
-          case
-            when osm_routes.type in ('foot', 'hiking', 'horse') then 'hikingAndHorse'
-            when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then 'bicycleAndSki'
-            else null end as groupType,
           uniq(sort(array_agg(
             case
-              when osm_routes.type in ('hiking', 'foot') then
-                case
-                  when osm_routes.type in ('hiking', 'foot') then (case when network in ('iwn', 'nwn', 'rwn') then 0 else 10 end)
-                  else 1000 end +
+              when ${!!horseTrails} and osm_routes.type = 'horse' then 40 +
+                case colour
+                  when 'red' then 0
+                  when 'blue' then 1
+                  when 'green' then 2
+                  when 'yellow' then 3
+                  when 'black' then 4
+                  when 'white' then 5
+                  when 'orange' then 6
+                  when 'violet' then 7
+                  when 'purple' then 7
+                  else 1000 end
+              when ${!!hikingTrails} and osm_routes.type in ('hiking', 'foot') then
+                case when network in ('iwn', 'nwn', 'rwn') then 0 else 10 end +
                 case
                   when "osmc:symbol" like 'red:%' then 0
                   when "osmc:symbol" like 'blue:%' then 1
@@ -184,38 +189,43 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
                   when "osmc:symbol" like 'violet:%' then 7
                   when "osmc:symbol" like 'purple:%' then 7
                   else 1000 end
-              when osm_routes.type in (${bicycleTrails ? "'bicycle', 'mtb', " : ''}'ski', 'piste', 'horse') then
-                  case
-                    when osm_routes.type in ('bicycle', 'mtb') then 20
-                    when osm_routes.type in ('ski', 'piste') then 30
-                    when osm_routes.type = 'horse' then 40
-                    else 1000 end +
-                  case colour
-                    when 'red' then 0
-                    when 'blue' then 1
-                    when 'green' then 2
-                    when 'yellow' then 3
-                    when 'black' then 4
-                    when 'white' then 5
-                    when 'orange' then 6
-                    when 'violet' then 7
-                    when 'purple' then 7
-                    else 1000 end
-            else
-              1000
-            end
-          ))) as arr
+              else
+                1000
+              end
+          ))) as arr1,
+          uniq(sort(array_agg(
+            case
+              when osm_routes.type in ('bicycle', 'mtb', 'ski', 'piste') then
+                case
+                  when ${!!bicycleTrails} and osm_routes.type in ('bicycle', 'mtb') then 20
+                  when ${!!skiTrails} and osm_routes.type in ('ski', 'piste') then 30
+                  else 1000 end +
+                case colour
+                  when 'red' then 0
+                  when 'blue' then 1
+                  when 'green' then 2
+                  when 'yellow' then 3
+                  when 'black' then 4
+                  when 'white' then 5
+                  when 'orange' then 6
+                  when 'violet' then 7
+                  when 'purple' then 7
+                  else 1000 end
+              else
+                1000
+              end
+          ))) as arr2
         from osm_route_members join osm_routes using (osm_id)
         where geometry && !bbox!
-        group by member, groupType
+        group by member
       ) as aaa
+      group by
+        h_red, h_blue, h_green, h_yellow, h_black, h_white, h_orange, h_purple,
+        h_red_loc, h_blue_loc, h_green_loc, h_yellow_loc, h_black_loc, h_white_loc, h_orange_loc, h_purple_loc,
+        b_red, b_blue, b_green, b_yellow, b_black, b_white, b_orange, b_purple,
+        s_red, s_blue, s_green, s_yellow, s_black, s_white, s_orange, s_purple,
+        r_red, r_blue, r_green, r_yellow, r_black, r_white, r_orange, r_purple
       `,
-      // group by
-      //   h_red, h_blue, h_green, h_yellow, h_black, h_white, h_orange, h_purple,
-      //   h_red_loc, h_blue_loc, h_green_loc, h_yellow_loc, h_black_loc, h_white_loc, h_orange_loc, h_purple_loc,
-      //   b_red, b_blue, b_green, b_yellow, b_black, b_white, b_orange, b_purple,
-      //   s_red, s_blue, s_green, s_yellow, s_black, s_white, s_orange, s_purple,
-      //   r_red, r_blue, r_green, r_yellow, r_black, r_white, r_orange, r_purple
       { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',

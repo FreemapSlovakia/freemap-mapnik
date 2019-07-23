@@ -439,7 +439,7 @@ function generateFreemapStyle(
       .rule()
         .polygonSymbolizer({ fill: 'red' })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails))
 
     .stringify({ pretty: dumpXml });
 }
