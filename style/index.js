@@ -127,7 +127,7 @@ function generateFreemapStyle(
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
-    bufferSize: 256,
+    bufferSize: 256, // NOTE probably unused
   }, extensions)
     .datasource({ name: 'db' }, dbParams)
     .style('landcover')

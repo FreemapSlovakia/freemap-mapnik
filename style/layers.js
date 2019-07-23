@@ -115,9 +115,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
       { opacity: 0.5 })
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
-    .sqlLayer(['routeGlows', 'routes'],
+    // .sqlLayer(['routeGlows', 'routes'],
+    .sqlLayer('routes',
       `select
-        geometry,
+        st_linemerge(st_union(geometry)) as geometry,
         idx(arr, 0) as h_red,
         idx(arr, 1) as h_blue,
         idx(arr, 2) as h_green,
@@ -204,8 +205,14 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         from osm_route_members join osm_routes using (osm_id)
         where geometry && !bbox!
         group by member, groupType
-      ) as aaa`,
-      { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true }, // NOTE clearing cache because of contour elevation labels
+      ) as aaa
+      group by
+        h_red, h_blue, h_green, h_yellow, h_black, h_white, h_orange, h_purple,
+        h_red_loc, h_blue_loc, h_green_loc, h_yellow_loc, h_black_loc, h_white_loc, h_orange_loc, h_purple_loc,
+        b_red, b_blue, b_green, b_yellow, b_black, b_white, b_orange, b_purple,
+        s_red, s_blue, s_green, s_yellow, s_black, s_white, s_orange, s_purple,
+        r_red, r_blue, r_green, r_yellow, r_black, r_white, r_orange, r_purple`,
+      { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 512 }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',
@@ -253,7 +260,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         union all select 'ruins' as type, geometry, name, null from osm_ruin_polys
         union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
         order by z`,
-      { minZoom: 10 },
+      { minZoom: 10, bufferSize: 1024 },
     )
     .sqlLayer('highway_names',
       'select name, geometry, type from osm_roads order by z_order desc',
