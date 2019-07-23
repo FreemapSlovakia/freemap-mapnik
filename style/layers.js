@@ -116,8 +116,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
     // .sqlLayer(['routeGlows', 'routes'],
-    .sqlLayer('routes',
       // st_linemerge(st_union(geometry)) as geometry,
+    .sqlLayer('routes',
       `select
         geometry,
         idx(arr, 0) as h_red,
