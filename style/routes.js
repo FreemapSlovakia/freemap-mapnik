@@ -64,6 +64,7 @@ function routes(glows, ...types) {
             rRule.linePatternSymbolizer({
               file: `/tmp/horse-${color}.svg`,
               offset,
+              transform: `scale(${wf / 2})`,
             });
 
             // rRule.lineSymbolizer({
@@ -94,6 +95,7 @@ function routes(glows, ...types) {
             sRule.linePatternSymbolizer({
               file: `/tmp/ski-${color}.svg`,
               offset,
+              transform: `scale(${wf / 2})`,
             });
 
             // sRule.lineSymbolizer({
