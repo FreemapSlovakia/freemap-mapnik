@@ -413,7 +413,7 @@ function generateFreemapStyle(
       }
       if (x.length) {
         map
-          .style('routeGlows').doInStyle(routes(true, ...x))
+          // .style('routeGlows').doInStyle(routes(true, ...x))
           .style('routes').doInStyle(routes(false, ...x));
       }
     })

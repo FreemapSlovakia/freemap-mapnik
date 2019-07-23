@@ -1,4 +1,7 @@
 const { startMapserver } = require('freemap-mapserver');
 const { mapnikConfig, generateFreemapStyle } = require('./style');
+const { initIcons } = require('./style/routes');
 
-startMapserver(mapnikConfig, generateFreemapStyle);
+initIcons().then(() => {
+  startMapserver(mapnikConfig, generateFreemapStyle);
+});

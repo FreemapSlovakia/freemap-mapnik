@@ -1,12 +1,31 @@
 /* eslint-disable indent */
+const os = require('os');
+const path = require('path');
+const fs = require('fs').promises;
 
 const routeColors = ['purple', 'orange', 'white', 'black', 'yellow', 'green', 'blue', 'red'];
 
+async function initIcons() {
+  const [horseSvg, skiSvg] = await Promise.all([
+    fs.readFile('images/horse.svg', { encoding: 'UTF-8' }),
+    fs.readFile('images/ski.svg', { encoding: 'UTF-8' }),
+  ]);
+
+  return Promise.all(
+    routeColors.map(
+      color => Promise.all([
+        // TODO u
+        fs.writeFile(path.resolve(os.tmpdir(), `ski-${color}.svg`), skiSvg.replace('#ff00ff', mapColor(color))),
+        fs.writeFile(path.resolve(os.tmpdir(), `horse-${color}.svg`), horseSvg.replace('#ff00ff', mapColor(color))),
+      ]),
+    ),
+  );
+}
+
 module.exports = {
   routes,
+  initIcons,
 };
-
-const { hsl } = require('./colors');
 
 // types 'hiking' or combination of ['bicycle', 'ski']
 function routes(glows, ...types) {
@@ -21,58 +40,70 @@ function routes(glows, ...types) {
       const zo = zoomVar === 0 ? 3 : 1;
       const wf = zoomVar === 0 ? 2 : 1.5;
 
+      const df = 1.25;
+
       for (const color of routeColors) {
         // (maybe) order of route types influences drawing order (last = highest prio)
 
         if (isHorse) {
           // horse riding
 
-          const offset = `(${zo} + ([r_${color}] - 1) * ${wf * 1.5}) + 1`;
+          const offset = `(${zo} + ([r_${color}] - 1) * ${wf} * ${df}) + 1`;
 
           const rRule = style.rule({ filter: `[r_${color}] > 0`, ...zoomParams });
           if (glows) {
             rRule.lineSymbolizer({
-              stroke: hsl(40, 50, 40),
-              strokeWidth: wf * 2,
-              strokeLinejoin: 'round',
-              strokeLinecap: 'butt',
-              offset,
-              strokeOpacity: 0.75,
-            });
-          } else {
-            rRule.lineSymbolizer({
-              stroke: mapColor(color),
+              stroke: 'white',
               strokeWidth: wf,
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
               offset,
-              strokeDasharray: `${wf * 3},${wf * 2}`,
+              strokeOpacity: 0.25,
             });
+          } else {
+            rRule.linePatternSymbolizer({
+              file: `/tmp/horse-${color}.svg`,
+              offset,
+            });
+
+            // rRule.lineSymbolizer({
+            //   stroke: mapColor(color),
+            //   strokeWidth: wf,
+            //   strokeLinejoin: 'round',
+            //   strokeLinecap: 'butt',
+            //   offset,
+            //   strokeDasharray: `${wf * 3},${wf * 2}`,
+            // });
           }
         }
 
         if (isSki) {
-          const offset = `-(${zo} + ([s_${color}] - 1) * ${wf * 1.5}) - 1`;
+          const offset = `-(${zo} + ([s_${color}] - 1) * ${wf * 1.5} * ${df}) - 1`;
 
           const sRule = style.rule({ filter: `[s_${color}] > 0`, ...zoomParams });
           if (glows) {
             sRule.lineSymbolizer({
-              stroke: 'orange',
-              strokeWidth: wf * 2,
-              strokeLinejoin: 'round',
-              strokeLinecap: 'butt',
-              offset,
-              strokeOpacity: 0.75,
-            });
-          } else {
-            sRule.lineSymbolizer({
-              stroke: mapColor(color),
+              stroke: 'white',
               strokeWidth: wf,
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
               offset,
-              strokeDasharray: `${wf * 3},${wf * 2}`,
+              strokeOpacity: 0.80,
             });
+          } else {
+            sRule.linePatternSymbolizer({
+              file: `/tmp/ski-${color}.svg`,
+              offset,
+            });
+
+            // sRule.lineSymbolizer({
+            //   stroke: mapColor(color),
+            //   strokeWidth: wf,
+            //   strokeLinejoin: 'round',
+            //   strokeLinecap: 'butt',
+            //   offset,
+            //   strokeDasharray: `${wf * 3},${wf * 2}`,
+            // });
           }
         }
 
@@ -89,18 +120,18 @@ function routes(glows, ...types) {
         }
 
         if (isHiking) {
-          const o1 = `${zo} + ([h_${color}] - 1) * ${wf * 1.5} + 1`;
+          const o1 = `${zo} + ([h_${color}] - 1) * ${wf} * ${df}`;
 
           // major hiking
           const hRule = style.rule({ filter: `[h_${color}] > 0`, ...zoomParams });
           if (glows) {
             hRule.lineSymbolizer({
               stroke: 'white',
-              strokeWidth: wf * 2,
+              strokeWidth: wf,
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
               offset: o1,
-              strokeOpacity: 0.75,
+              strokeOpacity: 0.25,
             });
           } else {
             hRule.lineSymbolizer({
@@ -112,18 +143,18 @@ function routes(glows, ...types) {
             });
           }
 
-          const o2 = `${zo} + ([h_${color}_loc] - 1) * ${wf * 1.5} + 1`;
+          const o2 = `${zo} + ([h_${color}_loc] - 1) * ${wf} * ${df}`;
 
           // local hiking
           const lhRule = style.rule({ filter: `[h_${color}_loc] > 0`, ...zoomParams });
           if (glows) {
             lhRule.lineSymbolizer({
               stroke: 'white',
-              strokeWidth: wf * 2,
+              strokeWidth: wf,
               strokeLinejoin: 'round',
               strokeLinecap: 'butt',
               offset: o2,
-              strokeOpacity: 0.75,
+              strokeOpacity: 0.25,
             });
           } else {
             lhRule.lineSymbolizer({
@@ -147,7 +178,8 @@ const colorMap = {
   red: '#ff3030',
   blue: '#5050ff',
   green: '#00a000',
-  yellow: '#e0e000',
+  yellow: '#f0f000',
+  orange: '#ff8000',
   black: 'black',
   white: 'white',
   purple: '#b000b0',
