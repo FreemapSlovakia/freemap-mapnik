@@ -32,7 +32,7 @@ function routes(glows, ...types) {
   const isHiking = types.includes('hiking');
   const isBicycle = types.includes('bicycle');
   const isSki = types.includes('ski');
-  const isHorse = true; // types.includes('horse');
+  const isHorse = types.includes('horse');
 
   return (style) => {
     for (let zoomVar = 0; zoomVar < 2; zoomVar++) {
@@ -41,6 +41,13 @@ function routes(glows, ...types) {
       const wf = zoomVar === 0 ? 2 : 1.5;
 
       const df = 1.25;
+
+      const glowStyle = {
+        stroke: 'white',
+        strokeLinejoin: 'round',
+        strokeLinecap: 'butt',
+        strokeOpacity: 0.33,
+      };
 
       for (const color of routeColors) {
         // (maybe) order of route types influences drawing order (last = highest prio)
@@ -53,12 +60,9 @@ function routes(glows, ...types) {
           const rRule = style.rule({ filter: `[r_${color}] > 0`, ...zoomParams });
           if (glows) {
             rRule.lineSymbolizer({
-              stroke: 'white',
-              strokeWidth: wf,
-              strokeLinejoin: 'round',
-              strokeLinecap: 'butt',
+              ...glowStyle,
+              strokeWidth: wf + 1,
               offset,
-              strokeOpacity: 0.25,
             });
           } else {
             rRule.linePatternSymbolizer({
@@ -79,17 +83,14 @@ function routes(glows, ...types) {
         }
 
         if (isSki) {
-          const offset = `-(${zo} + ([s_${color}] - 1) * ${wf * 1.5} * ${df}) - 1`;
+          const offset = `-(${zo} + ([s_${color}] - 1) * ${wf * 2}) - 1`;
 
           const sRule = style.rule({ filter: `[s_${color}] > 0`, ...zoomParams });
           if (glows) {
             sRule.lineSymbolizer({
-              stroke: 'white',
-              strokeWidth: wf,
-              strokeLinejoin: 'round',
-              strokeLinecap: 'butt',
+              ...glowStyle,
+              strokeWidth: wf * 1.5 + 1,
               offset,
-              strokeOpacity: 0.80,
             });
           } else {
             sRule.linePatternSymbolizer({
@@ -122,18 +123,15 @@ function routes(glows, ...types) {
         }
 
         if (isHiking) {
-          const o1 = `${zo} + ([h_${color}] - 1) * ${wf} * ${df}`;
+          const o1 = `${zo} + ([h_${color}] - 1) * ${wf} * ${df} + 0.5`;
 
           // major hiking
           const hRule = style.rule({ filter: `[h_${color}] > 0`, ...zoomParams });
           if (glows) {
             hRule.lineSymbolizer({
-              stroke: 'white',
-              strokeWidth: wf,
-              strokeLinejoin: 'round',
-              strokeLinecap: 'butt',
+              ...glowStyle,
+              strokeWidth: wf + 2,
               offset: o1,
-              strokeOpacity: 0.25,
             });
           } else {
             hRule.lineSymbolizer({
@@ -145,18 +143,15 @@ function routes(glows, ...types) {
             });
           }
 
-          const o2 = `${zo} + ([h_${color}_loc] - 1) * ${wf} * ${df}`;
+          const o2 = `${zo} + ([h_${color}_loc] - 1) * ${wf} * ${df} + 0.5`;
 
           // local hiking
           const lhRule = style.rule({ filter: `[h_${color}_loc] > 0`, ...zoomParams });
           if (glows) {
             lhRule.lineSymbolizer({
-              stroke: 'white',
-              strokeWidth: wf,
-              strokeLinejoin: 'round',
-              strokeLinecap: 'butt',
+              ...glowStyle,
+              strokeWidth: wf + 2,
               offset: o2,
-              strokeOpacity: 0.25,
             });
           } else {
             lhRule.lineSymbolizer({

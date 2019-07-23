@@ -212,7 +212,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails /*, skiTrails*/) 
         b_red, b_blue, b_green, b_yellow, b_black, b_white, b_orange, b_purple,
         s_red, s_blue, s_green, s_yellow, s_black, s_white, s_orange, s_purple,
         r_red, r_blue, r_green, r_yellow, r_black, r_white, r_orange, r_purple`,
-      { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 512 }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places order by z_order desc',

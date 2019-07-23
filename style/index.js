@@ -9,6 +9,7 @@ const contoursCfg = config.get('mapFeatures.contours');
 const shadingCfg = config.get('mapFeatures.shading');
 const hikingTrailsCfg = config.get('mapFeatures.hikingTrails');
 const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
+const horseTrailsCfg = config.get('mapFeatures.horseTrails');
 const skiTrailsCfg = config.get('mapFeatures.skiTrails');
 const dumpXml = config.get('dumpXml');
 
@@ -123,6 +124,7 @@ function generateFreemapStyle(
   hikingTrails = hikingTrailsCfg,
   bicycleTrails = bicycleTrailsCfg,
   skiTrails = skiTrailsCfg,
+  horseTrails = horseTrailsCfg,
 ) {
   return createMap({
     backgroundColor: 'white',
@@ -411,9 +413,12 @@ function generateFreemapStyle(
       if (skiTrails) {
         x.push('ski');
       }
+      if (horseTrails) {
+        x.push('horse');
+      }
       if (x.length) {
         map
-          // .style('routeGlows').doInStyle(routes(true, ...x))
+          .style('routeGlows').doInStyle(routes(true, ...x))
           .style('routes').doInStyle(routes(false, ...x));
       }
     })

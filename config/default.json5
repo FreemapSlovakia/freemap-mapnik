@@ -27,6 +27,7 @@
     hikingTrails: true,
     bicycleTrails: true,
     skiTrails: true,
+    horseTrails: true,
   },
   limits: {
     minZoom: 0,
