@@ -118,7 +118,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // .sqlLayer(['routeGlows', 'routes'],
     .sqlLayer('routes',
       `select
-        st_linemerge(st_union(geometry)) as geometry,
+        st_linemerge(st_collect(geometry)) as geometry,
         idx(arr1, 0) as h_red,
         idx(arr1, 1) as h_blue,
         idx(arr1, 2) as h_green,
