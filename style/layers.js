@@ -8,17 +8,17 @@ const towerType = `concat("class", '_', case type
 function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails) {
   return map => map
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages_gen0 order by z_order',
+      'select type, geometry from osm_landusages_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },
     )
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages_gen1 order by z_order',
+      'select type, geometry from osm_landusages_gen1 where geometry && !bbox! order by z_order',
       { minZoom: 10, maxZoom: 11 },
     )
     // TODO instead of union with osm_feature_polys put it to landusages
     .sqlLayer('landcover',
-      `select type, geometry, z_order from osm_landusages
-        union all select 'feat:' || type, geometry, 1000 as z_order from osm_feature_polys
+      `select type, geometry, z_order from osm_landusages where geometry && !bbox!
+        union all select 'feat:' || type, geometry, 1000 as z_order from osm_feature_polys where geometry && !bbox!
         order by z_order`,
       { minZoom: 12 },
     )
@@ -51,20 +51,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service from osm_roads_gen0 order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service from osm_roads_gen1 order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads_gen1 where geometry && !bbox! order by z_order',
       { minZoom: 10, maxZoom: 11 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service from osm_roads_gen1 order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads_gen1 where geometry && !bbox! order by z_order',
       { maxZoom: 11 },
     )
     .sqlLayer(['higwayGlows', 'highways'],
       // order bycase when type = 'rail' AND (service = 'main' OR service = '') then 1000 else z_order end
-      'select geometry, type, tracktype, class, service from osm_roads order by z_order',
+      'select geometry, type, tracktype, class, service from osm_roads where geometry && !bbox! order by z_order',
       { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('aerialways',
@@ -229,7 +229,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
     )
     .sqlLayer('placenames',
-      'select name, type, geometry from osm_places order by z_order desc',
+      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
       { bufferSize: 1024, maxZoom: 14 })
     .sqlLayer('feature_points',
       `select * from (
@@ -251,6 +251,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         union all select 'ruins' as type, geometry from osm_ruins
         union all select 'ruins' as type, geometry from osm_ruin_polys
         union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
+        where geometry && !bbox!
         order by z`,
       { minZoom: 10 },
     )
@@ -273,11 +274,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         union all select 'ruins' as type, geometry, name, null from osm_ruins
         union all select 'ruins' as type, geometry, name, null from osm_ruin_polys
         union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
+        where geometry && !bbox!
         order by z`,
       { minZoom: 10, bufferSize: 1024 },
     )
     .sqlLayer('highway_names',
-      'select name, geometry, type from osm_roads order by z_order desc',
+      'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc',
       { minZoom: 15 },
     )
     .sqlLayer('aerialway_names',
@@ -315,7 +317,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 14 },
     )
     .sqlLayer('placenames',
-      'select name, type, geometry from osm_places order by z_order desc',
+      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
       { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
     )
     .sqlLayer('valleys',
