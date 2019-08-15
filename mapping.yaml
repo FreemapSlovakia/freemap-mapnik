@@ -134,20 +134,19 @@ tables:
         values:
         - farmland
         - farm
-        - farmyard
         - grassland
-        - grass
         - forest
         - wood
+        - meadow
+        - heath
         - industrial
+        - residential
         - commercial
         - retail
-        - residential
+        - farmyard
         - zoo
         - recreation_ground
         - grass
-        - meadow
-        - heath
         - wetland
         - village_green
         - school
