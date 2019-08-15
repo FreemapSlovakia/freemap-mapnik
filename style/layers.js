@@ -233,50 +233,50 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { bufferSize: 1024, maxZoom: 14 })
     .sqlLayer('feature_points',
       `select * from (
-        select case when type = 'peak' then
+        select osm_id, case when type = 'peak' then
           case when isolation > 4500 then 'peak1'
             when isolation between 3000 and 4500 then 'peak2'
             when isolation between 1500 and 3000 then 'peak3'
             else 'peak' end else type end, geometry from osm_feature_points natural left join isolations
-        union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry from osm_feature_polys
-        union all select type, geometry from osm_shops
-        union all select type, geometry from osm_shop_polys
-        union all select ${towerType}, geometry from osm_towers
-        union all select ${towerType}, geometry from osm_tower_polys
-        union all select type, geometry from osm_barrierpoints
-        union all select building as type, geometry from osm_place_of_worships
-        union all select building as type, geometry from osm_place_of_worship_polys
-        union all select type, geometry from osm_transport_points
-        union all select type, geometry from osm_transport_areas
-        union all select 'ruins' as type, geometry from osm_ruins
-        union all select 'ruins' as type, geometry from osm_ruin_polys
-        union all select type, geometry from osm_infopoints) as abc left join zindex using (type)
+        union all select osm_id, case type when 'communications_tower' then 'tower_communication' else type end as type, geometry from osm_feature_polys
+        union all select osm_id, type, geometry from osm_shops
+        union all select osm_id, type, geometry from osm_shop_polys
+        union all select osm_id, ${towerType}, geometry from osm_towers
+        union all select osm_id, ${towerType}, geometry from osm_tower_polys
+        union all select osm_id, type, geometry from osm_barrierpoints
+        union all select osm_id, building as type, geometry from osm_place_of_worships
+        union all select osm_id, building as type, geometry from osm_place_of_worship_polys
+        union all select osm_id, type, geometry from osm_transport_points
+        union all select osm_id, type, geometry from osm_transport_areas
+        union all select osm_id, 'ruins' as type, geometry from osm_ruins
+        union all select osm_id, 'ruins' as type, geometry from osm_ruin_polys
+        union all select osm_id, type, geometry from osm_infopoints) as abc left join zindex using (type)
         where geometry && !bbox!
-        order by z`,
-      { minZoom: 10 },
+        order by z, osm_id`,
+      { minZoom: 10, bufferSize: 256 },
     )
     .sqlLayer('feature_point_names',
       `select * from (
-        select case when type = 'peak' then
+        select osm_id, case when type = 'peak' then
           case when isolation > 4500 then 'peak1'
             when isolation between 3000 and 4500 then 'peak2'
             when isolation between 1500 and 3000 then 'peak3'
             else 'peak' end else type end, geometry, name, ele from osm_feature_points natural left join isolations
-        union all select case type when 'communications_tower' then 'tower_communication' else type end as type, geometry, name, ele from osm_feature_polys
-        union all select type, geometry, name, null as ele from osm_shops
-        union all select type, geometry, name, null as ele from osm_shop_polys
-        union all select ${towerType}, geometry, name, ele from osm_towers
-        union all select ${towerType}, geometry, name, ele from osm_tower_polys
-        union all select building as type, geometry, name, null as ele from osm_place_of_worships
-        union all select building as type, geometry, name, null as ele from osm_place_of_worship_polys
-        union all select type, geometry, name, null as ele from osm_transport_points
-        union all select type, geometry, name, null as ele from osm_transport_areas
-        union all select 'ruins' as type, geometry, name, null from osm_ruins
-        union all select 'ruins' as type, geometry, name, null from osm_ruin_polys
-        union all select type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
+        union all select osm_id, case type when 'communications_tower' then 'tower_communication' else type end as type, geometry, name, ele from osm_feature_polys
+        union all select osm_id, type, geometry, name, null as ele from osm_shops
+        union all select osm_id, type, geometry, name, null as ele from osm_shop_polys
+        union all select osm_id, ${towerType}, geometry, name, ele from osm_towers
+        union all select osm_id, ${towerType}, geometry, name, ele from osm_tower_polys
+        union all select osm_id, building as type, geometry, name, null as ele from osm_place_of_worships
+        union all select osm_id, building as type, geometry, name, null as ele from osm_place_of_worship_polys
+        union all select osm_id, type, geometry, name, null as ele from osm_transport_points
+        union all select osm_id, type, geometry, name, null as ele from osm_transport_areas
+        union all select osm_id, 'ruins' as type, geometry, name, null from osm_ruins
+        union all select osm_id, 'ruins' as type, geometry, name, null from osm_ruin_polys
+        union all select osm_id, type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
         where geometry && !bbox!
-        order by z`,
-      { minZoom: 10, bufferSize: 1024 },
+        order by z, osm_id`,
+      { minZoom: 10, bufferSize: 256 },
     )
     .sqlLayer('highway_names',
       'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc',
@@ -327,5 +327,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .layer('crop',
       { type: 'geojson', file: 'limit.geojson' },
       { srs: '+init=epsg:4326', compOp: 'dst-in' },
-    );
+    )
+  ;
 }

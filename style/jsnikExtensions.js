@@ -33,11 +33,10 @@ const extensions = {
         if (typeof minTextZoom !== 'number') {
           continue;
         }
-        const types = Array.isArray(type) ? type : [type];
 
         const fnt = font().wrap().if(natural, f => f.nature()).end({ dy: -10, ...(extra.font || {}) });
         const { textSymbolizerEle } = style
-          .typesRule(minTextZoom, ...types)
+          .rule({ filter: types(...Array.isArray(type) ? type : [type]), minZoom: minTextZoom, maxZoom: extra.maxZoom })
           .textSymbolizer(fnt,
             withEle ? undefined : '[name]');
         if (withEle) {
