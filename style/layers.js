@@ -161,6 +161,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         idx(arr1, 47) as r_purple
       from (
         select
+          -- array_to_string(array_agg(osm_id::text order by osm_id)), ',') as osm_ids,
           first(geometry) as geometry,
           uniq(sort(array_agg(
             case
@@ -220,6 +221,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         group by member
       ) as aaa
       group by
+        -- osm_ids,
         h_red, h_blue, h_green, h_yellow, h_black, h_white, h_orange, h_purple,
         h_red_loc, h_blue_loc, h_green_loc, h_yellow_loc, h_black_loc, h_white_loc, h_orange_loc, h_purple_loc,
         b_red, b_blue, b_green, b_yellow, b_black, b_white, b_orange, b_purple,
