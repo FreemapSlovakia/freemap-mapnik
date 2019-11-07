@@ -78,11 +78,11 @@ const extensions = {
     road(rule, props) {
       return rule
         .lineSymbolizer(props)
-        .lineSymbolizer({ ...props, stroke: 'black', strokeWidth: '[bridge]', offset: props.strokeWidth / 2 + 1 })
-        .lineSymbolizer({ ...props, stroke: 'black', strokeWidth: '[bridge]', offset: - props.strokeWidth / 2 - 1 })
-        .lineSymbolizer({ ...props, stroke: 'black', strokeWidth: '[tunnel]', offset: props.strokeWidth / 2 + 1, strokeDasharray: '3,3', strokeOpacity: 0.5 })
-        .lineSymbolizer({ ...props, stroke: 'black', strokeWidth: '[tunnel]', offset: - props.strokeWidth / 2 - 1, strokeDasharray: '3,3', strokeOpacity: 0.5 })
-        .lineSymbolizer({ ...props, strokeOpacity: 0.8, stroke: '#ccc', strokeWidth: `[tunnel] * ${props.strokeWidth + 2}` });
+        .lineSymbolizer({ stroke: 'black', strokeWidth: '[bridge]', offset: props.strokeWidth / 2 + 1 })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: '[bridge]', offset: - props.strokeWidth / 2 - 1 })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: '[tunnel]', offset: props.strokeWidth / 2 + 1, strokeDasharray: '3,3', strokeOpacity: 0.5 })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: '[tunnel]', offset: - props.strokeWidth / 2 - 1, strokeDasharray: '3,3', strokeOpacity: 0.5 })
+        .lineSymbolizer({ strokeOpacity: 0.8, stroke: '#ccc', strokeWidth: `[tunnel] * ${props.strokeWidth + 2}` });
     }
   },
   map: {
