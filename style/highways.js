@@ -18,20 +18,20 @@ function highways() {
         .rule({ minZoom: 12, filter: "[class] = 'railway' and [type] = 'rail' and ([service] = 'main' or [service] = '')" })
           .rail({ color: 'black', weight: 1.5, sleeperWeight: 5, spacing: 9.5, glowWidth: 1 })
         .rule({
-            minZoom: 13,
-            filter: `[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`,
-          })
-            .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 9.5, glowWidth: 1 })
-          .rule({
-            minZoom: 13,
-            filter: `[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`,
-          })
-            .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
-          .rule({
-            minZoom: 14,
-            filter: `[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`,
-          })
-            .rail({ color: hsl(0, 0, 33), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
+          minZoom: 13,
+          filter: `[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`,
+        })
+          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 9.5, glowWidth: 1 })
+        .rule({
+          minZoom: 13,
+          filter: `[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`,
+        })
+          .rail({ color: hsl(0, 0, 20), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
+        .rule({
+          minZoom: 14,
+          filter: `[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`,
+        })
+          .rail({ color: hsl(0, 0, 33), weight: 1, sleeperWeight: 4.5, spacing: 7.5, glowWidth: 1 })
 
         .doInStyle((style) => {
           for (let z = 8; z <= 11; z++) {
@@ -57,21 +57,21 @@ function highways() {
         })
 
         .typesRule(12, 'motorway', 'trunk')
-          .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 2.5 })
+          .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 2.5 })
         .typesRule(12, 'motorway_link', 'trunk_link', 'primary')
-          .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 + 2/3 })
+          .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 + 2/3 })
         .typesRule(12, 'primary_link', 'secondary')
-          .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 + 1/3 })
+          .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 + 1/3 })
         .typesRule(12, 'secondary_link', 'tertiary', 'tertiary_link')
-          .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 })
+          .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 1.5 })
         .typesRule(12, 14, 'living_street', 'residential', 'unclassified', 'road')
-          .lineSymbolizer({ ...highwayDflt, strokeWidth: 1 })
+          .road({ ...highwayDflt, strokeWidth: 1 })
         .typesRule(14, 'living_street', 'residential', 'unclassified', 'road')
-          .lineSymbolizer({ ...highwayDflt, stroke: colors.road, strokeWidth: 1 })
+          .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 1 })
         .rule({ minZoom: 14, filter: "[type] = 'service' and [service] = 'parking_aisle'" })
-          .lineSymbolizer({ ...highwayDflt, strokeWidth: 1 })
+          .road({ ...highwayDflt, strokeWidth: 1 })
         .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
-          .lineSymbolizer({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
+          .road({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
         .doInStyle((style) => {
           const w = [0.5, 0.75, 1];
           const zz = [[12, 12], [13, 13], [14]];
@@ -79,11 +79,11 @@ function highways() {
             const k = w[a];
             style
               .rule({ minZoom: zz[a][0], maxZoom: zz[a][1], filter: "[type] = 'service' and [service] != 'parking_aisle'" })
-                .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1.2 })
+                .road({ ...highwayDflt, strokeWidth: k * 1.2 })
               .typesRule(...zz[a], 'path')
-                .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
               .typesRule(...zz[a], 'cycleway')
-                .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3' })
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3' })
               .doInStyle((style) => {
                 [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
                   style
@@ -92,7 +92,7 @@ function highways() {
                         minZoom: zz[a][0],
                         maxZoom: zz[a][1],
                     })
-                      .lineSymbolizer({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray });
+                      .road({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray });
                 });
               });
           }

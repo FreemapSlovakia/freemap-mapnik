@@ -63,13 +63,23 @@ const extensions = {
       if (glowWidth) {
         rule
           .lineSymbolizer({ stroke: 'white', strokeWidth: gw })
-          .lineSymbolizer({ stroke: 'white', strokeWidth: sgw, strokeDasharray: `0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}` });
+          .lineSymbolizer({ stroke: 'white', strokeWidth: sgw, strokeDasharray: `0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}` })
+          .lineSymbolizer({ stroke: 'black', strokeWidth: '[bridge]', offset: sgw / 2 })
+          .lineSymbolizer({ stroke: 'black', strokeWidth: '[bridge]', offset: - sgw / 2 });
       }
       rule
         .lineSymbolizer({ stroke: color, strokeWidth: weight })
-        .lineSymbolizer({ stroke: color, strokeWidth: sleeperWeight, strokeDasharray: `0,${(spacing - weight) / 2},${weight},${(spacing - weight) / 2}` });
+        .lineSymbolizer({ stroke: color, strokeWidth: sleeperWeight, strokeDasharray: `0,${(spacing - weight) / 2},${weight},${(spacing - weight) / 2}` })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: '[bridge]', offset: sgw / 2 })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: '[bridge]', offset: - sgw / 2 });
       return rule;
     },
+    road(rule, props) {
+      return rule
+        .lineSymbolizer(props)
+        .lineSymbolizer({ props, stroke: 'black', strokeWidth: '[bridge]', offset: props.strokeWidth / 2 + 1 })
+        .lineSymbolizer({ props, stroke: 'black', strokeWidth: '[bridge]', offset: - props.strokeWidth / 2 - 1 });
+    }
   },
   map: {
     sqlLayer(map, styleName, sql, atts = {}, nestedLayerFactory) {

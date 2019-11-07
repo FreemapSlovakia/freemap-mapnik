@@ -51,20 +51,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service from osm_roads_gen0 where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge from osm_roads_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service from osm_roads_gen1 where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge from osm_roads_gen1 where geometry && !bbox! order by z_order',
       { minZoom: 10, maxZoom: 11 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service from osm_roads_gen1 where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge from osm_roads_gen1 where geometry && !bbox! order by z_order',
       { maxZoom: 11 },
     )
     .sqlLayer(['higwayGlows', 'highways'],
       // order bycase when type = 'rail' AND (service = 'main' OR service = '') then 1000 else z_order end
-      'select geometry, type, tracktype, class, service from osm_roads where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge from osm_roads where geometry && !bbox! order by z_order',
       { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('aerialways',
