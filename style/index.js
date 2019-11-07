@@ -344,11 +344,13 @@ function generateFreemapStyle(
               lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
               placementType: 'list',
               smooth: 0.2,
-              maxCharAngleDelta: 0,
+              // horizontalAlignment: 'adjust',
             }), '[name] + "\n "')
               .placement({ characterSpacing: cs * 2 })
+              .placement({ characterSpacing: cs * 1.5 })
               .placement({ characterSpacing: cs })
-              .placement({ characterSpacing: cs / 2 })
+              .placement({ characterSpacing: cs / 3 * 2 })
+              .placement({ characterSpacing: cs / 3 })
               .placement({ characterSpacing: 0 });
 
             if (z > 13) {

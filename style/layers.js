@@ -232,7 +232,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
-      { bufferSize: 1024, maxZoom: 14 })
+      { bufferSize: 2048, maxZoom: 14 })
     .sqlLayer('feature_points',
       `select * from (
         select osm_id, case when type = 'peak' then
@@ -295,7 +295,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // TODO to feature_point_names to consider zindex
     .sqlLayer('water_area_names',
       "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
-      { minZoom: 10 },
+      { minZoom: 10, bufferSize: 1024 },
     )
     // .sqlLayer('feature_line_names',
     //   'select geometry, name, type from osm_feature_lines',
@@ -312,7 +312,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select type, name, geometry from osm_protected_areas')
     .sqlLayer('locality_names',
       "select name, type, geometry from osm_places where type = 'locality'",
-      { minZoom: 15 },
+      { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('fixmes',
       'select geometry from osm_fixmes',
@@ -324,7 +324,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('valleys',
       "select geometry, name from osm_feature_lines where type = 'valley'",
-      { minZoom: 13, clearLabelCache: 'on' },
+      { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
     )
     .layer('crop',
       { type: 'geojson', file: 'limit.geojson' },
