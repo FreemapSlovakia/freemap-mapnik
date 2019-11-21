@@ -435,8 +435,8 @@ tables:
       name: name
       key: name
     - type: bool
-      name: interminnent
-      key: interminnent
+      name: intermittent
+      key: intermittent
     - type: bool
       name: seasonal
       key: seasonal

@@ -35,11 +35,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 12 },
     )
     .sqlLayer('water_line',
-      'select geometry, type, tunnel from osm_waterways_gen1',
+      "select geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray from osm_waterways_gen1",
       { maxZoom: 11 },
     )
     .sqlLayer('water_line',
-      'select geometry, type, tunnel from osm_waterways',
+      "select geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray from osm_waterways",
       { minZoom: 12 },
     )
     .sqlLayer('trees',
