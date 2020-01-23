@@ -11,12 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "color-convert": "2.0.1",
-    "config": "3.2.2",
+    "config": "3.2.5",
     "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver#fcb5f2153955497609c5c94bfab977044837ebce",
     "jsnik": "0.0.7"
   },
   "devDependencies": {
-    "eslint": "6.5.1",
-    "nodemon": "1.19.3"
+    "eslint": "6.8.0",
+    "nodemon": "2.0.2"
   }
 }

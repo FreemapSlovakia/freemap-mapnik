@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Node.js 10
+- Node.js 12
 - PostGIS
 - GDAL including python-gdal
 - imposm3
@@ -129,6 +129,7 @@ server {
 ```
 
 ## Notes
+
 Fixing 1201x3601 SRTM (skips `dem-iron`ing):
 
 TODO: integrate to `shading/Makefile`.

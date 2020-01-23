@@ -161,6 +161,7 @@ tables:
         - vineyard
         - orchard
         - scrub
+        - clearcut
         - hospital
         - golf_course
         - sports_centre
@@ -217,6 +218,7 @@ tables:
       - scree
       man_made:
       - pier
+      - clearcut
       aeroway:
       - runway
       - taxiway
