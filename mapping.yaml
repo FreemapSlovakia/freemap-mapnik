@@ -586,7 +586,7 @@ tables:
       man_made:
         - cutline
         - embankment
-        - dyke # TODO
+        - dyke
 
   protected_areas:
     columns:
@@ -1226,7 +1226,7 @@ tables:
             - residential
             - raceway
             - platform
-            - construction # TODO
+            - construction
 
   housenumbers:
     columns:
