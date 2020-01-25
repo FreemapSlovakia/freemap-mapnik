@@ -1156,7 +1156,7 @@ tables:
         key: cutting
         args:
           values:
-            - yes
+            - "yes"
             - left
             - right
       - type: string
