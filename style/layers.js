@@ -50,6 +50,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry, type from osm_feature_lines',
       { minZoom: 13 },
     )
+    .sqlLayer('embankments',
+      'select geometry from osm_roads where embankment = 1 and geometry && !bbox!',
+      { minZoom: 16 },
+    )
     .sqlLayer('highways',
       'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },

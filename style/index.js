@@ -231,6 +231,8 @@ function generateFreemapStyle(
       }
     })
     .style('feature_lines')
+      .typesRule(16, 'embankment', 'dyke')
+        .linePatternSymbolizer({ file: 'images/embankment-narrow.svg' })
       .typesRule(13, 'cliff', 'earth_bank')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
         .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1 })
@@ -244,6 +246,9 @@ function generateFreemapStyle(
             .linePatternSymbolizer({ file: 'images/tree.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
         }
       })
+    .style('embankments')
+      .rule({})
+        .linePatternSymbolizer({ file: 'images/embankment.svg' })
     .style('hillshade')
       .rule({ /* minZoom: 8, */ maxZoom: 8 })
         .rasterSymbolizer({ scaling: 'lanczos', opacity: 1.00 })

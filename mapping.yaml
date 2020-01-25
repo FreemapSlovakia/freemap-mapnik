@@ -580,13 +580,12 @@ tables:
         - ridge # TODO
         - gully # TODO
         - earth_bank
-
       power:
         - line
         - minor_line
       man_made:
-        - cutline # TODO
-        - embankment # TODO
+        - cutline
+        - embankment
         - dyke # TODO
 
   protected_areas:
@@ -1143,7 +1142,7 @@ tables:
         name: tunnel
         key: tunnel
       - type: boolint
-        name: embankment # TODO
+        name: embankment
         key: embankment
       - type: boolint
         name: bridge
