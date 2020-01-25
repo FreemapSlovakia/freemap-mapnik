@@ -73,4 +73,4 @@ final.tiff.ovr: final.tiff
 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro final.tiff
 
 # contours.sql: contours_split.shp
-# 	shp2pgsql contours_split.shp contours > contours.sql
+# 	shp2pgsql -S contours_split.shp contours > contours.sql
