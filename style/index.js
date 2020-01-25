@@ -149,6 +149,8 @@ function generateFreemapStyle(
       .area(hsl(0, 0, 80), 'scree')
         .polygonPatternSymbolizer({ file: 'images/scree.svg', opacity: 0.33 })
       .area(colors.landfill, 'landfill')
+      .area(hsl(74, 29, 68), 'clearcut')
+        .polygonPatternSymbolizer({ file: 'images/stump.svg', opacity: 0.33 })
       .area(colors.brownfield, 'brownfield')
       .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
@@ -229,7 +231,7 @@ function generateFreemapStyle(
       }
     })
     .style('feature_lines')
-      .typesRule(13, 'cliff')
+      .typesRule(13, 'cliff', 'earth_bank')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
         .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1 })
       .typesRule(13, 'line')
