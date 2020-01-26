@@ -341,6 +341,9 @@ function generateFreemapStyle(
     .style('building_names')
       .rule({ minZoom: 17 }) // rest names
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+    .style('housenumbers')
+      .rule({})
+        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: hsl(0, 0, 25) }), '[housenumber]')
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer(font().line().end({ fill: colors.track }), '[name]')

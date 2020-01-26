@@ -318,6 +318,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select name, type, geometry from osm_places where type = 'locality'",
       { minZoom: 15, bufferSize: 1024 },
     )
+    .sqlLayer('housenumbers',
+      'select coalesce("addr:streetnumber", "addr:housenumber") as housenumber, geometry from osm_housenumbers where geometry && !bbox!',
+      { minZoom: 18, bufferSize: 256 })
     .sqlLayer('fixmes',
       'select geometry from osm_fixmes',
       { minZoom: 14 },
