@@ -578,8 +578,8 @@ tables:
         - valley
         - tree_row
         - ridge # TODO
-        - gully # TODO
-        - earth_bank
+        - gully
+        - earth_bank # TODO
       power:
         - line
         - minor_line
@@ -1249,17 +1249,30 @@ tables:
         name: type
         key:
       - type: string
-        name: addr:street
-        key: addr:street
+        name: addr:housenumber
+        key: addr:housenumber
       - type: string
-        name: addr:postcode
-        key: addr:postcode
+        name: addr:streetnumber
+        key: addr:streetnumber
       - type: string
-        name: addr:city
-        key: addr:city
+        name: addr:conscriptionnumber
+        key: addr:conscriptionnumber
+      # - type: string
+      #   name: addr:street
+      #   key: addr:street
+      # - type: string
+      #   name: addr:postcode
+      #   key: addr:postcode
+      # - type: string
+      #   name: addr:city
+      #   key: addr:city
     type: point
     mapping:
       addr:housenumber:
+        - __any__
+      addr:streetnumber:
+        - __any__
+      addr:conscriptionnumber:
         - __any__
 
   waterareas:

@@ -252,6 +252,8 @@ function generateFreemapStyle(
             .linePatternSymbolizer({ file: 'images/tree.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
         }
       })
+      .typesRule(16, 'gully')
+        .linePatternSymbolizer({ file: 'images/gully.svg' })
     .style('embankments')
       .rule({})
         .linePatternSymbolizer({ file: 'images/embankment.svg' })
