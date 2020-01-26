@@ -71,6 +71,13 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads where geometry && !bbox! order by z_order',
       { minZoom: 12, cacheFeatures: true },
     )
+    .sqlLayer('accessRestrictions',
+      "select case when bicycle not in ('', 'yes', 'designated') or bicycle = '' and vehicle not in ('', 'yes', 'designated') "
+      + "or bicycle = '' and vehicle = '' and access not in ('', 'yes', 'designated') then 1 else 0 end as no_bicycle, "
+      + "case when foot not in ('', 'yes', 'designated') or foot = '' and access not in ('', 'yes', 'designated') then 1 else 0 end as no_foot, "
+      + "geometry from osm_roads where type not in ('trunk', 'motorway', 'trunk_link', 'motorway_link') and geometry && !bbox!",
+      { minZoom: 14 },
+    )
     .sqlLayer('aerialways',
       'select geometry, type from osm_aerialways',
       { minZoom: 12 },

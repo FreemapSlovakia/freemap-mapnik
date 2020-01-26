@@ -1174,6 +1174,9 @@ tables:
         name: foot
         key: foot
       - type: string
+        name: vehicle
+        key: vehicle
+      - type: string
         name: service
         key: service
       - type: string

@@ -116,6 +116,14 @@ function highways() {
         .typesRule('secondary_link', 'tertiary', 'tertiary_link')
           .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
         .typesRule(14, 'living_street', 'residential', 'unclassified', 'road')
-          .lineSymbolizer({ ...highwayDflt, strokeWidth: 2.5 });
+          .lineSymbolizer({ ...highwayDflt, strokeWidth: 2.5 })
+      .style('accessRestrictions')
+        .rule({ filter: '[no_bicycle] = 1 and [no_foot] = 1' })
+          .markersSymbolizer({ file: 'images/no_bicycle_foot.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })
+        .rule({ filter: '[no_bicycle] = 1 and [no_foot] = 0' })
+          .markersSymbolizer({ file: 'images/no_bicycle.svg', spacing: 24, placement: 'line', opacity: 0.75, ignorePlacement: true })
+        .rule({ filter: '[no_bicycle] = 0 and [no_foot] = 1' })
+          .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 24, placement: 'line', opacity: 0.75, ignorePlacement: true })
+      ;
   };
 }

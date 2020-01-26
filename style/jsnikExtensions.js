@@ -63,7 +63,7 @@ const extensions = {
       if (glowWidth) {
         rule
           .lineSymbolizer({ stroke: 'white', strokeWidth: gw })
-          .lineSymbolizer({ stroke: 'white', strokeWidth: sgw, strokeDasharray: `0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}` })
+          .lineSymbolizer({ stroke: 'white', strokeWidth: sgw, strokeDasharray: `0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}` });
       }
       rule
         .lineSymbolizer({ stroke: color, strokeWidth: weight })
