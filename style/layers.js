@@ -72,9 +72,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('accessRestrictions',
-      "select case when bicycle not in ('', 'yes', 'designated') or bicycle = '' and vehicle not in ('', 'yes', 'designated') "
-      + "or bicycle = '' and vehicle = '' and access not in ('', 'yes', 'designated') then 1 else 0 end as no_bicycle, "
-      + "case when foot not in ('', 'yes', 'designated') or foot = '' and access not in ('', 'yes', 'designated') then 1 else 0 end as no_foot, "
+      "select case when bicycle not in ('', 'yes', 'designated', 'official', 'permissive') or bicycle = '' and vehicle not in ('', 'yes', 'designated', 'official', 'permissive') "
+      + "or bicycle = '' and vehicle = '' and access not in ('', 'yes', 'designated', 'official', 'permissive') then 1 else 0 end as no_bicycle, "
+      + "case when foot not in ('', 'yes', 'designated', 'official', 'permissive') or foot = '' and access not in ('', 'yes', 'designated', 'official', 'permissive') then 1 else 0 end as no_foot, "
       + "geometry from osm_roads where type not in ('trunk', 'motorway', 'trunk_link', 'motorway_link') and geometry && !bbox!",
       { minZoom: 14 },
     )
