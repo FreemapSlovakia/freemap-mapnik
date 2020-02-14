@@ -374,6 +374,10 @@ tables:
         key:
     type: polygon
     mapping:
+      public_transport:
+        - platform
+      highway:
+        - platform
       railway:
         - station
         - platform
@@ -1236,6 +1240,10 @@ tables:
             - raceway
             - platform
             - construction
+          railway:
+            - platform
+          public_transport:
+            - platform
 
   housenumbers:
     columns:
