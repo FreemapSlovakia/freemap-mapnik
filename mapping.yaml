@@ -1260,16 +1260,39 @@ tables:
       - type: string
         name: addr:conscriptionnumber
         key: addr:conscriptionnumber
-      # - type: string
-      #   name: addr:street
-      #   key: addr:street
-      # - type: string
-      #   name: addr:postcode
-      #   key: addr:postcode
-      # - type: string
-      #   name: addr:city
-      #   key: addr:city
     type: point
+    mapping:
+      addr:housenumber:
+        - __any__
+      addr:streetnumber:
+        - __any__
+      addr:conscriptionnumber:
+        - __any__
+
+  housenumbers_poly:
+    columns:
+      - type: id
+        name: osm_id
+        key:
+      - type: geometry
+        name: geometry
+        key:
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+        key:
+      - type: string
+        name: addr:housenumber
+        key: addr:housenumber
+      - type: string
+        name: addr:streetnumber
+        key: addr:streetnumber
+      - type: string
+        name: addr:conscriptionnumber
+        key: addr:conscriptionnumber
+    type: polygon
     mapping:
       addr:housenumber:
         - __any__
