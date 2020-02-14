@@ -358,7 +358,7 @@ tables:
         - suburb
         - locality
 
-  transport_areas:
+  transport_polys:
     columns:
       - type: id
         name: osm_id
@@ -491,7 +491,7 @@ tables:
         - wire_fence
 
   # TODO merge with feature points
-  transport_points:
+  transports:
     columns:
       - type: id
         name: osm_id
@@ -614,7 +614,7 @@ tables:
       leisure:
         - nature_reserve
 
-  feature_points:
+  features:
     columns:
       - type: id
         name: osm_id
@@ -691,7 +691,6 @@ tables:
             - recycling
             - restaurant
             - school
-            - shelter
             - swimming_pool
             - taxi
             - telephone
@@ -763,6 +762,50 @@ tables:
           military:
             - bunker
 
+  shelters:
+    columns:
+      - type: id
+        name: osm_id
+        key:
+      - type: geometry
+        name: geometry
+        key:
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: type
+        key: shelter_type
+      - type: string
+        name: ele
+        key: ele
+      type: point
+      mapping:
+        amenity:
+        - shelter
+
+  shelter_polys:
+    columns:
+      - type: id
+        name: osm_id
+        key:
+      - type: geometry
+        name: geometry
+        key:
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: type
+        key: shelter_type
+      - type: string
+        name: ele
+        key: ele
+      type: polygon
+      mapping:
+        amenity:
+        - shelter
+
   feature_polys:
     columns:
       - type: id
@@ -824,7 +867,6 @@ tables:
             - recycling
             - restaurant
             - school
-            - shelter
             - swimming_pool
             - taxi
             - theatre

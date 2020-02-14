@@ -5,6 +5,49 @@ const towerType = `concat("class", '_', case type
   when 'observation' then 'observation'
   else 'other' end) as type`;
 
+function getFeaturesSql(nameEle = false) {
+  const sql = `select * from (
+      select osm_id, geometry, name, ele, case when type = 'peak' then
+        case when isolation > 4500 then 'peak1'
+          when isolation between 3000 and 4500 then 'peak2'
+          when isolation between 1500 and 3000 then 'peak3'
+          else 'peak' end else type end
+        from osm_features natural left join isolations
+      union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
+        from osm_feature_polys
+      union all select osm_id, geometry, name, null as ele, type
+        from osm_shops
+      union all select osm_id, geometry, name, null as ele, type
+        from osm_shop_polys
+      union all select osm_id, geometry, name,         ele, ${towerType}
+        from osm_towers
+      union all select osm_id, geometry, name,         ele, ${towerType}
+        from osm_tower_polys
+      union all select osm_id, geometry, name, null as ele, building as type
+        from osm_place_of_worships
+      union all select osm_id, geometry, name, null as ele, building as type
+        from osm_place_of_worship_polys
+      union all select osm_id, geometry, name, null as ele, type
+        from osm_transports
+      union all select osm_id, geometry, name, null as ele, type
+        from osm_transport_polys
+      union all select osm_id, geometry, name, null as ele, 'ruins' as type
+        from osm_ruins
+      union all select osm_id, geometry, name, null as ele, 'ruins' as type
+        from osm_ruin_polys
+      union all select osm_id, geometry, name,         ele, case when type in ('shopping_cart') then 'shelter' || type else 'shelter' end as type
+        from osm_shelters
+      union all select osm_id, geometry, name,         ele, case when type in ('shopping_cart') then 'shelter' || type else 'shelter' end as type
+        from osm_shelter_polys
+      union all select osm_id, geometry, name,         ele, type
+        from osm_infopoints
+    ) as abc left join zindex using (type)
+    where geometry && !bbox!
+    order by z, osm_id`;
+
+  return nameEle ? sql : sql.replace(/name,\s*(null as )?ele, /g, '');
+}
+
 function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails) {
   return map => map
     .sqlLayer('landcover',
@@ -43,7 +86,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 12 },
     )
     .sqlLayer('trees',
-      "select geometry from osm_feature_points where type = 'tree'",
+      "select geometry from osm_features where type = 'tree'",
       { minZoom: 16 },
     )
     .sqlLayer('feature_lines',
@@ -243,52 +286,14 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
-      { bufferSize: 2048, maxZoom: 14 })
-    .sqlLayer('feature_points',
-      `select * from (
-        select osm_id, case when type = 'peak' then
-          case when isolation > 4500 then 'peak1'
-            when isolation between 3000 and 4500 then 'peak2'
-            when isolation between 1500 and 3000 then 'peak3'
-            else 'peak' end else type end, geometry from osm_feature_points natural left join isolations
-        union all select osm_id, case type when 'communications_tower' then 'tower_communication' else type end as type, geometry from osm_feature_polys
-        union all select osm_id, type, geometry from osm_shops
-        union all select osm_id, type, geometry from osm_shop_polys
-        union all select osm_id, ${towerType}, geometry from osm_towers
-        union all select osm_id, ${towerType}, geometry from osm_tower_polys
-        union all select osm_id, type, geometry from osm_barrierpoints
-        union all select osm_id, building as type, geometry from osm_place_of_worships
-        union all select osm_id, building as type, geometry from osm_place_of_worship_polys
-        union all select osm_id, type, geometry from osm_transport_points
-        union all select osm_id, type, geometry from osm_transport_areas
-        union all select osm_id, 'ruins' as type, geometry from osm_ruins
-        union all select osm_id, 'ruins' as type, geometry from osm_ruin_polys
-        union all select osm_id, type, geometry from osm_infopoints) as abc left join zindex using (type)
-        where geometry && !bbox!
-        order by z, osm_id`,
-      { minZoom: 10, bufferSize: 256 },
+      { bufferSize: 2048, maxZoom: 14 }
     )
-    .sqlLayer('feature_point_names',
-      `select * from (
-        select osm_id, case when type = 'peak' then
-          case when isolation > 4500 then 'peak1'
-            when isolation between 3000 and 4500 then 'peak2'
-            when isolation between 1500 and 3000 then 'peak3'
-            else 'peak' end else type end, geometry, name, ele from osm_feature_points natural left join isolations
-        union all select osm_id, case type when 'communications_tower' then 'tower_communication' else type end as type, geometry, name, ele from osm_feature_polys
-        union all select osm_id, type, geometry, name, null as ele from osm_shops
-        union all select osm_id, type, geometry, name, null as ele from osm_shop_polys
-        union all select osm_id, ${towerType}, geometry, name, ele from osm_towers
-        union all select osm_id, ${towerType}, geometry, name, ele from osm_tower_polys
-        union all select osm_id, building as type, geometry, name, null as ele from osm_place_of_worships
-        union all select osm_id, building as type, geometry, name, null as ele from osm_place_of_worship_polys
-        union all select osm_id, type, geometry, name, null as ele from osm_transport_points
-        union all select osm_id, type, geometry, name, null as ele from osm_transport_areas
-        union all select osm_id, 'ruins' as type, geometry, name, null from osm_ruins
-        union all select osm_id, 'ruins' as type, geometry, name, null from osm_ruin_polys
-        union all select osm_id, type, geometry, name, ele from osm_infopoints) as abc left join zindex using (type)
-        where geometry && !bbox!
-        order by z, osm_id`,
+    .sqlLayer('features',
+      getFeaturesSql(false),
+      { minZoom: 10, bufferSize: 256 }
+    )
+    .sqlLayer('feature_names',
+      getFeaturesSql(true),
       { minZoom: 10, bufferSize: 256 },
     )
     .sqlLayer('highway_names',
@@ -303,7 +308,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry, name, type from osm_waterways',
       { minZoom: 12 },
     )
-    // TODO to feature_point_names to consider zindex
+    // TODO to feature_names to consider zindex
     .sqlLayer('water_area_names',
       "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
       { minZoom: 10, bufferSize: 1024 },
@@ -312,9 +317,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     //   'select geometry, name, type from osm_feature_lines',
     //   { minZoom: 14 },
     // )
-    // TODO to feature_point_names to consider zindex
+    // TODO to feature_names to consider zindex
     .sqlLayer('aeroport_names',
-      "select name, geometry from osm_transport_areas where type = 'aerodrome'",
+      "select name, geometry from osm_transport_polys where type = 'aerodrome'",
       { minZoom: 12 },
     )
     .sqlLayer('building_names',

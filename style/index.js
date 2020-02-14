@@ -303,7 +303,7 @@ function generateFreemapStyle(
     .style('locality_names')
       .typesRule(15, 'locality')
         .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }), '[name]')
-    .style('feature_point_names')
+    .style('feature_names')
       .poiNames(pois)
     .style('protected_area_names').doInStyle((style) => {
       for (const z of [8, 9, 10]) {
