@@ -366,6 +366,7 @@ function generateFreemapStyle(
               lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
               placementType: 'list',
               smooth: 0.2,
+              maxCharAngleDelta: 180,
               // horizontalAlignment: 'adjust',
             }), '[name] + "\n "')
               .placement({ characterSpacing: cs * 2 })
@@ -425,6 +426,22 @@ function generateFreemapStyle(
           }
         }
       })
+    .style('geonames')
+      .rule()
+        .textSymbolizer(
+          font().line().nature().end({
+            haloFill: 'white',
+            characterSpacing: 1,
+            haloRadius: 2,
+            allowOverlap: true,
+            opacity: '0.8 - pow(1.5, @zoom - 9) / 5',
+            haloOpacity: '0.8 - pow(1.5, @zoom - 9) / 5',
+            size: '8 + pow(1.9, @zoom - 6)',
+            horizontalAlignment: 'adjust',
+            smooth: 0.2,
+            maxCharAngleDelta: 180,
+          }),
+          '[name]')
     .doInMap((map) => {
       const x = [];
       if (hikingTrails) {

@@ -282,11 +282,19 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         s_red, s_blue, s_green, s_yellow, s_black, s_white, s_orange, s_purple,
         r_red, r_blue, r_green, r_yellow, r_black, r_white, r_orange, r_purple
       `,
-      { minZoom: 10, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 11, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
+    )
+    .layer(
+      'geonames',
+      {
+        type: 'shape',
+        file: 'geo-names/geo-names.shp',
+      },
+      { srs: '+init=epsg:4326', bufferSize: 1024, minZoom: 9, maxZoom: 11 }
     )
     .sqlLayer('placenames',
       'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
-      { bufferSize: 2048, maxZoom: 14 }
+      { bufferSize: 2048, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
     )
     .sqlLayer('features',
       getFeaturesSql(false),
@@ -322,31 +330,38 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select name, geometry from osm_transport_polys where type = 'aerodrome'",
       { minZoom: 12 },
     )
-    .sqlLayer('building_names',
-      'select name, type, geometry from osm_buildings')
-    .sqlLayer('protected_area_names',
-      'select type, name, geometry from osm_protected_areas')
-    .sqlLayer('locality_names',
+    .sqlLayer(
+      'building_names',
+      'select name, type, geometry from osm_buildings',
+      { bufferSize: 512 },
+    )
+    .sqlLayer(
+      'protected_area_names',
+      'select type, name, geometry from osm_protected_areas',
+      { bufferSize: 1024 },
+    )
+    .sqlLayer(
+      'locality_names',
       "select name, type, geometry from osm_places where type = 'locality'",
       { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('housenumbers',
       `select coalesce(nullif("addr:streetnumber", ''), nullif("addr:housenumber", ''), nullif("addr:conscriptionnumber", '')) as housenumber, geometry from (
           select * from osm_housenumbers union all select * from osm_housenumbers_poly
-        ) where geometry && !bbox!
+        ) as hn_polys where geometry && !bbox!
         `,
       { minZoom: 18, bufferSize: 256 })
     .sqlLayer('fixmes',
       'select geometry from osm_fixmes',
       { minZoom: 14 },
     )
-    .sqlLayer('placenames',
-      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
-      { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
-    )
     .sqlLayer('valleys',
       "select geometry, name from osm_feature_lines where type = 'valley'",
       { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
+    )
+    .sqlLayer('placenames',
+      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
+      { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
     )
     .layer('crop',
       { type: 'geojson', file: 'limit.geojson' },
