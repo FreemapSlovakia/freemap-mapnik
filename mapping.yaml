@@ -779,10 +779,10 @@ tables:
       - type: string
         name: ele
         key: ele
-      type: point
-      mapping:
-        amenity:
-        - shelter
+    type: point
+    mapping:
+      amenity:
+      - shelter
 
   shelter_polys:
     columns:
@@ -801,10 +801,10 @@ tables:
       - type: string
         name: ele
         key: ele
-      type: polygon
-      mapping:
-        amenity:
-        - shelter
+    type: polygon
+    mapping:
+      amenity:
+      - shelter
 
   feature_polys:
     columns:
