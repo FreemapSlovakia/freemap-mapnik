@@ -288,7 +288,7 @@ function generateFreemapStyle(
             .markersSymbolizer({ file: 'images/tree.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true });
         }
       })
-    .style('feature_points')
+    .style('features')
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(14, 'pole')
