@@ -282,7 +282,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         s_red, s_blue, s_green, s_yellow, s_black, s_white, s_orange, s_purple,
         r_red, r_blue, r_green, r_yellow, r_black, r_white, r_orange, r_purple
       `,
-      { minZoom: 11, clearLabelCache: 'on', cacheFeatures: true, bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 11, clearLabelCache: 'on', bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
     )
     .layer(
       'geonames',
@@ -293,8 +293,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { srs: '+init=epsg:4326', bufferSize: 1024, minZoom: 9, maxZoom: 11 }
     )
     .sqlLayer('placenames',
-      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
-      { bufferSize: 2048, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
+      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc, osm_id',
+      { bufferSize: 1024, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
     )
     .sqlLayer('features',
       getFeaturesSql(false),
@@ -302,19 +302,19 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('feature_names',
       getFeaturesSql(true),
-      { minZoom: 10, bufferSize: 256 },
+      { minZoom: 10, bufferSize: 1024 },
     )
     .sqlLayer('highway_names',
-      'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc',
-      { minZoom: 15 },
+      'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc, osm_id',
+      { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('aerialway_names',
       'select geometry, name, type from osm_aerialways',
-      { minZoom: 16 },
+      { minZoom: 16, bufferSize: 1024 },
     )
     .sqlLayer('water_line_names',
       'select geometry, name, type from osm_waterways',
-      { minZoom: 12 },
+      { minZoom: 12, bufferSize: 1024 },
     )
     // TODO to feature_names to consider zindex
     .sqlLayer('water_area_names',
@@ -328,11 +328,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // TODO to feature_names to consider zindex
     .sqlLayer('aeroport_names',
       "select name, geometry from osm_transport_polys where type = 'aerodrome'",
-      { minZoom: 12 },
+      { minZoom: 12, bufferSize: 1024 },
     )
     .sqlLayer(
       'building_names',
-      'select name, type, geometry from osm_buildings',
+      'select name, type, geometry from osm_buildings order by osm_id',
       { bufferSize: 512 },
     )
     .sqlLayer(
@@ -342,7 +342,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer(
       'locality_names',
-      "select name, type, geometry from osm_places where type = 'locality'",
+      "select name, type, geometry from osm_places where type = 'locality' order by osm_id",
       { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('housenumbers',
@@ -360,7 +360,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
     )
     .sqlLayer('placenames',
-      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc',
+      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc, osm_id',
       { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
     )
     .layer('crop',
