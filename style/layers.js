@@ -48,7 +48,7 @@ function getFeaturesSql(nameEle = false) {
   return nameEle ? sql : sql.replace(/name,\s*(null as )?ele, /g, '');
 }
 
-function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails) {
+function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format) {
   return map => map
     .sqlLayer('landcover',
       'select type, geometry from osm_landusages_gen0 where geometry && !bbox! order by z_order',
@@ -363,9 +363,14 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc, osm_id',
       { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
     )
-    .layer('crop',
-      { type: 'geojson', file: 'limit.geojson' },
-      { srs: '+init=epsg:4326', compOp: 'dst-in' },
-    )
+    .doInMap(map => {
+      if (format !== 'svg' && format !== 'pdf') {
+        map.layer('crop',
+          { type: 'geojson', file: 'limit.geojson' },
+          { srs: '+init=epsg:4326', compOp: 'dst-in' },
+        );
+      }
+      return map;
+    })
   ;
 }

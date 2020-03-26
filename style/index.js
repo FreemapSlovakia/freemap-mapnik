@@ -125,6 +125,7 @@ function generateFreemapStyle(
   bicycleTrails = bicycleTrailsCfg,
   skiTrails = skiTrailsCfg,
   horseTrails = horseTrailsCfg,
+  format,
 ) {
   return createMap({
     backgroundColor: 'white',
@@ -475,11 +476,17 @@ function generateFreemapStyle(
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
 
-    .style('crop', { imageFilters: 'agg-stack-blur(20,20)', imageFiltersInflate: true })
-      .rule()
-        .polygonSymbolizer({ fill: 'red' })
+    .doInMap(map => {
+      if (format !== 'svg' && format !== 'pdf') {
+        map.style('crop', { imageFilters: 'agg-stack-blur(20,20)', imageFiltersInflate: true })
+          .rule()
+            .polygonSymbolizer({ fill: 'red' });
+      }
+
+      return map;
+    })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format))
 
     .stringify({ pretty: dumpXml });
 }
