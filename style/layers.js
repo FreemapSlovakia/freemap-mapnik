@@ -41,6 +41,8 @@ function getFeaturesSql(nameEle = false) {
         from osm_shelter_polys
       union all select osm_id, geometry, name,         ele, type
         from osm_infopoints
+      union all select osm_id, geometry, name, null as ele, type
+        from osm_barrierpoints
     ) as abc left join zindex using (type)
     where geometry && !bbox!
     order by z, osm_id`;
