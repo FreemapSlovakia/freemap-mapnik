@@ -110,11 +110,11 @@ const pois = [
   [17, NN, N, N, 'firepit'],
   [17, NN, N, N, 'toilets'],
   [17, NN, N, N, 'bench'],
+  [17, NN, N, N, 'lift_gate'],
 
   [18, 19, N, N, 'post_box'],
   [18, 19, N, N, 'telephone'],
   [18, NN, N, N, 'gate'],
-  [18, NN, N, N, 'lift_gate'],
   [18, NN, N, N, 'waste_disposal'],
 ];
 
