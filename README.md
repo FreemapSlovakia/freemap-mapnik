@@ -26,3 +26,19 @@ Please see [doc/DOCKER.md](./doc/DOCKER.md).
 ### Regular
 
 Please see [doc/INSTALL.md](./doc/INSTALL.md).
+
+## Additional copnfiguration
+
+```json5
+{
+  mapFeatures: {
+    contours: true,
+    shading: true,
+    hikingTrails: true,
+    bicycleTrails: true,
+    skiTrails: true,
+  },
+
+  // ...other configuration required by freema-mapserver
+}
+```

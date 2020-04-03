@@ -118,15 +118,14 @@ const pois = [
   [18, NN, N, N, 'waste_disposal'],
 ];
 
-function generateFreemapStyle(
+function generateFreemapStyle({ features: {
   shading = shadingCfg,
   contours = contoursCfg,
   hikingTrails = hikingTrailsCfg,
   bicycleTrails = bicycleTrailsCfg,
   skiTrails = skiTrailsCfg,
   horseTrails = horseTrailsCfg,
-  format,
-) {
+}, shapefiles, format }) {
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
@@ -486,7 +485,7 @@ function generateFreemapStyle(
       return map;
     })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, shapefiles))
 
     .stringify({ pretty: dumpXml });
 }
