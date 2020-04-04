@@ -119,13 +119,21 @@ const pois = [
 ];
 
 function generateFreemapStyle({ features: {
-  shading = shadingCfg,
-  contours = contoursCfg,
-  hikingTrails = hikingTrailsCfg,
-  bicycleTrails = bicycleTrailsCfg,
-  skiTrails = skiTrailsCfg,
-  horseTrails = horseTrailsCfg,
-}, shapefiles, format }) {
+  shading,
+  contours,
+  hikingTrails,
+  bicycleTrails,
+  skiTrails,
+  horseTrails,
+} = {
+  shading: shadingCfg,
+  contours: contoursCfg,
+  hikingTrails: hikingTrailsCfg,
+  bicycleTrails: bicycleTrailsCfg,
+  skiTrails: skiTrailsCfg,
+  horseTrails: horseTrailsCfg,
+
+}, shapefiles = {}, format } = {shapefiles: {}}) {
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
