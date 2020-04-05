@@ -383,7 +383,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               type: 'shape',
               file,
             },
-            { srs: '+init=epsg:4326', bufferSize: 1024, minZoom: 9, maxZoom: 11 }
+            { srs: '+init=epsg:4326', bufferSize: 1024 }
           );
         }
       }

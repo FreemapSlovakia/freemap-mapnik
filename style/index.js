@@ -483,6 +483,22 @@ function generateFreemapStyle({ features: {
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
 
+    .style('shapefile-polygons')
+      .rule()
+        .polygonSymbolizer({ fill: '#007bff', fillOpacity: 0.2 })
+        .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8 })
+        .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, placement: 'interior' }), '[name]')
+
+    .style('shapefile-polylines')
+      .rule()
+        .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8 })
+        .textSymbolizer(font().line().end({ fill: '#007bff', size: 16, dy: 8 }), '[name]')
+
+    .style('shapefile-points')
+      .rule()
+        .markersSymbolizer({fill: '#007bff', width: 8, height: 8})
+        .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, dy: -10 }), '[name]')
+
     .doInMap(map => {
       if (format !== 'svg' && format !== 'pdf') {
         map.style('crop', { imageFilters: 'agg-stack-blur(20,20)', imageFiltersInflate: true })
