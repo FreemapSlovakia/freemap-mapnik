@@ -3,7 +3,11 @@ const { mapnikConfig, generateFreemapStyle } = require('./style');
 const { initIcons } = require('./style/routes');
 
 function mapFeatureProperties(props) {
-  return props; // TODO
+  if (!('name' in props)) {
+    props.name = '';
+  }
+
+  return props;
 }
 
 initIcons().then(() => {
