@@ -110,7 +110,7 @@ const pois = [
   [17, NN, N, N, 'firepit'],
   [17, NN, N, N, 'toilets'],
   [17, NN, N, N, 'bench'],
-  [17, NN, N, N, 'lift_gate'],
+  [17, NN, N, N, ['lift_gate', 'swing_gate']],
 
   [18, 19, N, N, 'post_box'],
   [18, 19, N, N, 'telephone'],
@@ -118,15 +118,22 @@ const pois = [
   [18, NN, N, N, 'waste_disposal'],
 ];
 
-function generateFreemapStyle(
-  shading = shadingCfg,
-  contours = contoursCfg,
-  hikingTrails = hikingTrailsCfg,
-  bicycleTrails = bicycleTrailsCfg,
-  skiTrails = skiTrailsCfg,
-  horseTrails = horseTrailsCfg,
-  format,
-) {
+function generateFreemapStyle({ features: {
+  shading,
+  contours,
+  hikingTrails,
+  bicycleTrails,
+  skiTrails,
+  horseTrails,
+} = {
+  shading: shadingCfg,
+  contours: contoursCfg,
+  hikingTrails: hikingTrailsCfg,
+  bicycleTrails: bicycleTrailsCfg,
+  skiTrails: skiTrailsCfg,
+  horseTrails: horseTrailsCfg,
+
+}, shapefiles = {}, format } = {shapefiles: {}}) {
   return createMap({
     backgroundColor: 'white',
     srs: mercSrs,
@@ -476,6 +483,22 @@ function generateFreemapStyle(
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
 
+    .style('shapefile-polygons')
+      .rule()
+        .polygonSymbolizer({ fill: '#007bff', fillOpacity: 0.2 })
+        .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8 })
+        .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, placement: 'interior' }), '[name]')
+
+    .style('shapefile-polylines')
+      .rule()
+        .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8 })
+        .textSymbolizer(font().line().end({ fill: '#007bff', size: 16, dy: 8 }), '[name]')
+
+    .style('shapefile-points')
+      .rule()
+        .markersSymbolizer({fill: '#007bff', width: 8, height: 8})
+        .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, dy: -10 }), '[name]')
+
     .doInMap(map => {
       if (format !== 'svg' && format !== 'pdf') {
         map.style('crop', { imageFilters: 'agg-stack-blur(20,20)', imageFiltersInflate: true })
@@ -486,7 +509,7 @@ function generateFreemapStyle(
       return map;
     })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, shapefiles))
 
     .stringify({ pretty: dumpXml });
 }
