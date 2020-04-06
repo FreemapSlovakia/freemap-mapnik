@@ -157,7 +157,7 @@ tables:
             - park
             - railway
             - quarry
-            - scree
+            # NEXT - scree
             - landfill
             - vineyard
             - orchard
@@ -555,6 +555,7 @@ tables:
         - gate
         - spikes
         - lift_gate
+        # NEXT - swing_gate
         - kissing_gate
         - fence
         - "yes"
