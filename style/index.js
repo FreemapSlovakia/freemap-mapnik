@@ -157,7 +157,7 @@ function generateFreemapStyle({ features: {
         .polygonPatternSymbolizer({ file: 'images/scrub.svg', alignment: 'global', opacity: 0.2 })
       .area(hsl(0, 0, 70), 'quarry')
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
-      .area(hsl(0, 0, 80), 'scree')
+      .area(hsl(0, 0, 90), 'scree')
         .polygonPatternSymbolizer({ file: 'images/scree.svg', opacity: 0.33 })
       .area(colors.landfill, 'landfill')
       .area(hsl(74, 29, 68), 'clearcut')
