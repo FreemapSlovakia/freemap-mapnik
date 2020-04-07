@@ -73,6 +73,8 @@ function highways() {
           .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 1 })
         .rule({ minZoom: 14, filter: "[type] = 'service' and [service] = 'parking_aisle'" })
           .road({ ...highwayDflt, strokeWidth: 1 })
+        .typesRule(14, 'raceway')
+          .road({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray: '9.5,1.5' })
         .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
           .road({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
         .doInStyle((style) => {
@@ -106,6 +108,8 @@ function highways() {
         .typesRule(12, 'path')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(12, 'track')
+          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
+        .typesRule(14, 'raceway')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
         .typesRule('motorway', 'trunk')
           .lineSymbolizer({ ...highwayDflt, strokeWidth: 4 })
