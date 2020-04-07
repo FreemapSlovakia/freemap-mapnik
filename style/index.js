@@ -147,6 +147,8 @@ function generateFreemapStyle({ features: {
       .typesRule('cemetery')
         .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
       .area(colors.heath, 'heath')
+      .area('white', 'bare_rock')
+        .polygonPatternSymbolizer({ file: 'images/bare_rock.svg', alignment: 'global', opacity: 0.2 })
       .area(colors.orchard, 'vineyard')
         .polygonPatternSymbolizer({ file: 'images/grapes.svg', alignment: 'global', opacity: 0.20 })
       .area(colors.orchard, 'orchard')
