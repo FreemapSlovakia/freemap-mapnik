@@ -139,6 +139,8 @@ tables:
             - wood
             - meadow
             - heath
+            # NEXT - bare_rock
+            # NEXT - fell
             - industrial
             - residential
             - commercial
