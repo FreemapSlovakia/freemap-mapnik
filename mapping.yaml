@@ -593,6 +593,7 @@ tables:
         - cutline
         - embankment
         - dyke
+        # NEXT - pipeline
 
   protected_areas:
     columns:
@@ -745,6 +746,8 @@ tables:
             - water_tower
             - water_well
             - water_works
+            # NEXT - pumping_station
+            # NEXT - wastewater_plant
           historic:
             - archaeological_site
             - boundary_stone
@@ -911,6 +914,8 @@ tables:
             - silo
             - water_tower
             - water_works
+            # NEXT - pumping_station
+            # NEXT - wastewater_plant
           historic:
             - archaeological_site
             - bunker
