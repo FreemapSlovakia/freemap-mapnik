@@ -27,7 +27,7 @@ function font() {
     water() {
       return {
         ...this.nature(),
-        fill: hsl(216, 100, 50),
+        fill: colors.waterLabel,
         haloFill: colors.waterLabelHalo,
       };
     },
