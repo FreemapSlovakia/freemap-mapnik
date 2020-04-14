@@ -881,6 +881,7 @@ tables:
             - townhall
             - university
             - veterinary
+            # NEXT - monastery
           tourism:
             - alpine_hut
             - apartment
