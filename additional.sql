@@ -126,6 +126,7 @@ insert into zindex (type) values
 ('wastewater_plant'),
 ('firepit'),
 ('bench'),
+('beehive'),
 ('waste_basket'),
 ('waste_disposal'),
 ('lift_gate'),
