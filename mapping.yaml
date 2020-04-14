@@ -587,7 +587,7 @@ tables:
         - tree_row
         - ridge # TODO
         - gully
-        - earth_bank # TODO
+        - earth_bank
       power:
         - line
         - minor_line
