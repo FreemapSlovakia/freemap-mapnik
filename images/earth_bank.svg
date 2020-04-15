@@ -3,7 +3,7 @@
 
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="16" height="16" viewBox="0 0 16 16" version="1.1" id="svg8" inkscape:version="0.92.4 (5da689c313, 2019-01-14)" sodipodi:docname="earth_bank.svg">
   <defs id="defs2" />
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="45.254834" inkscape:cx="7.0527016" inkscape:cy="4.7978477" inkscape:document-units="px" inkscape:current-layer="svg8" showgrid="true" units="px" inkscape:window-width="1881" inkscape:window-height="1061" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" scale-x="1" inkscape:pagecheckerboard="true">
+  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="16" inkscape:cx="4.0036779" inkscape:cy="5.8636098" inkscape:document-units="px" inkscape:current-layer="svg8" showgrid="true" units="px" inkscape:window-width="1881" inkscape:window-height="1061" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" scale-x="1" inkscape:pagecheckerboard="true">
     <inkscape:grid type="xygrid" id="grid5758" units="px" spacingx="1" spacingy="1" />
   </sodipodi:namedview>
   <metadata id="metadata5">
@@ -11,11 +11,11 @@
       <cc:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <rect style="opacity:0.56999966;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.49999973;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" id="rect3600" width="10" height="10.000001" x="0" y="6.9999914" />
-  <path inkscape:connector-curvature="0" id="path5748" d="M 6.5,12 V 7" style="fill:none;fill-rule:evenodd;stroke:#404040;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-  <path style="fill:none;fill-rule:evenodd;stroke:#404040;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 10,11.5 H 0" id="path5756" inkscape:connector-curvature="0" />
+  <rect style="opacity:0.56999966;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.49999973;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" id="rect3600" width="10" height="10.000001" x="-10" y="-16.000008" transform="scale(-1)" />
+  <path inkscape:connector-curvature="0" id="path5748" d="M 3.5,11 V 16" style="fill:none;fill-rule:evenodd;stroke:#404040;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <path style="fill:none;fill-rule:evenodd;stroke:#404040;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 0,11.5 H 10" id="path5756" inkscape:connector-curvature="0" />
 </svg>
