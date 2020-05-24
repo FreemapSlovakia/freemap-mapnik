@@ -1,4 +1,4 @@
-const { colors, hsl } = require('./colors');
+const { colors } = require('./colors');
 
 module.exports = { font };
 
