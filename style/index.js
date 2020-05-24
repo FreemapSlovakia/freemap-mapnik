@@ -480,6 +480,10 @@ function generateFreemapStyle({ features: {
           .style('routes').doInStyle(routes(false, ...x));
       }
     })
+    .style('route_names')
+      .rule()
+        .textSymbolizer(font().line(500).end({ fill: 'black', size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: '4 + [off1] * 2.5' }), '[refs1]')
+        .textSymbolizer(font().line(500).end({ fill: 'black', size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: '-4 - [off2] * 4' }), '[refs2]')
     .style('contours', { opacity: 0.33 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: 1 })
