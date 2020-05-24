@@ -309,7 +309,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // .sqlLayer(['routeGlows', 'routes'],
     .sqlLayer('routes',
       routesQuery,
-      { minZoom: 11, clearLabelCache: 'on', bufferSize: 1024 }, // NOTE clearing cache because of contour elevation labels
+      { minZoom: 11, maxZoom: 13, bufferSize: 512 },
+    )
+    .sqlLayer('routes',
+      routesQuery,
+      { minZoom: 14, clearLabelCache: 'on', bufferSize: 2048 }, // NOTE clearing cache because of contour elevation labels
     )
     .layer(
       'geonames',
@@ -337,7 +341,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('route_names',
       routesQuery,
-      { minZoom: 14, bufferSize: 1024 }, // NOTE probably must be same bufferSize as routes
+      { minZoom: 14, bufferSize: 2048 }, // NOTE probably must be same bufferSize as routes
     )
     .sqlLayer('aerialway_names',
       'select geometry, name, type from osm_aerialways',
