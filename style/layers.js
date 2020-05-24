@@ -236,20 +236,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('highways',
       'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen0 where geometry && !bbox! order by z_order',
-      { maxZoom: 9 },
+      { maxZoom: 9, groupBy: 'tunnel' },
     )
     .sqlLayer('highways',
       'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order',
-      { minZoom: 10, maxZoom: 11 },
+      { minZoom: 10, maxZoom: 11, groupBy: 'tunnel' },
     )
     .sqlLayer('highways',
       'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order',
-      { maxZoom: 11 },
+      { maxZoom: 11, groupBy: 'tunnel' },
     )
     .sqlLayer(['higwayGlows', 'highways'],
       // order bycase when type = 'rail' AND (service = 'main' OR service = '') then 1000 else z_order end
       'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads where geometry && !bbox! order by z_order',
-      { minZoom: 12, cacheFeatures: true },
+      { minZoom: 12, cacheFeatures: true, groupBy: 'tunnel' },
     )
     .sqlLayer('accessRestrictions',
       "select case when bicycle not in ('', 'yes', 'designated', 'official', 'permissive') or bicycle = '' and vehicle not in ('', 'yes', 'designated', 'official', 'permissive') "
