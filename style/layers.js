@@ -187,16 +187,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
   `;
 
   return map => map
-    .doInMap((map) => {
-      if (process.env.FM_CUSTOM_SQL) {
-        map.sqlLayer('custom',
-          process.env.FM_CUSTOM_SQL,
-        );
-      }
-    })
-    .sqlLayer('aeroways',
-      'select geometry, type from osm_aeroways',
-    )
     .sqlLayer('landcover',
       'select type, geometry from osm_landusages_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },
@@ -358,7 +348,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16, bufferSize: 1024 },
     )
     .sqlLayer('water_line_names',
-      'select geometry, name, type from osm_waterways',
+      `select ${process.env.FM_CUSTOM_SQL} geometry, name, type from osm_waterways`,
       { minZoom: 12, bufferSize: 1024 },
     )
     // TODO to feature_names to consider zindex
@@ -378,12 +368,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .sqlLayer(
       'building_names',
       'select name, type, geometry from osm_buildings order by osm_id',
-      { bufferSize: 512 },
+      { bufferSize: 512, minZoom: 17 },
     )
     .sqlLayer(
       'protected_area_names',
       'select type, name, geometry from osm_protected_areas',
-      { bufferSize: 1024 },
+      { bufferSize: 1024, minZoom: 8, maxZoom: 10 },
     )
     .sqlLayer(
       'locality_names',
