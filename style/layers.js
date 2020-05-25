@@ -187,6 +187,16 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
   `;
 
   return map => map
+    .doInMap((map) => {
+      if (process.env.FM_CUSTOM_SQL) {
+        map.sqlLayer('custom',
+          process.env.FM_CUSTOM_SQL,
+        );
+      }
+    })
+    .sqlLayer('aeroways',
+      'select geometry, type from osm_aeroways',
+    )
     .sqlLayer('landcover',
       'select type, geometry from osm_landusages_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },
