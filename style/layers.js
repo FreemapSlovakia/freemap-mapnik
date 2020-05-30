@@ -348,7 +348,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16, bufferSize: 1024 },
     )
     .sqlLayer('water_line_names',
-      `select ${process.env.FM_CUSTOM_SQL} geometry, name, type from osm_waterways`,
+      `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways`,
       { minZoom: 12, bufferSize: 1024 },
     )
     // TODO to feature_names to consider zindex
