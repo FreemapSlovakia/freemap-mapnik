@@ -373,7 +373,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .sqlLayer(
       'protected_area_names',
       'select type, name, geometry from osm_protected_areas',
-      { bufferSize: 1024, minZoom: 8, maxZoom: 10 },
+      { bufferSize: 1024, minZoom: 8 },
     )
     .sqlLayer(
       'locality_names',
