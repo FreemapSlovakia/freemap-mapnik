@@ -1,0 +1,104 @@
+build/wrapped/%.tiff: hgt/%.HGT
+	mkdir -p build/wrapped
+	gdalwarp \
+		-overwrite \
+		-of GTiff \
+		-ot Float32 \
+		-co NBITS=16 \
+		-co TILED=YES \
+		-co PREDICTOR=3 \
+		-co COMPRESS=ZSTD \
+		-co NUM_THREADS=ALL_CPUS \
+		-multi \
+		-wo NUM_THREADS=ALL_CPUS \
+		-srcnodata -9999 \
+		-r cubicspline \
+		-order 3 \
+		-tr 19.109257071294062687 19.109257071294062687 \
+		-tap \
+		-t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" \
+		$< $@
+
+wrapped = $(patsubst hgt/%.HGT,build/wrapped/%.tiff,$(wildcard hgt/*.HGT))
+
+merged.tiff: $(wrapped)
+	gdal_merge.py -o merged.tiff $(wrapped)
+
+
+# merge
+# warp
+# retile
+# denoise
+
+
+build/hgt.tif: hgt/*.HGT
+	mkdir -p build
+	gdal_merge.py -o build/hgt.tif hgt/*.HGT
+
+build/wrapped-hgt.tif: build/hgt.tif
+	gdalwarp \
+		-overwrite \
+		-of GTiff \
+		-ot Float32 \
+		-co NBITS=16 \
+		-co TILED=YES \
+		-co PREDICTOR=3 \
+		-co COMPRESS=ZSTD \
+		-co NUM_THREADS=ALL_CPUS \
+		-multi \
+		-wo NUM_THREADS=ALL_CPUS \
+		-srcnodata -9999 \
+		-r cubicspline \
+		-order 3 \
+		-tr 19.109257071294062687 19.109257071294062687 \
+		-tap \
+		-t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" \
+		build/hgt.tif build/wrapped-hgt.tif
+
+build/wrapped-hgt.asc:
+	gdal_translate -of AAIGrid build/wrapped-hgt.tif build/wrapped-hgt.asc
+
+build/denoised-hgt.asc: build/wrapped-hgt.asc
+	sudo cgexec -g memory:mdenoise ~martin/.local/bin/mdenoise -i build/wrapped-hgt.asc -n 3 -t 0.99 -o build/denoised-hgt.asc
+
+# build/retiled/*.tif: build/wrapped-hgt.tif
+# 	mkdir -p build/retiled
+# 	gdal_retile.py -ps 1000 1000 -targetDir build/retiled build/wrapped-hgt.tif
+
+# build/asc/%.asc: build/retiled/%.tif
+# 	mkdir -p build/asc
+# 	gdal_translate -of AAIGrid $< $@
+
+# asc = $(patsubst build/retiled/%.tif,build/asc/%.asc,$(wildcard build/retiled/*.tif))
+
+# denoised = $(patsubst build/asc/%.asc,build/denoised/%.asc,$(wildcard build/asc/*.asc))
+
+# build/denoised/%.asc: build/asc/%.asc
+# 	mkdir -p build/denoised
+# 	mdenoise -i $< -n 20 -t 0.99 -o $@
+
+# foo1: build/retiled/*.tif
+
+# foo2: $(asc)
+
+# foo3: $(denoised)
+
+# build/denoised.tif: build/denoised/*.asc
+# 	gdal_merge.py -o build/denoised.tif build/denoised/*.asc
+
+# build/shading.tif: build/denoised.tif
+# 	gdaldem hillshade -igor build/denoised.tif build/shading.tif
+
+# build/not-denoised.tif: build/asc/*.asc
+# 	gdal_merge.py -o build/not-denoised.tif build/asc/*.asc
+
+# build/shading2.tif: build/not-denoised.tif
+# 	gdaldem hillshade -igor build/not-denoised.tif build/shading2.tif
+
+# all: build/shading.tif build/shading2.tif
+
+# build/retiled/%.asc : build/retiled/%.asc
+# 	mdenoise -i square.asc -n 3 -t 0.99 -o square_dn.asc
+
+clean:
+	rm -rf build

@@ -13,3 +13,4 @@ shading/*.ovr
 shading/*.vrt
 shading/contours*
 shading/limit.*
+shading/build

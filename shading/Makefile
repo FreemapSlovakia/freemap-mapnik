@@ -1,76 +1,107 @@
-all: final.tiff.ovr contours_split.shp
+build/hgt.tif: hgt/*.HGT
+	mkdir -p build
+	gdal_merge.py -o build/hgt.tif hgt/*.HGT
+
+  	# -dstnodata NaN \
+
+build/wrapped-hgt.tif: build/hgt.tif
+	gdalwarp \
+		-overwrite \
+		-of GTiff \
+		-ot Float32 \
+		-co NBITS=16 \
+		-co TILED=YES \
+		-co PREDICTOR=3 \
+		-co COMPRESS=ZSTD \
+		-co NUM_THREADS=ALL_CPUS \
+		-multi \
+		-wo NUM_THREADS=ALL_CPUS \
+		-srcnodata -9999 \
+		-r cubicspline \
+		-order 3 \
+		-tr 19.109257071294062687 19.109257071294062687 \
+		-tap \
+		-t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" \
+		build/hgt.tif build/wrapped-hgt.tif
+
+build/retiled/*.tif: build/wrapped-hgt.tif
+	mkdir -p build/retiled
+	gdal_retile.py -overlap 40 -ps 1000 1000 -targetDir build/retiled build/wrapped-hgt.tif
+
+build/asc/%.asc: build/retiled/%.tif
+	mkdir -p build/asc
+	gdal_translate -of AAIGrid $< $@
+
+asc = $(patsubst build/retiled/%.tif,build/asc/%.asc,$(wildcard build/retiled/*.tif))
+
+denoised = $(patsubst build/asc/%.asc,build/denoised/%.asc,$(wildcard build/asc/*.asc))
+
+build/denoised/%.asc: build/asc/%.asc
+	mkdir -p build/denoised
+	mdenoise -i $< -n 15 -t 0.98 -o $@
+
+cut = $(patsubst build/denoised/%.asc,build/cut/%.tif,$(wildcard build/denoised/*.asc))
+
+build/cut/%.tif: build/denoised/%.asc
+	mkdir -p build/cut
+	./cut.sh $< $@
+
+foo1: build/retiled/*.tif
+
+foo2: $(asc)
+
+foo3: $(denoised)
+
+foo4: $(cut)
+
+build/denoised.tif: build/cut/*.tif
+	gdal_merge.py -o build/denoised.tif build/cut/*.tif
+
+build/shading.tif: build/denoised.tif
+	gdaldem hillshade -igor build/denoised.tif build/shading.tif
+
+build/not-denoised.tif: build/asc/*.asc
+	gdal_merge.py -o build/not-denoised.tif build/asc/*.asc
+
+build/shading2.tif: build/not-denoised.tif
+	gdaldem hillshade -igor build/not-denoised.tif build/shading2.tif
+
+batch:
+	make foo1 && make foo2 && make foo3 && make foo4 && make all
+
+all: build/shading.tif build/shading2.tif
+
+# build/retiled/%.asc : build/retiled/%.asc
+# 	mdenoise -i square.asc -n 3 -t 0.99 -o square_dn.asc
 
 clean:
-	rm -f *.vrt contours* *.ovr
+	rm -rf build
 
-contours.shp: merged.tiff
-	gdal_contour -snodata -9999 -i 10 -a height merged.tiff contours.shp
+sk:
+	gdalwarp \
+		-overwrite	\
+		-of GTiff	\
+		-ot Float32	\
+		-co NBITS=16	\
+		-co TILED=YES	\
+		-co PREDICTOR=3	\
+		-co COMPRESS=ZSTD	\
+		-co NUM_THREADS=ALL_CPUS	\
+		-multi	\
+		-wo NUM_THREADS=ALL_CPUS	\
+		-srcnodata -9999 \
+		-dstnodata NaN \
+		-r cubicspline \
+		-order 3 \
+		-tr 19.109257071294062687 19.109257071294062687 \
+		-tap \
+		-s_srs 'EPSG:5514' \
+		-t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" \
+		-ct "+proj=pipeline +step +inv +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +inv +proj=hgridshift +grids=Slovakia_JTSK03_to_JTSK.gsb +step +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +inv +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +proj=push +v_3 +step +proj=cart +ellps=bessel +step +proj=helmert +x=485.021 +y=169.465 +z=483.839 +rx=-7.786342 +ry=-4.397554 +rz=-4.102655 +s=0 +convention=coordinate_frame +step +inv +proj=cart +ellps=WGS84 +step +proj=pop +v_3 +step +proj=webmerc +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84" \
+		sk.tiff \
+		sk_w.tiff
 
-contours_split.geojson: contours.shp
-	shp-polyline-splitter contours.shp height > contours_split.geojson
+		# -t_srs 'EPSG:3857' \
 
-contours_split.shp: contours_split.geojson
-	ogr2ogr -F 'ESRI Shapefile' contours_split.shp contours_split.geojson
-	shapeindex contours_split.shp
-
-define gen_relief
-	gdaldem hillshade -of GTiff -co "BIGTIFF=YES" -co "TILED=YES" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" merged.tiff _$(1).tiff -az $(2) -igor -z 1.7
-endef
-
-_a.tiff: merged.tiff
-	$(call gen_relief,a,-120)
-
-_b.tiff: merged.tiff
-	$(call gen_relief,b,60)
-
-_c.tiff: merged.tiff
-	$(call gen_relief,c,-45)
-
-_d.tiff: slope.tiff slope.ramp
-	gdaldem color-relief -of GTiff -co "BIGTIFF=YES" -co "TILED=YES" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" slope.tiff slope.ramp _d.tiff
-
-slope.tiff: merged.tiff
-	gdaldem slope -of GTiff -co "BIGTIFF=YES" -co "TILED=YES" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -p merged.tiff slope.tiff
-
-a := 0.8 * (255 - A)
-b := 0.7 * (255 - B)
-c := 1.0 * (255 - C)
-d := 0.0 * (255 - D) # note - intensity is zero = not used
-
-contrast := 1.0
-brightness := 0.0
-
-define gen_band
-	gdal_calc.py --co "BIGTIFF=YES" --co "TILED=YES" --co "COMPRESS=ZSTD" --co "NUM_THREADS=ALL_CPUS" \
-		-A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=$(1).tiff \
-		--calc="$(contrast) * (($(a) * $(2) + $(b) * $(3) + $(c) * $(4) + $(d) * $(5)) / (0.01 + $(a) + $(b) + $(c) + $(d)) - 128.0) + 128.0 + $(brightness)"
-endef
-
-# RGB colors per sub-relief are defined in columns
-#          [a]  [b]  [c]  [d]
-
-R.tiff: _a.tiff _b.tiff _c.tiff _d.tiff
-	$(call gen_band,R,0x20,0xFF,0x00,0x00)
-
-G.tiff: _a.tiff _b.tiff _c.tiff _d.tiff
-	$(call gen_band,G,0x30,0xEE,0x00,0x00)
-
-B.tiff: _a.tiff _b.tiff _c.tiff _d.tiff
-	$(call gen_band,B,0x60,0x00,0x00,0x00)
-
-A.tiff: _a.tiff _b.tiff _c.tiff _d.tiff
-	gdal_calc.py --co "BIGTIFF=YES" --co "TILED=YES" --co "COMPRESS=ZSTD" --co "NUM_THREADS=ALL_CPUS" \
-		-A _a.tiff -B _b.tiff -C _c.tiff -D _d.tiff --outfile=A.tiff \
-		--calc="255.0 - 255.0 * ((1.0 - $(a) / 255.0) * (1.0 - $(b) / 255.0) * (1.0 - $(c) / 255.0) * (1.0 - $(d) / 255.0))"
-
-stack.vrt: R.tiff G.tiff B.tiff A.tiff
-	gdalbuildvrt -separate stack.vrt R.tiff G.tiff B.tiff A.tiff
-
-final.tiff: stack.vrt R.tiff G.tiff B.tiff A.tiff
-	gdal_translate -r cubicspline -of GTiff -ot Int16 -co "TILED=YES" -co "BIGTIFF=YES" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" stack.vrt final.tiff
-
-final.tiff.ovr: final.tiff
-	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro final.tiff
-
-# contours.sql: contours_split.shp
-# 	shp2pgsql -S contours_split.shp contours > contours.sql
+# see https://stackoverflow.com/questions/62614229/how-to-define-prerequisite-for-automatic-variable-in-makefile/62615490
+# make -j24 foo1 && make -j24 foo2 && make -j24 foo3 && make -j24 foo4 && make -j24 all
