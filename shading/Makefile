@@ -10,11 +10,9 @@ build/warped-hgt.tif: build/hgt.tif
 		-overwrite \
 		-of GTiff \
 		-ot Float32 \
-		-co NBITS=16 \
 		-co TILED=YES \
-		-co PREDICTOR=3 \
 		-co BIGTIFF=YES \
-		-co COMPRESS=ZSTD \
+		-co COMPRESS=LZW \
 		-co NUM_THREADS=ALL_CPUS \
 		-wo NUM_THREADS=ALL_CPUS \
 		-multi \
@@ -29,38 +27,41 @@ build/warped-hgt.tif: build/hgt.tif
 # gdalwarp -ot Float32 -overwrite -tr 19.109257071294062687 19.109257071294062687 -tap -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"  N47E020.HGT N47E020.tif
 # whitebox_tools -r=FeaturePreservingSmoothing -v --wd="." --dem=warped-hgt.tif -o=test.tif --filter=15 --norm_diff=20.0 --num_iter=4
 
-build/retiled/*.tif: build/warped-hgt.tif
-	mkdir -p build/retiled
-	gdal_retile.py -overlap 40 -ps 1000 1000 -targetDir build/retiled build/warped-hgt.tif
+# build/retiled/*.tif: build/warped-hgt.tif
+# 	mkdir -p build/retiled
+# 	gdal_retile.py -overlap 40 -ps 1000 1000 -targetDir build/retiled build/warped-hgt.tif
 
-build/asc/%.asc: build/retiled/%.tif
-	mkdir -p build/asc
-	gdal_translate -of AAIGrid $< $@
+# build/asc/%.asc: build/retiled/%.tif
+# 	mkdir -p build/asc
+# 	gdal_translate -of AAIGrid $< $@
 
-asc = $(patsubst build/retiled/%.tif,build/asc/%.asc,$(wildcard build/retiled/*.tif))
+# asc = $(patsubst build/retiled/%.tif,build/asc/%.asc,$(wildcard build/retiled/*.tif))
 
-denoised = $(patsubst build/asc/%.asc,build/denoised/%.asc,$(wildcard build/asc/*.asc))
+# denoised = $(patsubst build/asc/%.asc,build/denoised/%.asc,$(wildcard build/asc/*.asc))
 
-build/denoised/%.asc: build/asc/%.asc
-	mkdir -p build/denoised
-	mdenoise -i $< -n 15 -t 0.98 -o $@
+# build/denoised/%.asc: build/asc/%.asc
+# 	mkdir -p build/denoised
+# 	mdenoise -i $< -n 15 -t 0.98 -o $@
 
-cut = $(patsubst build/denoised/%.asc,build/cut/%.tif,$(wildcard build/denoised/*.asc))
+# cut = $(patsubst build/denoised/%.asc,build/cut/%.tif,$(wildcard build/denoised/*.asc))
 
-build/cut/%.tif: build/denoised/%.asc
-	mkdir -p build/cut
-	./cut.sh $< $@
+# build/cut/%.tif: build/denoised/%.asc
+# 	mkdir -p build/cut
+# 	./cut.sh $< $@
 
-foo1: build/retiled/*.tif
+# foo1: build/retiled/*.tif
 
-foo2: $(asc)
+# foo2: $(asc)
 
-foo3: $(denoised)
+# foo3: $(denoised)
 
-foo4: $(cut)
+# foo4: $(cut)
 
-build/denoised.tif: build/cut/*.tif
-	gdal_merge.py -o build/denoised.tif build/cut/*.tif
+# build/denoised.tif: build/cut/*.tif
+# 	gdal_merge.py -o build/denoised.tif build/cut/*.tif
+
+build/denoised.tif: build/warped-hgt.tif
+	whitebox_tools -r=FeaturePreservingSmoothing -v --wd="build" --dem=warped-hgt.tif -o=denoised.tif --filter=15 --norm_diff=20.0 --num_iter=4
 
 # build/shading.tif: build/denoised.tif
 # 	gdaldem hillshade -igor build/denoised.tif build/shading.tif
