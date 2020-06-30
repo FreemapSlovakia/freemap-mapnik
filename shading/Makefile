@@ -2,7 +2,6 @@ build/hgt.tif: hgt/*.HGT
 	mkdir -p build
 	gdal_merge.py -a_nodata -500 -o build/hgt.tif hgt/*.HGT
 
-
 build/warped-hgt.tif: build/hgt.tif
 	gdalwarp \
 		-srcnodata -500 \
@@ -27,9 +26,9 @@ build/warped-hgt.tif: build/hgt.tif
 # gdalwarp -ot Float32 -overwrite -tr 19.109257071294062687 19.109257071294062687 -tap -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"  N47E020.HGT N47E020.tif
 # whitebox_tools -r=FeaturePreservingSmoothing -v --wd="." --dem=warped-hgt.tif -o=test.tif --filter=15 --norm_diff=20.0 --num_iter=4
 
-# build/retiled/*.tif: build/warped-hgt.tif
-# 	mkdir -p build/retiled
-# 	gdal_retile.py -overlap 40 -ps 1000 1000 -targetDir build/retiled build/warped-hgt.tif
+build/retiled/*.tif: build/warped-hgt.tif
+	mkdir -p build/retiled
+	gdal_retile.py -overlap 40 -ps 10000 10000 -targetDir build/retiled build/warped-hgt.tif
 
 # build/asc/%.asc: build/retiled/%.tif
 # 	mkdir -p build/asc
@@ -37,42 +36,33 @@ build/warped-hgt.tif: build/hgt.tif
 
 # asc = $(patsubst build/retiled/%.tif,build/asc/%.asc,$(wildcard build/retiled/*.tif))
 
-# denoised = $(patsubst build/asc/%.asc,build/denoised/%.asc,$(wildcard build/asc/*.asc))
+denoised = $(patsubst build/retiled/%.tif,build/denoised/%.tif,$(wildcard build/retiled/*.tif))
 
 # build/denoised/%.asc: build/asc/%.asc
 # 	mkdir -p build/denoised
 # 	mdenoise -i $< -n 15 -t 0.98 -o $@
 
-# cut = $(patsubst build/denoised/%.asc,build/cut/%.tif,$(wildcard build/denoised/*.asc))
+build/denoised/%.tif: build/retiled/%.tif
+	mkdir -p build/denoised
+	whitebox_tools -r=FeaturePreservingSmoothing -v --wd="." --dem=$< -o=$@ --filter=15 --norm_diff=20.0 --num_iter=4
 
-# build/cut/%.tif: build/denoised/%.asc
-# 	mkdir -p build/cut
-# 	./cut.sh $< $@
+# build/denoised.tif: build/warped-hgt.tif
+# 	whitebox_tools -r=FeaturePreservingSmoothing -v --wd="build" --dem=warped-hgt.tif -o=denoised.tif --filter=15 --norm_diff=20.0 --num_iter=4
 
-# foo1: build/retiled/*.tif
+cut = $(patsubst build/denoised/%.tif,build/cut/%.tif,$(wildcard build/denoised/*.tif))
 
-# foo2: $(asc)
+build/cut/%.tif: build/denoised/%.tif
+	mkdir -p build/cut
+	./cut.sh $< $@
 
-# foo3: $(denoised)
+# step1: build/retiled/*.tif
 
-# foo4: $(cut)
+# step2: $(asc)
 
-# build/denoised.tif: build/cut/*.tif
-# 	gdal_merge.py -o build/denoised.tif build/cut/*.tif
+step3: $(denoised)
 
-build/denoised.tif: build/warped-hgt.tif
-	whitebox_tools -r=FeaturePreservingSmoothing -v --wd="build" --dem=warped-hgt.tif -o=denoised.tif --filter=15 --norm_diff=20.0 --num_iter=4
-
-# build/shading.tif: build/denoised.tif
-# 	gdaldem hillshade -igor build/denoised.tif build/shading.tif
-
-# build/not-denoised.tif: build/asc/*.asc
-# 	gdal_merge.py -o build/not-denoised.tif build/asc/*.asc
-
-# build/shading2.tif: build/not-denoised.tif
-# 	gdaldem hillshade -igor build/not-denoised.tif build/shading2.tif
-
-# all: build/shading.tif build/shading2.tif
+# build/denoised.tif: $(cut)
+# 	gdal_merge.py -o $@ $^
 
 # build/retiled/%.asc : build/retiled/%.asc
 # 	mdenoise -i square.asc -n 3 -t 0.99 -o square_dn.asc
@@ -106,9 +96,11 @@ build/sk_warped.tif: sk.tif
 
 		# -t_srs 'EPSG:3857' \
 
-build/merged.tif: build/denoised.tif build/sk_warped.tif
-	gdal_merge.py -o build/merged.tif build/denoised.tif build/sk_warped.tif
+# build/merged.tif: build/denoised.tif build/sk_warped.tif
+# 	gdal_merge.py -o build/merged.tif build/denoised.tif build/sk_warped.tif
 
+build/merged.tif: $(cut) build/sk_warped.tif
+	gdal_merge.py -o $@ $^
 
 define gen_relief
 	gdaldem hillshade build/merged.tif build/_$(1).tif -az $(2) -igor -compute_edges -z 1.7
@@ -168,7 +160,7 @@ build/final.tif.ovr: build/final.tif
 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro build/final.tif
 
 # see https://stackoverflow.com/questions/62614229/how-to-define-prerequisite-for-automatic-variable-in-makefile/62615490
-# make -j24 foo1 && make -j24 foo2 && make -j24 foo3 && make -j24 foo4 && make -j24 build/final.tif.ovr
+# make -j24 step1 && make -j24 step2 && make -j24 step3 && make -j24 step4 && make -j24 build/final.tif.ovr
 
 
 # [19.819335937499961, 48.195387408333389],
@@ -186,3 +178,5 @@ build/final.tif.ovr: build/final.tif
 # 6378137*pi*2
 
 # (6378137 * pi * 2) / (2 ^ 13) / 256 = 19.1092570713  vs 19.093
+
+#gdal_contour -f PostgreSQL -nln cont_split -i 10 -a height build/merged.tif "PG:host=localhost user=martin password=**** dbname=martin"
