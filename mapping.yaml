@@ -139,8 +139,8 @@ tables:
             - wood
             - meadow
             - heath
-            # NEXT - bare_rock
-            # NEXT - fell
+            - bare_rock
+            - fell
             - industrial
             - residential
             - commercial
@@ -159,7 +159,7 @@ tables:
             - park
             - railway
             - quarry
-            # NEXT - scree
+            - scree
             - landfill
             - vineyard
             - orchard
@@ -557,7 +557,7 @@ tables:
         - gate
         - spikes
         - lift_gate
-        # NEXT - swing_gate
+        - swing_gate
         - kissing_gate
         - fence
         - "yes"
@@ -595,7 +595,7 @@ tables:
         - cutline
         - embankment
         - dyke
-        # NEXT - pipeline
+        - pipeline
 
   protected_areas:
     columns:
@@ -748,8 +748,8 @@ tables:
             - water_tower
             - water_well
             - water_works
-            # NEXT - pumping_station
-            # NEXT - wastewater_plant
+            - pumping_station
+            - wastewater_plant
           historic:
             - archaeological_site
             - boundary_stone
@@ -881,7 +881,7 @@ tables:
             - townhall
             - university
             - veterinary
-            # NEXT - monastery
+            - monastery
           tourism:
             - alpine_hut
             - apartment
@@ -917,8 +917,8 @@ tables:
             - silo
             - water_tower
             - water_works
-            # NEXT - pumping_station
-            # NEXT - wastewater_plant
+            - pumping_station
+            - wastewater_plant
           historic:
             - archaeological_site
             - bunker
