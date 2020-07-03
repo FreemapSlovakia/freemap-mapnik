@@ -137,10 +137,13 @@ function generateFreemapStyle({ features: {
 
 }, shapefiles = {}, format } = {shapefiles: {}}) {
   return createMap({
-    backgroundColor: 'white',
+    backgroundColor: colors.water,
     srs: mercSrs,
   }, extensions)
     .datasource({ name: 'db' }, dbParams)
+    .style('sea')
+      .rule()
+        .borderedPolygonSymbolizer('white')
     .style('landcover')
       .area(colors.forest, 'forest', 'wood')
       .area(colors.farmland, 'farmland')

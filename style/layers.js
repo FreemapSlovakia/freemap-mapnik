@@ -187,6 +187,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
   `;
 
   return map => map
+    .layer('sea',
+      {
+        type: 'shape',
+        file: 'simplified-land-polygons-complete-3857/simplified_land_polygons.shp',
+      },
+      { srs: '+init=epsg:3857', maxZoom: 9 }
+    )
+    .layer('sea',
+      {
+        type: 'shape',
+        file: 'land-polygons-split-3857/land_polygons.shp',
+      },
+      { srs: '+init=epsg:3857', minZoom: 10 }
+    )
     .sqlLayer('landcover',
       'select type, geometry from osm_landusages_gen0 where geometry && !bbox! order by z_order',
       { maxZoom: 9 },
