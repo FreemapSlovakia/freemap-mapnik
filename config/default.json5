@@ -7,7 +7,7 @@
     dbname: 'gis',
     password: 'secret',
     estimateExtent: false,
-    extent: '1322054,5725442,2905829,6665922',
+    extent: '623114.6545810351381078,4924990.6064707851037383,3333877.3735052365809679,6659193.9171888176351786',
     max_size: 24,
   },
   dirs: {
@@ -55,5 +55,6 @@
     extension: 'jpeg',
     mimeType: 'image/jpeg',
     codec: 'jpeg92',
-  }
+  },
+  markExpiredAllAtOnce: false,
 }
