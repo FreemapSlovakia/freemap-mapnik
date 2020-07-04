@@ -28,8 +28,8 @@ const NN = null;
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
   // [11, 20, X, O, 'guidepost', { icon: 'guidepost_x', maxZoom: 11 }],
-  [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { faceName: 'PT Sans Bold', dy: -8 }, maxZoom: 12 }],
-  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { faceName: 'PT Sans Bold' } }],
+  [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
+  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -140,6 +140,10 @@ function generateFreemapStyle({ features: {
     backgroundColor: colors.water,
     srs: mercSrs,
   }, extensions)
+    .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular'])
+    .fontSet('italic', ['PT Sans Italic', 'Fira Sans Condensed Italic'])
+    .fontSet('bold', ['PT Sans Bold', 'Fira Sans Condensed Bold'])
+    .fontSet('narrow bold', ['PT Sans Narrow Bold', 'Fira Sans Extra Condensed Bold'])
     .datasource({ name: 'db' }, dbParams)
     .style('sea')
       .rule()
@@ -420,7 +424,7 @@ function generateFreemapStyle({ features: {
             haloFill: 'white',
             opacity,
             haloOpacity: opacity * 0.9,
-            faceName: 'PT Sans Narrow Bold',
+            fontsetName: 'narrow bold',
             characterSpacing: 1,
           });
 

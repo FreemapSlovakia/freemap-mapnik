@@ -4,7 +4,7 @@ module.exports = { font };
 
 function font() {
   return {
-    faceName: 'PT Sans Regular',
+    fontsetName: 'regular',
     fill: 'black',
     haloFill: 'white',
     haloRadius: 1.5,
@@ -21,7 +21,7 @@ function font() {
     nature() {
       return {
         ...this,
-        faceName: 'PT Sans Italic',
+        fontsetName: 'italic',
       };
     },
     water() {

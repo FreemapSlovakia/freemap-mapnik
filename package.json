@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 --experimental-worker .",
+    "start": "node --max-old-space-size=4096 --unhandled-rejections=strict .",
     "watch": "nodemon --ext js,xml,svg --watch style --watch images --exec npm run start"
   },
   "author": "Martin Ždila <martin.zdila@freemap.sk>",
@@ -13,7 +13,7 @@
     "color-convert": "2.0.1",
     "config": "3.3.1",
     "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver",
-    "jsnik": "0.0.7"
+    "jsnik": "0.0.8"
   },
   "devDependencies": {
     "eslint": "7.0.0",
