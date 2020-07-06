@@ -9,7 +9,14 @@ Restart=always
 RestartSec=1
 User=freemap
 WorkingDirectory=/home/freemap/freemap-mapnik/
+Environment=NODE_ENV=prerender
+Environment=GDAL_CACHEMAX=256
+Environment=UV_THREADPOOL_SIZE=16
+Environment=FM_CUSTOM_SQL="set_backend_priority(pg_backend_pid(), 10),"
 ExecStart=/usr/bin/node --max-old-space-size=4096 --unhandled-rejections=strict index.js
+Nice=15
+RuntimeMaxSec=10800
+LimitAS=21474836480
 
 [Install]
 WantedBy=multi-user.target
