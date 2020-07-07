@@ -56,5 +56,5 @@
     mimeType: 'image/jpeg',
     codec: 'jpeg92',
   },
-  markExpiredAllAtOnce: false,
+  minExpiredBatchSize: 1000,
 }
