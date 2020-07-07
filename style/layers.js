@@ -316,7 +316,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .sqlLayer('protected_areas',
       'select type, geometry from osm_protected_areas')
     .sqlLayer('borders',
-      'select geometry from osm_admin where admin_level = 2',
+      'select st_linemerge(st_collect(geometry)) as geometry from osm_admin where admin_level = 2',
       { opacity: 0.5 })
     .sqlLayer('military_areas',
       "select geometry from osm_landusages where type = 'military'")
