@@ -50,7 +50,7 @@
   renderToPdfConcurrency: 1,
   pngquantOptions: [],
   notFoundAsTransparent: true,
-  maxMapUseCount: 1000, // set to falsy to disable
+  maxMapUseCount: false,
   format: {
     extension: 'jpeg',
     mimeType: 'image/jpeg',
