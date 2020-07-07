@@ -56,5 +56,5 @@
     mimeType: 'image/jpeg',
     codec: 'jpeg92',
   },
-  minExpiredBatchSize: 1000,
+  minExpiredBatchSize: 5000,
 }
