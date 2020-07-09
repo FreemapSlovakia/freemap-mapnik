@@ -34,7 +34,6 @@ const pois = [
   [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [13, 13, Y, Y, 'peak', { font: { size: 13, dy: -8 } }],
-  [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
   [14, 15, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
@@ -64,6 +63,8 @@ const pois = [
   [14, 15, N, N, ['station', 'halt']],
   [14, 15, N, N, 'bus_station'],
   [14, 15, N, N, 'water_park'],
+
+  [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
   [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'chimney'],

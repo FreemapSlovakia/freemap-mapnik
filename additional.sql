@@ -34,6 +34,8 @@ create index idx_symbol on osm_routes ("osmc:symbol");
 create index idx_network on osm_routes (network);
 create index idx_type on osm_routes (type);
 
+create index osm_features_osm_id on osm_features (osm_id);
+
 drop table if exists zindex;
 create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
