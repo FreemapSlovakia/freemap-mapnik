@@ -35,6 +35,7 @@ create index idx_network on osm_routes (network);
 create index idx_type on osm_routes (type);
 
 create index osm_features_osm_id on osm_features (osm_id);
+create index osm_features_type on osm_features (type);
 create index osm_places_type on osm_places (type);
 
 
