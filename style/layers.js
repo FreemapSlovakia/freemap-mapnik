@@ -371,8 +371,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { srs: '+init=epsg:4326', bufferSize: 1024, minZoom: 9, maxZoom: 11 }
     )
     .sqlLayer('placenames',
-      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc, osm_id',
-      { bufferSize: 1024, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
+      "select name, type, geometry from osm_places where type = 'city' AND geometry && !bbox! order by z_order desc, osm_id",
+      { bufferSize: 1024, maxZoom: 8, clearLabelCache: 'on', cacheFeatures: true }
+    )
+    .sqlLayer('placenames',
+      "select name, type, geometry from osm_places where (type = 'city' OR type = 'town') AND geometry && !bbox! order by z_order desc, osm_id",
+      { bufferSize: 1024, minZoom: 9, maxZoom: 10, clearLabelCache: 'on', cacheFeatures: true }
+    )
+    .sqlLayer('placenames',
+      "select name, type, geometry from osm_places where (type = 'city' OR type = 'town' OR type = 'town' OR type = 'village') AND geometry && !bbox! order by z_order desc, osm_id",
+      { bufferSize: 1024, minZoom: 11, maxZoom: 11, clearLabelCache: 'on', cacheFeatures: true }
+    )
+    .sqlLayer('placenames',
+      "select name, type, geometry from osm_places where type <> 'locality' AND geometry && !bbox! order by z_order desc, osm_id",
+      { bufferSize: 1024, minZoom: 12, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
     )
     .doInMap((map) => {
       for (let zoom = 10; zoom <= 17; zoom++) {
@@ -449,7 +461,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
     )
     .sqlLayer('placenames',
-      'select name, type, geometry from osm_places where geometry && !bbox! order by z_order desc, osm_id',
+      "select name, type, geometry from osm_places where type <> 'locality' AND geometry && !bbox! order by z_order desc, osm_id",
       { clearLabelCache: 'on', bufferSize: 1024, minZoom: 15 },
     )
     .doInMap(map => {
