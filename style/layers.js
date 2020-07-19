@@ -16,7 +16,7 @@ function getFeaturesSql(zoom) {
 
   if (zoom >= 12) {
     sqls.push(`
-      union all select osm_id, geometry, name,         ele, type
+      union all select osm_id, geometry, name,         ele, case type when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end) else type end as type
         from osm_infopoints
     `);
   }

@@ -27,7 +27,6 @@ const NN = null;
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
-  // [11, 20, X, O, 'guidepost', { icon: 'guidepost_x', maxZoom: 11 }],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
   [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -64,6 +63,7 @@ const pois = [
   [14, 15, N, N, 'bus_station'],
   [14, 15, N, N, 'water_park'],
 
+  [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
   [15, 16, N, N, 'water_tower'],
