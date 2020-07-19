@@ -14,4 +14,4 @@ shading/*.vrt
 shading/contours*
 shading/limit.*
 shading/build
-*land_polygons*
+*land-polygons*

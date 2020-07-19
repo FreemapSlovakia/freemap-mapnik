@@ -208,6 +208,8 @@ tables:
         - sports_centre
         - pitch
         - stadium
+        # - dog_park # TODO next
+        # - horse_riding # TODO next
       tourism:
         - zoo
       natural:
@@ -734,6 +736,8 @@ tables:
             - playground
             - firepit
             - water_park
+          # - dog_park # TODO next
+          # - horse_riding # TODO next
           man_made:
             - adit
             - beehive
@@ -768,6 +772,10 @@ tables:
             - tower
           military:
             - bunker
+      # TODO: next
+      # sport:
+      #   - dog_racing
+      #   - horse_racing
 
   shelters:
     columns:
@@ -932,6 +940,10 @@ tables:
             - wayside_shrine
           military:
             - bunker
+      # TODO: next
+      # sport:
+      #   - dog_racing
+      #   - horse_racing
 
   power_generators:
     columns:

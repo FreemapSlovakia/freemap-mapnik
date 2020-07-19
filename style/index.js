@@ -97,6 +97,8 @@ const pois = [
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
 
+  [16, NN, N, N, 'picnic_table'],
+  [16, 17, N, N, 'picnic_site'],
   [16, 16, N, N, 'board'],
   [16, 17, N, N, 'map'],
   [16, 17, N, N, 'artwork'],
@@ -241,15 +243,15 @@ function generateFreemapStyle({ features: {
       .rule({ minZoom: 13 })
         .polygonSymbolizer({ fill: colors.ruin })
     .style('protected_areas')
-      .typesRule(8, 11, 'national_park', 'nature_reserve')
+      .typesRule(8, 11, 'national_park')
         .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
         .polygonPatternSymbolizer({ file: 'images/national_park_area.svg', alignment: 'global', opacity: 0.4 })
-      .typesRule(12, 12, 'national_park', 'nature_reserve')
+      .typesRule(12, 12, 'national_park')
         .polygonPatternSymbolizer({ file: 'images/national_park_area.svg', alignment: 'global', opacity: 0.2 })
         .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 4, strokeDasharray: '25,7', strokeOpacity: 0.4 })
-      .typesRule(13, 'national_park', 'nature_reserve')
+      .typesRule(13, 'national_park')
         .lineSymbolizer({ stroke: hsl(120, 100, 31), strokeWidth: 4, strokeDasharray: '25,7', strokeOpacity: 0.4 })
-      .typesRule(12, 'protected_area')
+      .typesRule(12, 'protected_area', 'nature_reserve')
         .linePatternSymbolizer({ file: 'images/protected_area.svg' })
     .style('borders')
       .rule({ maxZoom: 10 })
@@ -323,8 +325,6 @@ function generateFreemapStyle({ features: {
         .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(14, 'pole')
         .markersSymbolizer({ file: 'images/power_pole.svg', allowOverlap: true, ignorePlacement: true })
-      .typesRule(16, 'picnic_site', 'picnic_table')
-        .markersSymbolizer({ file: 'images/picnic.svg' })
       .poiIcons(pois)
         // .rule({ minZoom: 16 }) // rest texts
         //   .textSymbolizer({ ...fontDfltWrap }, nameWithEle)
@@ -338,7 +338,7 @@ function generateFreemapStyle({ features: {
     .style('protected_area_names').doInStyle((style) => {
       for (const z of [8, 9, 10]) {
         style
-          .typesRule(z, z, 'national_park', 'nature_reserve')
+          .typesRule(z, z, 'national_park')
             .textSymbolizer(font().nature().wrap().end({
               size: 9 + Math.pow(2, z - 7),
               fill: hsl(120, 100, 25),
@@ -348,7 +348,7 @@ function generateFreemapStyle({ features: {
             }), '[name]');
       }
     })
-      .typesRule(12, 'protected_area')
+      .typesRule(12, 'protected_area', 'nature_reserve')
         .textSymbolizer(font().nature().wrap().end({
           fill: hsl(120, 100, 25),
           haloFill: 'white',
