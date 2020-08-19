@@ -62,6 +62,7 @@ const pois = [
   [14, 15, N, N, ['station', 'halt']],
   [14, 15, N, N, 'bus_station'],
   [14, 15, N, N, 'water_park'],
+  [14, 15, N, N, 'museum'],
 
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
@@ -75,7 +76,6 @@ const pois = [
   [15, 16, N, N, 'hunting_stand'],
   [15, 16, Y, N, 'shelter'],
   [15, 16, N, Y, ['rock', 'stone']],
-  [15, 16, N, N, 'museum'],
   [15, 16, N, N, 'pharmacy'],
   [15, 16, N, N, 'cinema'],
   [15, 16, N, N, 'theatre'],
