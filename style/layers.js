@@ -101,6 +101,7 @@ const defaultProperties = {
     textColor: '#007bff',
     textSize: 16,
     dashArray: '5,10',
+    name: '',
   },
   polyline: {
     stroke: '#007bff',
@@ -109,6 +110,7 @@ const defaultProperties = {
     textColor: '#007bff',
     textSize: 16,
     dashArray: '5,10',
+    name: '',
   },
   point: {
     textColor: '#007bff',
@@ -118,6 +120,7 @@ const defaultProperties = {
     markerStrokeWidth: 1.5,
     markerSize: 10,
     textSize: 16,
+    name: '',
   },
 };
 
