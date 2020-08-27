@@ -123,21 +123,24 @@ const pois = [
   [18, NN, N, N, 'waste_disposal'],
 ];
 
-function generateFreemapStyle({ features: {
-  shading,
-  contours,
-  hikingTrails,
-  bicycleTrails,
-  skiTrails,
-  horseTrails,
-} = {
-  shading: shadingCfg,
-  contours: contoursCfg,
-  hikingTrails: hikingTrailsCfg,
-  bicycleTrails: bicycleTrailsCfg,
-  skiTrails: skiTrailsCfg,
-  horseTrails: horseTrailsCfg,
-}, shapefiles = {}, legend, format } = {shapefiles: {}}) {
+function generateFreemapStyle({
+  features: {
+    shading,
+    contours,
+    hikingTrails,
+    bicycleTrails,
+    skiTrails,
+    horseTrails,
+  } = {
+    shading: shadingCfg,
+    contours: contoursCfg,
+    hikingTrails: hikingTrailsCfg,
+    bicycleTrails: bicycleTrailsCfg,
+    skiTrails: skiTrailsCfg,
+    horseTrails: horseTrailsCfg,
+  },
+  geojson, legend, format } = {}
+) {
   return createMap({
     backgroundColor: 'white', // colors.water,
     srs: mercSrs,
@@ -508,18 +511,18 @@ function generateFreemapStyle({ features: {
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
 
-    .style('shapefile-polygons')
+    .style('custom-polygons')
       .rule()
         .polygonSymbolizer({ fill: '#007bff', fillOpacity: 0.2, strokeLinecap: 'round', strokeLinejoin: 'round' })
         .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8, strokeLinecap: 'round', strokeLinejoin: 'round' })
         .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, placement: 'interior' }), '[name]')
 
-    .style('shapefile-polylines')
+    .style('custom-polylines')
       .rule()
         .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8, strokeLinecap: 'round', strokeLinejoin: 'round' })
         .textSymbolizer(font().line().end({ fill: '#007bff', size: 16, dy: 8 }), '[name]')
 
-    .style('shapefile-points')
+    .style('custom-points')
       .rule()
         .markersSymbolizer({ fill: '#007bff', width: 10, height: 10, strokeWidth: 1.5, strokeOpacity: 0.75, stroke: 'white' })
         .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, dy: -10 }), '[name]')
@@ -534,7 +537,7 @@ function generateFreemapStyle({ features: {
       return map;
     })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, shapefiles, legend))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, geojson, legend))
 
     .stringify({ pretty: dumpXml });
 }

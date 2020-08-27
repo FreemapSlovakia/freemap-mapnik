@@ -82,7 +82,7 @@ function getFeaturesSql(zoom) {
   return sql;
 }
 
-function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, shapefiles, legend) {
+function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, geojson, legend) {
 
   if (legend) {
     return (map) => map.doInMap((map) => {
@@ -505,18 +505,44 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         );
       }
 
-      for (const type of ['polygon', 'polyline', 'point']) {
-        const file = shapefiles[type];
+      if (geojson && geojson.type === 'FeatureCollection') {
+        const f = {
+          polygon: [],
+          polyline: [],
+          point: [],
+        };
 
-        if (file) {
-          map.layer(
-            `shapefile-${type}s`,
-            {
-              type: 'shape',
-              file,
-            },
-            { srs: '+init=epsg:4326', bufferSize: 1024 }
-          );
+        const m = {
+          Polygon: 'polygon',
+          MultiPolygon: 'polygon',
+          LineString: 'polyline',
+          MultiLineString: 'polyline',
+          Point: 'point',
+          MultiPoint: 'point',
+        };
+
+        for (const feature of geojson.features) {
+          const type = m[feature.geometry.type];
+
+          if (type) {
+            f[type].push(feature);
+          }
+        }
+
+        for (const type in f) {
+          if (f[type].length) {
+            map.layer(
+              `custom-${type}s`,
+              {
+                type: 'geojson',
+                inline: JSON.stringify({
+                  type: 'FeatureCollection',
+                  features: f[type]
+                })
+              },
+              { srs: '+init=epsg:4326' },
+            );
+          }
         }
       }
 
