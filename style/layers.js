@@ -82,6 +82,45 @@ function getFeaturesSql(zoom) {
   return sql;
 }
 
+const geometryTypeMapping = {
+  Polygon: 'polygon',
+  MultiPolygon: 'polygon',
+  LineString: 'polyline',
+  MultiLineString: 'polyline',
+  Point: 'point',
+  MultiPoint: 'point',
+};
+
+const defaultProperties = {
+  polygon: {
+    stroke: '#007bff',
+    strokeWidth: 4,
+    strokeOpacity: 0.8,
+    polygonFill: '#007bff',
+    polygonFillOpacity: 0.2,
+    textColor: '#007bff',
+    textSize: 16,
+    dashArray: '5,10',
+  },
+  polyline: {
+    stroke: '#007bff',
+    strokeWidth: 4,
+    strokeOpacity: 0.8,
+    textColor: '#007bff',
+    textSize: 16,
+    dashArray: '5,10',
+  },
+  point: {
+    textColor: '#007bff',
+    markerFill: '#007bff',
+    markerStroke: 'white',
+    markerStrokeOpacity: 0.75,
+    markerStrokeWidth: 1.5,
+    markerSize: 10,
+    textSize: 16,
+  },
+};
+
 function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, geojson, legend) {
 
   if (legend) {
@@ -98,10 +137,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // 1|Test 123|town|Point(21.219835 48.655111)
     // ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
 
-//       .layer('protected_areas', { type: 'csv', inline: `
-// id|type|wkt
-// 1|protected_area|Polygon((21.21 48.655, 21.22 48.655, 21.22 48.654, 21.21 48.654, 21.21 48.655))
-// ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
+    //       .layer('protected_areas', { type: 'csv', inline: `
+    // id|type|wkt
+    // 1|protected_area|Polygon((21.21 48.655, 21.22 48.655, 21.22 48.654, 21.21 48.654, 21.21 48.655))
+    // ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
 
     //     .layer('highways', { type: 'csv', inline: `
     // id|type|tracktype|class|service|bridge|tunnel|wkt
@@ -512,20 +551,17 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           point: [],
         };
 
-        const m = {
-          Polygon: 'polygon',
-          MultiPolygon: 'polygon',
-          LineString: 'polyline',
-          MultiLineString: 'polyline',
-          Point: 'point',
-          MultiPoint: 'point',
-        };
-
         for (const feature of geojson.features) {
-          const type = m[feature.geometry.type];
+          const type = geometryTypeMapping[feature.geometry.type];
 
           if (type) {
-            f[type].push(feature);
+            f[type].push({
+              ...feature,
+              properties: {
+                ...defaultProperties[type],
+                ...(feature.properties || {}),
+              },
+            });
           }
         }
 

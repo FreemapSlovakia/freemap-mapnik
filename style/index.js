@@ -513,19 +513,19 @@ function generateFreemapStyle({
 
     .style('custom-polygons')
       .rule()
-        .polygonSymbolizer({ fill: '#007bff', fillOpacity: 0.2, strokeLinecap: 'round', strokeLinejoin: 'round' })
-        .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8, strokeLinecap: 'round', strokeLinejoin: 'round' })
-        .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, placement: 'interior' }), '[name]')
+        .polygonSymbolizer({ fill: '[polygonFill]', fillOpacity: '[polygonFillOpacity]', strokeLinecap: 'round', strokeLinejoin: 'round' })
+        .lineSymbolizer({ stroke: '[stroke]', strokeWidth: '[strokeWidth]', strokeOpacity: '[strokeOpacity]', strokeLinecap: 'round', strokeLinejoin: 'round', strokeDasharray: '[dashArray]' })
+        .textSymbolizer(font().wrap().end({ fill: '[textColor]', size: '[textSize]', placement: 'interior' }), '[name]')
 
     .style('custom-polylines')
       .rule()
-        .lineSymbolizer({ stroke: '#007bff', strokeWidth: 4, strokeOpacity: 0.8, strokeLinecap: 'round', strokeLinejoin: 'round' })
-        .textSymbolizer(font().line().end({ fill: '#007bff', size: 16, dy: 8 }), '[name]')
+        .lineSymbolizer({ stroke: '[stroke]', strokeWidth: '[strokeWidth]', strokeOpacity: '[strokeOpacity]', strokeLinecap: 'round', strokeLinejoin: 'round', strokeDasharray: '[dashArray]' })
+        .textSymbolizer(font().line().end({ fill: '[textColor]', size: '[textSize]', dy: 8 }), '[name]')
 
     .style('custom-points')
       .rule()
-        .markersSymbolizer({ fill: '#007bff', width: 10, height: 10, strokeWidth: 1.5, strokeOpacity: 0.75, stroke: 'white' })
-        .textSymbolizer(font().wrap().end({ fill: '#007bff', size: 16, dy: -10 }), '[name]')
+        .markersSymbolizer({ fill: '[markerFill]', width: '[markerSize]', height: '[markerSize]', strokeWidth: '[markerStrokeWidth]', strokeOpacity: '[markerStrokeOpacity]', stroke: '[markerStroke]' })
+        .textSymbolizer(font().wrap().end({ fill: '[textColor]', size: '[textSize]', dy: '-[markerSize]' }), '[name]')
 
     .doInMap(map => {
       if (format !== 'svg' && format !== 'pdf') {
