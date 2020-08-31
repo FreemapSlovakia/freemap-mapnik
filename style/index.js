@@ -142,7 +142,7 @@ function generateFreemapStyle({
   geojson, legend, format } = {}
 ) {
   return createMap({
-    backgroundColor: 'white', // colors.water,
+    backgroundColor: legend ? 'white' : colors.water,
     srs: mercSrs,
   }, extensions)
     .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular'])
