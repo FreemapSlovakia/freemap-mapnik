@@ -139,7 +139,7 @@ function generateFreemapStyle({
     skiTrails: skiTrailsCfg,
     horseTrails: horseTrailsCfg,
   },
-  geojson, legend, format } = {}
+  custom, legend, format } = {}
 ) {
   return createMap({
     backgroundColor: legend ? 'white' : colors.water,
@@ -511,22 +511,6 @@ function generateFreemapStyle({
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
 
-    .style('custom-polygons')
-      .rule()
-        .polygonSymbolizer({ fill: '[polygonFill]', fillOpacity: '[polygonFillOpacity]', strokeLinecap: 'round', strokeLinejoin: 'round' })
-        .lineSymbolizer({ stroke: '[stroke]', strokeWidth: '[strokeWidth]', strokeOpacity: '[strokeOpacity]', strokeLinecap: 'round', strokeLinejoin: 'round', strokeDasharray: '[dashArray]' })
-        .textSymbolizer(font().wrap().end({ fill: '[textColor]', size: '[textSize]', placement: 'interior' }), '[name]')
-
-    .style('custom-polylines')
-      .rule()
-        .lineSymbolizer({ stroke: '[stroke]', strokeWidth: '[strokeWidth]', strokeOpacity: '[strokeOpacity]', strokeLinecap: 'round', strokeLinejoin: 'round', strokeDasharray: '[dashArray]' })
-        .textSymbolizer(font().line().end({ fill: '[textColor]', size: '[textSize]', dy: 8 }), '[name]')
-
-    .style('custom-points')
-      .rule()
-        .markersSymbolizer({ fill: '[markerFill]', width: '[markerSize]', height: '[markerSize]', strokeWidth: '[markerStrokeWidth]', strokeOpacity: '[markerStrokeOpacity]', stroke: '[markerStroke]' })
-        .textSymbolizer(font().wrap().end({ fill: '[textColor]', size: '[textSize]', dy: '-[markerSize]' }), '[name]')
-
     .doInMap(map => {
       if (format !== 'svg' && format !== 'pdf') {
         map.style('crop', { imageFilters: 'agg-stack-blur(20,20)', imageFiltersInflate: true })
@@ -537,7 +521,7 @@ function generateFreemapStyle({
       return map;
     })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, geojson, legend))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legend))
 
     .stringify({ pretty: dumpXml });
 }

@@ -82,54 +82,12 @@ function getFeaturesSql(zoom) {
   return sql;
 }
 
-const geometryTypeMapping = {
-  Polygon: 'polygon',
-  MultiPolygon: 'polygon',
-  LineString: 'polyline',
-  MultiLineString: 'polyline',
-  Point: 'point',
-  MultiPoint: 'point',
-};
-
-const defaultProperties = {
-  polygon: {
-    stroke: '#007bff',
-    strokeWidth: 4,
-    strokeOpacity: 0.8,
-    polygonFill: '#007bff',
-    polygonFillOpacity: 0.2,
-    textColor: '#007bff',
-    textSize: 16,
-    dashArray: '5,10',
-    name: '',
-  },
-  polyline: {
-    stroke: '#007bff',
-    strokeWidth: 4,
-    strokeOpacity: 0.8,
-    textColor: '#007bff',
-    textSize: 16,
-    dashArray: '5,10',
-    name: '',
-  },
-  point: {
-    textColor: '#007bff',
-    markerFill: '#007bff',
-    markerStroke: 'white',
-    markerStrokeOpacity: 0.75,
-    markerStrokeWidth: 1.5,
-    markerSize: 10,
-    textSize: 16,
-    name: '',
-  },
-};
-
-function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, geojson, legend) {
+function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legend) {
 
   if (legend) {
     return (map) => map.doInMap((map) => {
       for (const li of legend) {
-        map.layer(li.styles, { type: 'csv', inline: li.csv }, { srs: '+init=epsg:4326' });
+        map.layer(li.styles, { type: 'geojson', inline: li.geojson }, { srs: '+init=epsg:4326' });
       }
 
       return map;
@@ -547,41 +505,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         );
       }
 
-      if (geojson && geojson.type === 'FeatureCollection') {
-        const f = {
-          polygon: [],
-          polyline: [],
-          point: [],
-        };
-
-        for (const feature of geojson.features) {
-          const type = geometryTypeMapping[feature.geometry.type];
-
-          if (type) {
-            f[type].push({
-              ...feature,
-              properties: {
-                ...defaultProperties[type],
-                ...(feature.properties || {}),
-              },
-            });
-          }
+      if (custom) {
+        for (const style of custom.styles) {
+          map.mapEle.ele(style);
         }
 
-        for (const type in f) {
-          if (f[type].length) {
-            map.layer(
-              `custom-${type}s`,
-              {
-                type: 'geojson',
-                inline: JSON.stringify({
-                  type: 'FeatureCollection',
-                  features: f[type]
-                })
-              },
-              { srs: '+init=epsg:4326' },
-            );
-          }
+        for (const layer of custom.layers) {
+          map.layer(
+            layer.styles,
+            {
+              type: 'geojson',
+              inline: JSON.stringify(layer.geojson)
+            },
+            { srs: '+init=epsg:4326' },
+          );
         }
       }
 
