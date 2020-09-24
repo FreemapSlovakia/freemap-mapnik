@@ -87,32 +87,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
   if (legend) {
     return (map) => map.doInMap((map) => {
       for (const li of legend) {
-        map.layer(li.styles, { type: 'geojson', inline: li.geojson }, { srs: '+init=epsg:4326' });
+        map.layer(li.styles, { type: 'geojson', inline: JSON.stringify(li.geojson) }, { srs: '+init=epsg:4326' });
       }
 
       return map;
     });
-
-    //     .layer('placenames', { type: 'csv', inline: `
-    // id|name|type|wkt
-    // 1|Test 123|town|Point(21.219835 48.655111)
-    // ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
-    //       .layer('protected_areas', { type: 'csv', inline: `
-    // id|type|wkt
-    // 1|protected_area|Polygon((21.21 48.655, 21.22 48.655, 21.22 48.654, 21.21 48.654, 21.21 48.655))
-    // ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
-    //     .layer('highways', { type: 'csv', inline: `
-    // id|type|tracktype|class|service|bridge|tunnel|wkt
-    // 1|track|grade3|highway||0|0|Linestring(21.21 48.655111, 21.22 48.654111)
-    // ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
-    //     .layer('routes', { type: 'csv', inline: `
-    // id|h_red|h_blue|h_green|h_yellow|h_black|h_white|h_orange|h_purple|h_red_loc|h_blue_loc|h_green_loc|h_yellow_loc|h_black_loc|h_white_loc|h_orange_loc|h_purple_loc|b_red|b_blue|b_green|b_yellow|b_black|b_white|b_orange|b_purple|s_red|s_blue|s_green|s_yellow|s_black|s_white|s_orange|s_purple|r_red|r_blue|r_green|r_yellow|r_black|r_white|r_orange|r_purple|refs1|refs2|off1|off2l|wkt
-    // 1|1|0|2|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|||0|0|Linestring(21.21 48.655111, 21.22 48.654111)
-    // ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
   }
 
   const routesQuery = `

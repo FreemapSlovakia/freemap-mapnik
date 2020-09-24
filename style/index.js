@@ -142,7 +142,7 @@ function generateFreemapStyle({
   custom, legend, format } = {}
 ) {
   return createMap({
-    backgroundColor: legend ? 'white' : colors.water,
+    backgroundColor: legend ? undefined : colors.water,
     srs: mercSrs,
   }, extensions)
     .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular'])
