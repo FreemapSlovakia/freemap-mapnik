@@ -82,12 +82,12 @@ function getFeaturesSql(zoom) {
   return sql;
 }
 
-function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legend) {
+function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legendLayers) {
 
-  if (legend) {
+  if (legendLayers) {
     return (map) => map.doInMap((map) => {
-      for (const li of legend) {
-        map.layer(li.styles, { type: 'geojson', inline: JSON.stringify(li.geojson) }, { srs: '+init=epsg:4326' });
+      for (const layer of legendLayers) {
+        map.layer(layer.styles, { type: 'geojson', inline: JSON.stringify(layer.geojson) }, { srs: '+init=epsg:4326' });
       }
 
       return map;

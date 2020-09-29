@@ -139,10 +139,10 @@ function generateFreemapStyle({
     skiTrails: skiTrailsCfg,
     horseTrails: horseTrailsCfg,
   },
-  custom, legend, format } = {}
+  custom, legendLayers, format } = {}
 ) {
   return createMap({
-    backgroundColor: legend ? undefined : colors.water,
+    backgroundColor: legendLayers ? undefined : colors.water,
     srs: mercSrs,
   }, extensions)
     .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular'])
@@ -521,7 +521,7 @@ function generateFreemapStyle({
       return map;
     })
     .doInMap(highways())
-    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legend))
+    .doInMap(layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legendLayers))
 
     .stringify({ pretty: dumpXml });
 }
