@@ -1,8 +1,7 @@
 const props = {
   zoom: 18,
-  bbox: [-0.002, -0.0005, 0.002, 0.0005],
+  bbox: [-0.00018, -0.00008, 0.00018, 0.00008],
   scale: 1,
-  width: 80,
 };
 
 const routeDefaults = {
@@ -58,7 +57,7 @@ const routeDefaults = {
  * @param {string[]} styles
  * @param {Record<string, unknown>} properties
  */
-function asLine(styles, properties) {
+function asLine(styles, properties, reverse) {
   return {
     styles,
     geojson: {
@@ -66,8 +65,8 @@ function asLine(styles, properties) {
       geometry: {
         type: 'LineString',
         coordinates: [
-          [-1, -0.1],
-          [1, 0.1],
+          [reverse ? 0.00018 : -0.00018, reverse ? 0.00004 : -0.00004],
+          [ reverse? -0.00018 : 0.00018, reverse ? -0.00004 : 0.00004],
         ],
       },
       properties,
@@ -80,12 +79,12 @@ function asLine(styles, properties) {
  * @param {string[]} styles
  * @param {Record<string, unknown>} properties
  */
-function asPoint(styles, properties) {
+function asPoint(styles, properties, yOffset = 0) {
   return {
     styles,
     geojson: {
       type: 'Feature',
-      geometry: { type: 'Point', coordinates: [0, 0] },
+      geometry: { type: 'Point', coordinates: [0, yOffset] },
       properties,
     },
   };
@@ -105,11 +104,11 @@ function asArea(styles, properties) {
         type: 'Polygon',
         coordinates: [
           [
-            [-1, -1],
-            [1, -1],
-            [1, 1],
-            [-1, 1],
-            [-1, -1],
+            [-0.00018, -0.00008],
+            [-0.00018, 0.00008],
+            [0.00018, 0.00008],
+            [0.00018, -0.00008],
+            [-0.00018, -0.00008],
           ],
         ],
       },
@@ -128,193 +127,15 @@ const track3 = asLine(['higwayGlows', 'highways'], {
   tunnel: '',
 });
 
+const track3rev = asLine(['higwayGlows', 'highways'], {
+  type: 'track',
+  tracktype: 'grade3',
+  class: 'highway',
+  bridge: '',
+  tunnel: '',
+}, true);
+
 const forest = asArea(['landcover'], { type: 'forest' });
-
-//   // ...Object.values((mapping).tables.landusages.mapping)
-//   //   .flat()
-//   //   .map((type) =>
-//   //     run(`landcover-${type}.png`, pack([asArea(['landcover'], { type })]))
-//   //   ),
-
-//   // ...Object.values((mapping).tables.features.mappings)
-//   //   .flatMap((x: any) => Object.values(x.mapping))
-//   //   .flat()
-//   //   .map((type) =>
-//   //     run(`poi-${type}.png`, pack([forest, asPoint(['features'], { type })]))
-//   //   ),
-
-//   ...[1, 2, 3, 4, 5].map((type) =>
-//     run(
-//       `track-grade${type}.png`,
-//       pack([
-//         forest,
-//         asLine(['higwayGlows', 'highways'], {
-//           type: 'track',
-//           tracktype: `grade${type}`,
-//           class: 'highway',
-//           bridge: '',
-//           tunnel: '',
-//         }),
-//       ])
-//     )
-//   ),
-
-//   ...(mapping).tables.roads.mappings.roads.mapping.highway.map(
-//     (type) =>
-//       run(
-//         `highway-${type}.png`,
-//         pack([
-//           forest,
-//           asLine(['higwayGlows', 'highways'], {
-//             type,
-//             class: 'highway',
-//             bridge: '',
-//             tunnel: '',
-//             tracktype: '',
-//           }),
-//         ])
-//       )
-//   ),
-
-//   ...(mapping).tables.roads.mappings.railway.mapping.railway.map(
-//     (type) =>
-//       run(
-//         `rail-${type}.png`,
-//         pack([
-//           forest,
-//           asLine(['highways'], {
-//             type,
-//             class: 'railway',
-//             bridge: '',
-//             tunnel: '',
-//             tracktype: '',
-//             service: '',
-//           }),
-//         ])
-//       )
-//   ),
-
-//   run(
-//     'trail-rwn.png',
-//     pack([
-//       forest,
-//       track3,
-//       asLine(['routes'], {
-//         ...routeDefaults,
-//         h_red: 1,
-//       }),
-//     ])
-//   ),
-
-//   run(
-//     'trail-lwn.png',
-//     pack([
-//       forest,
-//       track3,
-//       asLine(['routes'], {
-//         ...routeDefaults,
-//         h_red_loc: 1,
-//       }),
-//     ])
-//   ),
-
-//   run(
-//     'bicycle.png',
-//     pack([
-//       forest,
-//       track3,
-//       asLine(['routes'], {
-//         ...routeDefaults,
-//         b_red: 1,
-//       }),
-//     ])
-//   ),
-
-//   run(
-//     'piste.png',
-//     pack([
-//       forest,
-//       track3,
-//       asLine(['routes'], {
-//         ...routeDefaults,
-//         s_red: 1,
-//       }),
-//     ])
-//   ),
-
-//   run(
-//     'horse.png',
-//     pack([
-//       forest,
-//       track3,
-//       asLine(['routes'], {
-//         ...routeDefaults,
-//         r_red: 1,
-//       }),
-//     ])
-//   ),
-// ];
-
-// export default [
-//   {
-//     name: 'Značené trasy',
-//     items: [
-//       ['trail-rwn', 'medzinárodná, národná alebo regionálna turistická trasa'],
-//       ['trail-lwn', 'miestná turistické trasa'],
-//       ['piste', 'lyžiarská (bežkárska) trasa'],
-//       ['bicycle', 'cyklotrasa'],
-//       ['horse', 'jazdecká trasa'],
-//     ],
-//   },
-//   {
-//     name: 'Komunikácie',
-//     items: [
-//       ['highway-motorway', 'diaľnica a cesta pre motorové vozidlá'],
-//       ['highway-primary', 'cesta 1. triedy'],
-//       ['highway-secondary', 'cesta 2. triedy'],
-//       ['highway-tertiary', 'cesta 3. triedy'],
-//       [
-//         'highway-residential',
-//         'ulica, neklasifikovaná cesta alebo cesta neznámeho druhu',
-//       ], // highway-living_street
-//       [
-//         'track-grade1',
-//         'servisná a prístupová cesta, spevnená lesná alebo poľná cesta (stupeň 1)',
-//       ], // highway-service TODO parking_aisle
-//       ['track-grade2', 'mierne spevnená lesná alebo poľná cesta (stupeň 2)'],
-//       [
-//         'track-grade3',
-//         'kvalitná nespevnená lesná alebo poľná cesta (stupeň 3)',
-//       ],
-//       [
-//         'track-grade4',
-//         'nekvalitná nespevnená lesná alebo poľná cesta (stupeň 4)',
-//       ],
-//       ['track-grade5', 'lesná alebo poľná cesta (stupeň 5)'],
-//       ['highway-track', 'lesná alebo poľná cesta neznámaj kvality'],
-//       ['highway-bridleway', 'chodník pre kone'],
-//       ['highway-cycleway', 'cyklochodník'],
-//       [
-//         'highway-footway',
-//         'chodník, cestička, schody, nástupište',
-//         'pešia zóna',
-//       ], // highway-path, highway-steps, highway-platform
-//       ['highway-construction', 'komunikácia vo výstavbe'],
-//       ['highway-raceway', 'pretekárska dráha'],
-//       ['rail-rail', 'rail'],
-//       ['rail-tram', 'električkové trať'],
-//       ['rail-abandoned', 'opustená koľajová dráha'],
-//       ['rail-disused', 'nepouživaná koľajová dráha'],
-//       ['rail-construction', 'koľajová dráha vo výstavbe'],
-//       ['rail-funicular', 'pozemná lanová dráha'],
-//       ['rail-light_rail', 'ľahká koľajová dráha'],
-//       ['rail-monorail', 'jednokoľajka'],
-//       ['rail-narrow_gauge', 'úzkokoľajka'],
-//       ['rail-preserved', 'historická koľajová dráha'],
-//       ['rail-subway', 'dráha metra'],
-//     ],
-//   },
-// ];
 
 // TODO
 
@@ -343,27 +164,473 @@ const legend = {
     {
       id: 'trails',
       name: {
-        en: 'marked trails',
-        sk: 'značené trasy'
-      }
+        en: 'Marked trails',
+        sk: 'Značené trasy',
+      },
+    },
+    {
+      id: 'communications',
+      name: {
+        en: 'Communications',
+        sk: 'Komunikácie',
+      },
+    },
+    {
+      id: 'landuse',
+      name: {
+        en: 'Land use',
+        sk: 'Plochy',
+      },
+    },
+    {
+      id: 'poi',
+      name: {
+        en: 'Points of Interest',
+        sk: 'Body záujmu',
+      },
     },
   ],
-  items: [{
-    categoryId: 'trails',
-    name: {
-      en: 'horse trail',
-      sk: 'jazdecká trasa'
+  items: [
+    {
+      categoryId: 'trails',
+      name: {
+        en: 'international, national or regional hiking trail',
+        sk: 'medzinárodná, národná alebo regionálna turistická trasa',
+      },
+      layers: [
+        forest,
+        track3rev,
+        asLine(['routes', 'route_names'], {
+          ...routeDefaults,
+          h_blue: 1,
+          off1: 1,
+          refs1: '2817',
+        }, true),
+      ],
+      ...props,
     },
-    layers: [
-      forest,
-      track3,
-      asLine(['routes'], {
-        ...routeDefaults,
-        r_red: 1,
-      }),
-    ],
-    ...props
-  }]
+    {
+      categoryId: 'trails',
+      name: {
+        en: 'local hiking trail',
+        sk: 'miestná turistické trasa',
+      },
+      layers: [
+        forest,
+        track3rev,
+        asLine(['routes', 'route_names'], {
+          ...routeDefaults,
+          h_blue_loc: 1,
+          off1: 1,
+          refs1: '1A',
+        }, true),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'trails',
+      name: {
+        en: 'bicycle trail',
+        sk: 'cyklotrasa',
+      },
+      layers: [
+        forest,
+        track3,
+        asLine(['routes', 'route_names'], {
+          ...routeDefaults,
+          b_blue: 1,
+          off1: 1,
+          refs2: '028',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'trails',
+      name: {
+        en: 'x-country ski trail',
+        sk: 'lyžiarská (bežkárska) trasa',
+      },
+      layers: [
+        forest,
+        track3,
+        asLine(['routes', 'route_names'], {
+          ...routeDefaults,
+          s_blue: 1,
+          off1: 1,
+          refs2: 'X2',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'trails',
+      name: {
+        en: 'horse trail',
+        sk: 'jazdecká trasa',
+      },
+      layers: [
+        forest,
+        track3rev,
+        asLine(['routes', 'route_names'], {
+          ...routeDefaults,
+          r_blue: 1,
+          off1: 1,
+          refs1: 'Neigh',
+        }, true),
+      ],
+      ...props,
+    },
+
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'highway, motorway',
+        sk: 'diaľnica a cesta pre motorové vozidlá',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'motorway',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'primary road',
+        sk: 'cesta 1. triedy',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'primary',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'secondary road',
+        sk: 'cesta 2. triedy',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'secondary',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'tertiary road',
+        sk: 'cesta 3. triedy',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'tertiary',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'street, unclassified road or road of unknown kind',
+        sk: 'ulica, neklasifikovaná cesta alebo cesta neznámeho druhu',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'residential', // same as: living_street, unclassified, road
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    ...['', 1, 2, 3, 4, 5].map((grade) => ({
+      categoryId: 'communications',
+      name: {
+        en: 'track ' + (grade ? `(grade ${grade})` : '(unknown grade)') + (grade === 1 ? ', service road' : ''),
+        sk: `lesná alebo poľná cesta (${grade ? `kvalita ${grade}` : 'neznáma kvalita'})${grade === 1 ? ', servisná/prístupová cesta' : ''}`,
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'track',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: grade ? `grade${grade}` : '',
+        }),
+      ],
+      ...props,
+    })),
+    // {
+    //   categoryId: 'communications',
+    //   name: {
+    //     en: 'bridleway',
+    //     sk: 'chodník pre kone',
+    //   },
+    //   layers: [
+    //     forest,
+    //     asLine(['higwayGlows', 'highways'], {
+    //       type: 'bridleway',
+    //       class: 'highway',
+    //       bridge: '',
+    //       tunnel: '',
+    //       tracktype: '',
+    //     }),
+    //   ],
+    // ...props,
+    // },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'cycleway',
+        sk: 'cyklochodník',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'cycleway',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'sidewalk, path, steps, platform, pedestrian',
+        sk: 'chodník, cestička, schody, nástupište, pešia zóna',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'path', // same as: footway, steps, platform, pedestrian
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'railway',
+        sk: 'koľajnice',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'rail',
+          class: 'railway',
+          service: '',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    //       [
+    //         'track-grade1',
+    //         'servisná a prístupová cesta, spevnená lesná alebo poľná cesta (stupeň 1)',
+    //       ], // highway-service TODO parking_aisle
+    //       ['track-grade2', 'mierne spevnená lesná alebo poľná cesta (stupeň 2)'],
+    //       [
+    //         'track-grade3',
+    //         'kvalitná nespevnená lesná alebo poľná cesta (stupeň 3)',
+    //       ],
+    //       [
+    //         'track-grade4',
+    //         'nekvalitná nespevnená lesná alebo poľná cesta (stupeň 4)',
+    //       ],
+    //       ['track-grade5', 'lesná alebo poľná cesta (stupeň 5)'],
+    //       ['highway-track', 'lesná alebo poľná cesta neznámaj kvality'],
+
+    //       ['highway-cycleway', 'cyklochodník'],
+    //       ['highway-construction', 'komunikácia vo výstavbe'],
+    //       ['highway-raceway', 'pretekárska dráha'],
+    //       ['rail-rail', 'rail'],
+    //       ['rail-tram', 'električkové trať'],
+    //       ['rail-abandoned', 'opustená koľajová dráha'],
+    //       ['rail-disused', 'nepouživaná koľajová dráha'],
+    //       ['rail-construction', 'koľajová dráha vo výstavbe'],
+    //       ['rail-funicular', 'pozemná lanová dráha'],
+    //       ['rail-light_rail', 'ľahká koľajová dráha'],
+    //       ['rail-monorail', 'jednokoľajka'],
+    //       ['rail-narrow_gauge', 'úzkokoľajka'],
+    //       ['rail-preserved', 'historická koľajová dráha'],
+    //       ['rail-subway', 'dráha metra'],
+
+
+    //   // ...Object.values((mapping).tables.features.mappings)
+    //   //   .flatMap((x: any) => Object.values(x.mapping))
+    //   //   .flat()
+    //   //   .map((type) =>
+    //   //     run(`poi-${type}.png`, pack([forest, asPoint(['features'], { type })]))
+    //   //   ),
+
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'spring',
+        sk: 'prameň',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'spring',
+          name: 'Frndžalica',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'guidepost',
+        sk: 'smerovník',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'guidepost',
+          name: 'Kvietkovo',
+          ele: '528'
+        }, -0.00005),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'peak',
+        sk: 'vrchol',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'peak',
+          name: 'Hora',
+          ele: '365'
+        }, -0.00005),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'forest',
+        sk: 'les',
+      },
+      layers: [asArea(['landcover'], { type: 'forest' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'meadow, park, village green, grassland',
+        sk: 'lúka, park, mestská zeleň, trávnata plocha',
+      },
+      layers: [asArea(['landcover'], { type: 'meadow' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'quarry',
+        sk: 'lom',
+      },
+      layers: [asArea(['landcover'], { type: 'quarry' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'farmland',
+        sk: 'pole',
+      },
+      layers: [asArea(['landcover'], { type: 'farmland' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'cemetery',
+        sk: 'cintorín',
+      },
+      layers: [asArea(['landcover'], { type: 'cemetery' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'scrub',
+        sk: 'kroviny',
+      },
+      layers: [asArea(['landcover'], { type: 'scrub' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'scree',
+        sk: 'štrk',
+      },
+      layers: [asArea(['landcover'], { type: 'scree' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'landfill',
+        sk: 'skládka',
+      },
+      layers: [asArea(['landcover'], { type: 'landfill' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'clearcut',
+        sk: 'holorub',
+      },
+      layers: [asArea(['landcover'], { type: 'clearcut' })],
+      ...props
+    },
+  ],
 };
 
 module.exports = { legend };
