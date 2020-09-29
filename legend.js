@@ -255,6 +255,67 @@ const forest = asArea(['landcover'], { type: 'forest' });
 //   ),
 // ];
 
+// export default [
+//   {
+//     name: 'Značené trasy',
+//     items: [
+//       ['trail-rwn', 'medzinárodná, národná alebo regionálna turistická trasa'],
+//       ['trail-lwn', 'miestná turistické trasa'],
+//       ['piste', 'lyžiarská (bežkárska) trasa'],
+//       ['bicycle', 'cyklotrasa'],
+//       ['horse', 'jazdecká trasa'],
+//     ],
+//   },
+//   {
+//     name: 'Komunikácie',
+//     items: [
+//       ['highway-motorway', 'diaľnica a cesta pre motorové vozidlá'],
+//       ['highway-primary', 'cesta 1. triedy'],
+//       ['highway-secondary', 'cesta 2. triedy'],
+//       ['highway-tertiary', 'cesta 3. triedy'],
+//       [
+//         'highway-residential',
+//         'ulica, neklasifikovaná cesta alebo cesta neznámeho druhu',
+//       ], // highway-living_street
+//       [
+//         'track-grade1',
+//         'servisná a prístupová cesta, spevnená lesná alebo poľná cesta (stupeň 1)',
+//       ], // highway-service TODO parking_aisle
+//       ['track-grade2', 'mierne spevnená lesná alebo poľná cesta (stupeň 2)'],
+//       [
+//         'track-grade3',
+//         'kvalitná nespevnená lesná alebo poľná cesta (stupeň 3)',
+//       ],
+//       [
+//         'track-grade4',
+//         'nekvalitná nespevnená lesná alebo poľná cesta (stupeň 4)',
+//       ],
+//       ['track-grade5', 'lesná alebo poľná cesta (stupeň 5)'],
+//       ['highway-track', 'lesná alebo poľná cesta neznámaj kvality'],
+//       ['highway-bridleway', 'chodník pre kone'],
+//       ['highway-cycleway', 'cyklochodník'],
+//       [
+//         'highway-footway',
+//         'chodník, cestička, schody, nástupište',
+//         'pešia zóna',
+//       ], // highway-path, highway-steps, highway-platform
+//       ['highway-construction', 'komunikácia vo výstavbe'],
+//       ['highway-raceway', 'pretekárska dráha'],
+//       ['rail-rail', 'rail'],
+//       ['rail-tram', 'električkové trať'],
+//       ['rail-abandoned', 'opustená koľajová dráha'],
+//       ['rail-disused', 'nepouživaná koľajová dráha'],
+//       ['rail-construction', 'koľajová dráha vo výstavbe'],
+//       ['rail-funicular', 'pozemná lanová dráha'],
+//       ['rail-light_rail', 'ľahká koľajová dráha'],
+//       ['rail-monorail', 'jednokoľajka'],
+//       ['rail-narrow_gauge', 'úzkokoľajka'],
+//       ['rail-preserved', 'historická koľajová dráha'],
+//       ['rail-subway', 'dráha metra'],
+//     ],
+//   },
+// ];
+
 // TODO
 
 //     .layer('placenames', { type: 'csv', inline: `
