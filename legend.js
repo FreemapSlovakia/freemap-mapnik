@@ -549,6 +549,68 @@ const legend = {
       ],
       ...props,
     },
+
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'castle',
+        sk: 'hrad',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'castle',
+          name: 'Foo',
+        }, -0.00003),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'ruins',
+        sk: 'ruiny',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'ruins',
+          name: 'Foo',
+        }, -0.00003),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'cave entrance',
+        sk: 'vchod do jaskyne',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'cave_entrance',
+          name: 'Foo',
+        }, -0.00003),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'waterfall',
+        sk: 'vodopád',
+      },
+      layers: [
+        forest,
+        asPoint(['features', 'feature_names'], {
+          type: 'waterfall',
+          name: 'Foo',
+        }, -0.00003),
+      ],
+      ...props,
+    },
+
     {
       categoryId: 'landuse',
       name: {
@@ -628,6 +690,132 @@ const legend = {
         sk: 'holorub',
       },
       layers: [asArea(['landcover'], { type: 'clearcut' })],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'solar power plant',
+        sk: 'slnečná elektráreň',
+      },
+      layers: [asArea(['solar_power_plants'], {})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'water area',
+        sk: 'vodná plocha',
+      },
+      layers: [asArea(['water_area'], {})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'pitch, playground',
+        sk: 'ihrisko',
+      },
+      layers: [asArea(['landcover'], {type: 'playground'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'bunker silo',
+        sk: 'silo',
+      },
+      layers: [asArea(['landcover'], {type: 'feat:bunker_silo'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'orchard',
+        sk: 'ovocný sad',
+      },
+      layers: [asArea(['landcover'], {type: 'orchard'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'vineyard',
+        sk: 'vinica',
+      },
+      layers: [asArea(['landcover'], {type: 'vineyard'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'allotments',
+        sk: 'záhradkarska oblasť',
+      },
+      layers: [asArea(['landcover'], {type: 'allotments'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'farmyard',
+        sk: 'družstvo',
+      },
+      layers: [asArea(['landcover'], {type: 'farmyard'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'residential zone',
+        sk: 'obytná zóna',
+      },
+      layers: [asArea(['landcover'], {type: 'residential'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'commercial zone',
+        sk: 'komerčná zóna',
+      },
+      layers: [asArea(['landcover'], {type: 'commercial'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'industrial zone',
+        sk: 'industriálna zóna',
+      },
+      layers: [asArea(['landcover'], {type: 'industrial'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'parking',
+        sk: 'parkovanie',
+      },
+      layers: [asArea(['landcover'], {type: 'parking'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'heath',
+        sk: 'step',
+      },
+      layers: [asArea(['landcover'], {type: 'heath'})],
+      ...props
+    },
+    {
+      categoryId: 'landuse',
+      name: {
+        en: 'bare rock',
+        sk: 'holá skala',
+      },
+      layers: [asArea(['landcover'], {type: 'bare_rock'})],
       ...props
     },
   ],
