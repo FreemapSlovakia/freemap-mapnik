@@ -610,14 +610,14 @@ const legend = {
       ],
       ...props,
     },
-	{
+    {
       categoryId: 'poi',
       name: {
         en: 'monument',
         sk: 'pamätník',
       },
       layers: [
-        meadow,
+        'meadow',
         asPoint(['features', 'feature_names'], {
           name: 'SNP',
           type: 'monument',
