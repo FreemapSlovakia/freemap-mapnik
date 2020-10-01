@@ -625,6 +625,336 @@ const legend = {
       ],
       ...props,
     },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'viewpoint',
+        sk: 'miesto s výhladom',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Vápeč',
+          type: 'viewpoint',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'hotel',
+        sk: 'hotel',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Thermia palace',
+          type: 'hotel',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'chalet',
+        sk: 'turistická chata',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Chata Mrož',
+          type: 'chalet',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'hostel',
+        sk: 'ubytovňa',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Vila Žufra',
+          type: 'hostel',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'motel',
+        sk: 'motel',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Ranč',
+          type: 'motel',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'guest_house',
+        sk: 'penzión',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Diana',
+          type: 'guest_house',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'wilderness hut',
+        sk: 'útulňa',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Salaš Krátka',
+          type: 'wilderness_hut',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'alpine hut',
+        sk: 'horská chata',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Chata Plesnivec',
+          type: 'alpine_hut',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'camp site',
+        sk: 'kemping',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Bystrina',
+          type: 'camp_site',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'attraction',
+        sk: 'atrakcia',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Čertova brána',
+          type: 'attraction',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'hospital',
+        sk: 'nemocnica',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Nemocnica Alexandra Wintera',
+          type: 'hospital',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'townhall',
+        sk: 'radnica',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Obecný úrad Selec',
+          type: 'townhall',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'hut, cabin',
+        sk: 'chata',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'u Jozefa',
+          type: ['hut', 'cabin'],
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'church',
+        sk: 'kostol',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'kostola sv. Juraja',
+          type: ['church', 'chapel', 'cathedral', 'temple', 'basilica'],
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'tower observation',
+        sk: 'výhliadková veža',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: '',
+          type: 'tower_observation',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'archaeological site',
+        sk: 'archeologické miesto',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Valy Bojná',
+          type: 'archaeological_site',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'station, halt',
+        sk: 'stanica, zastávka',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Hrachovište',
+          type: ['station', 'halt'],
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'bus_station',
+        sk: 'autobusová stanica',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Nováky',
+          type: 'bus_station',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'water_park',
+        sk: 'vodný park',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Bešeňová',
+          type: 'water_park',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'museum',
+        sk: 'múzeum',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Mestské múzeum Stará Turá',
+          type: 'museum',
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'mine',
+        sk: 'baňa',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Florián',
+          type: ['mine', 'adit', 'mineshaft'],
+        }, -0.000035),
+      ],
+      ...props,
+    },
+	{
+      categoryId: 'poi',
+      name: {
+        en: 'drinking water',
+        sk: 'pitná voda',
+      },
+      layers: [
+        meadow,
+        asPoint(['features', 'feature_names'], {
+          name: 'Vápeč',
+          type: ['drinking_water', 'water_point'],
+        }, -0.000035),
+      ],
+      ...props,
+    },
 
     {
       categoryId: 'landuse',
