@@ -237,7 +237,7 @@ function generateFreemapStyle({
     .style('aerialways')
       .rule()
         .lineSymbolizer({ strokeWidth: 1, stroke: 'black' })
-        .lineSymbolizer({ strokeWidth: 5, stroke: 'black',strokeDasharray: '1,25' })
+        .lineSymbolizer({ strokeWidth: 5, stroke: 'black', strokeDasharray: '1,25' })
     .style('buildings')
       .rule({ minZoom: 13 })
         .polygonSymbolizer({ fill: colors.building })

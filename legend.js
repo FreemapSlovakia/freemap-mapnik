@@ -1,8 +1,14 @@
-const props = {
-  zoom: 18,
-  bbox: [-0.00018, -0.00008, 0.00018, 0.00008],
-  scale: 1,
-};
+function propsForZoom(zoom) {
+  const factor = Math.pow(2, 18 - zoom);
+
+  return {
+    zoom,
+    bbox: [-0.00018 * factor, -0.00008 * factor, 0.00018 * factor, 0.00008 * factor],
+    scale: 1,
+  };
+}
+
+const props = propsForZoom(18);
 
 const routeDefaults = {
   id: 1,
@@ -95,7 +101,9 @@ function asPoint(styles, properties, yOffset = 0) {
  * @param {string[]} styles
  * @param {Record<string, unknown>} properties
  */
-function asArea(styles, properties) {
+function asArea(styles, properties, forZoom = 18) {
+  const factor = Math.pow(2, 18 - forZoom);
+
   return {
     styles,
     geojson: {
@@ -104,11 +112,11 @@ function asArea(styles, properties) {
         type: 'Polygon',
         coordinates: [
           [
-            [-0.00018, -0.00008],
-            [-0.00018, 0.00008],
-            [0.00018, 0.00008],
-            [0.00018, -0.00008],
-            [-0.00018, -0.00008],
+            [factor * -0.00015, factor * -0.00007],
+            [factor * -0.00017, factor * 0.00006],
+            [factor * 0.00015, factor * 0.00007],
+            [factor * 0.00017, factor * -0.00006],
+            [factor * -0.00015, factor * -0.00007],
           ],
         ],
       },
@@ -173,6 +181,13 @@ function landcover(type, en, sk) {
 }
 
 
+const track1 = asLine(['higwayGlows', 'highways'], {
+  type: 'track',
+  tracktype: 'grade1',
+  class: 'highway',
+  bridge: '',
+  tunnel: '',
+});
 
 const track3 = asLine(['higwayGlows', 'highways'], {
   type: 'track',
@@ -229,10 +244,24 @@ const legend = {
       },
     },
     {
+      id: 'accessRestrictions',
+      name: {
+        en: 'Access restrictions',
+        sk: 'Obmedzenia vstupu / vjazdu',
+      },
+    },
+    {
       id: 'landcover',
       name: {
         en: 'Land use',
         sk: 'Plochy',
+      },
+    },
+    {
+      id: 'borders',
+      name: {
+        en: 'Borders, areas',
+        sk: 'Hranice, oblasti',
       },
     },
     {
@@ -363,20 +392,124 @@ const legend = {
     road('cycleway', 'cycleway', 'cyklochodník'),
     road('path', 'sidewalk, path, steps, platform, pedestrian', 'chodník, cestička, schody, nástupište, pešia zóna'),
     {
+      categoryId: 'accessRestrictions',
+      name: {
+        en: 'access denied for pedestrians',
+        sk: 'zákaz vstupu (pešo)',
+      },
+      layers: [
+        forest,
+        track1,
+        asLine(['accessRestrictions'], {
+          no_bicycle: 0,
+          no_foot: 1
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'accessRestrictions',
+      name: {
+        en: 'access denied cyclists',
+        sk: 'zákaz vjazdu pre bicykle',
+      },
+      layers: [
+        forest,
+        track1,
+        asLine(['accessRestrictions'], {
+          no_bicycle: 1,
+          no_foot: 0
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'accessRestrictions',
+      name: {
+        en: 'access denied for pedestrians or cyclists',
+        sk: 'zákaz vstupu (pešo) a zákaz vjazdu pre bicykle',
+      },
+      layers: [
+        forest,
+        track1,
+        asLine(['accessRestrictions'], {
+          no_bicycle: 1,
+          no_foot: 1
+        }),
+      ],
+      ...props,
+    },
+    {
       categoryId: 'communications',
       name: {
-        en: 'railway',
-        sk: 'koľajnice',
+        en: 'main railway',
+        sk: 'hlavná železničná trať',
       },
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          name: 'Abc',
           type: 'rail',
           class: 'railway',
           service: '',
           bridge: '',
           tunnel: '',
           tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'service or light railway, tram railway',
+        sk: 'servisná alebo ľahká železničná trať, električková trať',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          name: 'Abc',
+          type: 'rail',
+          class: 'railway',
+          service: 'service',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'miniature, monorail, funicular, narrow_gauge or subway railway',
+        sk: 'miniatúrna koľaj, jednokoľajka, úzkokoľajka, pozemná lanová dráha alebo metro',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          name: 'Abc',
+          type: 'miniature',
+          class: 'railway',
+          service: '',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'aerialway',
+        sk: 'lanovka, vlek',
+      },
+      layers: [
+        forest,
+        asLine(['aerialways', 'aerialway_names'], {
+          type: '',
+          name: 'Abc',
         }),
       ],
       ...props,
@@ -500,6 +633,15 @@ const legend = {
     poi('gate', 'gate', 'brána'),
     poi('waste_disposal', 'waste disposal', 'kontajner na odpad'),
 
+    {
+      categoryId: 'landcover',
+      name: {
+        en: 'water area',
+        sk: 'vodná plocha',
+      },
+      layers: [asArea(['water_area', 'water_area_names'], { name: 'Abc' })],
+      ...props
+    },
     landcover('forest', 'forest', 'les'),
     landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnata plocha'),
     landcover('quarry', 'quarry', 'lom'),
@@ -510,21 +652,12 @@ const legend = {
     landcover('landfill', 'landfill', 'skládka'),
     landcover('clearcut', 'clearcut', 'holorub'),
     {
-      categoryId: 'landuse',
+      categoryId: 'landcover',
       name: {
         en: 'solar power plant',
         sk: 'slnečná elektráreň',
       },
       layers: [asArea(['solar_power_plants'], {})],
-      ...props
-    },
-    {
-      categoryId: 'landuse',
-      name: {
-        en: 'water area',
-        sk: 'vodná plocha',
-      },
-      layers: [asArea(['water_area'], {})],
       ...props
     },
     landcover('playground', 'pitch, playground', 'ihrisko'),
@@ -538,6 +671,49 @@ const legend = {
     landcover('parking', 'parking', 'parkovisko'),
     landcover('heath', 'heath', 'step'),
     landcover('bare_rock', 'bare rock', 'holá skala'),
+
+    {
+      categoryId: 'borders',
+      name: {
+        en: 'national park',
+        sk: 'národný park',
+      },
+      layers: [asArea(['protected_areas'], {
+        type: 'national_park',
+      }, 10)],
+      ...propsForZoom(10),
+    },
+    {
+      categoryId: 'borders',
+      name: {
+        en: 'protected area, nature reserve',
+        sk: 'chránená oblasť, prírodná rezervácia',
+      },
+      layers: [asArea(['protected_areas'], {
+        type: 'protected_area',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'borders',
+      name: {
+        en: 'military zone',
+        sk: 'vojenská zóna',
+      },
+      layers: [asArea(['military_areas'], {
+        type: 'military',
+      }, 10)],
+      ...propsForZoom(10),
+    },
+    {
+      categoryId: 'borders',
+      name: {
+        en: 'state border',
+        sk: 'štátna hranica',
+      },
+      layers: [asArea(['borders'], {})],
+      ...props,
+    },
   ],
 };
 
