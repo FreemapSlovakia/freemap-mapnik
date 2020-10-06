@@ -170,6 +170,13 @@ function poi(type, en, sk, eithEle) {
   };
 }
 
+function accomodation(type, en, sk, eithEle) {
+  return {
+    ...poi(type, en, sk, eithEle),
+    categoryId: 'accomodation',
+  };
+}
+
 function landcover(type, en, sk) {
   return {
     categoryId: 'landcover',
@@ -207,28 +214,6 @@ const track3rev = asLine(['higwayGlows', 'highways'], {
   tunnel: '',
 }, true);
 
-// TODO
-
-//     .layer('placenames', { type: 'csv', inline: `
-// id|name|type|wkt
-// 1|Test 123|town|Point(21.219835 48.655111)
-// ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
-//       .layer('protected_areas', { type: 'csv', inline: `
-// id|type|wkt
-// 1|protected_area|Polygon((21.21 48.655, 21.22 48.655, 21.22 48.654, 21.21 48.654, 21.21 48.655))
-// ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
-//     .layer('highways', { type: 'csv', inline: `
-// id|type|tracktype|class|service|bridge|tunnel|wkt
-// 1|track|grade3|highway||0|0|Linestring(21.21 48.655111, 21.22 48.654111)
-// ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
-//     .layer('routes', { type: 'csv', inline: `
-// id|h_red|h_blue|h_green|h_yellow|h_black|h_white|h_orange|h_purple|h_red_loc|h_blue_loc|h_green_loc|h_yellow_loc|h_black_loc|h_white_loc|h_orange_loc|h_purple_loc|b_red|b_blue|b_green|b_yellow|b_black|b_white|b_orange|b_purple|s_red|s_blue|s_green|s_yellow|s_black|s_white|s_orange|s_purple|r_red|r_blue|r_green|r_yellow|r_black|r_white|r_orange|r_purple|refs1|refs2|off1|off2l|wkt
-// 1|1|0|2|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|||0|0|Linestring(21.21 48.655111, 21.22 48.654111)
-// ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
-
 const legend = {
   categories: [
     {
@@ -241,8 +226,15 @@ const legend = {
     {
       id: 'communications',
       name: {
-        en: 'Communications',
-        sk: 'Komunikácie',
+        en: 'Roads',
+        sk: 'Cesty',
+      },
+    },
+    {
+      id: 'railway',
+      name: {
+        en: 'Railways',
+        sk: 'Železnice',
       },
     },
     {
@@ -267,6 +259,13 @@ const legend = {
       },
     },
     {
+      id: 'accomodation',
+      name: {
+        en: 'Acocmodation',
+        sk: 'Ubytovanie',
+      },
+    },
+    {
       id: 'poi',
       name: {
         en: 'Points of Interest',
@@ -274,10 +273,24 @@ const legend = {
       },
     },
     {
+      id: 'waterways',
+      name: {
+        en: 'Watercourses',
+        sk: 'Vodné toky',
+      },
+    },
+    {
       id: 'terrain',
       name: {
         en: 'Terrain',
         sk: 'Terén',
+      },
+    },
+    {
+      id: 'other',
+      name: {
+        en: 'Other',
+        sk: 'Ostatné',
       },
     },
   ],
@@ -497,6 +510,46 @@ const legend = {
     // road('bridleway', 'bridleway', 'chodník pre kone'),
     road('cycleway', 'cycleway', 'cyklochodník'),
     road('path', 'sidewalk, path, steps, platform, pedestrian', 'chodník, cestička, schody, nástupište, pešia zóna'),
+    road('construction', 'road in construction', 'komunikácia vo výstavbe'),
+    road('raceway', 'raceway', 'pretekárska dráha'),
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'bridge',
+        sk: 'most',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways', 'highway_names'], {
+          type: 'secondary',
+          name: 'Abc',
+          class: 'highway',
+          bridge: 1,
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'communications',
+      name: {
+        en: 'tunnel',
+        sk: 'tunel',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways', 'highway_names'], {
+          type: 'secondary',
+          name: 'Abc',
+          class: 'highway',
+          bridge: '',
+          tunnel: 1,
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
     {
       categoryId: 'accessRestrictions',
       name: {
@@ -546,7 +599,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'communications',
+      categoryId: 'railway',
       name: {
         en: 'main railway',
         sk: 'hlavná železničná trať',
@@ -566,7 +619,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'communications',
+      categoryId: 'railway',
       name: {
         en: 'service or light railway, tram railway',
         sk: 'servisná alebo ľahká železničná trať, električková trať',
@@ -586,7 +639,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'communications',
+      categoryId: 'railway',
       name: {
         en: 'miniature, monorail, funicular, narrow_gauge or subway railway',
         sk: 'miniatúrna koľaj, jednokoľajka, úzkokoľajka, pozemná lanová dráha alebo metro',
@@ -606,138 +659,63 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'communications',
+      categoryId: 'railway',
       name: {
-        en: 'aerialway',
-        sk: 'lanovka, vlek',
+        en: 'railway bridge',
+        sk: 'železničný most',
       },
       layers: [
         forest,
-        asLine(['aerialways', 'aerialway_names'], {
-          type: '',
+        asLine(['higwayGlows', 'highways'], {
           name: 'Abc',
+          type: 'rail',
+          class: 'railway',
+          service: '',
+          bridge: 1,
+          tunnel: '',
+          tracktype: '',
         }),
       ],
       ...props,
     },
-    //       [
-    //         'track-grade1',
-    //         'servisná a prístupová cesta, spevnená lesná alebo poľná cesta (stupeň 1)',
-    //       ], // highway-service TODO parking_aisle
-    //       ['track-grade2', 'mierne spevnená lesná alebo poľná cesta (stupeň 2)'],
-    //       [
-    //         'track-grade3',
-    //         'kvalitná nespevnená lesná alebo poľná cesta (stupeň 3)',
-    //       ],
-    //       [
-    //         'track-grade4',
-    //         'nekvalitná nespevnená lesná alebo poľná cesta (stupeň 4)',
-    //       ],
-    //       ['track-grade5', 'lesná alebo poľná cesta (stupeň 5)'],
-    //       ['highway-track', 'lesná alebo poľná cesta neznámaj kvality'],
-
-    //       ['highway-cycleway', 'cyklochodník'],
-    //       ['highway-construction', 'komunikácia vo výstavbe'],
-    //       ['highway-raceway', 'pretekárska dráha'],
-    //       ['rail-rail', 'rail'],
-    //       ['rail-tram', 'električkové trať'],
-    //       ['rail-abandoned', 'opustená koľajová dráha'],
-    //       ['rail-disused', 'nepouživaná koľajová dráha'],
-    //       ['rail-construction', 'koľajová dráha vo výstavbe'],
-    //       ['rail-funicular', 'pozemná lanová dráha'],
-    //       ['rail-light_rail', 'ľahká koľajová dráha'],
-    //       ['rail-monorail', 'jednokoľajka'],
-    //       ['rail-narrow_gauge', 'úzkokoľajka'],
-    //       ['rail-preserved', 'historická koľajová dráha'],
-    //       ['rail-subway', 'dráha metra'],
-
-
-    //   // ...Object.values((mapping).tables.features.mappings)
-    //   //   .flatMap((x: any) => Object.values(x.mapping))
-    //   //   .flat()
-    //   //   .map((type) =>
-    //   //     run(`poi-${type}.png`, pack([forest, asPoint(['features'], { type })]))
-    //   //   ),
+    {
+      categoryId: 'railway',
+      name: {
+        en: 'railway tunnel',
+        sk: 'železničný tunel',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          name: 'Abc',
+          type: 'rail',
+          class: 'railway',
+          service: '',
+          bridge: 0,
+          tunnel: 1,
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    accomodation('hotel', 'hotel', 'hotel'),
+    accomodation('motel', 'motel', 'motel'),
+    accomodation('guest_house', 'guest_house', 'penzión'),
+    accomodation('hostel', 'hostel', 'ubytovňa'),
+    accomodation('chalet', 'chalet', 'chata'),
+    accomodation('alpine_hut', 'alpine hut', 'horská chata'),
+    accomodation('wilderness_hut', 'wilderness hut', 'chata v divočine'),
+    accomodation('hut', 'hut, cabin', 'búda, chatka'),
+    accomodation('camp_site', 'camp site', 'kemp'),
 
     poi('guidepost', 'guidepost', 'smerovník', true),
-    poi('spring', 'spring', 'prameň', true),
-    poi('water_well', 'water well', 'studňa'),
-    poi('waterfall', 'waterfall', 'vodopád'),
-    poi('peak', 'peak', 'vrchol', true),
-    poi('saddle', 'saddle', 'sedlo'),
-    poi('viewpoint', 'viewpoint', 'výhľad'),
-    poi('cave_entrance', 'cave', 'jaskyňa'),
-    poi('castle', 'castle', 'hrad'),
-    poi('ruins', 'ruins', 'ruiny'),
-    poi('monument', 'monument', 'pamätník'),
-    poi('memorial', 'memorial', 'pamätník'),
-    poi('mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
-    poi('hotel', 'hotel', 'hotel'),
-    poi('chalet', 'chalet', 'chata'),
-    poi('hostel', 'hostel', 'ubytovňa'),
-    poi('motel', 'motel', 'motel'),
-    poi('guest_house', 'guest_house', 'penzión'),
-    poi('wilderness_hut', 'wilderness hut', 'chata v divočine'),
-    poi('alpine_hut', 'alpine hut', 'horská chata'),
-    poi('camp_site', 'camp site', 'kemp'),
-    poi('attraction', 'attraction', 'atrakcia'),
-    poi('hospital', 'hospital', 'nemocnica'),
-    poi('townhall', 'townhall', 'radnica, obecný úrad'),
-    poi('hut', 'hut, cabin', 'búda, chatka'),
-    poi('church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
-    poi('tower_observation', 'observation tower', 'vyhliadková veža'),
-    poi('archaeological_site', 'archaeological site', 'archeologické nálezisko'),
-    poi('station', 'train station, halt', 'vlaková zastávka'),
-    poi('bus_station', 'bus station', 'autobusová zastávka'),
-    poi('museum', 'museum', 'múzeum'),
-    poi('water_tower', 'water tower', 'vodná veža'),
-    poi('chimney', 'chimney', 'komín'),
-    poi('fire_station', 'fire station', 'hasičská stanica'),
-    poi('community_centre', 'community centre', 'dom kultúru, komunitné centrum'),
-    poi('police', 'police', 'polícia'),
-    poi('office', 'office', 'informačné centrum'),
-    poi('hunting_stand', 'hunting stand', 'poľovnícky posed'),
-    poi('shelter', 'shelter', 'prístrešok'),
-    poi('rock', 'rock', 'skala'),
-    poi('pharmacy', 'pharmacy', 'lekáreň'),
-    poi('cinema', 'cinema', 'kino'),
-    poi('theatre', 'theatre', 'divadlo'),
-    poi('pub', 'pub', 'hostinec, krčma'),
-    poi('cafe', 'cafe', 'kaviareň'),
-    poi('restaurant', 'restaurant', 'reštaurácia'),
-    poi('convenience', 'convenience store', 'potraviny'),
-    poi('supermarket', 'supermarket', 'supermarket'),
-    poi('fast_food', 'fast food', 'rýchle občerstvenie'),
-    poi('confectionery', 'confectionery', 'cukráreň'),
-    poi('fuel', 'fuel station', 'čerpacia stanica'),
-    poi('post_office', 'post office', 'pošta'),
-    poi('bunker', 'bunker', 'bunker'),
-    poi('boundary_stone', 'boundary stone', 'hraničný kameň'),
-    poi('mast_other', 'mast', 'stožiar'),
-    poi('tower_other', 'tower', 'veža'),
-    poi('tower_communication', 'communication tower', 'komunikačná veža'),
-    poi('bus_stop', 'bus stop', 'autobusová zastávka'),
-    poi('taxi', 'taxi', 'taxi'),
-    poi('picnic_table', 'picnic table', 'stôl na piknik'),
-    poi('picnic_site', 'picnic site', 'miesto na piknik'),
     poi('board', 'board', 'tabuľa'),
     poi('map', 'map', 'mapa'),
-    poi('artwork', 'artwork', 'umelecké dielo'),
-    poi('fountain', 'fountain', 'fontána'),
-    poi('watering_place', 'watering place', 'napájadlo'),
-    poi('feeding_place', 'feeding place', 'krmidlo'),
-    poi('water_works', 'water works', 'vodný zdroj, čistička'),
-    poi('wayside_shrine', 'wayside shrine', 'božia muka'),
-    poi('cross', 'cross', 'kríž'),
-    poi('firepit', 'firepit', 'ohnisko'),
-    poi('toilets', 'toilets', 'toalety'),
-    poi('bench', 'bench', 'lavička'),
-    poi('beehive', 'beehive', 'včelý úľ'),
-    poi('lift_gate', 'lift gate', 'závora'),
-    poi('post_box', 'post box', 'poštová schránka'),
-    poi('telephone', 'telephone', 'telefón'),
-    poi('gate', 'gate', 'brána'),
-    poi('waste_disposal', 'waste disposal', 'kontajner na odpad'),
+
+    poi('peak', 'peak', 'vrchol', true),
+    poi('saddle', 'saddle', 'sedlo'),
+    poi('cave_entrance', 'cave', 'jaskyňa'),
+    poi('rock', 'rock', 'skala'),
     {
       categoryId: 'poi',
       name: {
@@ -752,6 +730,84 @@ const legend = {
       ],
       ...props,
     },
+    poi('viewpoint', 'viewpoint', 'výhľad'),
+    poi('spring', 'spring', 'prameň', true),
+    poi('water_well', 'water well', 'studňa'),
+    poi('waterfall', 'waterfall', 'vodopád'),
+
+    poi('hunting_stand', 'hunting stand', 'poľovnícky posed'),
+    poi('shelter', 'shelter', 'prístrešok'),
+
+    poi('castle', 'castle', 'hrad'),
+    poi('ruins', 'ruins', 'ruiny'),
+
+    poi('monument', 'monument', 'pamätník'),
+    poi('memorial', 'memorial', 'pamätník'),
+    poi('artwork', 'artwork', 'umelecké dielo'),
+    poi('fountain', 'fountain', 'fontána'),
+
+    poi('townhall', 'townhall', 'radnica, obecný úrad'),
+    poi('fire_station', 'fire station', 'hasičská stanica'),
+    poi('police', 'police', 'polícia'),
+    poi('community_centre', 'community centre', 'dom kultúru, komunitné centrum'),
+    poi('office', 'office', 'informačné centrum'),
+    poi('hospital', 'hospital', 'nemocnica'),
+    poi('pharmacy', 'pharmacy', 'lekáreň'),
+
+    poi('church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
+    poi('wayside_shrine', 'wayside shrine', 'božia muka'),
+    poi('cross', 'cross', 'kríž'),
+
+    poi('cinema', 'cinema', 'kino'),
+    poi('theatre', 'theatre', 'divadlo'),
+    poi('museum', 'museum', 'múzeum'),
+    poi('archaeological_site', 'archaeological site', 'archeologické nálezisko'),
+
+    poi('pub', 'pub', 'hostinec, krčma'),
+    poi('cafe', 'cafe', 'kaviareň'),
+    poi('restaurant', 'restaurant', 'reštaurácia'),
+    poi('convenience', 'convenience store', 'potraviny'),
+    poi('supermarket', 'supermarket', 'supermarket'),
+    poi('fast_food', 'fast food', 'rýchle občerstvenie'),
+    poi('confectionery', 'confectionery', 'cukráreň'),
+
+    poi('bunker', 'bunker', 'bunker'),
+    poi('boundary_stone', 'boundary stone', 'hraničný kameň'),
+    poi('post_office', 'post office', 'pošta'),
+    poi('post_box', 'post box', 'poštová schránka'),
+    poi('telephone', 'telephone', 'telefón'),
+
+    poi('station', 'train station, halt', 'vlaková zastávka'),
+    poi('bus_station', 'bus station', 'autobusová zastávka'),
+    poi('bus_stop', 'bus stop', 'autobusová zastávka'),
+    poi('taxi', 'taxi', 'taxi'),
+    poi('fuel', 'fuel station', 'čerpacia stanica'),
+
+    poi('tower_observation', 'observation tower', 'vyhliadková veža'),
+    poi('tower_communication', 'communication tower', 'komunikačná veža'),
+    poi('tower_other', 'tower', 'veža'),
+    poi('water_tower', 'water tower', 'vodná veža'),
+    poi('chimney', 'chimney', 'komín'),
+    poi('mast_other', 'mast', 'stožiar'),
+
+    poi('picnic_table', 'picnic table', 'stôl na piknik'),
+    poi('picnic_site', 'picnic site', 'miesto na piknik'),
+
+    poi('feeding_place', 'feeding place', 'krmidlo'),
+    poi('watering_place', 'watering place', 'napájadlo'),
+    poi('beehive', 'beehive', 'včelý úľ'),
+
+    poi('water_works', 'water works', 'vodný zdroj, čistička'),
+    poi('mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
+    poi('attraction', 'attraction', 'atrakcia'),
+
+    poi('firepit', 'firepit', 'ohnisko'),
+    poi('toilets', 'toilets', 'toalety'),
+    poi('bench', 'bench', 'lavička'),
+
+    poi('lift_gate', 'lift gate', 'závora'),
+    poi('gate', 'gate', 'brána'),
+    poi('waste_disposal', 'waste disposal', 'kontajner na odpad'),
     {
       categoryId: 'landcover',
       name: {
@@ -763,13 +819,24 @@ const legend = {
     },
     landcover('forest', 'forest', 'les'),
     landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnata plocha'),
-    landcover('quarry', 'quarry', 'lom'),
-    landcover('farmland', 'farmland', 'pole'),
-    landcover('cemetery', 'cemetery', 'cintorín'),
+    landcover('heath', 'heath', 'step'),
     landcover('scrub', 'scrub', 'kroviny'),
-    landcover('scree', 'scree', 'štrk'),
-    landcover('landfill', 'landfill', 'skládka'),
     landcover('clearcut', 'clearcut', 'holorub'),
+    landcover('scree', 'scree', 'štrk'),
+    landcover('bare_rock', 'bare rock', 'holá skala'),
+    landcover('farmland', 'farmland', 'pole'),
+    landcover('farmyard', 'farmyard', 'družstvo'),
+    landcover('orchard', 'orchard', 'ovocný sad'),
+    landcover('vineyard', 'vineyard', 'vinica'),
+    landcover('residential', 'residential zone', 'obytná zóna'),
+    landcover('commercial', 'commercial zone', 'komerčná zóna'),
+    landcover('industrial', 'industrial zone', 'industriálna zóna'),
+    landcover('quarry', 'quarry', 'lom'),
+    landcover('cemetery', 'cemetery', 'cintorín'),
+    landcover('playground', 'pitch, playground', 'ihrisko'),
+    landcover('parking', 'parking', 'parkovisko'),
+    landcover('feat:bunker_silo', 'bunker silo', 'silo'),
+    landcover('landfill', 'landfill', 'skládka'),
     {
       categoryId: 'landcover',
       name: {
@@ -779,17 +846,6 @@ const legend = {
       layers: [asArea(['solar_power_plants'], {})],
       ...props
     },
-    landcover('playground', 'pitch, playground', 'ihrisko'),
-    landcover('feat:bunker_silo', 'bunker silo', 'silo'),
-    landcover('orchard', 'orchard', 'ovocný sad'),
-    landcover('vineyard', 'vineyard', 'vinica'),
-    landcover('farmyard', 'farmyard', 'družstvo'),
-    landcover('residential', 'residential zone', 'obytná zóna'),
-    landcover('commercial', 'commercial zone', 'komerčná zóna'),
-    landcover('industrial', 'industrial zone', 'industriálna zóna'),
-    landcover('parking', 'parking', 'parkovisko'),
-    landcover('heath', 'heath', 'step'),
-    landcover('bare_rock', 'bare rock', 'holá skala'),
 
     {
       categoryId: 'borders',
@@ -833,7 +889,164 @@ const legend = {
       layers: [asArea(['borders'], {})],
       ...props,
     },
+    {
+      categoryId: 'waterways',
+      name: {
+        en: 'river',
+        sk: 'rieka',
+      },
+      layers: [asLine(['water_line', 'water_line_names'], {
+        type: 'river',
+        tunnel: 0,
+        dasharray: '1000,0',
+        name: 'Abc',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'waterways',
+      name: {
+        en: 'stream',
+        sk: 'potok',
+      },
+      layers: [asLine(['water_line', 'water_line_names'], {
+        type: 'stream',
+        tunnel: 0,
+        dasharray: '1000,0',
+        name: 'Abc',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'waterways',
+      name: {
+        en: 'stream in culvert',
+        sk: 'potok v priepuste',
+      },
+      layers: [asLine(['water_line', 'water_line_names'], {
+        type: 'stream',
+        tunnel: 1,
+        dasharray: '1000,0',
+        name: 'Abc',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'waterways',
+      name: {
+        en: 'itermittend or seasonal stream',
+        sk: 'občasný alebo sezónny potok',
+      },
+      layers: [asLine(['water_line', 'water_line_names'], {
+        type: 'stream',
+        tunnel: 0,
+        dasharray: '6,3',
+        name: 'Abc',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'aerialway',
+        sk: 'lanovka, vlek',
+      },
+      layers: [
+        asLine(['aerialways', 'aerialway_names'], {
+          type: '',
+          name: 'Abc',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'aeroway',
+        sk: 'letisková dráha',
+      },
+      layers: [
+        asLine(['aeroways'], {
+          type: '',
+          name: 'Abc',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'power line with power tower',
+        sk: 'vedenie vysokého napätia so stožiarom',
+      },
+      layers: [
+        asLine(['feature_lines'], {
+          type: 'line',
+        }),
+        asPoint(['features'], {
+          type: 'tower',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'minor power line with power pole',
+        sk: 'elektrické vedenie so stĺpom',
+      },
+      layers: [
+        asLine(['feature_lines'], {
+          type: 'minor_line',
+        }),
+        asPoint(['features'], {
+          type: 'pole',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'fence, wall',
+        sk: 'plot, múr',
+      },
+      layers: [asLine(['barrierways'], {
+        type: 'fence',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'locality name',
+        sk: 'názov lokality',
+      },
+      layers: [
+        forest,
+        asPoint(['locality_names'], {
+          type: 'locality',
+          name: 'Abc'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'unfinished mapping, map feature for fixing',
+        sk: 'nedomapovaný prvok, prvok na opravenie',
+      },
+      layers: [
+        asPoint(['fixmes'], {}),
+      ],
+      ...props,
+    },
   ],
 };
 
 module.exports = { legend };
+//     .layer('placenames', { type: 'csv', inline: `
+// id|name|type|wkt
+// 1|Test 123|town|Point(21.219835 48.655111)
+// ` }, { srs: '+init=epsg:4326', bufferSize: 1024 })
