@@ -63,7 +63,9 @@ const routeDefaults = {
  * @param {string[]} styles
  * @param {Record<string, unknown>} properties
  */
-function asLine(styles, properties, reverse) {
+function asLine(styles, properties, reverse, forZoom = 18) {
+  const factor = Math.pow(2, 18 - forZoom);
+
   return {
     styles,
     geojson: {
@@ -71,8 +73,8 @@ function asLine(styles, properties, reverse) {
       geometry: {
         type: 'LineString',
         coordinates: [
-          [reverse ? 0.00018 : -0.00018, reverse ? 0.00004 : -0.00004],
-          [ reverse? -0.00018 : 0.00018, reverse ? -0.00004 : 0.00004],
+          [reverse ? 0.00018 : -0.00018, reverse ? 0.00004 : -0.00004].map(x => x * factor),
+          [ reverse? -0.00018 : 0.00018, reverse ? -0.00004 : 0.00004].map(x => x * factor),
         ],
       },
       properties,
@@ -271,8 +273,112 @@ const legend = {
         sk: 'Body záujmu',
       },
     },
+    {
+      id: 'terrain',
+      name: {
+        en: 'Terrain',
+        sk: 'Terén',
+      },
+    },
   ],
   items: [
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'gully',
+        sk: 'roklina',
+      },
+      layers: [
+        forest,
+        asLine(['feature_lines'], {
+          type: 'gully'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'cliff',
+        sk: 'bralo',
+      },
+      layers: [
+        forest,
+        asLine(['feature_lines'], {
+          type: 'cliff'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'earth bank',
+        sk: 'strmý svah',
+      },
+      layers: [
+        forest,
+        asLine(['feature_lines'], {
+          type: 'earth_bank'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'embankment',
+        sk: 'nábrežie, násyp, hrádza',
+      },
+      layers: [
+        forest,
+        asLine(['feature_lines'], {
+          type: 'embankment'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'dyke',
+        sk: 'násyp, hrádza',
+      },
+      layers: [
+        forest,
+        asLine(['feature_lines'], {
+          type: 'dyke'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'cutline',
+        sk: 'prierez',
+      },
+      layers: [
+        forest,
+        asLine(['cutlines'], {
+          type: 'cutline'
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'terrain',
+      name: {
+        en: 'tree row',
+        sk: 'stromoradie',
+      },
+      layers: [
+        asLine(['feature_lines'], {
+          type: 'tree_row'
+        }, false, 16),
+      ],
+      ...propsForZoom(16),
+    },
     {
       categoryId: 'trails',
       name: {
@@ -295,7 +401,7 @@ const legend = {
       categoryId: 'trails',
       name: {
         en: 'local hiking trail',
-        sk: 'miestná turistické trasa',
+        sk: 'miestná turistická trasa',
       },
       layers: [
         forest,
@@ -632,7 +738,20 @@ const legend = {
     poi('telephone', 'telephone', 'telefón'),
     poi('gate', 'gate', 'brána'),
     poi('waste_disposal', 'waste disposal', 'kontajner na odpad'),
-
+    {
+      categoryId: 'poi',
+      name: {
+        en: 'tree',
+        sk: 'strom',
+      },
+      layers: [
+        asPoint(['trees'], {
+          name: 'Abc',
+          type: 'tree',
+        }, 0),
+      ],
+      ...props,
+    },
     {
       categoryId: 'landcover',
       name: {
