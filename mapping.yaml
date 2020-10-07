@@ -135,6 +135,7 @@ tables:
             - farmland
             - farm
             - grassland
+            - golf_course
             - forest
             - wood
             - meadow
@@ -166,7 +167,6 @@ tables:
             - scrub
             - clearcut
             - hospital
-            - golf_course
             - sports_centre
             - place_of_worship
             - cemetery

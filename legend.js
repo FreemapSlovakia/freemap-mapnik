@@ -4,7 +4,6 @@ function propsForZoom(zoom) {
   return {
     zoom,
     bbox: [-0.00018 * factor, -0.00008 * factor, 0.00018 * factor, 0.00008 * factor],
-    scale: 1,
   };
 }
 
@@ -828,12 +827,14 @@ const legend = {
     landcover('farmyard', 'farmyard', 'družstvo'),
     landcover('orchard', 'orchard', 'ovocný sad'),
     landcover('vineyard', 'vineyard', 'vinica'),
+    landcover('garden', 'garden', 'záhrada'),
+    landcover('beach', 'beach', 'pláž'),
     landcover('residential', 'residential zone', 'obytná zóna'),
     landcover('commercial', 'commercial zone', 'komerčná zóna'),
     landcover('industrial', 'industrial zone', 'industriálna zóna'),
     landcover('quarry', 'quarry', 'lom'),
     landcover('cemetery', 'cemetery', 'cintorín'),
-    landcover('playground', 'pitch, playground', 'ihrisko'),
+    landcover('playground', 'pitch, playground, golf course', 'ihrisko, detské ihrisko, golfové ihrisko'),
     landcover('parking', 'parking', 'parkovisko'),
     landcover('feat:bunker_silo', 'bunker silo', 'silo'),
     landcover('landfill', 'landfill', 'skládka'),
