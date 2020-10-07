@@ -256,7 +256,7 @@ tables:
         - depot
         - garages
         - military
-        - plant_nursery
+        - plant_nursery # TODO rdy
       highway:
         - pedestrian
         - footway
@@ -658,6 +658,7 @@ tables:
             - spring
             - stone
             - tree
+            # - arch # TODO next
           waterway:
             - waterfall
           amenity:

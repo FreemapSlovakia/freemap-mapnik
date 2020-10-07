@@ -185,7 +185,7 @@ function generateFreemapStyle({
       .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
       .area(colors.allotments, 'allotments')
-      .area(hsl(0, 0, 80), 'industrial')
+      .area(hsl(0, 0, 80), 'industrial', 'feat:wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
       .area(colors.wetland, 'wetland')
       .typesRule(12, 'pitch', 'playground', 'golf_course')

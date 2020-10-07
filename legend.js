@@ -831,7 +831,7 @@ const legend = {
     landcover('beach', 'beach', 'pláž'),
     landcover('residential', 'residential zone', 'obytná zóna'),
     landcover('commercial', 'commercial zone', 'komerčná zóna'),
-    landcover('industrial', 'industrial zone', 'industriálna zóna'),
+    landcover('industrial', 'industrial zone, wastewater plant', 'industriálna zóna, ČOV'),
     landcover('quarry', 'quarry', 'lom'),
     landcover('cemetery', 'cemetery', 'cintorín'),
     landcover('playground', 'pitch, playground, golf course', 'ihrisko, detské ihrisko, golfové ihrisko'),
