@@ -256,7 +256,7 @@ tables:
         - depot
         - garages
         - military
-        - plant_nursery # TODO rdy
+        - plant_nursery
       highway:
         - pedestrian
         - footway

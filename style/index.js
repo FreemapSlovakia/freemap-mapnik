@@ -174,6 +174,8 @@ function generateFreemapStyle({
         .polygonPatternSymbolizer({ file: 'images/sand.svg', alignment: 'global', opacity: 0.25 })
       .area(colors.scrub, 'scrub')
         .polygonPatternSymbolizer({ file: 'images/scrub.svg', alignment: 'global', opacity: 0.2 })
+      .area(colors.scrub, 'plant_nursery')
+        .polygonPatternSymbolizer({ file: 'images/plant_nursery.svg', alignment: 'global', opacity: 0.2 })
       .area(hsl(0, 0, 70), 'quarry')
         .polygonPatternSymbolizer({ file: 'images/quarry.svg' })
       .area(hsl(0, 0, 90), 'scree')
