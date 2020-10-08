@@ -828,6 +828,7 @@ const legend = {
     landcover('orchard', 'orchard', 'ovocný sad'),
     landcover('vineyard', 'vineyard', 'vinica'),
     landcover('garden', 'garden', 'záhrada'),
+    landcover('plant_nursery', 'plant nursery', 'lesná škôlka'),
     landcover('beach', 'beach', 'pláž'),
     landcover('residential', 'residential zone', 'obytná zóna'),
     landcover('commercial', 'commercial zone', 'komerčná zóna'),

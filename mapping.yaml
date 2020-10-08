@@ -839,6 +839,9 @@ tables:
       - type: mapping_value
         name: type
         key:
+      # - type: webmerc_area # TODO next
+      #   name: area
+      #   key:
     type: polygon
     mappings:
       attractions:

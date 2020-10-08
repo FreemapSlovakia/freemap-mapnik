@@ -255,10 +255,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     // TODO instead of union with osm_feature_polys put it to landusages
     .sqlLayer('landcover',
-      `select type, geometry, z_order from osm_landusages where geometry && !bbox!
-        union all select 'feat:' || type, geometry, 1000 as z_order from osm_feature_polys where geometry && !bbox!
+      `select type, geometry, name, z_order, area from osm_landusages where geometry && !bbox!
+        union all select 'feat:' || type, geometry, name, 1000 as z_order, 1000 as area from osm_feature_polys where geometry && !bbox!
         order by z_order`,
-      { minZoom: 12 },
+      { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('cutlines',
       "select geometry, type from osm_feature_lines where type = 'cutline'",
@@ -413,26 +413,16 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         );
       }
     })
-    .sqlLayer('highway_names',
-      'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc, osm_id',
-      { minZoom: 15, bufferSize: 1024 },
-    )
-    .sqlLayer('route_names',
-      routesQuery,
-      { minZoom: 14, bufferSize: 2048 }, // NOTE probably must be same bufferSize as routes
-    )
-    .sqlLayer('aerialway_names',
-      'select geometry, name, type from osm_aerialways',
-      { minZoom: 16, bufferSize: 1024 },
-    )
-    .sqlLayer('water_line_names',
-      `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways`,
-      { minZoom: 12, bufferSize: 1024 },
-    )
     // TODO to feature_names to consider zindex
     .sqlLayer('water_area_names',
       "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
       { minZoom: 10, bufferSize: 1024 },
+    )
+    .sqlLayer('landcover_names',
+      `select type, geometry, name, z_order, area from osm_landusages where geometry && !bbox!
+        union all select 'feat:' || type, geometry, name, 1000 as z_order, 1000 as area from osm_feature_polys where geometry && !bbox!
+        order by z_order`,
+      { minZoom: 12, cacheFeatures: true, bufferSize: 1024 },
     )
     // .sqlLayer('feature_line_names',
     //   'select geometry, name, type from osm_feature_lines',
@@ -464,6 +454,22 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         ) as hn_polys where geometry && !bbox!
         `,
       { minZoom: 18, bufferSize: 256 })
+    .sqlLayer('highway_names',
+      'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc, osm_id',
+      { minZoom: 15, bufferSize: 1024 },
+    )
+    .sqlLayer('route_names',
+      routesQuery,
+      { minZoom: 14, bufferSize: 2048 }, // NOTE probably must be same bufferSize as routes
+    )
+    .sqlLayer('aerialway_names',
+      'select geometry, name, type from osm_aerialways',
+      { minZoom: 16, bufferSize: 1024 },
+    )
+    .sqlLayer('water_line_names',
+      `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways`,
+      { minZoom: 12, bufferSize: 1024 },
+    )
     .sqlLayer('fixmes',
       'select geometry from osm_fixmes',
       { minZoom: 14 },

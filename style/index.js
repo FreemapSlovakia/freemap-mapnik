@@ -372,6 +372,15 @@ function generateFreemapStyle({
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+    .style('landcover_names')
+      .doInStyle((style) => {
+        for (let z = 10; z <= 16; z++) {
+          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
+            .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]');
+        }
+      })
+      .rule({ minZoom: 17 })
+        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
     .style('aeroport_names')
       .rule({ minZoom: 12 })
         .textSymbolizer(font().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
