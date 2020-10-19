@@ -5,6 +5,23 @@ const towerType = `concat("class", '_', case type
   when 'observation' then 'observation'
   else 'other' end) as type`;
 
+const importantFeatures = `
+  'hotel', 'chalet', 'hostel', 'motel', 'guest_house', 'wilderness_hut', 'alpine_hut', 
+  'camp_site', 'hut', 'cabin'
+`;
+function getImportantFeaturesSql() {
+  const sql = `select * from (
+    select           osm_id, geometry, name,         ele, type
+      from osm_features where type in (${importantFeatures})
+    union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
+      from osm_feature_polys where type in (${importantFeatures})
+    ) as abc left join zindex using (type)
+    where geometry && !bbox!
+    order by z, osm_id
+  `;
+  return sql;  
+}
+
 function getFeaturesSql(zoom) {
   const sqls = [`select * from (
     select osm_id, geometry, name, ele,
@@ -24,9 +41,9 @@ function getFeaturesSql(zoom) {
   if (zoom >= 14) {
     sqls.push(`
       union all select osm_id, geometry, name,         ele, type
-        from osm_features where type <> 'peak'
+        from osm_features where type <> 'peak' and type not in (${importantFeatures})  
       union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
-        from osm_feature_polys
+        from osm_feature_polys where type not in (${importantFeatures})
 
       union all select osm_id, geometry, name, null as ele, 'ruins' as type
         from osm_ruins
@@ -399,6 +416,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { bufferSize: 1024, minZoom: 12, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
     )
     .doInMap((map) => {
+      map.sqlLayer('features',
+        getImportantFeaturesSql(),
+        { minZoom: 12, bufferSize: 256, cacheFeatures: true }
+      );
+      map.sqlLayer('feature_names',
+        getImportantFeaturesSql(),
+        { minZoom: 12, bufferSize: 256, cacheFeatures: true }
+      );
+
       for (let zoom = 10; zoom <= 17; zoom++) {
         map.sqlLayer('features',
           getFeaturesSql(zoom),

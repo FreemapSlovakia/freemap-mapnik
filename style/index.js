@@ -49,13 +49,13 @@ const pois = [
   [14, 15, Y, N, 'hostel'],
   [14, 15, Y, N, 'motel'],
   [14, 15, Y, N, 'guest_house'],
-  [14, 15, Y, N, 'wilderness_hut'],
-  [14, 15, Y, N, 'alpine_hut'],
+  [13, 13, Y, N, 'wilderness_hut'],
+  [12, 12, Y, N, 'alpine_hut'],
   [14, 15, Y, N, 'camp_site'],
   [14, 15, N, N, 'attraction'],
   [14, 15, N, N, 'hospital'],
   [14, 15, N, N, 'townhall'],
-  [14, 15, N, Y, ['hut', 'cabin']], //  fallback
+  [13, 13, N, Y, ['hut', 'cabin']], //  fallback
   [14, 15, N, N, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [14, 15, Y, N, 'tower_observation'],
   [14, 15, Y, N, 'archaeological_site'],
