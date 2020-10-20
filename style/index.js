@@ -25,14 +25,19 @@ const N = false;
 const Y = true;
 const NN = null;
 
-// minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
+// minIconZoom, minTextZoom, withElevation, natural, types/icon, textOverrides
 const pois = [
-  [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
-  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [13, 13, Y, Y, 'peak', { font: { size: 13, dy: -8 } }],
+
+  [14, 14, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
+
+  [12, 13, Y, N, 'alpine_hut', { font: { fontsetName: 'bold' } }],
+  [13, 14, Y, N, 'wilderness_hut'],
+  [13, 14, N, N, ['hut', 'cabin']], //  fallback 
+  [13, 14, Y, N, 'camp_site'], 
 
   [14, 15, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
@@ -49,13 +54,9 @@ const pois = [
   [14, 15, Y, N, 'hostel'],
   [14, 15, Y, N, 'motel'],
   [14, 15, Y, N, 'guest_house'],
-  [13, 13, Y, N, 'wilderness_hut'],
-  [12, 12, Y, N, 'alpine_hut'],
-  [14, 15, Y, N, 'camp_site'],
   [14, 15, N, N, 'attraction'],
   [14, 15, N, N, 'hospital'],
   [14, 15, N, N, 'townhall'],
-  [13, 13, N, Y, ['hut', 'cabin']], //  fallback
   [14, 15, N, N, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [14, 15, Y, N, 'tower_observation'],
   [14, 15, Y, N, 'archaeological_site'],
@@ -64,8 +65,9 @@ const pois = [
   [14, 15, N, N, 'water_park'],
   [14, 15, N, N, 'museum'],
 
+  //[15, 16, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
+  [15, 16, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
-  [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
   [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'chimney'],

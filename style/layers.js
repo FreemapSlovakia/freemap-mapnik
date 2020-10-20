@@ -6,21 +6,9 @@ const towerType = `concat("class", '_', case type
   else 'other' end) as type`;
 
 const importantFeatures = `
-  'hotel', 'chalet', 'hostel', 'motel', 'guest_house', 'wilderness_hut', 'alpine_hut', 
-  'camp_site', 'hut', 'cabin'
-`;
-function getImportantFeaturesSql() {
-  const sql = `select * from (
-    select           osm_id, geometry, name,         ele, type
-      from osm_features where type in (${importantFeatures})
-    union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
-      from osm_feature_polys where type in (${importantFeatures})
-    ) as abc left join zindex using (type)
-    where geometry && !bbox!
-    order by z, osm_id
+   'alpine_hut', 'wilderness_hut', 'camp_site', 'hut', 'cabin',
+   'saddle'
   `;
-  return sql;  
-}
 
 function getFeaturesSql(zoom) {
   const sqls = [`select * from (
@@ -33,8 +21,10 @@ function getFeaturesSql(zoom) {
 
   if (zoom >= 12) {
     sqls.push(`
-      union all select osm_id, geometry, name,         ele, case type when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end) else type end as type
-        from osm_infopoints
+      union all select osm_id, geometry, name,         ele, type
+        from osm_features where type in (${importantFeatures})
+      union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
+        from osm_feature_polys where type in (${importantFeatures})
     `);
   }
 
@@ -44,6 +34,9 @@ function getFeaturesSql(zoom) {
         from osm_features where type <> 'peak' and type not in (${importantFeatures})  
       union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
         from osm_feature_polys where type not in (${importantFeatures})
+
+      union all select osm_id, geometry, name,         ele, case type when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end) else type end as type
+        from osm_infopoints          
 
       union all select osm_id, geometry, name, null as ele, 'ruins' as type
         from osm_ruins
@@ -77,7 +70,7 @@ function getFeaturesSql(zoom) {
       union all select osm_id, geometry, name, null as ele, type
         from osm_shops
       union all select osm_id, geometry, name, null as ele, type
-        from osm_shop_polys
+        from osm_shop_polys      
     `);
   }
 
@@ -416,15 +409,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { bufferSize: 1024, minZoom: 12, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
     )
     .doInMap((map) => {
-      map.sqlLayer('features',
-        getImportantFeaturesSql(),
-        { minZoom: 12, bufferSize: 256, cacheFeatures: true }
-      );
-      map.sqlLayer('feature_names',
-        getImportantFeaturesSql(),
-        { minZoom: 12, bufferSize: 256, cacheFeatures: true }
-      );
-
       for (let zoom = 10; zoom <= 17; zoom++) {
         map.sqlLayer('features',
           getFeaturesSql(zoom),
