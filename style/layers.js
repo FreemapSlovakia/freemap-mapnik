@@ -285,7 +285,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .sqlLayer('feature_lines',
-      'select geometry, type from osm_feature_lines',
+      `select geometry, type from osm_feature_lines
+       union all select geometry, type from osm_feature_polys where type = 'cliff'
+      `,
       { minZoom: 13 },
     )
     .sqlLayer('embankments',

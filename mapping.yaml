@@ -853,6 +853,7 @@ tables:
           natural:
             - rock
             - stone
+            - cliff
           amenity:
             - bank
             - bar
