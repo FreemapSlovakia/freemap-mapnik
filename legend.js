@@ -662,6 +662,26 @@ const legend = {
     {
       categoryId: 'railway',
       name: {
+        en: 'railway in construction',
+        sk: 'železničná trať vo výstavbe',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          name: 'Abc',
+          type: 'construction',
+          class: 'railway',
+          service: '',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: 'railway',
+      name: {
         en: 'railway bridge',
         sk: 'železničný most',
       },
