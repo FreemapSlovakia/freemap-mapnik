@@ -736,6 +736,7 @@ const legend = {
     poi('peak', 'peak', 'vrchol', true),
     poi('saddle', 'saddle', 'sedlo'),
     poi('cave_entrance', 'cave', 'jaskyňa'),
+    poi('arch', 'rock arch', 'skalné okno'),
     poi('rock', 'rock', 'skala'),
     {
       categoryId: 'poi',

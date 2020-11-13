@@ -36,6 +36,7 @@ const pois = [
 
   [14, 15, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
+  [14, 15, Y, Y, 'arch'],
   [14, 15, Y, Y, 'cave_entrance'],
   [14, 15, Y, Y, 'spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'waterfall', { font: { fill: colors.waterLabel } }],

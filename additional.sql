@@ -42,12 +42,13 @@ create index osm_places_type on osm_places (type);
 drop table if exists zindex;
 create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
+('monument'),
 ('archaeological_site'),
-('water_park'),
 ('tower_observation'),
 ('cave_entrance'),
-('monument'),
+('arch'),
 ('office'),
+('water_park'),
 ('hotel'),
 ('chalet'),
 ('hostel'),
