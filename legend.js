@@ -1066,6 +1066,10 @@ const legend = {
       ],
       ...props,
     },
+    {
+      ...road('water_slide', 'water slide', 'tobogán'),
+      categoryId: 'other',
+    }
   ],
 };
 

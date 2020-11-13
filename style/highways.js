@@ -71,6 +71,8 @@ function highways() {
           .road({ ...highwayDflt, strokeWidth: 1 })
         .typesRule(14, 'living_street', 'residential', 'unclassified', 'road')
           .road({ ...highwayDflt, stroke: colors.road, strokeWidth: 1 })
+        .typesRule(14, 'water_slide')
+          .road({ ...highwayDflt, stroke: hsl(180, 50, 50), strokeWidth: 1.5 })
         .rule({ minZoom: 14, filter: "[type] = 'service' and [service] = 'parking_aisle'" })
           .road({ ...highwayDflt, strokeWidth: 1 })
         .typesRule(14, 'raceway')

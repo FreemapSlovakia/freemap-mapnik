@@ -1219,7 +1219,7 @@ tables:
           public_transport:
             - platform
           attraction:
-            - water_slide # TODO
+            - water_slide
 
   housenumbers:
     columns:
