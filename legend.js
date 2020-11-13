@@ -512,6 +512,7 @@ const legend = {
     road('construction', 'road in construction', 'komunikácia vo výstavbe'),
     road('raceway', 'raceway', 'pretekárska dráha'),
     road('piste', 'piste', 'bežkárska dráha'),
+    road('via_ferrata', 'via ferrata', 'ferrata'),
     {
       categoryId: 'communications',
       name: {
