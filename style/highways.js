@@ -92,7 +92,7 @@ function highways() {
               .typesRule(...zz[a], 'cycleway')
                 .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3' })
               .typesRule(...zz[a], 'via_ferrata')
-                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '4,4' })
               .doInStyle((style) => {
                 [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
                   style
@@ -110,7 +110,7 @@ function highways() {
         .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(14, 'via_ferrata')
-        .lineSymbolizer({ stroke: 'black', strokeWidth: 3, strokeDasharray: '0,3,3,0' })
+        .lineSymbolizer({ stroke: 'black', strokeWidth: 3, strokeDasharray: '0,4,4,0' })
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(12, 'path')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
