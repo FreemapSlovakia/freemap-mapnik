@@ -42,7 +42,6 @@ create index osm_places_type on osm_places (type);
 drop table if exists zindex;
 create table zindex (type varchar primary key, z serial);
 insert into zindex (type) values
-('guidepost'),
 ('archaeological_site'),
 ('water_park'),
 ('tower_observation'),
@@ -58,6 +57,7 @@ insert into zindex (type) values
 ('wilderness_hut'),
 ('camp_site'),
 ('castle'),
+('guidepost'),
 ('cathedral'),
 ('temple'),
 ('basilica'),
