@@ -775,6 +775,7 @@ const legend = {
     poi('office', 'office', 'informačné centrum'),
     poi('hospital', 'hospital', 'nemocnica'),
     poi('pharmacy', 'pharmacy', 'lekáreň'),
+    poi('bicycle', 'bicycle shop', 'cykloobchod'),
 
     poi('church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
     poi('wayside_shrine', 'wayside shrine', 'božia muka'),
@@ -787,6 +788,7 @@ const legend = {
 
     poi('pub', 'pub', 'hostinec, krčma'),
     poi('cafe', 'cafe', 'kaviareň'),
+    poi('bar', 'bar', 'bar'),
     poi('restaurant', 'restaurant', 'reštaurácia'),
     poi('convenience', 'convenience store', 'potraviny'),
     poi('supermarket', 'supermarket', 'supermarket'),
@@ -795,6 +797,7 @@ const legend = {
 
     poi('bunker', 'bunker', 'bunker'),
     poi('boundary_stone', 'boundary stone', 'hraničný kameň'),
+
     poi('post_office', 'post office', 'pošta'),
     poi('post_box', 'post box', 'poštová schránka'),
     poi('telephone', 'telephone', 'telefón'),

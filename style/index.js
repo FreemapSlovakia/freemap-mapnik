@@ -83,6 +83,7 @@ const pois = [
   [15, 16, N, N, 'memorial'],
   [15, 16, N, N, 'pub'],
   [15, 16, N, N, 'cafe'],
+  [15, 16, N, N, 'bar'],
   [15, 16, N, N, 'restaurant'],
   [15, 16, N, N, 'convenience'],
   [15, 16, N, N, 'supermarket'],

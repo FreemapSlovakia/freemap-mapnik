@@ -81,6 +81,7 @@ insert into zindex (type) values
 ('fuel'),
 ('fast_food'),
 ('cafe'),
+('bar'),
 ('confectionery'),
 ('hospital'),
 ('pharmacy'),
