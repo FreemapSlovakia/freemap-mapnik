@@ -63,7 +63,6 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: string
         name: name
         key: name
@@ -81,7 +80,6 @@ tables:
         key: network
       - type: mapping_value
         name: type
-        key:
 
   route_members:
     type: relation_member
@@ -99,37 +97,29 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: member_id
         name: member
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: member_role
         name: role
         key: role
       - type: member_type
         name: type
-        key:
 
   landusages:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - type: webmerc_area
         name: area
-        key:
       - args:
           values:
             - farmland
@@ -265,16 +255,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: polygon
     mapping:
       building:
@@ -284,16 +271,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: point
     mapping:
       shop:
@@ -303,16 +287,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: polygon
     mapping:
       shop:
@@ -322,16 +303,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - args:
           values:
             - locality
@@ -367,16 +345,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: polygon
     mapping:
       public_transport:
@@ -396,16 +371,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - type: integer
         name: admin_level
         key: admin_level
@@ -418,16 +390,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: linestring
     mapping:
       aeroway:
@@ -438,10 +407,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -456,7 +423,6 @@ tables:
         key: tunnel
       - type: mapping_value
         name: type
-        key:
     type: linestring
     mapping:
       waterway:
@@ -472,16 +438,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: linestring
     mapping:
       barrier:
@@ -500,16 +463,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - type: string
         name: ref
         key: ref
@@ -536,16 +496,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: point
     mapping:
       barrier:
@@ -571,16 +528,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: linestring
     mapping:
       natural:
@@ -603,16 +557,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
     type: polygon
     mapping:
       boundary:
@@ -625,10 +576,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -637,7 +586,6 @@ tables:
         key: ele
       - type: mapping_value
         name: type
-        key:
     type: point
     mappings:
       attractions:
@@ -782,10 +730,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -804,10 +750,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -826,10 +770,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -838,7 +780,6 @@ tables:
         key: ele
       - type: mapping_value
         name: type
-        key:
       # - type: webmerc_area # TODO next
       #   name: area
       #   key:
@@ -953,10 +894,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -975,10 +914,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -997,10 +934,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1016,10 +951,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1035,10 +968,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1050,7 +981,6 @@ tables:
         key: tower:type
       - type: mapping_value
         name: class
-        key:
     type: point
     mappings:
       tower:
@@ -1066,10 +996,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1081,7 +1009,6 @@ tables:
         key: tower:type
       - type: mapping_value
         name: class
-        key:
     type: polygon
     mappings:
       tower:
@@ -1097,10 +1024,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1119,10 +1044,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1141,10 +1064,8 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
@@ -1165,7 +1086,6 @@ tables:
         key: horse
       - type: mapping_value
         name: type
-        key:
     type: point
     mapping:
       information:
@@ -1178,13 +1098,10 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: mapping_value
         name: type
-        key:
       - type: string
         name: name
         key: name
@@ -1200,13 +1117,10 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: mapping_value
         name: type
-        key:
       - type: string
         name: name
         key: name
@@ -1256,7 +1170,6 @@ tables:
         key: tracktype
       - type: mapping_key
         name: class
-        key:
     type: linestring
     filters:
       reject:
@@ -1317,16 +1230,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - type: string
         name: addr:housenumber
         key: addr:housenumber
@@ -1349,16 +1259,13 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - type: string
         name: addr:housenumber
         key: addr:housenumber
@@ -1381,19 +1288,15 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: string
         name: name
         key: name
       - type: mapping_value
         name: type
-        key:
       - type: webmerc_area
         name: area
-        key:
     type: polygon
     mapping:
       waterway:
@@ -1412,13 +1315,10 @@ tables:
     columns:
       - type: id
         name: osm_id
-        key:
       - type: geometry
         name: geometry
-        key:
       - type: mapping_value
         name: type
-        key:
     type: point
     mapping:
       fixme:
