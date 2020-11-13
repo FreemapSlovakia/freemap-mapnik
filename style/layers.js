@@ -34,9 +34,9 @@ function getFeaturesSql(zoom) {
         from osm_ruin_polys
 
       union all select osm_id, geometry, name, null as ele, building as type
-        from osm_place_of_worships
+        from osm_place_of_worships where building in ('chapel', 'church', 'basilica', 'temple')
       union all select osm_id, geometry, name, null as ele, building as type
-        from osm_place_of_worship_polys
+        from osm_place_of_worship_polys where building in ('chapel', 'church', 'basilica', 'temple')
 
       union all select osm_id, geometry, name,         ele, ${towerType}
         from osm_towers
@@ -58,16 +58,16 @@ function getFeaturesSql(zoom) {
         from osm_shelter_polys
 
       union all select osm_id, geometry, name, null as ele, type
-        from osm_shops
+        from osm_shops where type in ('convenience', 'fuel', 'confectionery')
       union all select osm_id, geometry, name, null as ele, type
-        from osm_shop_polys
+      from osm_shop_polys where type in ('convenience', 'fuel', 'confectionery')
     `);
   }
 
   if (zoom >= 17) {
     sqls.push(`
       union all select osm_id, geometry, name, null as ele, type
-        from osm_barrierpoints
+        from osm_barrierpoints where type in ('lift_gate', swing_gate')
     `);
   }
 

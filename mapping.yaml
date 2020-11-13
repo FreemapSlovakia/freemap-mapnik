@@ -1,10 +1,10 @@
 ---
 areas:
   area_tags:
-    - buildings
+    - building
     - landuse
     - leisure
-    - natural
+    # - natural
     - aeroway
   linear_tags:
     - highway
@@ -198,8 +198,8 @@ tables:
         - sports_centre
         - pitch
         - stadium
-        # - dog_park # TODO next
-        # - horse_riding # TODO next
+        - dog_park # TODO
+        - horse_riding # TODO
       tourism:
         - zoo
       natural:
@@ -341,6 +341,7 @@ tables:
         - suburb
         - locality
 
+  # TODO this is unused
   transport_polys:
     columns:
       - type: id
@@ -426,12 +427,10 @@ tables:
     type: linestring
     mapping:
       waterway:
-        - stream
         - river
         - canal
+        - stream
         - drain
-        - ditch
-      barrier:
         - ditch
 
   barrierways:
@@ -458,6 +457,7 @@ tables:
         - "yes"
         - wire_fence
 
+  # TODO this is unused
   # TODO merge with feature points
   transports:
     columns:
@@ -506,23 +506,7 @@ tables:
     type: point
     mapping:
       barrier:
-        - block
-        - bollard
-        - cattle_grid
-        - chain
-        - cycle_barrier
-        - entrance
-        - horse_stile
-        - gate
-        - spikes
-        - lift_gate
-        - swing_gate
-        - kissing_gate
-        - fence
-        - "yes"
-        - wire_fence
-        - toll_booth
-        - stile
+        - __any__ # TODO only lift_gate and swing_gate is renderred now
 
   feature_lines:
     columns:
@@ -551,7 +535,11 @@ tables:
         - cutline
         - embankment
         - dyke
-        - pipeline
+        - pipeline # TODO
+      millitary:
+        - trench
+      barrier:
+        - ditch # TODO
 
   protected_areas:
     columns:
@@ -606,7 +594,7 @@ tables:
             - spring
             - stone
             - tree
-            # - arch # TODO next
+            - arch # TODO
           waterway:
             - waterfall
           amenity:
@@ -685,8 +673,8 @@ tables:
             - playground
             - firepit
             - water_park
-          # - dog_park # TODO next
-          # - horse_riding # TODO next
+            - dog_park # TODO
+            - horse_riding # TODO
           man_made:
             - adit
             - beehive
@@ -721,10 +709,11 @@ tables:
             - tower
           military:
             - bunker
-      # TODO: next
-      # sport:
-      #   - dog_racing
-      #   - horse_racing
+          sport:
+            - dog_racing # TODO
+            - horse_racing # TODO
+          emergency:
+            - access_point
 
   shelters:
     columns:
@@ -780,9 +769,8 @@ tables:
         key: ele
       - type: mapping_value
         name: type
-      # - type: webmerc_area # TODO next
-      #   name: area
-      #   key:
+      - type: webmerc_area # TODO
+        name: area
     type: polygon
     mappings:
       attractions:
@@ -885,10 +873,9 @@ tables:
             - wayside_shrine
           military:
             - bunker
-      # TODO: next
-      # sport:
-      #   - dog_racing
-      #   - horse_racing
+          sport:
+            - dog_racing # TODO
+            - horse_racing # TODO
 
   power_generators:
     columns:
@@ -1221,10 +1208,17 @@ tables:
             - raceway
             - platform
             - construction
+            - piste # TODO
+            - escape # TODO
+            - corridor # TODO
+            - bus_guideway # TODO
+            - via_ferrata # TODO
           railway:
             - platform
           public_transport:
             - platform
+          attraction:
+            - water_slide # TODO
 
   housenumbers:
     columns:
