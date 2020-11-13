@@ -75,6 +75,8 @@ function highways() {
           .road({ ...highwayDflt, strokeWidth: 1 })
         .typesRule(14, 'raceway')
           .road({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray: '9.5,1.5' })
+        .typesRule(14, 'piste')
+          .road({ ...highwayDflt, strokeWidth: 1.2, stroke: 'white' })
         .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
           .road({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
         .doInStyle((style) => {
@@ -121,6 +123,8 @@ function highways() {
           .lineSymbolizer({ ...highwayDflt, strokeWidth: 3 })
         .typesRule(14, 'living_street', 'residential', 'unclassified', 'road')
           .lineSymbolizer({ ...highwayDflt, strokeWidth: 2.5 })
+        .typesRule(14, 'piste')
+          .road({ ...highwayDflt, strokeWidth: 2.2, stroke: '#a0a0a0', strokeDasharray: '6,2',  })
       .style('accessRestrictions')
         .rule({ filter: '[no_bicycle] = 1 and [no_foot] = 1' })
           .markersSymbolizer({ file: 'images/no_bicycle_foot.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })

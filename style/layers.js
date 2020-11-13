@@ -67,7 +67,7 @@ function getFeaturesSql(zoom) {
   if (zoom >= 17) {
     sqls.push(`
       union all select osm_id, geometry, name, null as ele, type
-        from osm_barrierpoints where type in ('lift_gate', swing_gate')
+        from osm_barrierpoints where type in ('lift_gate', 'swing_gate')
     `);
   }
 

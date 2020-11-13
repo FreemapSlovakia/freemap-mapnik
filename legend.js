@@ -511,6 +511,7 @@ const legend = {
     road('path', 'sidewalk, path, steps, platform, pedestrian', 'chodník, cestička, schody, nástupište, pešia zóna'),
     road('construction', 'road in construction', 'komunikácia vo výstavbe'),
     road('raceway', 'raceway', 'pretekárska dráha'),
+    road('piste', 'piste', 'bežkárska dráha'),
     {
       categoryId: 'communications',
       name: {
