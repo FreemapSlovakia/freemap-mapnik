@@ -506,7 +506,7 @@ const legend = {
       ],
       ...props,
     })),
-    // road('bridleway', 'bridleway', 'chodník pre kone'),
+    road('bridleway', 'bridleway', 'chodník pre kone'),
     road('cycleway', 'cycleway', 'cyklochodník'),
     road('path', 'sidewalk, path, steps, platform, pedestrian', 'chodník, cestička, schody, nástupište, pešia zóna'),
     road('construction', 'road in construction', 'komunikácia vo výstavbe'),
