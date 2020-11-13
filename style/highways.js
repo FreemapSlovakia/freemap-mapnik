@@ -85,7 +85,7 @@ function highways() {
           for (const a of [0, 1, 2]) {
             const k = w[a];
             style
-              .rule({ minZoom: zz[a][0], maxZoom: zz[a][1], filter: "[type] = 'service' and [service] != 'parking_aisle'" })
+              .rule({ minZoom: zz[a][0], maxZoom: zz[a][1], filter: "[type] = 'service' and [service] != 'parking_aisle' or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway'" })
                 .road({ ...highwayDflt, strokeWidth: k * 1.2 })
               .typesRule(...zz[a], 'path')
                 .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })

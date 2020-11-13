@@ -1209,11 +1209,11 @@ tables:
             - raceway
             - platform
             - construction
-            - piste # TODO
-            - escape # TODO
-            - corridor # TODO
-            - bus_guideway # TODO
-            - via_ferrata # TODO
+            - piste
+            - escape
+            - corridor
+            - bus_guideway
+            - via_ferrata
           railway:
             - platform
           public_transport:
