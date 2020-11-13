@@ -647,6 +647,7 @@ tables:
             - waste_disposal
             - water_point
             - watering_place
+            - monastery
           tourism:
             - alpine_hut
             - apartment
