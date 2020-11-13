@@ -97,6 +97,7 @@ const pois = [
   [15, NN, N, N, ['tower_communication', 'mast_communication']],
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
+  [15, 16, N, N, 'bicycle'],
 
   [16, NN, N, N, 'picnic_table'],
   [16, 17, N, N, 'picnic_site'],

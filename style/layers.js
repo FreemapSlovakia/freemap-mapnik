@@ -58,9 +58,9 @@ function getFeaturesSql(zoom) {
         from osm_shelter_polys
 
       union all select osm_id, geometry, name, null as ele, type
-        from osm_shops where type in ('convenience', 'fuel', 'confectionery')
+        from osm_shops where type in ('convenience', 'fuel', 'confectionery', 'bicycle')
       union all select osm_id, geometry, name, null as ele, type
-      from osm_shop_polys where type in ('convenience', 'fuel', 'confectionery')
+      from osm_shop_polys where type in ('convenience', 'fuel', 'confectionery', 'bicycle')
     `);
   }
 
