@@ -230,13 +230,6 @@ const legend = {
       },
     },
     {
-      id: 'accessRestrictions',
-      name: {
-        en: 'Access restrictions',
-        sk: 'Obmedzenia vstupu / vjazdu',
-      },
-    },
-    {
       id: 'landcover',
       name: {
         en: 'Land use',
@@ -253,15 +246,8 @@ const legend = {
     {
       id: 'accomodation',
       name: {
-        en: 'Acocmodation',
-        sk: 'Ubytovanie',
-      },
-    },
-    {
-      id: 'shelters',
-      name: {
-        en: 'Shelters',
-        sk: 'Prístrešky',
+        en: 'Acocmodation and selters',
+        sk: 'Ubytovanie a prístrešky',
       },
     },
     {
@@ -566,7 +552,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'accessRestrictions',
+      categoryId: 'communications',
       name: {
         en: 'access denied for pedestrians',
         sk: 'zákaz vstupu (pešo)',
@@ -582,7 +568,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'accessRestrictions',
+      categoryId: 'communications',
       name: {
         en: 'access denied cyclists',
         sk: 'zákaz vjazdu pre bicykle',
@@ -598,7 +584,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'accessRestrictions',
+      categoryId: 'communications',
       name: {
         en: 'access denied for pedestrians or cyclists',
         sk: 'zákaz vstupu (pešo) a zákaz vjazdu pre bicykle',
@@ -742,6 +728,13 @@ const legend = {
     poi('accomodation', 'wilderness_hut', 'wilderness hut', 'chata v divočine'),
     poi('accomodation', 'hut', 'hut, cabin', 'búda, chatka'),
     poi('accomodation', 'camp_site', 'camp site', 'kemp'),
+    poi('accomodation', 'hunting_stand', 'hunting stand', 'poľovnícky posed'),
+    poi('accomodation', 'basic_hut', 'basic hut', 'jednoduchá chatka'),
+    poi('accomodation', 'shelter', 'shelter', 'prístrešok'),
+    poi('accomodation', 'picnic_shelter', 'picnic shelter', 'piknikový prístrešok'),
+    poi('accomodation', 'weather_shelter', 'weather shelter', 'prístrešok pre nepriaznivé počasie'),
+    poi('accomodation', 'lean_to', 'lean-to shelter', 'prístrešok na bivak'),
+    poi('accomodation', 'public_transport', 'public transport shelter', 'prístrešok hromadnej dopravy'),
 
     poi('poi', 'guidepost', 'guidepost', 'smerovník', true),
     poi('poi', 'board', 'board', 'tabuľa'),
@@ -779,13 +772,6 @@ const legend = {
     poi('water', 'waterfall', 'waterfall', 'vodopád'),
     poi('water', 'water_works', 'water works', 'vodný zdroj, čistička'),
     poi('water', 'fountain', 'fountain', 'fontána'),
-
-    poi('shelters', 'hunting_stand', 'hunting stand', 'poľovnícky posed'),
-    poi('shelters', 'shelter', 'shelter', 'prístrešok'),
-    poi('shelters', 'picnic_shelter', 'picnic shelter', 'piknikový prístrešok'),
-    poi('shelters', 'weather_shelter', 'weather shelter', 'prístrešok pre nepriaznivé počasie'),
-    poi('shelters', 'lean_to', 'lean-to shelter', 'prístrešok na bivak'),
-    poi('shelters', 'public_transport', 'public transport shelter', 'prístrešok hromadnej dopravy'),
 
     poi('poi', 'castle', 'castle', 'hrad'),
     poi('poi', 'ruins', 'ruins', 'ruiny'),
