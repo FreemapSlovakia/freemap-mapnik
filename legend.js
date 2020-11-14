@@ -1073,7 +1073,29 @@ const legend = {
     {
       ...road('water_slide', 'water slide', 'tobogán'),
       categoryId: 'other',
-    }
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'pipeline',
+        sk: 'potrubie',
+      },
+      layers: [asLine(['pipelines'], {
+        location: 'overground',
+      })],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'underground pipeline',
+        sk: 'podzemné potrubie',
+      },
+      layers: [asLine(['pipelines'], {
+        location: 'underground',
+      })],
+      ...props,
+    },
   ],
 };
 

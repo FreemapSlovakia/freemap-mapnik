@@ -428,7 +428,7 @@ tables:
       - type: string
         name: location
         key: location
-      - type: string
+      - type: string # TODO
         name: substance
         key: substance
     type: linestring

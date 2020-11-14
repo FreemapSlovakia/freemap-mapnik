@@ -276,9 +276,17 @@ function generateFreemapStyle({
           .lineSymbolizer({ stroke: colors.scrub, strokeWidth: 2 + 0.33 * Math.pow(2, z - 12) });
       }
     })
+    .style('pipelines')
+      .rule({ minZoom: 11, filter: '[location] = "overground" or [location] = "overhead" or [location] = ""' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1' })
+      .rule({ minZoom: 15, filter: '[location] = "underground" or [location] = "underwater"' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round', strokeOpacity: 0.33 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1', strokeOpacity: 0.33 })
+
     .style('feature_lines')
       .typesRule(16, 'dyke')
-        .linePatternSymbolizer({ file: 'images/dyke.svg' })
+        .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6, strokeLinejoin: 'round' })
       .typesRule(16, 'embankment')
         .linePatternSymbolizer({ file: 'images/embankment-half.svg' })
       .typesRule(13, 'cliff')

@@ -293,8 +293,13 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select geometry from osm_features where type = 'tree'",
       { minZoom: 16, bufferSize: 128 },
     )
+    // TODO split to several layers: underground/underwater, overground, overhead
+    .sqlLayer('pipelines',
+      'select geometry, location from osm_pipelines',
+      { minZoom: 13 },
+    )
     .sqlLayer('feature_lines',
-      'select geometry, type from osm_feature_lines',
+      "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
       { minZoom: 13 },
     )
     .sqlLayer('embankments',
@@ -433,8 +438,9 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry, name, 1000 as area from osm_feature_polys left join z_order_poi using (type) where geometry && !bbox! order by z_order, area desc, osm_id',
       { minZoom: 12, bufferSize: 1024 },
     )
+    // TODO
     // .sqlLayer('feature_line_names',
-    //   'select geometry, name, type from osm_feature_lines',
+    //   "select geometry, name, type from osm_feature_lines where type <> 'valley'",
     //   { minZoom: 14 },
     // )
     .sqlLayer(
