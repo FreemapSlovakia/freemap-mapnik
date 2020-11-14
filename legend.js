@@ -128,7 +128,7 @@ function asArea(styles, properties, forZoom = 18) {
 
 const forest = asArea(['landcover'], { type: 'forest' });
 
-function road(type, en, sk) {
+function road(type, en, sk, noForest) {
   return {
     categoryId: 'communications',
     name: {
@@ -136,7 +136,7 @@ function road(type, en, sk) {
       sk,
     },
     layers: [
-      forest,
+      noForest ? null : forest,
       asLine(['higwayGlows', 'highways', 'highway_names'], {
         type,
         name: 'Abc',
@@ -145,7 +145,7 @@ function road(type, en, sk) {
         tunnel: '',
         tracktype: '',
       }),
-    ],
+    ].filter(Boolean),
     ...props,
   };
 }
@@ -851,7 +851,7 @@ const legend = {
         en: 'itermittend or seasonal water area',
         sk: 'občasná alebo sezónna vodná plocha',
       },
-      layers: [asArea(['water_area', 'water_area_names'], { name: 'Abc', intermittent: 1 })],
+      layers: [asArea(['water_area', 'water_area_names'], { name: 'Abc', tmp: 1 })],
       ...props
     },
     landcover('forest', 'forest', 'les'),
@@ -1072,18 +1072,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'other',
-      name: {
-        en: 'unfinished mapping, map feature for fixing',
-        sk: 'nedomapovaný prvok, prvok na opravenie',
-      },
-      layers: [
-        asPoint(['fixmes'], {}),
-      ],
-      ...props,
-    },
-    {
-      ...road('water_slide', 'water slide', 'tobogán'),
+      ...road('water_slide', 'water slide', 'tobogán', true),
       categoryId: 'other',
     },
     {
@@ -1106,6 +1095,17 @@ const legend = {
       layers: [asLine(['pipelines'], {
         location: 'underground',
       })],
+      ...props,
+    },
+    {
+      categoryId: 'other',
+      name: {
+        en: 'unfinished mapping, map feature for fixing',
+        sk: 'nedomapovaný prvok, prvok na opravenie',
+      },
+      layers: [
+        asPoint(['fixmes'], {}),
+      ],
       ...props,
     },
   ],
