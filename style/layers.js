@@ -274,11 +274,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13 },
     )
     .sqlLayer('water_area',
-      'select geometry, type from osm_waterareas_gen1',
+      'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas_gen1',
       { maxZoom: 11 },
     )
     .sqlLayer('water_area',
-      'select geometry, type from osm_waterareas',
+      'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas',
       { minZoom: 12 },
     )
     .sqlLayer('water_line',

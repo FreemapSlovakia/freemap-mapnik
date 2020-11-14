@@ -842,6 +842,15 @@ const legend = {
       layers: [asArea(['water_area', 'water_area_names'], { name: 'Abc' })],
       ...props
     },
+    {
+      categoryId: 'landcover',
+      name: {
+        en: 'itermittend or seasonal water area',
+        sk: 'občasná alebo sezónna vodná plocha',
+      },
+      layers: [asArea(['water_area', 'water_area_names'], { name: 'Abc', intermittent: 1 })],
+      ...props
+    },
     landcover('forest', 'forest', 'les'),
     landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnata plocha'),
     landcover('heath', 'heath', 'step'),
