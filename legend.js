@@ -150,9 +150,9 @@ function road(type, en, sk, noForest) {
   };
 }
 
-function poi(type, en, sk, eithEle) {
+function poi(categoryId, type, en, sk, eithEle) {
   return {
-    categoryId: 'poi',
+    categoryId,
     name: {
       en,
       sk,
@@ -166,13 +166,6 @@ function poi(type, en, sk, eithEle) {
       }, eithEle ? -0.00005 : -0.00003),
     ],
     ...props,
-  };
-}
-
-function accomodation(type, en, sk, eithEle) {
-  return {
-    ...poi(type, en, sk, eithEle),
-    categoryId: 'accomodation',
   };
 }
 
@@ -265,17 +258,38 @@ const legend = {
       },
     },
     {
-      id: 'poi',
+      id: 'shelters',
       name: {
-        en: 'Points of Interest',
-        sk: 'Body záujmu',
+        en: 'Shelters',
+        sk: 'Prístrešky',
       },
     },
     {
-      id: 'waterways',
+      id: 'natural_poi',
       name: {
-        en: 'Watercourses',
-        sk: 'Vodné toky',
+        en: 'Natural Points of Interest',
+        sk: 'Prírodné body záujmu',
+      },
+    },
+    {
+      id: 'gastro_poi',
+      name: {
+        en: 'Gastronomy',
+        sk: 'Gastronómia',
+      },
+    },
+    {
+      id: 'water',
+      name: {
+        en: 'Water',
+        sk: 'Voda',
+      },
+    },
+    {
+      id: 'poi',
+      name: {
+        en: 'Other Points of Interest',
+        sk: 'Ostatné body záujmu',
       },
     },
     {
@@ -719,27 +733,27 @@ const legend = {
       ],
       ...props,
     },
-    accomodation('hotel', 'hotel', 'hotel'),
-    accomodation('motel', 'motel', 'motel'),
-    accomodation('guest_house', 'guest_house', 'penzión'),
-    accomodation('hostel', 'hostel', 'ubytovňa'),
-    accomodation('chalet', 'chalet', 'chata'),
-    accomodation('alpine_hut', 'alpine hut', 'horská chata'),
-    accomodation('wilderness_hut', 'wilderness hut', 'chata v divočine'),
-    accomodation('hut', 'hut, cabin', 'búda, chatka'),
-    accomodation('camp_site', 'camp site', 'kemp'),
+    poi('accomodation', 'hotel', 'hotel', 'hotel'),
+    poi('accomodation', 'motel', 'motel', 'motel'),
+    poi('accomodation', 'guest_house', 'guest_house', 'penzión'),
+    poi('accomodation', 'hostel', 'hostel', 'ubytovňa'),
+    poi('accomodation', 'chalet', 'chalet', 'chata'),
+    poi('accomodation', 'alpine_hut', 'alpine hut', 'horská chata'),
+    poi('accomodation', 'wilderness_hut', 'wilderness hut', 'chata v divočine'),
+    poi('accomodation', 'hut', 'hut, cabin', 'búda, chatka'),
+    poi('accomodation', 'camp_site', 'camp site', 'kemp'),
 
-    poi('guidepost', 'guidepost', 'smerovník', true),
-    poi('board', 'board', 'tabuľa'),
-    poi('map', 'map', 'mapa'),
+    poi('poi', 'guidepost', 'guidepost', 'smerovník', true),
+    poi('poi', 'board', 'board', 'tabuľa'),
+    poi('poi', 'map', 'map', 'mapa'),
 
-    poi('peak', 'peak', 'vrchol', true),
-    poi('saddle', 'saddle', 'sedlo'),
-    poi('cave_entrance', 'cave', 'jaskyňa'),
-    poi('arch', 'rock arch', 'skalné okno'),
-    poi('rock', 'rock', 'skala'),
+    poi('natural_poi', 'peak', 'peak', 'vrchol', true),
+    poi('natural_poi', 'saddle', 'saddle', 'sedlo'),
+    poi('natural_poi', 'cave_entrance', 'cave', 'jaskyňa'),
+    poi('natural_poi', 'arch', 'rock arch', 'skalné okno'),
+    poi('natural_poi', 'rock', 'rock', 'skala'),
     {
-      categoryId: 'poi',
+      categoryId: 'natural_poi',
       name: {
         en: 'tree',
         sk: 'strom',
@@ -752,92 +766,99 @@ const legend = {
       ],
       ...props,
     },
-    poi('viewpoint', 'viewpoint', 'výhľad'),
-    poi('spring', 'spring', 'prameň', true),
-    poi('refitted_spring', 'refitted spring', 'upravený prameň', true),
-    poi('drinking_spring', 'drinkable spring', 'pitný prameň', true),
-    poi('not_drinking_spring', 'not drinkable spring', 'nepitný prameň', true),
-    poi('water_well', 'water well', 'studňa'),
-    poi('waterfall', 'waterfall', 'vodopád'),
+    poi('poi', 'viewpoint', 'viewpoint', 'výhľad'),
 
-    poi('hunting_stand', 'hunting stand', 'poľovnícky posed'),
-    poi('shelter', 'shelter', 'prístrešok'),
 
-    poi('castle', 'castle', 'hrad'),
-    poi('ruins', 'ruins', 'ruiny'),
+    poi('water', 'drinking_water', 'drinking water', 'pitná voda'),
+    poi('water', 'water_well', 'water well', 'studňa'),
+    poi('water', 'spring', 'spring', 'prameň', true),
+    poi('water', 'refitted_spring', 'refitted spring', 'upravený prameň', true),
+    poi('water', 'drinking_spring', 'drinkable spring', 'pitný prameň', true),
+    poi('water', 'not_drinking_spring', 'not drinkable spring', 'nepitný prameň', true),
+    poi('water', 'watering_place', 'watering place', 'napájadlo'),
+    poi('water', 'waterfall', 'waterfall', 'vodopád'),
+    poi('water', 'water_works', 'water works', 'vodný zdroj, čistička'),
+    poi('water', 'fountain', 'fountain', 'fontána'),
 
-    poi('monument', 'monument', 'pamätník'),
-    poi('memorial', 'memorial', 'pamätník'),
-    poi('artwork', 'artwork', 'umelecké dielo'),
-    poi('fountain', 'fountain', 'fontána'),
+    poi('shelters', 'hunting_stand', 'hunting stand', 'poľovnícky posed'),
+    poi('shelters', 'shelter', 'shelter', 'prístrešok'),
+    poi('shelters', 'picnic_shelter', 'picnic shelter', 'piknikový prístrešok'),
+    poi('shelters', 'weather_shelter', 'weather shelter', 'prístrešok pre nepriaznivé počasie'),
+    poi('shelters', 'lean_to', 'lean-to shelter', 'prístrešok na bivak'),
+    poi('shelters', 'public_transport', 'public transport shelter', 'prístrešok hromadnej dopravy'),
 
-    poi('townhall', 'townhall', 'radnica, obecný úrad'),
-    poi('fire_station', 'fire station', 'hasičská stanica'),
-    poi('police', 'police', 'polícia'),
-    poi('community_centre', 'community centre', 'dom kultúru, komunitné centrum'),
-    poi('office', 'office', 'informačné centrum'),
-    poi('hospital', 'hospital', 'nemocnica'),
-    poi('pharmacy', 'pharmacy', 'lekáreň'),
-    poi('bicycle', 'bicycle shop', 'cykloobchod'),
+    poi('poi', 'castle', 'castle', 'hrad'),
+    poi('poi', 'ruins', 'ruins', 'ruiny'),
 
-    poi('church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
-    poi('wayside_shrine', 'wayside shrine', 'božia muka'),
-    poi('cross', 'cross', 'kríž'),
+    poi('poi', 'monument', 'monument', 'pamätník'),
+    poi('poi', 'memorial', 'memorial', 'pamätník'),
+    poi('poi', 'artwork', 'artwork', 'umelecké dielo'),
 
-    poi('cinema', 'cinema', 'kino'),
-    poi('theatre', 'theatre', 'divadlo'),
-    poi('museum', 'museum', 'múzeum'),
-    poi('archaeological_site', 'archaeological site', 'archeologické nálezisko'),
+    poi('poi', 'townhall', 'townhall', 'radnica, obecný úrad'),
+    poi('poi', 'fire_station', 'fire station', 'hasičská stanica'),
+    poi('poi', 'police', 'police', 'polícia'),
+    poi('poi', 'community_centre', 'community centre', 'dom kultúru, komunitné centrum'),
+    poi('poi', 'office', 'office', 'informačné centrum'),
+    poi('poi', 'hospital', 'hospital', 'nemocnica'),
+    poi('poi', 'pharmacy', 'pharmacy', 'lekáreň'),
+    poi('poi', 'bicycle', 'bicycle shop', 'cykloobchod'),
 
-    poi('pub', 'pub', 'hostinec, krčma'),
-    poi('cafe', 'cafe', 'kaviareň'),
-    poi('bar', 'bar', 'bar'),
-    poi('restaurant', 'restaurant', 'reštaurácia'),
-    poi('convenience', 'convenience store', 'potraviny'),
-    poi('supermarket', 'supermarket', 'supermarket'),
-    poi('fast_food', 'fast food', 'rýchle občerstvenie'),
-    poi('confectionery', 'confectionery', 'cukráreň'),
+    poi('poi', 'church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
+    poi('poi', 'wayside_shrine', 'wayside shrine', 'božia muka'),
+    poi('poi', 'cross', 'cross', 'kríž'),
 
-    poi('bunker', 'bunker', 'bunker'),
-    poi('boundary_stone', 'boundary stone', 'hraničný kameň'),
+    poi('poi', 'cinema', 'cinema', 'kino'),
+    poi('poi', 'theatre', 'theatre', 'divadlo'),
+    poi('poi', 'museum', 'museum', 'múzeum'),
+    poi('poi', 'archaeological_site', 'archaeological site', 'archeologické nálezisko'),
 
-    poi('post_office', 'post office', 'pošta'),
-    poi('post_box', 'post box', 'poštová schránka'),
-    poi('telephone', 'telephone', 'telefón'),
+    poi('gastro_poi', 'pub', 'pub', 'hostinec, krčma'),
+    poi('gastro_poi', 'cafe', 'cafe', 'kaviareň'),
+    poi('gastro_poi', 'bar', 'bar', 'bar'),
+    poi('gastro_poi', 'restaurant', 'restaurant', 'reštaurácia'),
+    poi('gastro_poi', 'convenience', 'convenience store', 'potraviny'),
+    poi('gastro_poi', 'supermarket', 'supermarket', 'supermarket'),
+    poi('gastro_poi', 'fast_food', 'fast food', 'rýchle občerstvenie'),
+    poi('gastro_poi', 'confectionery', 'confectionery', 'cukráreň'),
 
-    poi('station', 'train station, halt', 'vlaková zastávka'),
-    poi('bus_station', 'bus station', 'autobusová zastávka'),
-    poi('bus_stop', 'bus stop', 'autobusová zastávka'),
-    poi('taxi', 'taxi', 'taxi'),
-    poi('fuel', 'fuel station', 'čerpacia stanica'),
+    poi('poi', 'bunker', 'bunker', 'bunker'),
+    poi('poi', 'boundary_stone', 'boundary stone', 'hraničný kameň'),
 
-    poi('tower_observation', 'observation tower', 'vyhliadková veža'),
-    poi('tower_communication', 'communication tower', 'komunikačná veža'),
-    poi('tower_other', 'tower', 'veža'),
-    poi('water_tower', 'water tower', 'vodná veža'),
-    poi('chimney', 'chimney', 'komín'),
-    poi('mast_other', 'mast', 'stožiar'),
+    poi('poi', 'post_office', 'post office', 'pošta'),
+    poi('poi', 'post_box', 'post box', 'poštová schránka'),
+    poi('poi', 'telephone', 'telephone', 'telefón'),
 
-    poi('picnic_table', 'picnic table', 'stôl na piknik'),
-    poi('picnic_site', 'picnic site', 'miesto na piknik'),
+    poi('railway', 'station', 'train station, halt', 'vlaková stanica, zastávka'),
+    poi('poi', 'bus_station', 'bus station', 'autobusová zastávka'),
+    poi('poi', 'bus_stop', 'bus stop', 'autobusová zastávka'),
+    poi('poi', 'taxi', 'taxi', 'taxi'),
+    poi('poi', 'fuel', 'fuel station', 'čerpacia stanica'),
 
-    poi('feeding_place', 'feeding place', 'krmidlo'),
-    poi('watering_place', 'watering place', 'napájadlo'),
-    poi('beehive', 'beehive', 'včelý úľ'),
+    poi('poi', 'tower_observation', 'observation tower', 'vyhliadková veža'),
+    poi('poi', 'tower_communication', 'communication tower', 'komunikačná veža'),
+    poi('poi', 'tower_other', 'tower', 'veža'),
+    poi('poi', 'water_tower', 'water tower', 'vodná veža'),
+    poi('poi', 'chimney', 'chimney', 'komín'),
+    poi('poi', 'mast_other', 'mast', 'stožiar'),
 
-    poi('water_works', 'water works', 'vodný zdroj, čistička'),
-    poi('mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
-    poi('attraction', 'attraction', 'atrakcia'),
+    poi('poi', 'picnic_table', 'picnic table', 'stôl na piknik'),
+    poi('poi', 'picnic_site', 'picnic site', 'miesto na piknik'),
 
-    poi('firepit', 'firepit', 'ohnisko'),
-    poi('toilets', 'toilets', 'toalety'),
-    poi('bench', 'bench', 'lavička'),
+    poi('poi', 'feeding_place', 'feeding place', 'krmidlo'),
+    poi('poi', 'beehive', 'beehive', 'včelý úľ'),
 
-    poi('lift_gate', 'lift gate', 'závora'),
-    poi('gate', 'gate', 'brána'),
-    poi('waste_disposal', 'waste disposal', 'kontajner na odpad'),
+    poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
+    poi('poi', 'attraction', 'attraction', 'atrakcia'),
+
+    poi('poi', 'firepit', 'firepit', 'ohnisko'),
+    poi('poi', 'toilets', 'toilets', 'toalety'),
+    poi('poi', 'bench', 'bench', 'lavička'),
+
+    poi('poi', 'lift_gate', 'lift gate', 'závora'),
+    poi('poi', 'gate', 'gate', 'brána'),
+    poi('poi', 'waste_disposal', 'waste disposal', 'kontajner na odpad'),
     {
-      categoryId: 'landcover',
+      categoryId: 'water',
       name: {
         en: 'water area',
         sk: 'vodná plocha',
@@ -846,7 +867,7 @@ const legend = {
       ...props
     },
     {
-      categoryId: 'landcover',
+      categoryId: 'water',
       name: {
         en: 'itermittend or seasonal water area',
         sk: 'občasná alebo sezónna vodná plocha',
@@ -930,7 +951,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'waterways',
+      categoryId: 'water',
       name: {
         en: 'river',
         sk: 'rieka',
@@ -944,7 +965,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'waterways',
+      categoryId: 'water',
       name: {
         en: 'stream',
         sk: 'potok',
@@ -958,7 +979,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'waterways',
+      categoryId: 'water',
       name: {
         en: 'stream in culvert',
         sk: 'potok v priepuste',
@@ -972,7 +993,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'waterways',
+      categoryId: 'water',
       name: {
         en: 'itermittend or seasonal stream',
         sk: 'občasný alebo sezónny potok',

@@ -66,11 +66,11 @@ function getFeaturesSql(zoom) {
   }
 
   if (zoom >= 15) {
+    const shelters = "union all select osm_id, geometry, name, ele, case when type in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then type else 'shelter' end as type, null as isolation from";
+
     sqls.push(`
-      union all select osm_id, geometry, name,         ele, case when type in ('shopping_cart') then 'shelter' || type else 'shelter' end as type, null as isolation
-        from osm_shelters
-      union all select osm_id, geometry, name,         ele, case when type in ('shopping_cart') then 'shelter' || type else 'shelter' end as type, null as isolation
-        from osm_shelter_polys
+      ${shelters} osm_shelters
+      ${shelters} osm_shelter_polys
 
       union all select osm_id, geometry, name, null as ele, type, null as isolation
         from osm_shops where type in ('convenience', 'fuel', 'confectionery', 'bicycle', 'supermarket')
