@@ -11,70 +11,85 @@ function getFeaturesSql(zoom) {
       case when isolation > 4500 then 'peak1'
         when isolation between 3000 and 4500 then 'peak2'
         when isolation between 1500 and 3000 then 'peak3'
-        else 'peak' end as type
+        else 'peak' end as type, isolation
       from osm_features natural left join isolations where type = 'peak' and geometry && !bbox!`];
 
   if (zoom >= 12) {
     sqls.push(`
-      union all select osm_id, geometry, name,         ele, case type when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end) else type end as type
+      union all select osm_id, geometry, name,         ele, case type when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end) else type end as type, null as isolation
         from osm_infopoints
+      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
+        from osm_aerodromes where icao <> ''
+      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
+        from osm_aerodrome_polys where icao <> ''
     `);
   }
 
   if (zoom >= 14) {
+    // TODO distinguish various "spring types" (fountain, geyser, spring_box, ...)
     sqls.push(`
-      union all select osm_id, geometry, name,         ele, type
+      union all select osm_id, geometry, name,         ele, type, null as isolation
         from osm_features where type <> 'peak'
-      union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type
+      union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type, null as isolation
         from osm_feature_polys
 
-      union all select osm_id, geometry, name, null as ele, 'ruins' as type
+      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
+        from osm_aerodromes where icao = ''
+      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
+        from osm_aerodrome_polys where icao = ''
+
+      union all select osm_id, geometry, name,         ele,
+        case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
+        case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring' as type, null as isolation
+        from osm_springs
+
+      union all select osm_id, geometry, name, null as ele, 'ruins' as type, null as isolation
         from osm_ruins
-      union all select osm_id, geometry, name, null as ele, 'ruins' as type
+      union all select osm_id, geometry, name, null as ele, 'ruins' as type, null as isolation
         from osm_ruin_polys
 
-      union all select osm_id, geometry, name, null as ele, building as type
-        from osm_place_of_worships
-      union all select osm_id, geometry, name, null as ele, building as type
-        from osm_place_of_worship_polys
+      union all select osm_id, geometry, name, null as ele, building as type, null as isolation
+        from osm_place_of_worships where building in ('chapel', 'church', 'basilica', 'temple')
+      union all select osm_id, geometry, name, null as ele, building as type, null as isolation
+        from osm_place_of_worship_polys where building in ('chapel', 'church', 'basilica', 'temple')
 
-      union all select osm_id, geometry, name,         ele, ${towerType}
+      union all select osm_id, geometry, name,         ele, ${towerType}, null as isolation
         from osm_towers
-      union all select osm_id, geometry, name,         ele, ${towerType}
+      union all select osm_id, geometry, name,         ele, ${towerType}, null as isolation
         from osm_tower_polys
 
-      union all select osm_id, geometry, name, null as ele, type
+      union all select osm_id, geometry, name, null as ele, type, null as isolation
         from osm_transports
-      union all select osm_id, geometry, name, null as ele, type
+      union all select osm_id, geometry, name, null as ele, type, null as isolation
         from osm_transport_polys
     `);
   }
 
   if (zoom >= 15) {
-    sqls.push(`
-      union all select osm_id, geometry, name,         ele, case when type in ('shopping_cart') then 'shelter' || type else 'shelter' end as type
-        from osm_shelters
-      union all select osm_id, geometry, name,         ele, case when type in ('shopping_cart') then 'shelter' || type else 'shelter' end as type
-        from osm_shelter_polys
+    const shelters = "union all select osm_id, geometry, name, ele, case when type in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then type else 'shelter' end as type, null as isolation from";
 
-      union all select osm_id, geometry, name, null as ele, type
-        from osm_shops
-      union all select osm_id, geometry, name, null as ele, type
-        from osm_shop_polys
+    sqls.push(`
+      ${shelters} osm_shelters
+      ${shelters} osm_shelter_polys
+
+      union all select osm_id, geometry, name, null as ele, type, null as isolation
+        from osm_shops where type in ('convenience', 'fuel', 'confectionery', 'bicycle', 'supermarket')
+      union all select osm_id, geometry, name, null as ele, type, null as isolation
+        from osm_shop_polys where type in ('convenience', 'fuel', 'confectionery', 'bicycle', 'supermarket')
     `);
   }
 
   if (zoom >= 17) {
     sqls.push(`
-      union all select osm_id, geometry, name, null as ele, type
-        from osm_barrierpoints
+      union all select osm_id, geometry, name, null as ele, type, null as isolation
+        from osm_barrierpoints where type in ('lift_gate', 'swing_gate', 'gate')
     `);
   }
 
   sqls.push(`
-    ) as abc left join zindex using (type)
+    ) as abc left join z_order_poi using (type)
     where geometry && !bbox!
-    order by z, osm_id
+    order by z_order, isolation desc nulls last, ele desc nulls last, osm_id
   `);
 
   const sql = sqls.join('');
@@ -246,18 +261,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { srs: '+init=epsg:3857', minZoom: 10 }
     )
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages_gen0 where geometry && !bbox! order by z_order',
+      'select type, geometry from osm_landusages_gen0 left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
       { maxZoom: 9 },
     )
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages_gen1 where geometry && !bbox! order by z_order',
+      'select type, geometry from osm_landusages_gen1 left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
       { minZoom: 10, maxZoom: 11 },
     )
-    // TODO instead of union with osm_feature_polys put it to landusages
     .sqlLayer('landcover',
-      `select type, geometry, name, z_order, area from osm_landusages where geometry && !bbox!
-        union all select 'feat:' || type, geometry, name, 1000 as z_order, 1000 as area from osm_feature_polys where geometry && !bbox!
-        order by z_order`,
+      'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
       { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('cutlines',
@@ -265,11 +277,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13 },
     )
     .sqlLayer('water_area',
-      'select geometry, type from osm_waterareas_gen1',
+      'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas_gen1',
       { maxZoom: 11 },
     )
     .sqlLayer('water_area',
-      'select geometry, type from osm_waterareas',
+      'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas',
       { minZoom: 12 },
     )
     .sqlLayer('water_line',
@@ -282,10 +294,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('trees',
       "select geometry from osm_features where type = 'tree'",
-      { minZoom: 16 },
+      { minZoom: 16, bufferSize: 128 },
+    )
+    // TODO split to several layers: underground/underwater, overground, overhead
+    .sqlLayer('pipelines',
+      'select geometry, location from osm_pipelines',
+      { minZoom: 13 },
     )
     .sqlLayer('feature_lines',
-      'select geometry, type from osm_feature_lines',
+      "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
       { minZoom: 13 },
     )
     .sqlLayer('embankments',
@@ -293,20 +310,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen0 where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen0 where geometry && !bbox! order by z_order, osm_id',
       { maxZoom: 9, groupBy: 'tunnel' },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order, osm_id',
       { minZoom: 10, maxZoom: 11, groupBy: 'tunnel' },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order, osm_id',
       { maxZoom: 11, groupBy: 'tunnel' },
     )
     .sqlLayer(['higwayGlows', 'highways'],
       // order bycase when type = 'rail' AND (service = 'main' OR service = '') then 1000 else z_order end
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads where geometry && !bbox! order by z_order',
+      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads where geometry && !bbox! order by z_order, osm_id',
       { minZoom: 12, cacheFeatures: true, groupBy: 'tunnel' },
     )
     .sqlLayer('accessRestrictions',
@@ -384,19 +401,19 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('placenames',
       "select name, type, geometry from osm_places where type = 'city' AND geometry && !bbox! order by z_order desc, osm_id",
-      { bufferSize: 1024, maxZoom: 8, clearLabelCache: 'on', cacheFeatures: true }
+      { bufferSize: 1024, maxZoom: 8, clearLabelCache: 'on' }
     )
     .sqlLayer('placenames',
       "select name, type, geometry from osm_places where (type = 'city' OR type = 'town') AND geometry && !bbox! order by z_order desc, osm_id",
-      { bufferSize: 1024, minZoom: 9, maxZoom: 10, clearLabelCache: 'on', cacheFeatures: true }
+      { bufferSize: 1024, minZoom: 9, maxZoom: 10, clearLabelCache: 'on' }
     )
     .sqlLayer('placenames',
       "select name, type, geometry from osm_places where (type = 'city' OR type = 'town' OR type = 'town' OR type = 'village') AND geometry && !bbox! order by z_order desc, osm_id",
-      { bufferSize: 1024, minZoom: 11, maxZoom: 11, clearLabelCache: 'on', cacheFeatures: true }
+      { bufferSize: 1024, minZoom: 11, maxZoom: 11, clearLabelCache: 'on' }
     )
     .sqlLayer('placenames',
       "select name, type, geometry from osm_places where type <> 'locality' AND geometry && !bbox! order by z_order desc, osm_id",
-      { bufferSize: 1024, minZoom: 12, maxZoom: 14, clearLabelCache: 'on', cacheFeatures: true }
+      { bufferSize: 1024, minZoom: 12, maxZoom: 14, clearLabelCache: 'on' }
     )
     .doInMap((map) => {
       for (let zoom = 10; zoom <= 17; zoom++) {
@@ -413,26 +430,22 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         );
       }
     })
-    // TODO to feature_names to consider zindex
+    // TODO to feature_names to consider z_order
     .sqlLayer('water_area_names',
       "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
       { minZoom: 10, bufferSize: 1024 },
     )
+    // TODO/NOTE this renders rest of names - names of unknown feature_polys (not covered in 'feature_names') like: school, kindergarden, recycling
+    // TODO what about feature points?
     .sqlLayer('landcover_names',
-      `select type, geometry, name, z_order, area from osm_landusages where geometry && !bbox!
-        union all select 'feat:' || type, geometry, name, 1000 as z_order, 1000 as area from osm_feature_polys where geometry && !bbox!
-        order by z_order`,
-      { minZoom: 12, cacheFeatures: true, bufferSize: 1024 },
-    )
-    // .sqlLayer('feature_line_names',
-    //   'select geometry, name, type from osm_feature_lines',
-    //   { minZoom: 14 },
-    // )
-    // TODO to feature_names to consider zindex
-    .sqlLayer('aeroport_names',
-      "select name, geometry from osm_transport_polys where type = 'aerodrome'",
+      'select geometry, name, 1000 as area from osm_feature_polys left join z_order_poi using (type) where geometry && !bbox! order by z_order, area desc, osm_id',
       { minZoom: 12, bufferSize: 1024 },
     )
+    // TODO
+    // .sqlLayer('feature_line_names',
+    //   "select geometry, name, type from osm_feature_lines where type <> 'valley'",
+    //   { minZoom: 14 },
+    // )
     .sqlLayer(
       'building_names',
       'select name, type, geometry from osm_buildings order by osm_id',
@@ -442,6 +455,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'protected_area_names',
       'select type, name, geometry from osm_protected_areas',
       { bufferSize: 1024, minZoom: 8 },
+    )
+    .sqlLayer('landcover_names',
+      'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
+      { minZoom: 12, bufferSize: 1024, cacheFeatures: true },
     )
     .sqlLayer(
       'locality_names',

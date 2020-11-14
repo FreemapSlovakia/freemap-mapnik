@@ -27,6 +27,7 @@ const NN = null;
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
+  [12, 12, N, N, 'aerodrome'],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
   [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -36,8 +37,14 @@ const pois = [
 
   [14, 15, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
+  [14, 15, Y, Y, 'arch'],
   [14, 15, Y, Y, 'cave_entrance'],
   [14, 15, Y, Y, 'spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'refitted_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'not_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'refitted_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'refitted_not_drinking_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'waterfall', { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, ['drinking_water', 'water_point'], { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, 'water_well', { font: { fill: colors.waterLabel } }],
@@ -75,6 +82,12 @@ const pois = [
   [15, 16, N, N, 'office'], // information=office
   [15, 16, N, N, 'hunting_stand'],
   [15, 16, Y, N, 'shelter'],
+  // [15, 16, Y, N, 'shopping_cart'],
+  [15, 16, Y, N, 'lean_to'],
+  [15, 16, Y, N, 'public_transport'],
+  [15, 16, Y, N, 'picnic_shelter'],
+  [15, 16, Y, N, 'basic_hut'],
+  [15, 16, Y, N, 'weather_shelter'],
   [15, 16, N, Y, ['rock', 'stone']],
   [15, 16, N, N, 'pharmacy'],
   [15, 16, N, N, 'cinema'],
@@ -82,6 +95,7 @@ const pois = [
   [15, 16, N, N, 'memorial'],
   [15, 16, N, N, 'pub'],
   [15, 16, N, N, 'cafe'],
+  [15, 16, N, N, 'bar'],
   [15, 16, N, N, 'restaurant'],
   [15, 16, N, N, 'convenience'],
   [15, 16, N, N, 'supermarket'],
@@ -96,6 +110,7 @@ const pois = [
   [15, NN, N, N, ['tower_communication', 'mast_communication']],
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
+  [15, 16, N, N, 'bicycle'],
 
   [16, NN, N, N, 'picnic_table'],
   [16, 17, N, N, 'picnic_site'],
@@ -187,7 +202,7 @@ function generateFreemapStyle({
       .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
       .area(colors.allotments, 'allotments')
-      .area(hsl(0, 0, 80), 'industrial', 'feat:wastewater_plant')
+      .area(hsl(0, 0, 80), 'industrial', 'wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
       .area(colors.wetland, 'wetland')
       .typesRule(12, 'pitch', 'playground', 'golf_course')
@@ -196,13 +211,17 @@ function generateFreemapStyle({
       .typesRule(13, 'parking')
         .polygonSymbolizer({ fill: hsl(0, 33, 80) })
         .lineSymbolizer({ stroke: hsl(0, 33, 65), strokeWidth: 1 })
-      .typesRule(13, 'feat:bunker_silo')
+      .typesRule(13, 'bunker_silo')
         .polygonSymbolizer({ fill: hsl(50, 34, 35) })
         .lineSymbolizer({ stroke: hsl(50, 34, 20), strokeWidth: 1 })
     .style('water_area')
-      .rule({ minZoom: 8 })
+      .rule({ minZoom: 8, maxZoom: 13, filter: '[tmp] = 1' })
+        .polygonPatternSymbolizer({ file: 'images/temp_water.svg', alignment: 'local', transform: 'scale(0.5)' })
+      .rule({ minZoom: 14, filter: '[tmp] = 1' })
+        .polygonPatternSymbolizer({ file: 'images/temp_water.svg', alignment: 'local' })
+      .rule({ minZoom: 8, filter: '[tmp] != 1' })
         .borderedPolygonSymbolizer(colors.water)
-      .rule({ maxZoom: 9 })
+      .rule({ maxZoom: 9, filter: '[tmp] != 1' })
         .polygonSymbolizer({ fill: colors.water })
     .style('solar_power_plants')
       .rule({ minZoom: 12, maxZoom: 14, })
@@ -272,6 +291,14 @@ function generateFreemapStyle({
           .lineSymbolizer({ stroke: colors.scrub, strokeWidth: 2 + 0.33 * Math.pow(2, z - 12) });
       }
     })
+    .style('pipelines')
+      .rule({ minZoom: 11, filter: '[location] = "overground" or [location] = "overhead" or [location] = ""' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1' })
+      .rule({ minZoom: 15, filter: '[location] = "underground" or [location] = "underwater"' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round', strokeOpacity: 0.33 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1', strokeOpacity: 0.33 })
+
     .style('feature_lines')
       .typesRule(16, 'dyke')
         .linePatternSymbolizer({ file: 'images/dyke.svg' })
@@ -381,10 +408,6 @@ function generateFreemapStyle({
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
-    .style('aeroport_names')
-      .rule({ minZoom: 12 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
-        .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
     .style('building_names')
       .rule({ minZoom: 17 }) // rest names
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')

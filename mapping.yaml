@@ -1,10 +1,10 @@
 ---
 areas:
   area_tags:
-    - buildings
+    - building
     - landuse
     - leisure
-    - natural
+    # - natural
     - aeroway
   linear_tags:
     - highway
@@ -120,76 +120,19 @@ tables:
         name: type
       - type: webmerc_area
         name: area
-      - args:
-          values:
-            - farmland
-            - farm
-            - grassland
-            - golf_course
-            - forest
-            - wood
-            - meadow
-            - heath
-            - bare_rock
-            - fell
-            - industrial
-            - residential
-            - commercial
-            - retail
-            - farmyard
-            - zoo
-            - recreation_ground
-            - grass
-            - wetland
-            - village_green
-            - school
-            - university
-            - college
-            - allotments
-            - garden
-            - park
-            - railway
-            - quarry
-            - scree
-            - landfill
-            - vineyard
-            - orchard
-            - scrub
-            - clearcut
-            - hospital
-            - sports_centre
-            - place_of_worship
-            - cemetery
-            - theatre
-            - cinema
-            - parking
-            - fuel
-            - baracks
-            - library
-            - pitch
-            - playground
-            - footway
-            - pedestrian
-        type: enumerate
-        name: z_order
     type: polygon
     mapping:
       man_made:
-        - pier
-        - clearcut
+        - clearcut # TODO as overlay layer
+        - bunker_silo
+        - wastewater_plant
       amenity:
         - university
         - school
         - college
         - library
-        - fuel
         - parking
-        - cinema
-        - theatre
-        - place_of_worship # TODO to separate table
         - hospital
-      barrier:
-        - hedge
       leisure:
         - park
         - garden
@@ -198,14 +141,14 @@ tables:
         - sports_centre
         - pitch
         - stadium
-        # - dog_park # TODO next
-        # - horse_riding # TODO next
+        - dog_park # TODO
+        - horse_riding # TODO
       tourism:
         - zoo
       natural:
         - wood
         - scrub
-        - wetland
+        - wetland # TODO as overlay layer
         - heath
         - grassland
         - beach
@@ -214,11 +157,6 @@ tables:
         - fell
         - bare_rock
         - scree
-      aeroway:
-        - runway
-        - taxiway
-      military:
-        - barracks
       landuse:
         - park
         - forest
@@ -245,7 +183,7 @@ tables:
         - greenfield
         - depot
         - garages
-        - military
+        - military # TODO maybe as overlay layer
         - plant_nursery
       highway:
         - pedestrian
@@ -310,7 +248,9 @@ tables:
         key: name
       - type: mapping_value
         name: type
-      - args:
+      - type: enumerate
+        name: z_order
+        args:
           values:
             - locality
             - suburb
@@ -322,8 +262,6 @@ tables:
             - region
             - state
             - country
-        type: enumerate
-        name: z_order
       - type: integer
         name: population
         key: population
@@ -340,32 +278,6 @@ tables:
         - hamlet
         - suburb
         - locality
-
-  transport_polys:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: mapping_value
-        name: type
-    type: polygon
-    mapping:
-      public_transport:
-        - platform
-      highway:
-        - platform
-      railway:
-        - station
-        - platform
-      aeroway:
-        - aerodrome
-        - terminal
-        - helipad
-        - apron
 
   admin:
     columns:
@@ -426,12 +338,10 @@ tables:
     type: linestring
     mapping:
       waterway:
-        - stream
         - river
         - canal
+        - stream
         - drain
-        - ditch
-      barrier:
         - ditch
 
   barrierways:
@@ -458,40 +368,6 @@ tables:
         - "yes"
         - wire_fence
 
-  # TODO merge with feature points
-  transports:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: mapping_value
-        name: type
-      - type: string
-        name: ref
-        key: ref
-    type: point
-    mapping:
-      railway:
-        - station
-        - halt
-        - tram_stop
-        - crossing
-        - level_crossing
-        - subway_entrance
-      aeroway:
-        - aerodrome
-        - terminal
-        - helipad
-        - gate
-      highway:
-        - motorway_junction
-        - turning_circle
-        - bus_stop
-
   barrierpoints:
     columns:
       - type: id
@@ -506,23 +382,7 @@ tables:
     type: point
     mapping:
       barrier:
-        - block
-        - bollard
-        - cattle_grid
-        - chain
-        - cycle_barrier
-        - entrance
-        - horse_stile
-        - gate
-        - spikes
-        - lift_gate
-        - swing_gate
-        - kissing_gate
-        - fence
-        - "yes"
-        - wire_fence
-        - toll_booth
-        - stile
+        - __any__ # TODO only gate, lift_gate and swing_gate is renderred now
 
   feature_lines:
     columns:
@@ -551,6 +411,29 @@ tables:
         - cutline
         - embankment
         - dyke
+      millitary:
+        - trench
+      barrier:
+        - ditch # TODO
+
+  pipelines:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: location
+        key: location
+      - type: string # TODO
+        name: substance
+        key: substance
+    type: linestring
+    mapping:
+      man_made:
         - pipeline
 
   protected_areas:
@@ -597,16 +480,13 @@ tables:
           natural:
             - birds_nest
             - cave_entrance
-            - geyser
-            - hot_spring
             - peak
             - rock
             - saddle
             - sinkhole
-            - spring
             - stone
             - tree
-            # - arch # TODO next
+            - arch
           waterway:
             - waterfall
           amenity:
@@ -631,7 +511,7 @@ tables:
             - fast_food
             - feeding_place
             - fire_station
-            - fountain
+            - fountain # TODO consider drinking_water=*
             - fuel
             - game_feeding
             - hospital
@@ -659,6 +539,7 @@ tables:
             - waste_disposal
             - water_point
             - watering_place
+            - monastery
           tourism:
             - alpine_hut
             - apartment
@@ -685,12 +566,11 @@ tables:
             - playground
             - firepit
             - water_park
-          # - dog_park # TODO next
-          # - horse_riding # TODO next
+            - dog_park # TODO
+            - horse_riding # TODO
           man_made:
             - adit
             - beehive
-            - bunker_silo
             - chimney
             - communications_tower
             - cross
@@ -721,52 +601,21 @@ tables:
             - tower
           military:
             - bunker
-      # TODO: next
-      # sport:
-      #   - dog_racing
-      #   - horse_racing
+          emergency:
+            - access_point # TODO
+          aerialway:
+            - pylon # TODO
+            # - station FIXME conflicts with railway=station
+          railway:
+            - station
+            - halt
+            - tram_stop # TODO
+            - level_crossing # TODO
+            - subway_entrance # TODO
+          highway:
+            - bus_stop
 
-  shelters:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: string
-        name: type
-        key: shelter_type
-      - type: string
-        name: ele
-        key: ele
-    type: point
-    mapping:
-      amenity:
-      - shelter
-
-  shelter_polys:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: string
-        name: type
-        key: shelter_type
-      - type: string
-        name: ele
-        key: ele
-    type: polygon
-    mapping:
-      amenity:
-      - shelter
-
-  feature_polys:
+  feature_polys: # NOTE used for rendering icons only
     columns:
       - type: id
         name: osm_id
@@ -780,9 +629,6 @@ tables:
         key: ele
       - type: mapping_value
         name: type
-      # - type: webmerc_area # TODO next
-      #   name: area
-      #   key:
     type: polygon
     mappings:
       attractions:
@@ -860,7 +706,6 @@ tables:
             - water_park
           man_made:
             - adit
-            - bunker_silo
             - chimney
             - communications_tower
             - cross
@@ -885,10 +730,151 @@ tables:
             - wayside_shrine
           military:
             - bunker
-      # TODO: next
-      # sport:
-      #   - dog_racing
-      #   - horse_racing
+          # aerialway:
+          #   - station # FIXME conflicts with railway=station
+          railway:
+            - station
+
+  aerodromes:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: ele
+        key: ele
+      - type: string
+        name: icao
+        key: icao
+    type: point
+    mapping:
+      aeroway:
+        - aerodrome
+
+  aerodrome_polys:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: ele
+        key: ele
+      - type: string
+        name: icao
+        key: icao
+    type: polygon
+    mapping:
+      aeroway:
+        - aerodrome
+
+  springs:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+      - type: string
+        name: ele
+        key: ele
+      - type: bool
+        name: refitted
+        key: refitted
+      - type: string
+        name: drinking_water
+        key: drinking_water
+    type: point
+    mapping:
+      natural:
+        - geyser
+        - hot_spring
+        - spring
+      man_made:
+        - spring_box
+
+  sports:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+    type: point
+    mapping:
+      sport:
+        - __any__
+
+  sport_polys:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+    type: polygon
+    mapping:
+      sport:
+        - __any__
+
+  shelters:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: type
+        key: shelter_type
+      - type: string
+        name: ele
+        key: ele
+    type: point
+    mapping:
+      amenity:
+      - shelter
+
+  shelter_polys:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: string
+        name: type
+        key: shelter_type
+      - type: string
+        name: ele
+        key: ele
+    type: polygon
+    mapping:
+      amenity:
+      - shelter
 
   power_generators:
     columns:
@@ -1221,10 +1207,17 @@ tables:
             - raceway
             - platform
             - construction
+            - piste
+            - escape
+            - corridor
+            - bus_guideway
+            - via_ferrata
           railway:
             - platform
           public_transport:
             - platform
+          attraction:
+            - water_slide
 
   housenumbers:
     columns:
@@ -1297,6 +1290,12 @@ tables:
         name: type
       - type: webmerc_area
         name: area
+      - type: bool
+        name: intermittent
+        key: intermittent
+      - type: bool
+        name: seasonal
+        key: seasonal
     type: polygon
     mapping:
       waterway:
