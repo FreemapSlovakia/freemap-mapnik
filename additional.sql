@@ -39,9 +39,9 @@ create index osm_features_type on osm_features (type);
 create index osm_places_type on osm_places (type);
 
 
-drop table if exists zindex;
-create table zindex (type varchar primary key, z serial);
-insert into zindex (type) values
+drop table if exists z_order_poi;
+create table z_order_poi (type varchar primary key, z_order serial);
+insert into z_order_poi (type) values
 ('monument'),
 ('archaeological_site'),
 ('tower_observation'),
@@ -104,6 +104,10 @@ insert into zindex (type) values
 ('map'),
 ('artwork'),
 ('fountain'),
+('university'),
+('college'),
+('school'),
+('kindergarten'),
 ('community_centre'),
 ('fire_station'),
 ('police'),
@@ -144,3 +148,50 @@ insert into zindex (type) values
 ('game_feeding'),
 ('gate'),
 ('ruins');
+
+drop table if exists z_order_landuse;
+create table z_order_landuse (type varchar primary key, z_order serial);
+insert into z_order_landuse (type) values
+('farmland'),
+('farm'),
+('grassland'),
+('golf_course'),
+('forest'),
+('wood'),
+('meadow'),
+('heath'),
+('bare_rock'),
+('fell'),
+('industrial'),
+('residential'),
+('commercial'),
+('retail'),
+('farmyard'),
+('zoo'),
+('recreation_ground'),
+('grass'),
+('wetland'),
+('village_green'),
+('university'),
+('college'),
+('school'),
+('kindergarten'),
+('allotments'),
+('garden'),
+('park'),
+('railway'),
+('quarry'),
+('scree'),
+('landfill'),
+('vineyard'),
+('orchard'),
+('scrub'),
+('clearcut'),
+('place_of_worship'),
+('cemetery'),
+('parking'),
+('baracks'),
+('library'),
+('pitch'),
+('footway'),
+('pedestrian');

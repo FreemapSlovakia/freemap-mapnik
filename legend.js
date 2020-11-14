@@ -863,7 +863,7 @@ const legend = {
     landcover('cemetery', 'cemetery', 'cintorín'),
     landcover('playground', 'pitch, playground, golf course', 'ihrisko, detské ihrisko, golfové ihrisko'),
     landcover('parking', 'parking', 'parkovisko'),
-    landcover('feat:bunker_silo', 'bunker silo', 'silo'),
+    landcover('bunker_silo', 'bunker silo', 'silo'),
     landcover('landfill', 'landfill', 'skládka'),
     {
       categoryId: 'landcover',

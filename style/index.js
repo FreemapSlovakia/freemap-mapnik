@@ -27,6 +27,7 @@ const NN = null;
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
+  [12, 12, N, N, 'aerodrome'],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
   [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -190,7 +191,7 @@ function generateFreemapStyle({
       .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
       .area(colors.allotments, 'allotments')
-      .area(hsl(0, 0, 80), 'industrial', 'feat:wastewater_plant')
+      .area(hsl(0, 0, 80), 'industrial', 'wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
       .area(colors.wetland, 'wetland')
       .typesRule(12, 'pitch', 'playground', 'golf_course')
@@ -199,7 +200,7 @@ function generateFreemapStyle({
       .typesRule(13, 'parking')
         .polygonSymbolizer({ fill: hsl(0, 33, 80) })
         .lineSymbolizer({ stroke: hsl(0, 33, 65), strokeWidth: 1 })
-      .typesRule(13, 'feat:bunker_silo')
+      .typesRule(13, 'bunker_silo')
         .polygonSymbolizer({ fill: hsl(50, 34, 35) })
         .lineSymbolizer({ stroke: hsl(50, 34, 20), strokeWidth: 1 })
     .style('water_area')
@@ -384,10 +385,6 @@ function generateFreemapStyle({
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
-    .style('aeroport_names')
-      .rule({ minZoom: 12 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
-        .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
     .style('building_names')
       .rule({ minZoom: 17 }) // rest names
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
