@@ -754,6 +754,9 @@ const legend = {
     },
     poi('viewpoint', 'viewpoint', 'výhľad'),
     poi('spring', 'spring', 'prameň', true),
+    poi('refitted_spring', 'refitted spring', 'upravený prameň', true),
+    poi('drinking_spring', 'drinkable spring', 'pitný prameň', true),
+    poi('not_drinking_spring', 'not drinkable spring', 'nepitný prameň', true),
     poi('water_well', 'water well', 'studňa'),
     poi('waterfall', 'waterfall', 'vodopád'),
 

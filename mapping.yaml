@@ -511,6 +511,7 @@ tables:
             - fast_food
             - feeding_place
             - fire_station
+            - fountain # TODO consider drinking_water=*
             - fuel
             - game_feeding
             - hospital
@@ -800,8 +801,8 @@ tables:
         - geyser
         - hot_spring
         - spring
-      amenity:
-        - fountain # NOTE fountain is also in feature_polys without extra tags
+      man_made:
+        - spring_box
 
   sports:
     columns:
