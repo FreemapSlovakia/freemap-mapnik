@@ -295,7 +295,7 @@ function generateFreemapStyle({
 
     .style('feature_lines')
       .typesRule(16, 'dyke')
-        .lineSymbolizer({ stroke: hsl(278, 100, 50), strokeWidth: 6, strokeLinejoin: 'round' })
+        .linePatternSymbolizer({ file: 'images/dyke.svg' })
       .typesRule(16, 'embankment')
         .linePatternSymbolizer({ file: 'images/embankment-half.svg' })
       .typesRule(13, 'cliff')
