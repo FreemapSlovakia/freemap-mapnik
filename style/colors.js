@@ -2,7 +2,7 @@ const convert = require('color-convert');
 
 const colors = {
   contour: 'black',
-  water: hsl(216, 65, 60),
+  water: hsl(216, 65, 65),
   waterLabel: hsl(216, 100, 50),
   waterLabelHalo: hsl(216, 30, 100),
   building: hsl(0, 0, 50),

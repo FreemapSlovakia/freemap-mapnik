@@ -97,6 +97,8 @@ function getFeaturesSql(zoom) {
   return sql;
 }
 
+const landuseZOrder = "position(type || ',' in 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,kindergarten,school,college,university,village_green,wetland,grass,recreation_ground,zoo,farmyard,retail,commercial,residential,industrial,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,') as z_order";
+
 function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legendLayers) {
 
   if (legendLayers) {
@@ -261,15 +263,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { srs: '+init=epsg:3857', minZoom: 10 }
     )
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages_gen0 left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
+      `select type, geometry, ${landuseZOrder} from osm_landusages_gen0 where geometry && !bbox! order by z_order desc, osm_id`,
       { maxZoom: 9 },
     )
     .sqlLayer('landcover',
-      'select type, geometry from osm_landusages_gen1 left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
+      `select type, geometry, ${landuseZOrder} from osm_landusages_gen1 where geometry && !bbox! order by z_order desc, osm_id`,
       { minZoom: 10, maxZoom: 11 },
     )
     .sqlLayer('landcover',
-      'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
+      `select type, geometry, ${landuseZOrder}, name, area from osm_landusages where geometry && !bbox! order by z_order desc, osm_id`,
       { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('cutlines',
