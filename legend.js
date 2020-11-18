@@ -499,6 +499,7 @@ const legend = {
     poi('telephone', 'telephone', 'telefón'),
     poi('gate', 'gate', 'brána'),
     poi('waste_disposal', 'waste disposal', 'kontajner na odpad'),
+	poi('sauna', 'sauna', 'sauna'),
 
 
     {

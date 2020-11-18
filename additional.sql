@@ -140,4 +140,5 @@ insert into zindex (type) values
 ('feeding_place'),
 ('game_feeding'),
 ('gate'),
-('ruins');
+('ruins'),
+('sauna');

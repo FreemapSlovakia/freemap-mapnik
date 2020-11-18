@@ -736,6 +736,7 @@ tables:
             - playground
             - firepit
             - water_park
+			- sauna
           # - dog_park # TODO next
           # - horse_riding # TODO next
           man_made:

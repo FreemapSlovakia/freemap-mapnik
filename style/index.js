@@ -108,6 +108,7 @@ const pois = [
   [16, NN, N, N, 'game_feedng', { icon: 'manger' }],
   [16, 17, N, N, 'playground'],
   [16, 17, N, N, ['water_works', 'pumping_station', 'wastewater_plant'], { font: { fill: colors.waterLabel } }],
+  [16, NN, N, N, 'sauna'],
 
   [17, 18, N, N, 'wayside_shrine'],
   [17, 18, N, N, ['cross', 'wayside_cross']],
