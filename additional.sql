@@ -134,6 +134,7 @@ insert into z_order_poi (type) values
 ('chimney'),
 ('water_tower'),
 ('attraction'),
+('sauna'),
 ('tower_communication'),
 ('mast_communication'),
 ('tower_other'),
