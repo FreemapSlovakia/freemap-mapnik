@@ -566,6 +566,7 @@ tables:
             - playground
             - firepit
             - water_park
+            - sauna
             - dog_park # TODO
             - horse_riding # TODO
           man_made:
@@ -704,6 +705,7 @@ tables:
             - firepit
             - playground
             - water_park
+            - sauna
           man_made:
             - adit
             - chimney

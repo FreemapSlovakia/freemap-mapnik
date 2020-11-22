@@ -835,6 +835,7 @@ const legend = {
 
     poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
     poi('poi', 'attraction', 'attraction', 'atrakcia'),
+    poi('sauna', 'sauna', 'sauna'),
 
     poi('poi', 'firepit', 'firepit', 'ohnisko'),
     poi('poi', 'toilets', 'toilets', 'toalety'),
