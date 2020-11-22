@@ -175,7 +175,7 @@ function generateFreemapStyle({
       .area(colors.grassy, 'fell', 'grassland', 'grass')
         // .polygonPatternSymbolizer({ file: 'images/fell.svg', alignment: 'global', opacity: 0.5 })
       .typesRule('cemetery')
-        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
+        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'local', opacity: 0.5 })
       .area(colors.heath, 'heath')
       .area('white', 'bare_rock')
         .polygonPatternSymbolizer({ file: 'images/bare_rock.svg', alignment: 'global', opacity: 0.2 })
