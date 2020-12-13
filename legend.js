@@ -768,6 +768,7 @@ const legend = {
     poi('water', 'refitted_spring', 'refitted spring', 'upravený prameň', true),
     poi('water', 'drinking_spring', 'drinkable spring', 'pitný prameň', true),
     poi('water', 'not_drinking_spring', 'not drinkable spring', 'nepitný prameň', true),
+    poi('water', 'hot_spring', 'hot spring', 'teplý prameň', true),
     poi('water', 'watering_place', 'watering place', 'napájadlo'),
     poi('water', 'waterfall', 'waterfall', 'vodopád'),
     poi('water', 'water_works', 'water works', 'vodný zdroj, čistička'),

@@ -45,6 +45,7 @@ const pois = [
   [14, 15, Y, Y, 'not_drinking_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'refitted_drinking_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'refitted_not_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'hot_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'waterfall', { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, ['drinking_water', 'water_point'], { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, 'water_well', { font: { fill: colors.waterLabel } }],
