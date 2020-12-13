@@ -97,6 +97,7 @@ insert into z_order_poi (type) values
 ('refitted_not_drinking_spring'),
 ('not_drinking_spring'),
 ('drinking_water'),
+('hot_spring'),
 ('water_point'),
 ('water_well'),
 ('viewpoint'),
