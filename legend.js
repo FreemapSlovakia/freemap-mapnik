@@ -777,7 +777,7 @@ const legend = {
     poi('poi', 'castle', 'castle', 'hrad'),
     poi('poi', 'ruins', 'ruins', 'ruiny'),
 
-    poi('poi', 'monument', 'monument', 'pamätihodnosť'),
+    poi('poi', 'monument', 'monument', 'pomník'),
     poi('poi', 'memorial', 'memorial', 'pamätník'),
     poi('poi', 'artwork', 'artwork', 'umelecké dielo'),
 
