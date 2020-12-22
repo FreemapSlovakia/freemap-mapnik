@@ -45,6 +45,7 @@ const pois = [
   [14, 15, Y, Y, 'not_drinking_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'refitted_drinking_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'refitted_not_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'hot_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'waterfall', { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, ['drinking_water', 'water_point'], { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, 'water_well', { font: { fill: colors.waterLabel } }],
@@ -175,7 +176,7 @@ function generateFreemapStyle({
       .area(colors.grassy, 'fell', 'grassland', 'grass')
         // .polygonPatternSymbolizer({ file: 'images/fell.svg', alignment: 'global', opacity: 0.5 })
       .typesRule('cemetery')
-        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
+        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'local', opacity: 0.5 })
       .area(colors.heath, 'heath')
       .area('white', 'bare_rock')
         .polygonPatternSymbolizer({ file: 'images/bare_rock.svg', alignment: 'global', opacity: 0.2 })
