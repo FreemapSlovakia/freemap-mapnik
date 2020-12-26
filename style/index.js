@@ -456,7 +456,7 @@ function generateFreemapStyle({
       .typesRule(12, 'river')
         .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
+        .textSymbolizer(font().water().line(300).end({ characterSpacing: 2 }), '[name]')
     .style('fixmes')
       .rule()
         .markersSymbolizer({ file: 'images/fixme.svg' })
