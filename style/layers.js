@@ -39,8 +39,9 @@ function getFeaturesSql(zoom) {
         from osm_aerodrome_polys where icao = ''
 
       union all select osm_id, geometry, name,         ele,
+        case when type = 'hot_spring' then 'hot_spring' else 
         case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
-        case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring' as type, null as isolation
+        case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring' end as type, null as isolation
         from osm_springs
 
       union all select osm_id, geometry, name, null as ele, 'ruins' as type, null as isolation
