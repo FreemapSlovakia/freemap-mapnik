@@ -279,6 +279,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select geometry, type from osm_feature_lines where type = 'cutline'",
       { minZoom: 13 },
     )
+    .sqlLayer('ruin_polys',
+      'select geometry from osm_ruin_polys',
+      { minZoom: 13 },
+    )
     .sqlLayer('water_area',
       'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas_gen1',
       { maxZoom: 11 },
@@ -354,10 +358,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('buildings',
       'select geometry, type from osm_buildings',
-      { minZoom: 13 },
-    )
-    .sqlLayer('ruin_polys',
-      'select geometry from osm_ruin_polys',
       { minZoom: 13 },
     )
     .sqlLayer('barrierways',
