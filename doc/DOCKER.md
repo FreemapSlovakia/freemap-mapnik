@@ -15,7 +15,7 @@ mkdir freemap-mapnik
 cd freemap-mapnik
 ```
 
-Install Docker and from project home directory (freemap-mapnik) run following commands:
+Install Docker and from the project home directory (freemap-mapnik) run the following commands:
 
 ```
 # create network

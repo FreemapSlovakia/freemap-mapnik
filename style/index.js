@@ -456,7 +456,7 @@ function generateFreemapStyle({
       .typesRule(12, 'river')
         .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
+        .textSymbolizer(font().water().line(300).end({ characterSpacing: 2 }), '[name]')
     .style('fixmes')
       .rule()
         .markersSymbolizer({ file: 'images/fixme.svg' })
@@ -540,7 +540,7 @@ function generateFreemapStyle({
     .style('contours', { opacity: 0.33 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: 1 })
-        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
+        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
       .rule({ minZoom: 12, maxZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
       .rule({ minZoom: 13, maxZoom: 14, filter: '([height] % 20 = 0) and ([height] != 0)' })
@@ -548,7 +548,7 @@ function generateFreemapStyle({
       .rule({ minZoom: 15, filter: '([height] % 10 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
-        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
+        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
 
     .doInMap(map => {
       if (format !== 'svg' && format !== 'pdf') {

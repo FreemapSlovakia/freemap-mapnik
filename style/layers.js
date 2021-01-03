@@ -39,8 +39,9 @@ function getFeaturesSql(zoom) {
         from osm_aerodrome_polys where icao = ''
 
       union all select osm_id, geometry, name,         ele,
+        case when type = 'hot_spring' then 'hot_spring' else
         case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
-        case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring' as type, null as isolation
+        case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring' end as type, null as isolation
         from osm_springs
 
       union all select osm_id, geometry, name, null as ele, 'ruins' as type, null as isolation
@@ -57,11 +58,6 @@ function getFeaturesSql(zoom) {
         from osm_towers
       union all select osm_id, geometry, name,         ele, ${towerType}, null as isolation
         from osm_tower_polys
-
-      union all select osm_id, geometry, name, null as ele, type, null as isolation
-        from osm_transports
-      union all select osm_id, geometry, name, null as ele, type, null as isolation
-        from osm_transport_polys
     `);
   }
 
@@ -278,6 +274,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select geometry, type from osm_feature_lines where type = 'cutline'",
       { minZoom: 13 },
     )
+    .sqlLayer('ruin_polys',
+      'select geometry from osm_ruin_polys',
+      { minZoom: 13 },
+    )
     .sqlLayer('water_area',
       'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas_gen1',
       { maxZoom: 11 },
@@ -353,10 +353,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('buildings',
       'select geometry, type from osm_buildings',
-      { minZoom: 13 },
-    )
-    .sqlLayer('ruin_polys',
-      'select geometry from osm_ruin_polys',
       { minZoom: 13 },
     )
     .sqlLayer('barrierways',

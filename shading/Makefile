@@ -154,7 +154,7 @@ stack.vrt: build/R.tif build/G.tif build/B.tif build/A.tif
 	gdalbuildvrt -separate stack.vrt build/R.tif build/G.tif build/B.tif build/A.tif
 
 build/final.tif: stack.vrt build/R.tif build/G.tif build/B.tif build/A.tif
-	gdal_translate -r cubicspline -of GTiff -co "TILED=YES" stack.vrt build/final.tif
+	gdal_translate -colorinterp red,green,blue,alpha -r cubicspline -of GTiff -co "TILED=YES" stack.vrt build/final.tif
 
 build/final.tif.ovr: build/final.tif
 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro build/final.tif
