@@ -11,11 +11,11 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 RUN apt-get update \
   && apt-get -y install --no-install-recommends wget xz-utils \
-  && wget https://nodejs.org/dist/v10.15.0/node-v10.15.0-linux-x64.tar.xz \
-  && tar xf node-v10.15.0-linux-x64.tar.xz \
-  && rm node-v10.15.0-linux-x64.tar.xz \
+  && wget https://nodejs.org/dist/v14.15.3/node-v14.15.3-linux-x64.tar.xz \
+  && tar xf node-v14.15.3-linux-x64.tar.xz \
+  && rm node-v14.15.3-linux-x64.tar.xz \
   && apt-get -y remove --purge xz-utils \
   && apt-get -y autoremove \
   && rm -rf /var/lib/apt/lists/*
-ENV PATH "${PATH}:/node-v10.15.0-linux-x64/bin"
+ENV PATH "${PATH}:/node-v14.15.3-linux-x64/bin"
 EXPOSE 4000
