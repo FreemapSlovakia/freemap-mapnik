@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 13.229 13.229">
-    <path d="M3.969 4.763v.793h-.794v.265h.794v.803a.922.922 0 00-.794.913.922.922 0 00.922.922.922.922 0 00.923-.922.922.922 0 00-.787-.911V5.82h.794v-.265h-.794v-.793z" color="#000" opacity=".5" fill="none" stroke="#fff" stroke-width=".794" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M3.969 4.763v.793h-.794v.265h.794v.803a.922.922 0 00-.794.913.922.922 0 00.922.922.922.922 0 00.923-.922.922.922 0 00-.787-.911V5.82h.794v-.265h-.794v-.793z" color="#000" fill-rule="evenodd"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+  <path d="M5 2v3H2v1h3v3.05a3.5 3.5 0 00-3 3.45A3.5 3.5 0 005.5 16 3.5 3.5 0 009 12.5a3.5 3.5 0 00-3-3.45V6h3V5H6V2z" color="#000" opacity=".5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M5 2v3H2v1h3v3.05a3.5 3.5 0 00-3 3.45A3.5 3.5 0 005.5 16 3.5 3.5 0 009 12.5a3.5 3.5 0 00-3-3.45V6h3V5H6V2z" color="#000" fill-rule="evenodd"/>
 </svg>
