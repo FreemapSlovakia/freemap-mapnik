@@ -242,7 +242,7 @@ function generateFreemapStyle({
       .rule({ filter: "[type] <> 'river'", minZoom: 12 })
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, strokeOpacity: '1 - [tunnel] / 0.6', strokeDasharray: '[dasharray]' })
       .rule({ minZoom: 14 })
-        .markersSymbolizer({ file: 'images/waterway-arrow.svg', spacing: 500, placement: 'line' })
+        .markersSymbolizer({ file: 'images/waterway-arrow.svg', spacing: 350, placement: 'line' })
     .style('barrierways')
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
