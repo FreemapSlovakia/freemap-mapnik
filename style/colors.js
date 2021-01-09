@@ -2,9 +2,9 @@ const convert = require('color-convert');
 
 const colors = {
   contour: 'black',
-  water: hsl(210, 65, 70),
+  water: hsl(216, 65, 65),
   waterLabel: hsl(216, 100, 50),
-  waterLabelHalo: hsl(210, 30, 100),
+  waterLabelHalo: hsl(216, 30, 100),
   building: hsl(0, 0, 50),
   ruin: hsl(0, 0, 60),
   track: hsl(0, 33, 25),

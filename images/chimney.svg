@@ -1,16 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="14" height="14" version="1.1" viewBox="0 0 14 14" id="svg2655" sodipodi:docname="chimney.svg" inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
-  <defs id="defs2659" />
-  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview2657" showgrid="false" inkscape:pagecheckerboard="true" inkscape:zoom="16.857143" inkscape:cx="7" inkscape:cy="7" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg2655" />
-  <metadata id="metadata2647">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <path id="outline" d="M 6,0 C 5,0 4,0.76562 3,3 C 4,2.33333 4.4697,2 6,2 C 7.9996,2.021928 8.7623,2.97624 10,3 C 11.5581,3 12,2 13,0 C 12,1 12,1 10,1 C 8,1 8,0 6,0 Z M 2,4 V 13.003906 L 1,14 H 2 H 4 H 5 L 4,12.996094 V 4 Z" style="fill-rule:evenodd;paint-order:stroke fill markers;fill:none;stroke:#ededed;stroke-opacity:1;opacity:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" inkscape:connector-curvature="0" />
-  <path style="fill-rule:evenodd;paint-order:stroke fill markers" d="M 6 0 C 5 0 4 0.76562 3 3 C 4 2.33333 4.4697 2 6 2 C 7.9996 2.021928 8.7623 2.97624 10 3 C 11.5581 3 12 2 13 0 C 12 1 12 1 10 1 C 8 1 8 0 6 0 z M 2 4 L 2 13.003906 L 1 14 L 2 14 L 4 14 L 5 14 L 4 12.996094 L 4 4 L 2 4 z " id="path2649" />
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+    <path d="M6 0C5 0 4 .766 3 3c1-.667 1.47-1 3-1 2 .022 2.762.976 4 1 1.558 0 2-1 3-3-1 1-1 1-3 1S8 0 6 0zM2 4v9.004L1 14h4l-1-1.004V4z" paint-order="stroke fill markers" fill="none" stroke="#ededed" opacity=".5" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path d="M6 0C5 0 4 .766 3 3c1-.667 1.47-1 3-1 2 .022 2.762.976 4 1 1.558 0 2-1 3-3-1 1-1 1-3 1S8 0 6 0zM2 4v9.004L1 14h4l-1-1.004V4H2z" fill-rule="evenodd" paint-order="stroke fill markers"/>
 </svg>

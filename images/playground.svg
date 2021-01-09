@@ -1,18 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="14" height="14" viewBox="0 0 14 14" id="svg2" sodipodi:docname="playground.svg" inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
-  <metadata id="metadata3258">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs id="defs3256" />
-  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1881" inkscape:window-height="1051" id="namedview3254" showgrid="false" inkscape:pagecheckerboard="true" inkscape:zoom="16.857143" inkscape:cx="7" inkscape:cy="7" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg2" />
-  <path id="outline" d="M 3.40625,1 C 2.65262,1.047193 1.998524,1.7448953 2,2.5 C 2.000287,3.2852156 2.714784,3.9994517 3.5,3.9994517 C 4.285216,3.9994517 4.999713,3.2852156 5,2.5 C 5.0016,1.6823545 4.222298,0.9488955 3.40625,1 Z M 11.40625,4 C 10.65262,4.0471927 9.998524,4.7448953 10,5.5 C 10.000287,6.2852156 10.714784,6.9994517 11.5,6.9994517 C 12.285216,6.9994517 12.999713,6.2852156 13,5.5 C 13.001599,4.6823545 12.222298,3.9488956 11.40625,4 Z M 3,4.5 C 1.52901,4.5 1.134165,6.3734067 1.03125,7.375 L 0,7 V 8 L 5.96875,10.125 L 5,14 H 9 L 8.0625,10.875 L 14,13 V 12 L 13.0625,11.65625 C 13.226562,10.794922 13.75,7.5 12,7.5 C 10.361538,7.5 10.084791,9.744501 10.03125,10.59375 L 4.09375,8.46875 C 4.285012,7.337531 4.614,4.5 3,4.5 Z" inkscape:connector-curvature="0" style="fill:none;fill-opacity:1;stroke:#fafafa;stroke-opacity:1;opacity:0.5;stroke-linejoin:round;stroke-linecap:round;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
-  <path d="M 3.40625,1 C 2.65262,1.047193 1.998524,1.7448953 2,2.5 2.000287,3.2852156 2.714784,3.9994517 3.5,3.9994517 4.285216,3.9994517 4.999713,3.2852156 5,2.5 5.0016,1.6823545 4.222298,0.9488955 3.40625,1 z m 8,3 C 10.65262,4.0471927 9.998524,4.7448953 10,5.5 c 2.87e-4,0.7852156 0.714784,1.4994517 1.5,1.4994517 0.785216,0 1.499713,-0.7142361 1.5,-1.4994517 C 13.001599,4.6823545 12.222298,3.9488956 11.40625,4 z M 3,4.5 C 1.52901,4.5 1.134165,6.3734067 1.03125,7.375 L 0,7 0,8 5.96875,10.125 5,14 9,14 8.0625,10.875 14,13 14,12 13.0625,11.65625 C 13.226562,10.794922 13.75,7.5 12,7.5 c -1.638462,0 -1.915209,2.244501 -1.96875,3.09375 l -5.9375,-2.125 C 4.285012,7.337531 4.614,4.5 3,4.5 z" id="playground" />
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+    <path d="M3.406 1C2.653 1.047 2 1.745 2 2.5 2 3.285 2.715 4 3.5 4S5 3.284 5 2.5C5.002 1.682 4.222.949 3.406 1zm8 3C10.653 4.047 10 4.745 10 5.5c0 .785.715 1.5 1.5 1.5S13 6.284 13 5.5c.002-.818-.778-1.551-1.594-1.5zM3 4.5c-1.471 0-1.866 1.873-1.969 2.875L0 7v1l5.969 2.125L5 14h4l-.938-3.125L14 13v-1l-.938-.344C13.227 10.795 13.75 7.5 12 7.5c-1.638 0-1.915 2.245-1.969 3.094L4.094 8.469C4.285 7.338 4.614 4.5 3 4.5z" fill="none" stroke="#fafafa" opacity=".5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/>
+    <path d="M3.406 1C2.653 1.047 2 1.745 2 2.5 2 3.285 2.715 4 3.5 4S5 3.284 5 2.5C5.002 1.682 4.222.949 3.406 1zm8 3C10.653 4.047 10 4.745 10 5.5c0 .785.715 1.5 1.5 1.5S13 6.284 13 5.5c.002-.818-.778-1.551-1.594-1.5zM3 4.5c-1.471 0-1.866 1.873-1.969 2.875L0 7v1l5.969 2.125L5 14h4l-.938-3.125L14 13v-1l-.938-.344C13.227 10.795 13.75 7.5 12 7.5c-1.638 0-1.915 2.245-1.969 3.094L4.094 8.469C4.285 7.338 4.614 4.5 3 4.5z"/>
 </svg>

@@ -28,6 +28,7 @@ const NN = null;
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois = [
+  [12, 12, N, N, 'aerodrome'],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
   [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -37,8 +38,15 @@ const pois = [
 
   [14, 15, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
+  [14, 15, Y, Y, 'arch'],
   [14, 15, Y, Y, 'cave_entrance'],
   [14, 15, Y, Y, 'spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'refitted_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'not_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'refitted_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'refitted_not_drinking_spring', { font: { fill: colors.waterLabel } }],
+  [14, 15, Y, Y, 'hot_spring', { font: { fill: colors.waterLabel } }],
   [14, 15, Y, Y, 'waterfall', { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, ['drinking_water', 'water_point'], { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, 'water_well', { font: { fill: colors.waterLabel } }],
@@ -76,13 +84,21 @@ const pois = [
   [15, 16, N, N, 'office'], // information=office
   [15, 16, N, N, 'hunting_stand'],
   [15, 16, Y, N, 'shelter'],
-  [15, 16, N, Y, ['rock', 'stone']],
+  // [15, 16, Y, N, 'shopping_cart'],
+  [15, 16, Y, N, 'lean_to'],
+  [15, 16, Y, N, 'public_transport'],
+  [15, 16, Y, N, 'picnic_shelter'],
+  [15, 16, Y, N, 'basic_hut'],
+  [15, 16, Y, N, 'weather_shelter'],
+  [15, 16, N, Y, 'rock'],
+  [15, 16, N, Y, 'stone'],
   [15, 16, N, N, 'pharmacy'],
   [15, 16, N, N, 'cinema'],
   [15, 16, N, N, 'theatre'],
   [15, 16, N, N, 'memorial'],
   [15, 16, N, N, 'pub'],
   [15, 16, N, N, 'cafe'],
+  [15, 16, N, N, 'bar'],
   [15, 16, N, N, 'restaurant'],
   [15, 16, N, N, 'convenience'],
   [15, 16, N, N, 'supermarket'],
@@ -97,6 +113,7 @@ const pois = [
   [15, NN, N, N, ['tower_communication', 'mast_communication']],
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
+  [15, 16, N, N, 'bicycle'],
 
   [16, NN, N, N, 'picnic_table'],
   [16, 17, N, N, 'picnic_site'],
@@ -161,7 +178,7 @@ function generateFreemapStyle({
       .area(colors.grassy, 'fell', 'grassland', 'grass')
         // .polygonPatternSymbolizer({ file: 'images/fell.svg', alignment: 'global', opacity: 0.5 })
       .typesRule('cemetery')
-        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'global', opacity: 0.5 })
+        .polygonPatternSymbolizer({ file: 'images/grave.svg', alignment: 'local', opacity: 0.5 })
       .area(colors.heath, 'heath')
       .area('white', 'bare_rock')
         .polygonPatternSymbolizer({ file: 'images/bare_rock.svg', alignment: 'global', opacity: 0.2 })
@@ -188,7 +205,7 @@ function generateFreemapStyle({
       .area(hsl(0, 0, 88), 'residential', 'living_street')
       .area(colors.farmyard, 'farmyard')
       .area(colors.allotments, 'allotments')
-      .area(hsl(0, 0, 80), 'industrial', 'feat:wastewater_plant')
+      .area(hsl(0, 0, 80), 'industrial', 'wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
       .area(colors.wetland, 'wetland')
       .typesRule(12, 'pitch', 'playground', 'golf_course')
@@ -197,13 +214,17 @@ function generateFreemapStyle({
       .typesRule(13, 'parking')
         .polygonSymbolizer({ fill: hsl(0, 33, 80) })
         .lineSymbolizer({ stroke: hsl(0, 33, 65), strokeWidth: 1 })
-      .typesRule(13, 'feat:bunker_silo')
+      .typesRule(13, 'bunker_silo')
         .polygonSymbolizer({ fill: hsl(50, 34, 35) })
         .lineSymbolizer({ stroke: hsl(50, 34, 20), strokeWidth: 1 })
     .style('water_area')
-      .rule({ minZoom: 8 })
+      .rule({ minZoom: 8, maxZoom: 13, filter: '[tmp] = 1' })
+        .polygonPatternSymbolizer({ file: 'images/temp_water.svg', alignment: 'local', transform: 'scale(0.5)' })
+      .rule({ minZoom: 14, filter: '[tmp] = 1' })
+        .polygonPatternSymbolizer({ file: 'images/temp_water.svg', alignment: 'local' })
+      .rule({ minZoom: 8, filter: '[tmp] != 1' })
         .borderedPolygonSymbolizer(colors.water)
-      .rule({ maxZoom: 9 })
+      .rule({ maxZoom: 9, filter: '[tmp] != 1' })
         .polygonSymbolizer({ fill: colors.water })
     .style('solar_power_plants')
       .rule({ minZoom: 12, maxZoom: 14, })
@@ -222,7 +243,7 @@ function generateFreemapStyle({
       .rule({ filter: "[type] <> 'river'", minZoom: 12 })
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, strokeOpacity: '1 - [tunnel] / 0.6', strokeDasharray: '[dasharray]' })
       .rule({ minZoom: 14 })
-        .markersSymbolizer({ file: 'images/waterway-arrow.svg', spacing: 500, placement: 'line' })
+        .markersSymbolizer({ file: 'images/waterway-arrow.svg', spacing: 350, placement: 'line' })
     .style('barrierways')
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
@@ -273,6 +294,14 @@ function generateFreemapStyle({
           .lineSymbolizer({ stroke: colors.scrub, strokeWidth: 2 + 0.33 * Math.pow(2, z - 12) });
       }
     })
+    .style('pipelines')
+      .rule({ minZoom: 11, filter: '[location] = "overground" or [location] = "overhead" or [location] = ""' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1' })
+      .rule({ minZoom: 15, filter: '[location] = "underground" or [location] = "underwater"' })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round', strokeOpacity: 0.33 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1', strokeOpacity: 0.33 })
+
     .style('feature_lines')
       .typesRule(16, 'dyke')
         .linePatternSymbolizer({ file: 'images/dyke.svg' })
@@ -390,10 +419,6 @@ function generateFreemapStyle({
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
-    .style('aeroport_names')
-      .rule({ minZoom: 12 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', dy: -10 }), '[name]')
-        .markersSymbolizer({ file: 'images/aerodrome.svg', placement: 'interior' })
     .style('building_names')
       .rule({ minZoom: 17 }) // rest names
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
@@ -441,7 +466,7 @@ function generateFreemapStyle({
       .typesRule(12, 'river')
         .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
       .rule({ minZoom: 14, filter: "[type] <> 'river'" })
-        .textSymbolizer(font().water().line(400).end({ characterSpacing: 2 }), '[name]')
+        .textSymbolizer(font().water().line(300).end({ characterSpacing: 2 }), '[name]')
     .style('fixmes')
       .rule()
         .markersSymbolizer({ file: 'images/fixme.svg' })
@@ -525,7 +550,7 @@ function generateFreemapStyle({
     .style('contours', { opacity: 0.8 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: 1 })
-        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
+        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
       .rule({ minZoom: 12, maxZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
       .rule({ minZoom: 13, maxZoom: 14, filter: '([height] % 20 = 0) and ([height] != 0)' })
@@ -533,7 +558,7 @@ function generateFreemapStyle({
       .rule({ minZoom: 15, filter: '([height] % 10 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
-        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
+        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
 
     .doInMap(map => {
       if (format !== 'svg' && format !== 'pdf') {
