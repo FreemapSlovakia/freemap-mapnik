@@ -12,6 +12,7 @@ const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 const horseTrailsCfg = config.get('mapFeatures.horseTrails');
 const skiTrailsCfg = config.get('mapFeatures.skiTrails');
 const dumpXml = config.get('dumpXml');
+const fs = require("fs");
 
 const { font } = require('./fontFactory');
 const { colors, hsl } = require('./colors');
@@ -307,11 +308,19 @@ function generateFreemapStyle({
       .rule({ minZoom: 12, maxZoom: 12 })
         .rasterSymbolizer({ scaling: 'lanczos', opacity: 0.65 })
       .rule({ minZoom: 13, maxZoom: 13 })
-        .rasterSymbolizer({ scaling: 'bilinear', opacity: 0.55 })
+        .rasterSymbolizer({ scaling: 'lanczos', opacity: 0.55 })
       .rule({ minZoom: 14, maxZoom: 14 })
-        .rasterSymbolizer({ scaling: 'bilinear', opacity: 0.65 })
-      .rule({ minZoom: 15 })
+        .rasterSymbolizer({ scaling: 'lanczos', opacity: 0.65 })
+      .rule({ minZoom: 15, maxZoom: 17 })
+        .rasterSymbolizer({ scaling: 'lanczos', opacity: 0.80 })
+      .rule({ minZoom: 18 })
         .rasterSymbolizer({ scaling: 'bilinear', opacity: 0.80 })
+      //style level opacity - polygon features everlap not visible
+      .style('cliffs_vector', {opacity: 0.6, compOp: 'overlay'})
+        .rule({ minZoom: 15 })
+          //.borderedPolygonSymbolizer(hsl(0, 0, 0))
+          .polygonSymbolizer({ fill: hsl(0, 0, 0) })
+          .lineSymbolizer({ stroke: hsl(0, 0, 0), strokeWidth: 0.5 })
     .style('military_areas')
       .rule({ minZoom: 10 })
         .lineSymbolizer({ stroke: hsl(0, 96, 39), strokeWidth: 3, strokeDasharray: '25,7', strokeOpacity: 0.8 })
@@ -513,7 +522,7 @@ function generateFreemapStyle({
       .rule()
         .textSymbolizer(font().line(500).end({ fill: 'black', size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: '4 + [off1] * 2.5' }), '[refs1]')
         .textSymbolizer(font().line(500).end({ fill: 'black', size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: '-4 - [off2] * 4' }), '[refs2]')
-    .style('contours', { opacity: 0.33 })
+    .style('contours', { opacity: 0.8 })
       .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: 1 })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1 }), '[height]')
@@ -544,7 +553,8 @@ function generateFreemapStyle({
 const mapnikConfig = generateFreemapStyle();
 
 if (dumpXml) {
-  console.log('Mapnik config:', mapnikConfig);
+  fs.writeFileSync("style-dump.xml", mapnikConfig); 
+  //console.log('Mapnik config:', mapnikConfig);
 }
 
 module.exports = {
