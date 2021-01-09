@@ -244,20 +244,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
   `;
 
   return map => map
-    // .layer('sea',
-    //   {
-    //     type: 'shape',
-    //     file: 'simplified-land-polygons-complete-3857/simplified_land_polygons.shp',
-    //   },
-    //   { srs: '+init=epsg:3857', maxZoom: 9 }
-    // )
-    // .layer('sea',
-    //   {
-    //     type: 'shape',
-    //     file: 'land-polygons-split-3857/land_polygons.shp',
-    //   },
-    //   { srs: '+init=epsg:3857', minZoom: 10 }
-    // )
+    .layer('sea',
+      {
+        type: 'shape',
+        file: 'simplified-land-polygons-complete-3857/simplified_land_polygons.shp',
+      },
+      { srs: '+init=epsg:3857', maxZoom: 9 }
+    )
+    .layer('sea',
+      {
+        type: 'shape',
+        file: 'land-polygons-split-3857/land_polygons.shp',
+      },
+      { srs: '+init=epsg:3857', minZoom: 10 }
+    )
     .sqlLayer('landcover',
       `select type, geometry, ${landuseZOrder} from osm_landusages_gen0 where geometry && !bbox! order by z_order desc, osm_id`,
       { maxZoom: 9 },
@@ -457,10 +457,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select type, name, geometry from osm_protected_areas',
       { bufferSize: 1024, minZoom: 8 },
     )
-    // .sqlLayer('landcover_names',
-    //   'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
-    //   { minZoom: 12, bufferSize: 1024, cacheFeatures: true },
-    // )
+    .sqlLayer('landcover_names',
+      'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
+      { minZoom: 12, bufferSize: 1024, cacheFeatures: true },
+    )
     .sqlLayer(
       'locality_names',
       "select name, type, geometry from osm_places where type = 'locality' order by osm_id",

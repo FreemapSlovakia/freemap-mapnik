@@ -12,7 +12,6 @@ const bicycleTrailsCfg = config.get('mapFeatures.bicycleTrails');
 const horseTrailsCfg = config.get('mapFeatures.horseTrails');
 const skiTrailsCfg = config.get('mapFeatures.skiTrails');
 const dumpXml = config.get('dumpXml');
-const fs = require("fs");
 
 const { font } = require('./fontFactory');
 const { colors, hsl } = require('./colors');
@@ -578,8 +577,7 @@ function generateFreemapStyle({
 const mapnikConfig = generateFreemapStyle();
 
 if (dumpXml) {
-  fs.writeFileSync("style-dump.xml", mapnikConfig); 
-  //console.log('Mapnik config:', mapnikConfig);
+  console.log('Mapnik config:', mapnikConfig);
 }
 
 module.exports = {
