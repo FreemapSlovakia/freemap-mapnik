@@ -345,8 +345,8 @@ function generateFreemapStyle({
       .rule({ minZoom: 18 })
         .rasterSymbolizer({ scaling: 'bilinear', opacity: 0.80 })
       //style level opacity - polygon features everlap not visible
-      .style('cliffs_vector', {opacity: 0.6, compOp: 'overlay'})
-        .rule({ minZoom: 15 })
+      .style('cliffs_vector', {opacity: 0.5, compOp: 'overlay'})
+        .rule({ minZoom: 14 })
           //.borderedPolygonSymbolizer(hsl(0, 0, 0))
           .polygonSymbolizer({ fill: hsl(0, 0, 0) })
           .lineSymbolizer({ stroke: hsl(0, 0, 0), strokeWidth: 0.5 })

@@ -362,8 +362,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .doInMap((map) => {
       if (contours) {
         map.sqlLayer('contours',
-          'select geom, height from contours_split',
-          //'select geom, height from contour_split',
+          'select geom, height from contour_split',
           { minZoom: 12 },
         );
       }
@@ -373,8 +372,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           file: '/mnt/e/mapy/freemap-dem/build/shading_web.tif', //'shading/build/final.tif',
         });
         map.sqlLayer('cliffs_vector',
-          "select geom from cliffs_split",
-          { minZoom: 10 }
+          "select geom from cliffs_split"
         );        
       }
     })
@@ -459,10 +457,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select type, name, geometry from osm_protected_areas',
       { bufferSize: 1024, minZoom: 8 },
     )
-    .sqlLayer('landcover_names',
-      'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
-      { minZoom: 12, bufferSize: 1024, cacheFeatures: true },
-    )
+    // .sqlLayer('landcover_names',
+    //   'select type, geometry, name, area from osm_landusages left join z_order_landuse using (type) where geometry && !bbox! order by z_order, osm_id',
+    //   { minZoom: 12, bufferSize: 1024, cacheFeatures: true },
+    // )
     .sqlLayer(
       'locality_names',
       "select name, type, geometry from osm_places where type = 'locality' order by osm_id",
