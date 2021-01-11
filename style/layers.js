@@ -369,8 +369,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       if (shading) {
         map.layer('hillshade', {
           type: 'gdal',
-          file: 'shading/final.tiff',
+          file: '/mnt/e/mapy/freemap-dem/build/shading_web.tif', //'shading/build/final.tif',
         });
+        map.sqlLayer('cliffs_vector',
+          "select geom from cliffs_split"
+        );        
       }
     })
     .sqlLayer('protected_areas',

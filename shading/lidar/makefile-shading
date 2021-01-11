@@ -1,0 +1,76 @@
+
+# run with:
+# make -f makefile-shading input=inputfile.tif sloperamp=slope.ramp
+
+all: shading.tif cliffs.tif
+
+define gen_relief
+	gdaldem hillshade $(input) _$(1).tif -az $(2) -igor -z $(3) 
+endef
+# omit -compute_edges so borders are not visible, source tiffs overlap
+
+_a.tif: $(input)
+	$(call gen_relief,a,-135,1.7)
+
+_b.tif: $(input)
+	$(call gen_relief,b,45,1.7)
+
+_c.tif: $(input)
+	$(call gen_relief,c,-45,1.7)
+
+# slope ramp is in percent: 100% = 45°
+_d.tif: slope.tif $(sloperamp)
+	gdaldem color-relief slope.tif $(sloperamp) _d.tif
+
+slope.tif: $(input)
+	gdaldem slope -p $(input) $@
+
+# over 45° = black, else white
+cliffs.tif: slope.tif
+	gdal_calc.py -A $^ --outfile=$@ \
+		--calc="where(A>100,0,255)" --type Byte
+
+
+a := 0.8 * (255 - A)
+b := 0.7 * (255 - B)
+c := 1.0 * (255 - C)
+d := 0.0 * (255 - D) # note - intensity is zero = not used
+
+contrast := 1.0
+brightness := 0.0
+
+define gen_band
+	gdal_calc.py -A _a.tif -B _b.tif -C _c.tif -D _d.tif --outfile=$(1).tif \
+		--calc="$(contrast) * (($(a) * $(2) + $(b) * $(3) + $(c) * $(4) + $(d) * $(5)) / (0.01 + $(a) + $(b) + $(c) + $(d)) - 128.0) + 128.0 + $(brightness)"
+endef
+
+# RGB colors per sub-relief are defined in columns
+#          [a]  [b]  [c]  [d]
+
+R.tif: _a.tif _b.tif _c.tif _d.tif
+	$(call gen_band,R,0x1f,0xFF,0x00,0x00)
+
+G.tif: _a.tif _b.tif _c.tif _d.tif
+	$(call gen_band,G,0x3c,0xE8,0x00,0x00)
+
+B.tif: _a.tif _b.tif _c.tif _d.tif
+	$(call gen_band,B,0x89,0x00,0x00,0x00)
+
+A.tif: _a.tif _b.tif _c.tif _d.tif
+	gdal_calc.py -A _a.tif -B _b.tif -C _c.tif -D _d.tif --outfile=A.tif \
+		--calc="255.0 - 255.0 * ((1.0 - $(a) / 255.0) * (1.0 - $(b) / 255.0) * (1.0 - $(c) / 255.0) * (1.0 - $(d) / 255.0))"
+
+stack.vrt: R.tif G.tif B.tif A.tif
+	gdalbuildvrt -separate stack.vrt R.tif G.tif B.tif A.tif
+
+shading.tif: stack.vrt R.tif G.tif B.tif A.tif
+	gdal_translate -r cubicspline -of GTiff -co "TILED=YES" \
+		-colorinterp red,green,blue,alpha \
+		stack.vrt shading.tif
+
+clean: 
+	rm -f _a.tif _b.tif _c.tif _d.tif R.tif G.tif B.tif A.tif stack.vrt
+
+# shading.tif.ovr: shading.tif
+# 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro shading.tif
+
