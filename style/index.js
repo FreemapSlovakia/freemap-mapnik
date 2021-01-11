@@ -122,7 +122,7 @@ const pois = [
   [16, 17, N, N, 'fountain', { font: { fill: colors.waterLabel } }],
   [16, NN, N, N, 'watering_place', { font: { fill: colors.waterLabel } }],
   [16, NN, N, N, 'feeding_place', { icon: 'manger' }],
-  [16, NN, N, N, 'game_feedng', { icon: 'manger' }],
+  [16, NN, N, N, 'game_feeding', { icon: 'manger' }],
   [16, 17, N, N, 'playground'],
   [16, 17, N, N, ['water_works', 'pumping_station', 'wastewater_plant'], { font: { fill: colors.waterLabel } }],
 
