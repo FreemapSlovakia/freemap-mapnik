@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 13.229 13.229">
-    <path d="M1.984 2.645v.266h.603l-.297.793h-.835v.265h.736l-.33.88.246.093.365-.973h1.14l.365.973.248-.094-.33-.879h.736v-.265h-.835L3.5 2.91h.603v-.266zm.886.266h.346l.297.793h-.941z" color="#000" opacity=".5" fill="none" stroke="#fff" stroke-width=".794" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M1.984 2.645v.266h.603l-.297.793h-.835v.265h.736l-.33.88.246.093.365-.973h1.14l.365.973.248-.094-.33-.879h.736v-.265h-.835L3.5 2.91h.603v-.266zm.886.266h.346l.297.793h-.941z" color="#000" fill-rule="evenodd"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+  <path d="M4 2v1h2.28L5.15 6H2v1h2.78l-1.25 3.33.93.35 1.38-3.67h4.31l1.38 3.67.97-.35L11.22 7H14V6h-3.15L9.73 3H12V2zm3.35 1h1.3l1.13 3H6.21z" color="#000" opacity=".5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4 2v1h2.28L5.15 6H2v1h2.78l-1.25 3.33.93.35 1.38-3.67h4.31l1.38 3.67.97-.35L11.22 7H14V6h-3.15L9.73 3H12V2zm3.35 1h1.3l1.13 3H6.21z" color="#000" fill-rule="evenodd"/>
 </svg>

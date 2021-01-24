@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 4.233 4.233">
-    <path d="M.265 1.058L2.117-.529l1.852 1.587" fill="none" stroke="#fff" stroke-width="1.058" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".5"/>
-    <circle cx="3.307" cy="3.043" fill="none" stroke="#fff" stroke-width=".794" stroke-linejoin="round" stroke-opacity=".497" r=".661"/>
-    <path d="M2.122.614a.873.873 0 00-.867.88.89.89 0 00.048.288c-.455.543-.187.773-.085 1.108.104.34-.267.544-.552.814.855-.155.997-.553.973-.772-.026-.243-.22-.403.032-.687.147.047.286.128.451.128a.856.856 0 00.492-.155.882.882 0 00.375-.725.873.873 0 00-.867-.88z" opacity=".5" fill="#0064ff" stroke="#fdfdfd" stroke-width=".794" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M2.122.614a.873.873 0 00-.867.88.89.89 0 00.048.288c-.455.543-.187.773-.085 1.108.104.34-.267.544-.552.814.855-.155.997-.553.973-.772-.026-.243-.22-.403.032-.687.147.047.286.128.451.128a.856.856 0 00.492-.155.882.882 0 00.375-.725.873.873 0 00-.867-.88z" fill="#0064ff"/>
-    <path d="M.265 1.058L2.117-.529l1.852 1.587" fill="none" stroke="#000" stroke-width=".265"/>
-    <circle cx="3.307" cy="3.043" fill="#0f0" r=".661"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+  <path d="M3 7l5.5-4.5L14 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".5"/>
+  <circle cx="12.5" cy="14.5" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-opacity=".5" r="2.5"/>
+  <path d="M8.5 5.63a3.3 3.3 0 00-3.28 3.33 3.36 3.36 0 00.18 1.09c-1.72 2.05-.71 2.92-.32 4.19.39 1.28-1.01 2.05-2.1 3.07 3.24-.58 3.78-2.09 3.69-2.91-.1-.92-.83-1.53.12-2.6.55.18 1.08.48 1.7.5a3.24 3.24 0 001.86-.6 3.33 3.33 0 001.42-2.74 3.3 3.3 0 00-3.28-3.33z" opacity=".5" fill="#0064ff" stroke="#fdfdfd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8.5 5.63a3.3 3.3 0 00-3.28 3.33 3.36 3.36 0 00.18 1.09c-1.72 2.05-.71 2.92-.32 4.19.39 1.28-1.01 2.05-2.1 3.07 3.24-.58 3.78-2.09 3.69-2.91-.1-.92-.83-1.53.12-2.6.55.18 1.08.48 1.7.5a3.24 3.24 0 001.86-.6 3.33 3.33 0 001.42-2.74 3.3 3.3 0 00-3.28-3.33z" fill="#0064ff"/>
+  <path d="M3 7l5.5-4.5L14 7" fill="none" stroke="#000"/>
+  <circle cx="12.5" cy="14.5" fill="#0f0" r="2.5"/>
 </svg>
