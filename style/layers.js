@@ -367,10 +367,55 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         );
       }
       if (shading) {
-        map.layer('hillshade', {
+        // map.layer('hillshade', {
+        //   type: 'gdal',
+        //   // file: '/home/martin/fm/dmr5/build/final.tif',
+        //   file: 'shading/final.tiff',
+        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/out.vrt',
+        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/build/final.tif',
+        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/build/M.tif',
+        // });
+
+        // render sk-dmr5; use mask because mapnik has issues with no-data
+        map.layer('full', {
           type: 'gdal',
-          file: 'shading/final.tiff',
+          file: 'shading/sk-dmr5-mask.tif',
+        }, { compOp: 'src-over' }, {}, ({layer}) => {
+          layer('hillshade', {
+            type: 'gdal',
+            file: 'shading/sk-dmr5.tif',
+          }, { compOp: 'src-in' });
         });
+
+        map.layer(
+          'box',
+          {
+            type: 'shape',
+            file: 'grid/grid.shp', // HACK: we need co cover whole rendered area because mask is not and then compOp fails outside
+          },
+          { compOp: 'src-over', srs: '+init=epsg:3857' },
+          {},
+          ({ layer }) => {
+            // to cut out area of sk-dmr5
+            layer(
+              'full',
+              {
+                type: 'gdal',
+                file: 'shading/sk-dmr5-mask.tif',
+              },
+              {},
+            );
+
+            layer(
+              'hillshade',
+              {
+                type: 'gdal',
+                file: 'shading/final.tiff',
+              },
+              { compOp: 'src-out' },
+            );
+          },
+        );
       }
     })
     .sqlLayer('protected_areas',

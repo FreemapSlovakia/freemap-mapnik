@@ -130,7 +130,8 @@ contrast := 1.0
 brightness := 0.0
 
 define gen_band
-	gdal_calc.py -A build/_a.tif -B build/_b.tif -C build/_c.tif -D build/_d.tif --outfile=build/$(1).tif \
+	gdal_calc.py --co=BIGTIFF=YES --co=TILED=YES --co=NUM_THREADS=ALL_CPUS --co=COMPRESS=LZW \
+	  -A build/_a.tif -B build/_b.tif -C build/_c.tif -D build/_d.tif --outfile=build/$(1).tif \
 		--calc="$(contrast) * (($(a) * $(2) + $(b) * $(3) + $(c) * $(4) + $(d) * $(5)) / (0.01 + $(a) + $(b) + $(c) + $(d)) - 128.0) + 128.0 + $(brightness)"
 endef
 
@@ -147,14 +148,20 @@ build/B.tif: build/_a.tif build/_b.tif build/_c.tif build/_d.tif
 	$(call gen_band,B,0x60,0x00,0x00,0x00)
 
 build/A.tif: build/_a.tif build/_b.tif build/_c.tif build/_d.tif
-	gdal_calc.py -A build/_a.tif -B build/_b.tif -C build/_c.tif -D build/_d.tif --outfile=build/A.tif \
+	gdal_calc.py --co=BIGTIFF=YES --co=TILED=YES --co=NUM_THREADS=ALL_CPUS --co=COMPRESS=LZW \
+	  -A build/_a.tif -B build/_b.tif -C build/_c.tif -D build/_d.tif --outfile=build/A.tif \
 		--calc="255.0 - 255.0 * ((1.0 - $(a) / 255.0) * (1.0 - $(b) / 255.0) * (1.0 - $(c) / 255.0) * (1.0 - $(d) / 255.0))"
 
-stack.vrt: build/R.tif build/G.tif build/B.tif build/A.tif
-	gdalbuildvrt -separate stack.vrt build/R.tif build/G.tif build/B.tif build/A.tif
+# mask for compositing multiple shadings
+#build/M.tif: build/A.tif
+#  gdal_calc.py --co=BIGTIFF=YES --co=TILED=YES --co=NUM_THREADS=ALL_CPUS --co=COMPRESS=LZW -A build/A.tif --outfile=build/M.tif --NoDataValue=0 --calc="255"
 
-build/final.tif: stack.vrt build/R.tif build/G.tif build/B.tif build/A.tif
-	gdal_translate -colorinterp red,green,blue,alpha -r cubicspline -of GTiff -co "TILED=YES" stack.vrt build/final.tif
+build/stack.vrt: build/R.tif build/G.tif build/B.tif build/A.tif
+	gdalbuildvrt -separate build/stack.vrt build/R.tif build/G.tif build/B.tif build/A.tif
+	gdal_edit.py -colorinterp_1 red -colorinterp_2 green -colorinterp_3 blue -colorinterp_4 alpha build/stack.vrt
+
+build/final.tif: build/stack.vrt build/R.tif build/G.tif build/B.tif build/A.tif
+	gdal_translate -colorinterp red,green,blue,alpha -r cubicspline -of GTiff -co "TILED=YES" build/stack.vrt build/final.tif
 
 build/final.tif.ovr: build/final.tif
 	gdaladdo -r lanczos --config BIGTIFF_OVERVIEW YES -ro build/final.tif
@@ -185,3 +192,8 @@ build/final.tif.ovr: build/final.tif
 # create hgt files from sk.tif
 # for merging see https://gist.github.com/zdila/9dc0ffa6712d84470b2846d061b8da7d
 # for i in ../../../HGT/*.HGT; do b=$(basename ${i%.HGT}); gdalwarp -ct "+proj=pipeline +step +inv +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +inv +proj=hgridshift +grids=Slovakia_JTSK03_to_JTSK.gsb +step +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +inv +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +proj=push +v_3 +step +proj=cart +ellps=bessel +step +proj=helmert +x=485.021 +y=169.465 +z=483.839 +rx=-7.786342 +ry=-4.397554 +rz=-4.102655 +s=0 +convention=coordinate_frame +step +inv +proj=cart +ellps=WGS84 +step +proj=pop +v_3 +step +proj=unitconvert +xy_in=rad +xy_out=deg" -r bilinear -of GTiff -overwrite -tr 0.0002777777777777777777777 -0.000277777777777777777777 -te $(gdalinfo  -json $i | jq -r '[.cornerCoordinates.upperLeft[0], .cornerCoordinates.lowerLeft[1], .cornerCoordinates.lowerRight[0], .cornerCoordinates.upperRight[1]] | join(" ")') -ot Int16 -dstnodata -32768 -of SRTMHGT sk.tif $b.hgt; done
+
+
+# dmr5 stuff
+# gdalwarp -s_srs 'EPSG:8353' -t_srs 'EPSG:3857' -ct '+proj=pipeline +step +inv +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +proj=push +v_3 +step +proj=cart +ellps=bessel +step +proj=helmert +x=485.021 +y=169.465 +z=483.839 +rx=-7.786342 +ry=-4.397554 +rz=-4.102655 +s=0 +convention=coordinate_frame +step +inv +proj=cart +ellps=WGS84 +step +proj=pop +v_3 +step +proj=webmerc +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84' -tr 1.194328566968441 1.194328566968441 -tap -r lanczos -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi a.tif b.tif
+# gdalbuildvrt -resolution highest -r lanczos out.vrt /home/martin/fm/freemap-mapnik/shading/build/final.tif ./build/final.tif
