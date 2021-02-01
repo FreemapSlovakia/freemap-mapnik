@@ -360,13 +360,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .doInMap((map) => {
-      if (contours) {
-        map.sqlLayer('contours',
-          'select geom, height from contour_split',
-          { minZoom: 12 },
-        );
-      }
-      if (shading) {
+      if (shading) { // TODO countours
         // map.layer('hillshade', {
         //   type: 'gdal',
         //   // file: '/home/martin/fm/dmr5/build/final.tif',
@@ -381,10 +375,25 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           type: 'gdal',
           file: 'shading/sk-dmr5-mask.tif',
         }, { compOp: 'src-over' }, {}, ({layer}) => {
-          layer('hillshade', {
-            type: 'gdal',
-            file: 'shading/sk-dmr5.tif',
-          }, { compOp: 'src-in' });
+          layer(
+            'contours',
+            {
+              table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+            },
+            { minZoom: 12, compOp: 'src-in' },
+            { base: 'db' },
+            ({ layer }) => {
+              layer(
+                'hillshade',
+                {
+                  type: 'gdal',
+                  file: 'shading/sk-dmr5.tif',
+                },
+                { },
+                { },
+              );
+            }
+          );
         });
 
         map.layer(
@@ -407,13 +416,25 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
             );
 
             layer(
-              'hillshade',
+              'contours',
               {
-                type: 'gdal',
-                file: 'shading/final.tiff',
+                table: '(select geom, height from contour_split) as foo', // TODO cut out cutlines covered in cont_dmr5_split for speedup
               },
-              { compOp: 'src-out' },
+              { minZoom: 12, compOp: 'src-out' },
+              { base: 'db' },
+              ({ layer }) => {
+                layer(
+                  'hillshade',
+                  {
+                    type: 'gdal',
+                    file: 'shading/final.tiff',
+                  },
+                  { },
+                  { },
+                );
+              },
             );
+
           },
         );
       }
