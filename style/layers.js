@@ -376,13 +376,24 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           file: 'shading/sk-dmr5-mask.tif',
         }, { compOp: 'src-over' }, {}, ({layer}) => {
           layer(
-            'contours',
+            'sea', // any
             {
-              table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+              table: '(select wkb_geometry, height from cont_dmr5_split where 1=2) as foo', // some empty data
             },
-            { minZoom: 12, compOp: 'src-in' },
+            { compOp: 'src-in' },
             { base: 'db' },
             ({ layer }) => {
+              layer(
+                'contours',
+                {
+                  table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+                },
+                {
+                  // minZoom: 12,
+                },
+                { base: 'db' }
+              );
+
               layer(
                 'hillshade',
                 {
@@ -416,13 +427,24 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
             );
 
             layer(
-              'contours',
+              'sea', // any
               {
-                table: '(select geom, height from contour_split) as foo', // TODO cut out cutlines covered in cont_dmr5_split for speedup
+                table: '(select geom, height from contour_split where 1=2) as foo', //  // some empty data
               },
-              { minZoom: 12, compOp: 'src-out' },
+              { compOp: 'src-out' },
               { base: 'db' },
               ({ layer }) => {
+                layer(
+                  'contours',
+                  {
+                    table: '(select geom, height from contour_split) as foo',
+                  },
+                  {
+                    // minZoom: 12,
+                  },
+                  { base: 'db' }
+                );
+
                 layer(
                   'hillshade',
                   {
