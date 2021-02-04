@@ -310,11 +310,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .doInMap((map) => {
       if (shading) {
         map.sqlLayer('feature_lines_maskable',
-          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')",
-          { minZoom: 13, cacheFeatures: true },
-        );
-      } else {
-        map.sqlLayer('feature_lines_maskable',
           "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')", // TODO for effectivity filter out cliffs/earth_banks
           { minZoom: 13, compOp: 'src-over' },
           ({ layer }) => {
@@ -327,6 +322,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               { compOp: 'dst-out' },
             );
           }
+        );
+      } else {
+        map.sqlLayer('feature_lines_maskable',
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')",
+          { minZoom: 13, cacheFeatures: true },
         );
       }
     })
