@@ -305,8 +305,31 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .sqlLayer('feature_lines',
       "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
-      { minZoom: 13 },
+      { minZoom: 13, cacheFeatures: true },
     )
+    .doInMap((map) => {
+      if (shading) {
+        map.sqlLayer('feature_lines_maskable',
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
+          { minZoom: 13, cacheFeatures: true },
+        );
+      } else {
+        map.sqlLayer('feature_lines_maskable',
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')", // TODO for effectivity filter out cliffs/earth_banks
+          { minZoom: 13, compOp: 'src-over' },
+          ({ layer }) => {
+            layer(
+              'mask',
+              {
+                type: 'gdal',
+                file: 'shading/sk-dmr5-mask.tif',
+              },
+              { compOp: 'dst-out' },
+            );
+          }
+        );
+      }
+    })
     .sqlLayer('embankments',
       'select geometry from osm_roads where embankment = 1 and geometry && !bbox!',
       { minZoom: 16 },
@@ -360,7 +383,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .doInMap((map) => {
-      if (shading) { // TODO countours
+      if (shading || contours) {
         // map.layer('hillshade', {
         //   type: 'gdal',
         //   // file: '/home/martin/fm/dmr5/build/final.tif',
@@ -371,43 +394,57 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         // });
 
         // render sk-dmr5; use mask because mapnik has issues with no-data
-        map.layer('full', {
+        map.layer('mask', {
           type: 'gdal',
           file: 'shading/sk-dmr5-mask.tif',
         }, { compOp: 'src-over' }, {}, ({layer}) => {
           layer(
-            'contours',
+            'sea', // any
             {
-              table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+              table: '(select wkb_geometry from cont_dmr5_split limit 0) as foo', // some empty data
             },
-            { minZoom: 12, compOp: 'src-in' },
+            { compOp: 'src-in' },
             { base: 'db' },
             ({ layer }) => {
-              layer(
-                'hillshade',
-                {
-                  type: 'gdal',
-                  file: 'shading/sk-dmr5.tif',
-                },
-                { },
-                { },
-              );
+              if (contours) {
+                layer(
+                  'contours',
+                  {
+                    table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+                  },
+                  {
+                    minZoom: 12,
+                  },
+                  { base: 'db' }
+                );
+              }
+
+              if (shading) {
+                layer(
+                  'hillshade',
+                  {
+                    type: 'gdal',
+                    file: 'shading/sk-dmr5.tif',
+                  },
+                  { },
+                  { },
+                );
+              }
             }
           );
         });
 
         map.layer(
-          'box',
+          'sea', // any
           {
-            type: 'shape',
-            file: 'grid/grid.shp', // HACK: we need co cover whole rendered area because mask is not and then compOp fails outside
+            table: '(select geom from contour_split limit 0) as foo', //  // some empty data
           },
-          { compOp: 'src-over', srs: '+init=epsg:3857' },
-          {},
+          { compOp: 'src-over' },
+          { base: 'db' },
           ({ layer }) => {
             // to cut out area of sk-dmr5
             layer(
-              'full',
+              'mask',
               {
                 type: 'gdal',
                 file: 'shading/sk-dmr5-mask.tif',
@@ -416,22 +453,37 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
             );
 
             layer(
-              'contours',
+              'sea', // any
               {
-                table: '(select geom, height from contour_split) as foo', // TODO cut out cutlines covered in cont_dmr5_split for speedup
+                table: '(select geom from contour_split limit 0) as foo', //  // some empty data
               },
-              { minZoom: 12, compOp: 'src-out' },
+              { compOp: 'src-out' },
               { base: 'db' },
               ({ layer }) => {
-                layer(
-                  'hillshade',
-                  {
-                    type: 'gdal',
-                    file: 'shading/final.tiff',
-                  },
-                  { },
-                  { },
-                );
+                if (contours) {
+                  layer(
+                    'contours',
+                    {
+                      table: '(select geom, height from contour_split) as foo',
+                    },
+                    {
+                      minZoom: 12,
+                    },
+                    { base: 'db' }
+                  );
+                }
+
+                if (shading) {
+                  layer(
+                    'hillshade',
+                    {
+                      type: 'gdal',
+                      file: 'shading/final.tiff',
+                    },
+                    { },
+                    { },
+                  );
+                }
               },
             );
 
