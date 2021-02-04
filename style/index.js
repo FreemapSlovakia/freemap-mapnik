@@ -426,7 +426,7 @@ function generateFreemapStyle({
     .style('aerialway_names')
       .rule()
         .textSymbolizer(font().line().end({ fill: 'black', dy: 6 }), '[name]')
-    .style('valleys')
+    .style('valleys_ridges')
       .doInStyle((style) => {
         for (let z = 13; z < 18; z++) {
           const opacity = 0.5 - (z - 13) / 10;
@@ -439,7 +439,7 @@ function generateFreemapStyle({
               haloRadius: 1.5,
               haloOpacity: opacity * 0.9,
               opacity,
-              lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
+              lineSpacing: `[offset_factor] * ${6 + 3 * Math.pow(2.5, z - 12)}`, // this is to simulate dy adjusted to text orientation
               placementType: 'list',
               smooth: 0.2,
               maxCharAngleDelta: 180,
@@ -454,6 +454,9 @@ function generateFreemapStyle({
 
             if (z > 13) {
               ts.placement({ characterSpacing: 0, size: size * 0.75 });
+            }
+            if (z > 14) {
+              ts.placement({ characterSpacing: 0, size: size * 0.5 });
             }
         }
       })

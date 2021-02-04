@@ -304,18 +304,18 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13 },
     )
     .sqlLayer('feature_lines',
-      "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
+      "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')",
       { minZoom: 13, cacheFeatures: true },
     )
     .doInMap((map) => {
       if (shading) {
         map.sqlLayer('feature_lines_maskable',
-          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')",
           { minZoom: 13, cacheFeatures: true },
         );
       } else {
         map.sqlLayer('feature_lines_maskable',
-          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')", // TODO for effectivity filter out cliffs/earth_banks
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')", // TODO for effectivity filter out cliffs/earth_banks
           { minZoom: 13, compOp: 'src-over' },
           ({ layer }) => {
             layer(
@@ -607,8 +607,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry from osm_fixmes',
       { minZoom: 14 },
     )
-    .sqlLayer('valleys',
-      "select geometry, name from osm_feature_lines where type = 'valley'",
+    .sqlLayer('valleys_ridges',
+      "select geometry, name, 0.8 as offset_factor from osm_feature_lines where type = 'valley' and name <> ''",
+      { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
+    )
+    .sqlLayer('valleys_ridges',
+      "select geometry, name, 0 as offset_factor from osm_feature_lines where type = 'ridge' and name <> ''",
       { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
     )
     .sqlLayer('placenames',
