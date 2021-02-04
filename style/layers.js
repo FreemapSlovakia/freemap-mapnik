@@ -12,7 +12,7 @@ function getFeaturesSql(zoom) {
         when isolation between 3000 and 4500 then 'peak2'
         when isolation between 1500 and 3000 then 'peak3'
         else 'peak' end as type, isolation
-      from osm_features natural left join isolations where type = 'peak' and geometry && !bbox!`];
+      from osm_features natural left join isolations where type = 'peak' and name <> '' and geometry && !bbox!`];
 
   if (zoom >= 12) {
     sqls.push(`
@@ -26,10 +26,10 @@ function getFeaturesSql(zoom) {
   }
 
   if (zoom >= 14) {
-    // TODO distinguish various "spring types" (fountain, geyser, spring_box, ...)
+    // TODO distinguish various "spring types" (fountain, geyser, ...)
     sqls.push(`
       union all select osm_id, geometry, name,         ele, type, null as isolation
-        from osm_features where type <> 'peak'
+        from osm_features where type <> 'peak' and type <> 'tree' and (type <> 'saddle' or name <> '')
       union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type, null as isolation
         from osm_feature_polys
 
