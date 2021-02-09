@@ -27,7 +27,7 @@ Please see [doc/DOCKER.md](./doc/DOCKER.md).
 
 Please see [doc/INSTALL.md](./doc/INSTALL.md).
 
-## Additional copnfiguration
+## Additional configuration
 
 ```json5
 {
@@ -39,6 +39,6 @@ Please see [doc/INSTALL.md](./doc/INSTALL.md).
     skiTrails: true,
   },
 
-  // ...other configuration required by freema-mapserver
+  // ...other configuration required by freemap-mapserver
 }
 ```
