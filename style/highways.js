@@ -137,12 +137,10 @@ function highways() {
         .typesRule(14, 'piste')
           .road({ ...highwayDflt, strokeWidth: 2.2, stroke: '#a0a0a0', strokeDasharray: '6,2',  })
         .style('accessRestrictions')
-        .rule({ filter: '[no_bicycle] = 1 and [no_foot] = 1' })
-          .markersSymbolizer({ file: 'images/no_bicycle_foot.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })
-        .rule({ filter: '[no_bicycle] = 1 and [no_foot] = 0' })
-          .markersSymbolizer({ file: 'images/no_bicycle.svg', spacing: 24, placement: 'line', opacity: 0.75, ignorePlacement: true })
-        .rule({ filter: '[no_bicycle] = 0 and [no_foot] = 1' })
-          .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 24, placement: 'line', opacity: 0.75, ignorePlacement: true })
+          .rule({ filter: '[no_bicycle] = 1' })
+            .markersSymbolizer({ file: 'images/no_bicycle.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })
+          .rule({ filter: '[no_foot] = 1' })
+            .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 48, spacingOffset: 0, placement: 'line', opacity: 0.75, ignorePlacement: true })
       ;
   };
 }
