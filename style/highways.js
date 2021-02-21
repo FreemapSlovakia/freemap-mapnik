@@ -140,7 +140,7 @@ function highways() {
           .rule({ filter: '[no_bicycle] = 1' })
             .markersSymbolizer({ file: 'images/no_bicycle.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })
           .rule({ filter: '[no_foot] = 1' })
-            .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 48, spacingOffset: 0, placement: 'line', opacity: 0.75, ignorePlacement: true })
+            .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 48, spacingOffset: 0.001, placement: 'line', opacity: 0.75, ignorePlacement: true })
       ;
   };
 }
