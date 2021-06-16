@@ -9,9 +9,11 @@ expires
 sandbox
 *.hgt
 shading/*.tiff
+shading/*.tif
 shading/*.ovr
 shading/*.vrt
 shading/contours*
 shading/limit.*
 shading/build
 *land-polygons*
+grid

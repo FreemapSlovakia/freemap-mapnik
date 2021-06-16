@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 --unhandled-rejections=strict .",
-    "watch": "nodemon --ext js,xml,svg --watch style --watch images --watch config --watch legend.js --exec npm run start"
+    "start": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict .",
+    "watch": "nodemon --ext js,xml,svg,json5 --watch style --watch images --watch config --watch legend.js --exec npm run start"
   },
   "author": "Martin Ždila <martin.zdila@freemap.sk>",
   "license": "ISC",
   "dependencies": {
     "color-convert": "2.0.1",
     "config": "3.3.3",
-    "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver",
-    "jsnik": "0.0.8"
+    "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver#develop",
+    "jsnik": "0.0.9"
   },
   "devDependencies": {
     "eslint": "7.17.0",

@@ -301,16 +301,19 @@ function generateFreemapStyle({
         .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 2, strokeLinejoin: 'round', strokeOpacity: 0.33 })
         .lineSymbolizer({ stroke: hsl(0, 0, 50), strokeWidth: 4, strokeLinejoin: 'round', strokeDasharray: '0,15,1.5,1.5,1.5,1', strokeOpacity: 0.33 })
 
-    .style('feature_lines')
-      .typesRule(16, 'dyke')
-        .linePatternSymbolizer({ file: 'images/dyke.svg' })
-      .typesRule(16, 'embankment')
-        .linePatternSymbolizer({ file: 'images/embankment-half.svg' })
+    .style('feature_lines_maskable')
       .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
         .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1 })
       .typesRule(14, 'earth_bank')
         .linePatternSymbolizer({ file: 'images/earth_bank.svg' })
+    .style('feature_lines')
+      .typesRule(16, 'dyke')
+        .linePatternSymbolizer({ file: 'images/dyke.svg' })
+      .typesRule(16, 'embankment')
+        .linePatternSymbolizer({ file: 'images/embankment-half.svg' })
+      .typesRule(16, 'gully')
+        .linePatternSymbolizer({ file: 'images/gully.svg' })
       .typesRule(13, 'line')
         .lineSymbolizer({ stroke: 'black', strokeWidth: 1, strokeOpacity: 0.5 })
       .typesRule(14, 'minor_line')
@@ -321,11 +324,12 @@ function generateFreemapStyle({
             .linePatternSymbolizer({ file: 'images/tree.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
         }
       })
-      .typesRule(16, 'gully')
-        .linePatternSymbolizer({ file: 'images/gully.svg' })
     .style('embankments')
       .rule({})
         .linePatternSymbolizer({ file: 'images/embankment.svg' })
+    .style('mask') // hillshading helper for mask
+      .rule()
+        .rasterSymbolizer({ scaling: 'bilinear', opacity: 1.00 })
     .style('hillshade')
       .rule({ /* minZoom: 8, */ maxZoom: 8 })
         .rasterSymbolizer({ scaling: 'lanczos', opacity: 1.00 })
@@ -422,7 +426,7 @@ function generateFreemapStyle({
     .style('aerialway_names')
       .rule()
         .textSymbolizer(font().line().end({ fill: 'black', dy: 6 }), '[name]')
-    .style('valleys')
+    .style('valleys_ridges')
       .doInStyle((style) => {
         for (let z = 13; z < 18; z++) {
           const opacity = 0.5 - (z - 13) / 10;
@@ -435,7 +439,7 @@ function generateFreemapStyle({
               haloRadius: 1.5,
               haloOpacity: opacity * 0.9,
               opacity,
-              lineSpacing: 6 + 3 * Math.pow(2.5, z - 12), // this is to simulate dy adjusted to text orientation
+              lineSpacing: `[offset_factor] * ${6 + 3 * Math.pow(2.5, z - 12)}`, // this is to simulate dy adjusted to text orientation
               placementType: 'list',
               smooth: 0.2,
               maxCharAngleDelta: 180,
@@ -450,6 +454,9 @@ function generateFreemapStyle({
 
             if (z > 13) {
               ts.placement({ characterSpacing: 0, size: size * 0.75 });
+            }
+            if (z > 14) {
+              ts.placement({ characterSpacing: 0, size: size * 0.5 });
             }
         }
       })
@@ -539,15 +546,19 @@ function generateFreemapStyle({
         .textSymbolizer(font().line(500).end({ fill: 'black', size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: '4 + [off1] * 2.5' }), '[refs1]')
         .textSymbolizer(font().line(500).end({ fill: 'black', size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: '-4 - [off2] * 4' }), '[refs2]')
     .style('contours', { opacity: 0.33 })
-      .rule({ minZoom: 13, filter: '([height] % 100 = 0) and ([height] != 0)' })
-        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: 1 })
+      .rule({ minZoom: 13, maxZoom: 14, filter: '([height] % 100 = 0) and ([height] != 0)' })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.4, smooth: 1 })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
       .rule({ minZoom: 12, maxZoom: 12, filter: '([height] % 50 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
       .rule({ minZoom: 13, maxZoom: 14, filter: '([height] % 20 = 0) and ([height] != 0)' })
         .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
+
+      .rule({ minZoom: 15, filter: '([height] % 100 = 0) and ([height] != 0)' })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.6, smooth: 1 })
+        .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
       .rule({ minZoom: 15, filter: '([height] % 10 = 0) and ([height] != 0)' })
-        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.2, smooth: 1 })
+        .lineSymbolizer({ stroke: colors.contour, strokeWidth: 0.3, smooth: 1 })
       .rule({ minZoom: 15, filter: '([height] % 50 = 0) and ([height] % 100 != 0)' })
         .textSymbolizer(font().line().end({ fill: colors.contour, smooth: 1, upright: 'left' }), '[height]')
 

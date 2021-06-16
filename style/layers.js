@@ -12,7 +12,7 @@ function getFeaturesSql(zoom) {
         when isolation between 3000 and 4500 then 'peak2'
         when isolation between 1500 and 3000 then 'peak3'
         else 'peak' end as type, isolation
-      from osm_features natural left join isolations where type = 'peak' and geometry && !bbox!`];
+      from osm_features natural left join isolations where type = 'peak' and name <> '' and geometry && !bbox!`];
 
   if (zoom >= 12) {
     sqls.push(`
@@ -26,10 +26,10 @@ function getFeaturesSql(zoom) {
   }
 
   if (zoom >= 14) {
-    // TODO distinguish various "spring types" (fountain, geyser, spring_box, ...)
+    // TODO distinguish various "spring types" (fountain, geyser, ...)
     sqls.push(`
       union all select osm_id, geometry, name,         ele, type, null as isolation
-        from osm_features where type <> 'peak'
+        from osm_features where type <> 'peak' and type <> 'tree' and (type <> 'saddle' or name <> '')
       union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type, null as isolation
         from osm_feature_polys
 
@@ -304,9 +304,32 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 13 },
     )
     .sqlLayer('feature_lines',
-      "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley')",
-      { minZoom: 13 },
+      "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')",
+      { minZoom: 13, cacheFeatures: true },
     )
+    .doInMap((map) => {
+      if (shading) {
+        map.sqlLayer('feature_lines_maskable',
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')", // TODO for effectivity filter out cliffs/earth_banks
+          { minZoom: 13, compOp: 'src-over' },
+          ({ layer }) => {
+            layer(
+              'mask',
+              {
+                type: 'gdal',
+                file: 'shading/sk-dmr5-mask.tif',
+              },
+              { compOp: 'dst-out' },
+            );
+          }
+        );
+      } else {
+        map.sqlLayer('feature_lines_maskable',
+          "select geometry, type from osm_feature_lines where type not in ('cutline', 'valley', 'ridge')",
+          { minZoom: 13, cacheFeatures: true },
+        );
+      }
+    })
     .sqlLayer('embankments',
       'select geometry from osm_roads where embankment = 1 and geometry && !bbox!',
       { minZoom: 16 },
@@ -360,17 +383,112 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .doInMap((map) => {
-      if (contours) {
-        map.sqlLayer('contours',
-          'select geom, height from contour_split',
-          { minZoom: 12 },
-        );
-      }
-      if (shading) {
-        map.layer('hillshade', {
+      if (shading || contours) {
+        // map.layer('hillshade', {
+        //   type: 'gdal',
+        //   // file: '/home/martin/fm/dmr5/build/final.tif',
+        //   file: 'shading/final.tiff',
+        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/out.vrt',
+        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/build/final.tif',
+        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/build/M.tif',
+        // });
+
+        // render sk-dmr5; use mask because mapnik has issues with no-data
+        map.layer('mask', {
           type: 'gdal',
-          file: 'shading/final.tiff',
+          file: 'shading/sk-dmr5-mask.tif',
+        }, { compOp: 'src-over' }, {}, ({layer}) => {
+          layer(
+            'sea', // any
+            {
+              table: '(select wkb_geometry from cont_dmr5_split limit 0) as foo', // some empty data
+            },
+            { compOp: 'src-in' },
+            { base: 'db' },
+            ({ layer }) => {
+              if (contours) {
+                layer(
+                  'contours',
+                  {
+                    table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+                  },
+                  {
+                    minZoom: 12,
+                  },
+                  { base: 'db' }
+                );
+              }
+
+              if (shading) {
+                layer(
+                  'hillshade',
+                  {
+                    type: 'gdal',
+                    file: 'shading/sk-dmr5.tif',
+                  },
+                  { },
+                  { },
+                );
+              }
+            }
+          );
         });
+
+        map.layer(
+          'sea', // any
+          {
+            table: '(select geom from contour_split limit 0) as foo', //  // some empty data
+          },
+          { compOp: 'src-over' },
+          { base: 'db' },
+          ({ layer }) => {
+            // to cut out area of sk-dmr5
+            layer(
+              'mask',
+              {
+                type: 'gdal',
+                file: 'shading/sk-dmr5-mask.tif',
+              },
+              {},
+            );
+
+            layer(
+              'sea', // any
+              {
+                table: '(select geom from contour_split limit 0) as foo', //  // some empty data
+              },
+              { compOp: 'src-out' },
+              { base: 'db' },
+              ({ layer }) => {
+                if (contours) {
+                  layer(
+                    'contours',
+                    {
+                      table: '(select geom, height from contour_split) as foo',
+                    },
+                    {
+                      minZoom: 12,
+                    },
+                    { base: 'db' }
+                  );
+                }
+
+                if (shading) {
+                  layer(
+                    'hillshade',
+                    {
+                      type: 'gdal',
+                      file: 'shading/final.tiff',
+                    },
+                    { },
+                    { },
+                  );
+                }
+              },
+            );
+
+          },
+        );
       }
     })
     .sqlLayer('protected_areas',
@@ -489,8 +607,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry from osm_fixmes',
       { minZoom: 14 },
     )
-    .sqlLayer('valleys',
-      "select geometry, name from osm_feature_lines where type = 'valley'",
+    .sqlLayer('valleys_ridges',
+      "select geometry, name, 0.8 as offset_factor from osm_feature_lines where type = 'valley' and name <> ''",
+      { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
+    )
+    .sqlLayer('valleys_ridges',
+      "select geometry, name, 0 as offset_factor from osm_feature_lines where type = 'ridge' and name <> ''",
       { minZoom: 13, clearLabelCache: 'on', bufferSize: 1024 },
     )
     .sqlLayer('placenames',

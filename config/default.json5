@@ -42,7 +42,7 @@
   prerender: { // set to null to disable pre-rendering
     // workers: 8, commented out = use num of cpus
     minZoom: 8,
-    maxZoom: 16,
+    maxZoom: 14,
     polygon: 'limit.geojson',
     zoomPrio: [12, 13, 14, 15, 11, 16, 10, 9, 8],
   },
@@ -57,4 +57,10 @@
     codec: 'jpeg92',
   },
   minExpiredBatchSize: 500,
+  expiresZoom: 14, // imposm3 is configured to check for expired tiles on zoom 14
+  prerenderMaxZoom: 14, // we need to know it even in on-demand only instance for creating index files
+  // how long to delay rendering a tile when expiring tiles
+  // this is to prevent drastical fi i/o slowdown when prerendering eats 100% cpu
+  // set to zero to prevent this feature
+  prerenderDelayWhenExpiring: 50,
 }
