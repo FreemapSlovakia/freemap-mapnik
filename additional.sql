@@ -148,6 +148,7 @@ insert into z_order_poi (type) values
 ('peak3'),
 ('peak'),
 ('water_works'),
+('reservoir_covered'),
 ('pumping_station'),
 ('wastewater_plant'),
 ('firepit'),

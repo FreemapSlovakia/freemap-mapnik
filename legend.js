@@ -772,7 +772,7 @@ const legend = {
     poi('water', 'hot_spring', 'hot spring', 'termálny prameň', true),
     poi('water', 'watering_place', 'watering place', 'napájadlo'),
     poi('water', 'waterfall', 'waterfall', 'vodopád'),
-    poi('water', 'water_works', 'water works', 'vodný zdroj, čistička'),
+    poi('water', 'water_works', 'water works, covered water reservoir, water treatment plant', 'vodný zdroj, krytá vodná nádrž, čistička'),
     poi('water', 'fountain', 'fountain', 'fontána'),
 
     poi('poi', 'castle', 'castle', 'hrad'),
