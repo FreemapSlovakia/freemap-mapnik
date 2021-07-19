@@ -9,6 +9,11 @@ areas:
   linear_tags:
     - highway
     - barrier
+tags:
+  include:
+    - protected
+    - icao
+    - shelter_type
 generalized_tables:
   waterareas_gen1:
     source: waterareas
@@ -358,15 +363,7 @@ tables:
     type: linestring
     mapping:
       barrier:
-        - city_wall
-        - fence
-        - hedge
-        - retaining_wall
-        - wall
-        - spikes
-        - embankment
-        - "yes"
-        - wire_fence
+        - __any__
 
   barrierpoints:
     columns:
@@ -379,6 +376,9 @@ tables:
         key: name
       - type: mapping_value
         name: type
+      - type: string
+        name: access
+        key: access
     type: point
     mapping:
       barrier:
@@ -464,11 +464,17 @@ tables:
       - type: string
         name: name
         key: name
-      - type: string
-        name: ele
-        key: ele
       - type: mapping_value
         name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - ele
+            - access
+            - protected
+            - shelter_type
+            - icao
     type: point
     mappings:
       attractions:
@@ -477,6 +483,8 @@ tables:
             - attraction # must be separate otherwise it wins against other types
       standard:
         mapping:
+          aeroway:
+            - aerodrome
           natural:
             - birds_nest
             - cave_entrance
@@ -527,6 +535,7 @@ tables:
             - recycling
             - restaurant
             - school
+            - shelter
             - swimming_pool
             - taxi
             - telephone
@@ -540,6 +549,7 @@ tables:
             - water_point
             - watering_place
             - monastery
+            - ranger_station
           tourism:
             - alpine_hut
             - apartment
@@ -584,6 +594,8 @@ tables:
             - water_works
             - pumping_station
             - wastewater_plant
+            - ice_house # new
+            - forester's_lodge
           historic:
             - archaeological_site
             - boundary_stone
@@ -625,11 +637,16 @@ tables:
       - type: string
         name: name
         key: name
-      - type: string
-        name: ele
-        key: ele
       - type: mapping_value
         name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - ele
+            - access
+            - shelter_type
+            - icao
     type: polygon
     mappings:
       attractions:
@@ -638,9 +655,12 @@ tables:
             - attraction # must be separate otherwise it wins against other types
       standard:
         mapping:
+          aeroway:
+            - aerodrome
           natural:
             - rock
             - stone
+            - sinkhole
           amenity:
             - bank
             - bar
@@ -674,6 +694,7 @@ tables:
             - recycling
             - restaurant
             - school
+            - shelter
             - swimming_pool
             - taxi
             - theatre
@@ -682,6 +703,7 @@ tables:
             - university
             - veterinary
             - monastery
+            - ranger_station
           tourism:
             - alpine_hut
             - apartment
@@ -719,6 +741,8 @@ tables:
             - water_works
             - pumping_station
             - wastewater_plant
+            - ice_house # new
+            - forester's_lodge
           historic:
             - archaeological_site
             - bunker
@@ -737,46 +761,6 @@ tables:
           railway:
             - station
 
-  aerodromes:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: string
-        name: ele
-        key: ele
-      - type: string
-        name: icao
-        key: icao
-    type: point
-    mapping:
-      aeroway:
-        - aerodrome
-
-  aerodrome_polys:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: string
-        name: ele
-        key: ele
-      - type: string
-        name: icao
-        key: icao
-    type: polygon
-    mapping:
-      aeroway:
-        - aerodrome
-
   springs:
     columns:
       - type: id
@@ -794,9 +778,15 @@ tables:
       - type: bool
         name: refitted
         key: refitted
+      - type: bool
+        name: seasonal # new
+        key: seasonal
       - type: string
         name: drinking_water
         key: drinking_water
+      - type: string
+        name: water_characteristic
+        key: water_characteristic
     type: point
     mapping:
       natural:
@@ -817,6 +807,11 @@ tables:
         key: name
       - type: mapping_value
         name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - access
     type: point
     mapping:
       sport:
@@ -833,50 +828,15 @@ tables:
         key: name
       - type: mapping_value
         name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - access
     type: polygon
     mapping:
       sport:
         - __any__
-
-  shelters:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: string
-        name: type
-        key: shelter_type
-      - type: string
-        name: ele
-        key: ele
-    type: point
-    mapping:
-      amenity:
-      - shelter
-
-  shelter_polys:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: string
-        name: type
-        key: shelter_type
-      - type: string
-        name: ele
-        key: ele
-    type: polygon
-    mapping:
-      amenity:
-      - shelter
 
   power_generators:
     columns:
@@ -1129,7 +1089,7 @@ tables:
         key: cutting
         args:
           values:
-            - "yes"
+            - 'yes'
             - left
             - right
       - type: string
@@ -1162,7 +1122,7 @@ tables:
     filters:
       reject:
         area:
-          - "yes"
+          - 'yes'
     mappings:
       railway:
         mapping:

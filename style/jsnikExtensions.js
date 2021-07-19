@@ -89,6 +89,7 @@ const extensions = {
     sqlLayer(map, styleName, sql, atts = {}, nestedLayerFactory) {
       const dsParams = {
         table: `(${sql}) as foo`,
+        geometry_field: 'geometry'
       };
       return map.layer(styleName, dsParams, atts, { base: 'db' }, nestedLayerFactory);
     },

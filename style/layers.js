@@ -7,7 +7,7 @@ const towerType = `concat("class", '_', case type
 
 function getFeaturesSql(zoom) {
   const sqls = [`select * from (
-    select osm_id, geometry, name, ele,
+    select osm_id, geometry, name, tags->'ele' as ele,
       case when isolation > 4500 then 'peak1'
         when isolation between 3000 and 4500 then 'peak2'
         when isolation between 1500 and 3000 then 'peak3'
@@ -18,26 +18,25 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all select osm_id, geometry, name,         ele, case type when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end) else type end as type, null as isolation
         from osm_infopoints
-      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
-        from osm_aerodromes where icao <> ''
-      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
-        from osm_aerodrome_polys where icao <> ''
+    `);
+  }
+
+  if (zoom >= 12 && zoom < 14) {
+    sqls.push(`
+      union all select osm_id, geometry, name, tags->'ele' as ele, type, null as isolation
+        from osm_features where type = 'aerodrome' and tags ? 'icao'
+      union all select osm_id, geometry, name, tags->'ele' as ele, type, null as isolation
+        from osm_feature_polys where type = 'aerodrome' and tags ? 'icao'
     `);
   }
 
   if (zoom >= 14) {
     // TODO distinguish various "spring types" (fountain, geyser, ...)
     sqls.push(`
-      union all select osm_id, geometry, name,         ele, type, null as isolation
+      union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
         from osm_features where type <> 'peak' and type <> 'tree' and (type <> 'saddle' or name <> '')
-      union all select osm_id, geometry, name,         ele, case type when 'communications_tower' then 'tower_communication' else type end as type, null as isolation
+      union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
         from osm_feature_polys
-
-      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
-        from osm_aerodromes where icao = ''
-      union all select osm_id, geometry, name,         ele, 'aerodrome' as type, null as isolation
-        from osm_aerodrome_polys where icao = ''
-
       union all select osm_id, geometry, name,         ele,
         case when type = 'hot_spring' then 'hot_spring' else
         case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
