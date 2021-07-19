@@ -124,6 +124,7 @@ const pois = [
   [16, NN, N, N, 'feeding_place', { icon: 'manger' }],
   [16, NN, N, N, 'game_feeding', { icon: 'manger' }],
   [16, 17, N, N, 'playground'],
+  [16, NN, N, N, 'free_flying'],
   [16, 17, N, N, ['water_works', 'pumping_station', 'wastewater_plant'], { font: { fill: colors.waterLabel } }],
 
   [17, 18, N, N, 'wayside_shrine'],
@@ -206,7 +207,11 @@ function generateFreemapStyle({
       .area(colors.allotments, 'allotments')
       .area(hsl(0, 0, 80), 'industrial', 'wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
-      .area(colors.wetland, 'wetland')
+      .area(colors.grassy, 'wetland')
+        .rule({ minZoom: 8, maxZoom: 13})
+          .polygonPatternSymbolizer({ file: 'images/temp_water.svg', alignment: 'local', transform: 'scale(0.5)' })
+        .rule({ minZoom: 14})
+          .polygonPatternSymbolizer({ file: 'images/temp_water.svg', alignment: 'local' })
       .typesRule(12, 'pitch', 'playground', 'golf_course')
         .borderedPolygonSymbolizer(hsl(140, 50, 70))
         .lineSymbolizer({ stroke: hsl(140, 50, 40), strokeWidth: 1 })
