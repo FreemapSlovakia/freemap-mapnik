@@ -73,6 +73,7 @@ insert into z_order_poi (type) values
 ('museum'),
 ('cinema'),
 ('theatre'),
+('free_flying'),
 ('bunker'),
 ('restaurant'),
 ('pub'),
