@@ -305,7 +305,7 @@ function generateFreemapStyle({
     .style('feature_lines_maskable')
       .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
-        .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1 })
+        .lineSymbolizer({ stroke: hsl(0, 0, 33), strokeWidth: 1 })
       .typesRule(14, 'earth_bank')
         .linePatternSymbolizer({ file: 'images/earth_bank.svg' })
     .style('feature_lines')
@@ -406,11 +406,29 @@ function generateFreemapStyle({
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+    .style('feature_poly_names')
+      .doInStyle((style) => {
+        for (let z = 12; z <= 16; z++) {
+          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
+            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]');
+        }
+      })
+      .rule({ minZoom: 17 })
+        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+    .style('landcover_names_natural')
+      .doInStyle((style) => {
+        for (let z = 12; z <= 16; z++) {
+          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
+            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]');
+        }
+      })
+      .rule({ minZoom: 17 })
+        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
     .style('landcover_names')
       .doInStyle((style) => {
-        for (let z = 10; z <= 16; z++) {
+        for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]');
+            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]');
         }
       })
       .rule({ minZoom: 17 })
@@ -420,7 +438,7 @@ function generateFreemapStyle({
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
     .style('housenumbers')
       .rule({})
-        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: hsl(0, 0, 25) }), '[housenumber]')
+        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: hsl(0, 0, 33) }), '[housenumber]')
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer(font().line().end({ fill: colors.track }), '[name]')
