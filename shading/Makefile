@@ -226,7 +226,7 @@ build/final.tif.ovr: build/final.tif
 # gdalwarp -s_srs 'EPSG:8353' -t_srs 'EPSG:3857' -ct '+proj=pipeline +step +inv +proj=krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397527778 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +step +proj=push +v_3 +step +proj=cart +ellps=bessel +step +proj=helmert +x=485.021 +y=169.465 +z=483.839 +rx=-7.786342 +ry=-4.397554 +rz=-4.102655 +s=0 +convention=coordinate_frame +step +inv +proj=cart +ellps=WGS84 +step +proj=pop +v_3 +step +proj=webmerc +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84' -tr 1.194328566968441 1.194328566968441 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi smooth-sk.vrt smooth-sk-warped.tif
 
 ## warp PL (Z17)
-# gdalwarp -t_srs 'EPSG:3857' -tr 9.55462853565 9.55462853565 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi smooth-pl.vrt smooth-pl-warped.tif
+# gdalwarp -t_srs 'EPSG:3857' -tr 1.194328566968441 1.194328566968441 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi smooth-pl.vrt smooth-pl-warped.tif
 
 ## Merge SK+PL
 # gdalbuildvrt -r cubic merged.vrt smooth-pl-warped.tif smooth-sk-warped.tif
@@ -271,3 +271,13 @@ build/final.tif.ovr: build/final.tif
 # gdal2tiles.py -r near -z 14 --xyz -x --processes=$(getconf _NPROCESSORS_ONLN) -n -w none mask.tif masktiles
 # cd masktiles
 # find -name '*.png' | sed -e 's/\.\/\|\.png//g' > ../dirty.tiles
+
+####### simple HS
+# gdalbuildvrt -r cubic -allow_projection_difference -a_srs epsg:8353 sk2.vrt d/*.tif
+# gdalwarp -t_srs 'EPSG:3857' -tr 0.59716428348 0.59716428348 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi sk.vrt sk-warped.tif
+# gdaldem hillshade -alg Horn -z 1.5 -co JPEG_QUALITY=95 -co COMPRESS=JPEG -co NUM_THREADS=24 -co TILED=YES -co BIGTIFF=YES sk-warped.tif sk-hs.tif
+# gdalwarp -t_srs 'EPSG:3857' -tr 0.59716428348 0.59716428348 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi pl.vrt pl-warped.tif
+# gdaldem hillshade -alg Horn -z 1.5 -co JPEG_QUALITY=95 -co COMPRESS=JPEG -co NUM_THREADS=24 -co TILED=YES -co BIGTIFF=YES pl-warped.tif pl-hs.tif
+# gdalbuildvrt sh.vrt -r nearest pl-hs.tif sk-hs.tif
+# gdal2tiles.py -r near -z 17 --xyz --processes=$(getconf _NPROCESSORS_ONLN) -n -w none sh.vrt sh
+# gdalbuildvrt sh.vrt -r nearest pl-hs.tif sk-hs.tif
