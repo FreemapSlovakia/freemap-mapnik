@@ -72,6 +72,7 @@ const pois = [
   [14, 15, N, N, 'water_park'],
   [14, 15, N, N, 'museum'],
   [14, 15, N, N, 'free_flying'],
+  [14, 15, N, N, 'forester\'s_lodge'],
 
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],

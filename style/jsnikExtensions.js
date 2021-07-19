@@ -97,7 +97,7 @@ const extensions = {
 };
 
 function types(...type) {
-  return type.map((x) => `[type] = '${x}'`).join(' or ');
+  return type.map((x) => `[type] = '${x.replace("'", "\\'")}'`).join(' or ');
 }
 
 module.exports = { extensions, types };

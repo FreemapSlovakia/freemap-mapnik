@@ -59,6 +59,7 @@ insert into z_order_poi (type) values
 ('basic_hut'),
 ('camp_site'),
 ('castle'),
+('forester''s_lodge'),
 ('guidepost'),
 ('cathedral'),
 ('temple'),
