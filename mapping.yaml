@@ -147,7 +147,6 @@ tables:
         - pitch
         - stadium
         - dog_park # TODO
-        - horse_riding # TODO
       tourism:
         - zoo
       natural:
@@ -579,6 +578,9 @@ tables:
             - sauna
             - dog_park # TODO
             - horse_riding # TODO
+            - resort # TODO
+            - beach_resort # TODO
+            - bird_hide # TODO
           man_made:
             - adit
             - beehive
@@ -728,6 +730,11 @@ tables:
             - playground
             - water_park
             - sauna
+            - dog_park # TODO
+            - horse_riding # TODO
+            - resort # TODO
+            - beach_resort # TODO
+            - bird_hide # TODO
           man_made:
             - adit
             - chimney
