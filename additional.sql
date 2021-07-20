@@ -1,4 +1,5 @@
 CREATE EXTENSION intarray;
+CREATE EXTENSION hstore;
 
 -- see https://wiki.postgresql.org/wiki/First/last_(aggregate)
 
