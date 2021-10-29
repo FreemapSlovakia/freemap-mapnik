@@ -1,0 +1,16 @@
+{
+	"pipeline": [
+		"GK_535_153.laz",
+		{
+			"type": "filters.range",
+			"limits": "Classification[2:2]"
+		},
+		{
+			"filename": "GK_535_153.tif",
+			"gdaldriver": "GTiff",
+			"resolution": 1.0,
+			"output_type": "mean",
+			"type": "writers.gdal"
+		}
+	]
+}
