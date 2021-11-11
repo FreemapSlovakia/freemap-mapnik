@@ -340,20 +340,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen0 where geometry && !bbox! order by z_order, osm_id',
+      'select geometry, type, tracktype, class, service, bridge, tunnel, oneway from osm_roads_gen0 where geometry && !bbox! order by z_order, osm_id',
       { maxZoom: 9, groupBy: 'tunnel' },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order, osm_id',
+      'select geometry, type, tracktype, class, service, bridge, tunnel, oneway from osm_roads_gen1 where geometry && !bbox! order by z_order, osm_id',
       { minZoom: 10, maxZoom: 11, groupBy: 'tunnel' },
     )
     .sqlLayer('highways',
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen1 where geometry && !bbox! order by z_order, osm_id',
+      'select geometry, type, tracktype, class, service, bridge, tunnel, oneway from osm_roads_gen1 where geometry && !bbox! order by z_order, osm_id',
       { maxZoom: 11, groupBy: 'tunnel' },
     )
     .sqlLayer(['higwayGlows', 'highways'],
       // order bycase when type = 'rail' AND (service = 'main' OR service = '') then 1000 else z_order end
-      'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads where geometry && !bbox! order by z_order, osm_id',
+      'select geometry, type, tracktype, class, service, bridge, tunnel, oneway from osm_roads where geometry && !bbox! order by z_order, osm_id',
       { minZoom: 12, cacheFeatures: true, groupBy: 'tunnel' },
     )
     .sqlLayer('accessRestrictions',
@@ -368,7 +368,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 12 },
     )
     // .sqlLayer('highways',
-    //   'select geometry, type, tracktype, class, service, bridge, tunnel from osm_roads_gen0 order by z_order',
+    //   'select geometry, type, tracktype, class, service, bridge, tunnel, oneway from osm_roads_gen0 order by z_order',
     //   { maxZoom: 13 },
     // )
     .sqlLayer('aeroways',
