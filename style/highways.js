@@ -79,8 +79,10 @@ function highways() {
           .road({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray: '9.5,1.5' })
         .typesRule(14, 'piste')
           .road({ ...highwayDflt, strokeWidth: 1.2, stroke: 'white' })
-        .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
+        .typesRule(14, 'footway', 'pedestrian', 'platform')
           .road({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
+        .typesRule(14, 'steps')
+          .linePatternSymbolizer({ file: 'images/steps.svg' })
         .doInStyle((style) => {
           const w = [0.5, 0.75, 1];
           const zz = [[12, 12], [13, 13], [14]];
@@ -111,7 +113,7 @@ function highways() {
           }
         })
       .style('higwayGlows')
-        .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
+        .typesRule(14, 'footway', 'pedestrian', 'platform', 'steps')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(14, 'via_ferrata')
         .lineSymbolizer({ stroke: 'black', strokeWidth: 3, strokeDasharray: '0,4,4,0' })
