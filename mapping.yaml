@@ -496,6 +496,7 @@ tables:
             - arch
           waterway:
             - waterfall
+            - weir
           amenity:
             - atm
             - bank
