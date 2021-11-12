@@ -3,6 +3,7 @@ module.exports = { layers };
 const towerType = `concat("class", '_', case type
   when 'communication' then 'communication'
   when 'observation' then 'observation'
+  when 'bell_tower' then 'bell_tower'
   else 'other' end) as type`;
 
 function getFeaturesSql(zoom) {

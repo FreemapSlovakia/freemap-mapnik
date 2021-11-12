@@ -843,6 +843,7 @@ const legend = {
 
     poi('poi', 'tower_observation', 'observation tower', 'vyhliadková veža'),
     poi('poi', 'tower_communication', 'communication tower', 'komunikačná veža'),
+    poi('poi', 'tower_bell_tower', 'bell tower', 'zvonica'),
     poi('poi', 'tower_other', 'tower', 'veža'),
     poi('poi', 'water_tower', 'water tower', 'vodná veža'),
     poi('poi', 'chimney', 'chimney', 'komín'),

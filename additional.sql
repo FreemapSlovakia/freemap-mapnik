@@ -121,6 +121,7 @@ insert into z_order_poi (type) values
 ('taxi'),
 ('bus_stop'),
 ('public_transport'),
+('tower_bell_tower'),
 ('bicycle'),
 ('board'),
 ('map'),

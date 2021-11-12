@@ -77,7 +77,6 @@ const pois = [
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
-  [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'chimney'],
   [15, 16, N, N, 'fire_station'],
   [15, 16, N, N, 'community_centre'],
@@ -112,6 +111,8 @@ const pois = [
   [15, NN, N, N, 'mast_other'],
   [15, NN, N, N, 'tower_other'],
   [15, NN, N, N, ['tower_communication', 'mast_communication']],
+  [15, 16, N, N, 'tower_bell_tower'],
+  [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
   [15, 16, N, N, 'bicycle'],
