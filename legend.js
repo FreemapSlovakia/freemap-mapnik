@@ -601,6 +601,24 @@ const legend = {
       ...props,
     },
     {
+      categoryId: 'communications',
+      name: {
+        en: 'oneway',
+        sk: 'jednosmerka',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'service',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+        }),
+      ],
+      ...props,
+    },
+    {
       categoryId: 'railway',
       name: {
         en: 'main railway',
