@@ -1150,6 +1150,8 @@ tables:
           man_made:
             - pier
             - groyne
+          route:
+            - piste
           highway:
             - motorway
             - motorway_link
