@@ -1126,6 +1126,17 @@ tables:
         key: tracktype
       - type: mapping_key
         name: class
+      - type: enumerate
+        name: trail_visibility
+        key: trail_visibility
+        args:
+        values:
+           - excellent
+           - good
+           - intermediate
+           - bad
+           - horrible
+           - no
     type: linestring
     filters:
       reject:
