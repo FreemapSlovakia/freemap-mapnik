@@ -56,6 +56,7 @@ insert into z_order_poi (type) values
 ('motel'),
 ('guest_house'),
 ('alpine_hut'),
+('apartment'),
 ('wilderness_hut'),
 ('basic_hut'),
 ('camp_site'),
