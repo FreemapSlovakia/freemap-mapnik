@@ -112,7 +112,7 @@ function highways() {
               });
           }
         })
-        .rule({ minZoom: 13, filter: '[oneway] <> 0 and (' + types('bridleway', 'cycleway', 'platform', 'steps', 'road', 'piste', 'path', 'pedestrian', 'service', 'track', 'unclassified', 'primary', 'secondary', 'tertiary', 'primary_link', 'secondary_link', 'tertiary_link') + ')' })
+        .rule({ minZoom: 14, filter: '[oneway] <> 0' })
           .markersSymbolizer({ file: 'images/highway-arrow.svg', spacing: 100, placement: 'line', transform: 'rotate(90 - [oneway] * 90, 0, 0)' })
       .style('higwayGlows')
         .typesRule(14, 'footway', 'pedestrian', 'platform', 'steps')
