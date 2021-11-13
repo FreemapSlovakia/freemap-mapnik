@@ -621,7 +621,7 @@ tables:
           emergency:
             - access_point # TODO
           aerialway:
-            - pylon # TODO
+            - pylon
             # - station FIXME conflicts with railway=station
           railway:
             - station
@@ -733,7 +733,7 @@ tables:
             - water_park
             - sauna
             - dog_park # TODO
-            - horse_riding # TODO
+            - horse_riding
             - resort # TODO
             - beach_resort # TODO
             - bird_hide # TODO
@@ -804,6 +804,27 @@ tables:
         - spring
       man_made:
         - spring_box
+
+  building_points:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - access
+    type: point
+    mapping:
+      building:
+        - __any__
 
   sports:
     columns:
