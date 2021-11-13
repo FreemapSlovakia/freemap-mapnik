@@ -64,7 +64,6 @@ const pois = [
   [14, 15, N, N, 'attraction'],
   [14, 15, N, N, 'hospital'],
   [14, 15, N, N, 'townhall'],
-  [14, 15, N, Y, ['hut', 'cabin']], //  fallback
   [14, 15, N, N, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [14, 15, Y, N, 'tower_observation'],
   [14, 15, Y, N, 'archaeological_site'],
@@ -119,7 +118,8 @@ const pois = [
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
   [15, 16, N, N, 'bicycle'],
-  [15, 15, N, N, 'tree'],
+  [15, 16, N, N, 'building'],
+  [15, 15, N, Y, 'tree'],
 
   [16, NN, N, N, 'picnic_table'],
   [16, 17, N, N, 'picnic_site'],

@@ -554,7 +554,6 @@ tables:
             - alpine_hut
             - apartment
             - artwork
-            - cabin
             - camp_site
             - caravan_site
             - castle
@@ -562,7 +561,6 @@ tables:
             - guest_house
             - hostel
             - hotel
-            - hut
             - memorial
             - monument
             - motel
@@ -712,7 +710,6 @@ tables:
             - alpine_hut
             - apartment
             - artwork
-            - cabin
             - camp_site
             - caravan_site
             - castle

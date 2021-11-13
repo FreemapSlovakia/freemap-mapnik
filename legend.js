@@ -746,7 +746,7 @@ const legend = {
     poi('accomodation', 'chalet', 'chalet', 'chata'),
     poi('accomodation', 'alpine_hut', 'alpine hut', 'horská chata'),
     poi('accomodation', 'wilderness_hut', 'wilderness hut', 'chata v divočine'),
-    poi('accomodation', 'hut', 'hut, cabin', 'búda, chatka'),
+    poi('accomodation', 'building', 'building', 'budova'),
     poi('accomodation', 'camp_site', 'camp site', 'kemp'),
     poi('accomodation', 'hunting_stand', 'hunting stand', 'poľovnícky posed'),
     poi('accomodation', 'basic_hut', 'basic hut', 'jednoduchá chatka'),

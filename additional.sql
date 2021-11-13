@@ -68,8 +68,6 @@ insert into z_order_poi (type) values
 ('basilica'),
 ('church'),
 ('chapel'),
-('hut'),
-('cabin'),
 ('station'),
 ('halt'),
 ('bus_station'),
@@ -169,4 +167,5 @@ insert into z_order_poi (type) values
 ('game_feeding'),
 ('shopping_cart'),
 ('gate'),
-('ruins');
+('ruins'),
+('building');
