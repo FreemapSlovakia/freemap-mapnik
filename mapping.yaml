@@ -612,6 +612,7 @@ tables:
             - monument
             - wayside_cross
             - wayside_shrine
+            - tree_shrine
           power:
             - pole
             - tower

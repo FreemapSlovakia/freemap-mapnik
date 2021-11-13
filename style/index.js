@@ -134,7 +134,7 @@ const pois = [
   [16, 17, N, N, ['water_works', 'reservoir_covered', 'pumping_station', 'wastewater_plant'], { font: { fill: colors.waterLabel } }],
 
   [17, 18, N, N, 'wayside_shrine'],
-  [17, 18, N, N, ['cross', 'wayside_cross']],
+  [17, 18, N, N, ['cross', 'wayside_cross', 'tree_shrine']],
   [17, NN, N, N, 'firepit'],
   [17, NN, N, N, 'toilets'],
   [17, NN, N, N, 'bench'],
