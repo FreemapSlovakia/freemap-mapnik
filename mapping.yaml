@@ -1152,13 +1152,13 @@ tables:
         name: trail_visibility
         key: trail_visibility
         args:
-        values:
-           - excellent
-           - good
-           - intermediate
-           - bad
-           - horrible
-           - no
+          values:
+            - excellent
+            - good
+            - intermediate
+            - bad
+            - horrible
+            - 'no'
     type: linestring
     filters:
       reject:
