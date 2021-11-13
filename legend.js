@@ -144,6 +144,7 @@ function road(type, en, sk, noForest) {
         bridge: '',
         tunnel: '',
         tracktype: '',
+        oneway: 0,
       }),
     ].filter(Boolean),
     ...props,
@@ -188,6 +189,7 @@ const track1 = asLine(['higwayGlows', 'highways'], {
   class: 'highway',
   bridge: '',
   tunnel: '',
+  oneway: 0,
 });
 
 const track3 = asLine(['higwayGlows', 'highways'], {
@@ -196,6 +198,7 @@ const track3 = asLine(['higwayGlows', 'highways'], {
   class: 'highway',
   bridge: '',
   tunnel: '',
+  oneway: 0,
 });
 
 const track3rev = asLine(['higwayGlows', 'highways'], {
@@ -204,6 +207,7 @@ const track3rev = asLine(['higwayGlows', 'highways'], {
   class: 'highway',
   bridge: '',
   tunnel: '',
+  oneway: 0,
 }, true);
 
 const legend = {
@@ -502,6 +506,7 @@ const legend = {
           bridge: '',
           tunnel: '',
           tracktype: grade ? `grade${grade}` : '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -529,6 +534,7 @@ const legend = {
           bridge: 1,
           tunnel: '',
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -548,6 +554,7 @@ const legend = {
           bridge: '',
           tunnel: 1,
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -614,6 +621,7 @@ const legend = {
           bridge: '',
           tunnel: '',
           tracktype: '',
+          oneway: 1
         }),
       ],
       ...props,
@@ -634,6 +642,7 @@ const legend = {
           bridge: '',
           tunnel: '',
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -654,6 +663,7 @@ const legend = {
           bridge: '',
           tunnel: '',
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -674,6 +684,7 @@ const legend = {
           bridge: '',
           tunnel: '',
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -714,6 +725,7 @@ const legend = {
           bridge: 1,
           tunnel: '',
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
@@ -734,6 +746,7 @@ const legend = {
           bridge: 0,
           tunnel: 1,
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
