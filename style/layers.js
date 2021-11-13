@@ -40,7 +40,7 @@ function getFeaturesSql(zoom) {
         from osm_sport_polys where type in ('free_flying')
 
       union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
-        from osm_features where type <> 'peak' and type <> 'tree' and (type <> 'saddle' or name <> '')
+        from osm_features where type <> 'peak' and (type <> 'tree' or tags->'protected' <> '' and tags->'protected' <> 'no') and (type <> 'saddle' or name <> '')
       union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
         from osm_feature_polys
 

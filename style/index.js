@@ -118,6 +118,7 @@ const pois = [
   [15, 16, N, N, 'bus_stop'],
   [15, 16, N, N, 'taxi'],
   [15, 16, N, N, 'bicycle'],
+  [15, 15, N, N, 'tree'],
 
   [16, NN, N, N, 'picnic_table'],
   [16, 17, N, N, 'picnic_site'],
@@ -325,7 +326,7 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 13; z <= 19; z++) {
           style.typesRule(z, z === 16 ? 20 : z, 'tree_row')
-            .linePatternSymbolizer({ file: 'images/tree.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
+            .linePatternSymbolizer({ file: 'images/tree2.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
         }
       })
     .style('embankments')
@@ -362,7 +363,7 @@ function generateFreemapStyle({
           const size = 2 + Math.pow(2, z - 15);
           style
             .rule({ minZoom: z, maxZoom: z })
-            .markersSymbolizer({ file: 'images/tree.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true });
+            .markersSymbolizer({ file: 'images/tree2.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true });
         }
       })
     .style('features')

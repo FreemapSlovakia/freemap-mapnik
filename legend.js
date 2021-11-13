@@ -780,6 +780,7 @@ const legend = {
       ],
       ...props,
     },
+    poi('natural_poi', 'tree', 'protected tree', 'chráneny strom'),
     poi('poi', 'viewpoint', 'viewpoint', 'výhľad'),
 
 
