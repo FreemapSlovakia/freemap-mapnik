@@ -705,6 +705,7 @@ const legend = {
           bridge: '',
           tunnel: '',
           tracktype: '',
+          oneway: 0,
         }),
       ],
       ...props,
