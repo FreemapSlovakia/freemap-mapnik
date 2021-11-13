@@ -94,6 +94,7 @@ const pois = [
   [15, 16, Y, N, 'weather_shelter'],
   [15, 16, N, Y, 'rock'],
   [15, 16, N, Y, 'stone'],
+  [15, 16, N, Y, 'sinkhole'],
   [15, 16, N, N, 'pharmacy'],
   [15, 16, N, N, 'cinema'],
   [15, 16, N, N, 'theatre'],

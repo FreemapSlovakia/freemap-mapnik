@@ -135,6 +135,7 @@ insert into z_order_poi (type) values
 ('cross'),
 ('rock'),
 ('stone'),
+('sinkhole'),
 ('toilets'),
 ('post_box'),
 ('telephone'),
