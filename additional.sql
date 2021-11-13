@@ -114,6 +114,7 @@ insert into z_order_poi (type) values
 ('fire_station'),
 ('police'),
 ('post_office'),
+('horse_riding'),
 ('picnic_shelter'),
 ('weather_shelter'),
 ('shelter'),

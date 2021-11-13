@@ -855,6 +855,7 @@ const legend = {
 
     poi('poi', 'feeding_place', 'feeding place', 'krmidlo'),
     poi('poi', 'beehive', 'beehive', 'včelý úľ'),
+    poi('poi', 'horse_riding', 'horse riding', 'jazda na koni'),
 
     poi('poi', 'forester\'s_lodge', 'forester\'s lodge', 'horáreň'),
     poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
