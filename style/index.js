@@ -368,6 +368,8 @@ function generateFreemapStyle({
         }
       })
     .style('features')
+      .typesRule(16, 'pylon')
+        .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(14, 'pole')
