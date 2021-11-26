@@ -84,6 +84,7 @@ insert into z_order_poi (type) values
 ('fast_food'),
 ('cafe'),
 ('bar'),
+('pastry'),
 ('confectionery'),
 ('hospital'),
 ('pharmacy'),

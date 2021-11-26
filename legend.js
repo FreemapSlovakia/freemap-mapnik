@@ -843,7 +843,7 @@ const legend = {
     poi('gastro_poi', 'convenience', 'convenience store', 'potraviny'),
     poi('gastro_poi', 'supermarket', 'supermarket', 'supermarket'),
     poi('gastro_poi', 'fast_food', 'fast food', 'rýchle občerstvenie'),
-    poi('gastro_poi', 'confectionery', 'confectionery', 'cukráreň'),
+    poi('gastro_poi', 'confectionery', 'confectionery', 'cukráreň'), // also pastry
 
     poi('poi', 'bunker', 'bunker', 'bunker'),
     poi('poi', 'boundary_stone', 'boundary stone', 'hraničný kameň'),
