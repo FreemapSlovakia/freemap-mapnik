@@ -384,7 +384,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 12 }
     )
     .sqlLayer('buildings',
-      'select geometry, type from osm_buildings',
+      "select geometry, type from osm_buildings  where type <> 'no'",
       { minZoom: 13 },
     )
     .sqlLayer('barrierways',
@@ -575,7 +575,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // )
     .sqlLayer(
       'building_names',
-      'select name, type, geometry from osm_buildings order by osm_id',
+      "select name, type, geometry from osm_buildings where type <> 'no' order by osm_id",
       { bufferSize: 512, minZoom: 17 },
     )
     .sqlLayer(
