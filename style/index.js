@@ -213,6 +213,7 @@ function generateFreemapStyle({
       .area(colors.allotments, 'allotments')
       .area(hsl(0, 0, 80), 'industrial', 'wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
+      .area(colors.wetland, 'wetland')
       .typesRule(12, 'pitch', 'playground', 'golf_course')
         .borderedPolygonSymbolizer(hsl(140, 50, 70))
         .lineSymbolizer({ stroke: hsl(140, 50, 40), strokeWidth: 1 })
