@@ -580,6 +580,7 @@ tables:
             - resort # TODO
             - beach_resort # TODO
             - bird_hide # TODO
+            - outdoor_seating # TODO+NEW
           man_made:
             - adit
             - beehive
@@ -734,6 +735,7 @@ tables:
             - resort # TODO
             - beach_resort # TODO
             - bird_hide # TODO
+            - outdoor_seating # TODO+NEW
           man_made:
             - adit
             - chimney
