@@ -92,7 +92,7 @@ function highways() {
               .rule({ minZoom: zz[a][0], maxZoom: zz[a][1], filter: "[type] = 'service' and [service] != 'parking_aisle' or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway'" })
                 .road({ ...highwayDflt, strokeWidth: k * 1.2 })
               .typesRule(...zz[a], 'path')
-                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3', strokeOpacity: '[trail_visibility]' })
               .typesRule(...zz[a], 'cycleway')
                 .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3', stroke: '#b400ff' })
               .typesRule(14, 'bridleway')
@@ -107,7 +107,7 @@ function highways() {
                         minZoom: zz[a][0],
                         maxZoom: zz[a][1],
                     })
-                      .road({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray });
+                      .road({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray, strokeOpacity: '[trail_visibility]' });
                 });
               });
           }
@@ -121,9 +121,9 @@ function highways() {
         .lineSymbolizer({ stroke: 'black', strokeWidth: 3, strokeDasharray: '0,4,4,0' })
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(12, 'path')
-          .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
+          .lineSymbolizer({ ...glowDflt, strokeWidth: 1, strokeOpacity: '[trail_visibility]' })
         .typesRule(12, 'track')
-          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
+          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2, strokeOpacity: '[trail_visibility]' })
         .typesRule(14, 'raceway')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
         .typesRule(14, 'bridleway')

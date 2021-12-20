@@ -128,7 +128,17 @@ function asArea(styles, properties, forZoom = 18) {
 
 const forest = asArea(['landcover'], { type: 'forest' });
 
-function road(type, en, sk, noForest) {
+const roadDefaults = {
+  class: 'highway',
+  service: '',
+  bridge: '',
+  tunnel: '',
+  tracktype: '',
+  oneway: 0,
+  trail_visibility: 1,
+};
+
+function road(type, en, sk, noForest = false, trailVisibility = 0) {
   return {
     categoryId: 'communications',
     name: {
@@ -138,13 +148,7 @@ function road(type, en, sk, noForest) {
     layers: [
       noForest ? null : forest,
       asLine(['higwayGlows', 'highways', 'highway_names'], {
-        type,
-        name: 'Abc',
-        class: 'highway',
-        bridge: '',
-        tunnel: '',
-        tracktype: '',
-        oneway: 0,
+        ...roadDefaults, type, trail_visibility: 0.666 ** trailVisibility,
       }),
     ].filter(Boolean),
     ...props,
@@ -184,41 +188,25 @@ function landcover(type, en, sk) {
 
 
 const track1 = asLine(['higwayGlows', 'highways'], {
+  ...roadDefaults,
   type: 'track',
   tracktype: 'grade1',
-  class: 'highway',
-  bridge: '',
-  tunnel: '',
-  oneway: 0,
 });
 
 const track3 = asLine(['higwayGlows', 'highways'], {
+  ...roadDefaults,
   type: 'track',
   tracktype: 'grade3',
-  class: 'highway',
-  bridge: '',
-  tunnel: '',
-  oneway: 0,
 });
 
 const track3rev = asLine(['higwayGlows', 'highways'], {
+  ...roadDefaults,
   type: 'track',
   tracktype: 'grade3',
-  class: 'highway',
-  bridge: '',
-  tunnel: '',
-  oneway: 0,
 }, true);
 
 const legend = {
   categories: [
-    {
-      id: 'trails',
-      name: {
-        en: 'Marked trails',
-        sk: 'Značené trasy',
-      },
-    },
     {
       id: 'communications',
       name: {
@@ -396,7 +384,7 @@ const legend = {
       ...propsForZoom(16),
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'international, national or regional hiking trail',
         sk: 'medzinárodná, národná alebo regionálna turistická trasa',
@@ -414,7 +402,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'local hiking trail',
         sk: 'miestná turistická trasa',
@@ -432,7 +420,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'bicycle trail',
         sk: 'cyklotrasa',
@@ -450,7 +438,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'x-country ski trail',
         sk: 'lyžiarská (bežkárska) trasa',
@@ -468,7 +456,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'horse trail',
         sk: 'jazdecká trasa',
@@ -500,13 +488,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways', 'highway_names'], {
+          ...roadDefaults,
           type: 'track',
           name: 'Abc',
-          class: 'highway',
-          bridge: '',
-          tunnel: '',
           tracktype: grade ? `grade${grade}` : '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -528,13 +513,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways', 'highway_names'], {
+          ...roadDefaults,
           type: 'secondary',
           name: 'Abc',
-          class: 'highway',
           bridge: 1,
-          tunnel: '',
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -548,13 +530,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways', 'highway_names'], {
+          ...roadDefaults,
           type: 'secondary',
           name: 'Abc',
-          class: 'highway',
-          bridge: '',
           tunnel: 1,
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -626,6 +605,12 @@ const legend = {
       ],
       ...props,
     },
+    road('path', 'unknown or excellent trail visibility', 'viditeľnosť trasy je neznáma alebo výborná', false, 0),
+    road('path', 'good trail visibility', 'viditeľnosť trasy je dobrá', false, 1),
+    road('path', 'trail is mostly visible', 'trasa je väčšinou viditeľná', false, 2),
+    road('path', 'trail is sometimes visible and sometimes not', 'trasa je striedavo viditeľná', false, 3),
+    road('path', 'trail is mostly not visible', 'trasa nie je väčšinou viditeľná', false, 4),
+    road('path', 'trail is not visible at all', 'trasa nie je vôbec viditeľná', false, 5),
     {
       categoryId: 'railway',
       name: {
@@ -635,14 +620,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
-          service: '',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -656,14 +637,11 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
           service: 'service',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -677,14 +655,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'miniature',
           class: 'railway',
-          service: '',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -698,14 +672,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'construction',
           class: 'railway',
-          service: '',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -719,14 +689,11 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
-          service: '',
           bridge: 1,
-          tunnel: '',
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
@@ -740,14 +707,11 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
-          service: '',
-          bridge: 0,
           tunnel: 1,
-          tracktype: '',
-          oneway: 0,
         }),
       ],
       ...props,
