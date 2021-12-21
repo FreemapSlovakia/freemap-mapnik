@@ -308,7 +308,7 @@ const legend = {
       },
       layers: [
         forest,
-        asLine(['feature_lines'], {
+        asLine(['feature_lines_maskable'], {
           type: 'cliff'
         }),
       ],
@@ -322,7 +322,7 @@ const legend = {
       },
       layers: [
         forest,
-        asLine(['feature_lines'], {
+        asLine(['feature_lines_maskable'], {
           type: 'earth_bank'
         }),
       ],
