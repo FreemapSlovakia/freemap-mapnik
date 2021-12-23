@@ -605,7 +605,7 @@ const legend = {
       ],
       ...props,
     },
-    road('path', 'unknown or excellent trail visibility', 'viditeľnosť trasy je neznáma alebo výborná', false, 0),
+    road('path', 'excellent or unspecified trail visibility', 'viditeľnosť trasy je výborná alebo neurčená', false, 0),
     road('path', 'good trail visibility', 'viditeľnosť trasy je dobrá', false, 1),
     road('path', 'trail is mostly visible', 'trasa je väčšinou viditeľná', false, 2),
     road('path', 'trail is sometimes visible and sometimes not', 'trasa je striedavo viditeľná', false, 3),
