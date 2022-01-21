@@ -167,6 +167,7 @@ insert into z_order_poi (type) values
 ('feeding_place'),
 ('game_feeding'),
 ('shopping_cart'),
-('gate'),
 ('ruins'),
-('building');
+('building'),
+('tree'),
+('gate');
