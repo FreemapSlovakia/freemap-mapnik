@@ -30,6 +30,7 @@ const pois = [
   [12, 12, N, N, 'aerodrome'],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
   [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
+  [14, 14, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -121,6 +122,7 @@ const pois = [
   [15, 16, N, N, 'building'],
   [15, 15, N, Y, 'tree'],
 
+  [16, NN, Y, N, ['guidepost_noname', 'route_marker'], { icon: 'guidepost_x' }],
   [16, NN, N, N, 'picnic_table'],
   [16, 17, N, N, 'picnic_site'],
   [16, 16, N, N, 'board'],

@@ -170,4 +170,5 @@ insert into z_order_poi (type) values
 ('ruins'),
 ('building'),
 ('tree'),
-('gate');
+('gate')
+('route_marker');
