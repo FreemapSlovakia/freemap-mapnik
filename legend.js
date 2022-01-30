@@ -155,7 +155,7 @@ function road(type, en, sk, noForest = false, trailVisibility = 0) {
   };
 }
 
-function poi(categoryId, type, en, sk, eithEle) {
+function poi(categoryId, type, en, sk, eithEle, access = null) {
   return {
     categoryId,
     name: {
@@ -167,7 +167,8 @@ function poi(categoryId, type, en, sk, eithEle) {
       asPoint(['features', 'feature_names'], {
         name: 'Abc',
         type,
-        ele: eithEle ? 320 : ''
+        ele: eithEle ? 320 : '',
+        access
       }, eithEle ? -0.00005 : -0.00003),
     ],
     ...props,
@@ -1127,6 +1128,7 @@ const legend = {
       ],
       ...props,
     },
+    poi('other', 'picnic_shelter', 'private POI', 'súkromný bod záujmu', undefined, 'no'),
   ],
 };
 

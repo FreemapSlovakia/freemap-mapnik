@@ -4,13 +4,17 @@ const extensions = {
   style: {
     typesRule(style, ...t) {
       const q = [...t];
+
       let minZoom, maxZoom;
+
       if (typeof q[0] === 'number' || typeof q[0] === 'undefined') {
         minZoom = q.shift();
       }
+
       if (typeof q[0] === 'number' || typeof q[0] === 'undefined') {
         maxZoom = q.shift();
       }
+
       return style.rule({ filter: types(...q), minZoom, maxZoom });
     },
     poiIcons(style, pois) {
@@ -18,14 +22,20 @@ const extensions = {
         if (typeof minIcoZoom !== 'number') {
           continue;
         }
+
         const types = Array.isArray(type) ? type : [type];
+
         const zoom = [minIcoZoom];
+
         if (extra.maxZoom) {
           zoom.push(extra.maxZoom);
         }
+
+        // TODO find out a way to make it red
         style.typesRule(...zoom, ...types)
-          .markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg` });
+          .markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg`, opacity: '1 - ([access] = "private" || [access] = "no") * 0.66' });
       }
+
       return style; // TODO remove
     },
     poiNames(style, pois) {
@@ -35,10 +45,12 @@ const extensions = {
         }
 
         const fnt = font().wrap().if(natural, f => f.nature()).end({ dy: -10, ...(extra.font || {}) });
+
         const { textSymbolizerEle } = style
           .rule({ filter: types(...Array.isArray(type) ? type : [type]), minZoom: minTextZoom, maxZoom: extra.maxZoom })
           .textSymbolizer(fnt,
             withEle ? undefined : '[name]');
+
         if (withEle) {
           textSymbolizerEle.text('[name] + "\n"');
           textSymbolizerEle.ele('Format', { size: fnt.size * 0.8 }, '[ele]');
@@ -59,12 +71,15 @@ const extensions = {
     },
     rail(rule, { color, weight, sleeperWeight, spacing, glowWidth }) {
       const gw = weight + glowWidth * 2;
+
       const sgw = sleeperWeight + glowWidth * 2;
+
       if (glowWidth) {
         rule
           .lineSymbolizer({ stroke: 'white', strokeWidth: gw })
           .lineSymbolizer({ stroke: 'white', strokeWidth: sgw, strokeDasharray: `0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}` });
       }
+
       rule
         .lineSymbolizer({ stroke: color, strokeWidth: weight })
         .lineSymbolizer({ stroke: color, strokeWidth: sleeperWeight, strokeDasharray: `0,${(spacing - weight) / 2},${weight},${(spacing - weight) / 2}` })
@@ -73,6 +88,7 @@ const extensions = {
         .lineSymbolizer({ stroke: 'black', strokeWidth: '[tunnel]', offset: sgw / 2, strokeDasharray: '3,3', strokeOpacity: 0.5 })
         .lineSymbolizer({ stroke: 'black', strokeWidth: '[tunnel]', offset: - sgw / 2, strokeDasharray: '3,3', strokeOpacity: 0.5 })
         .lineSymbolizer({ strokeOpacity: 0.8, stroke: '#ccc', strokeWidth: `[tunnel] * ${sgw}` });
+
       return rule;
     },
     road(rule, props) {

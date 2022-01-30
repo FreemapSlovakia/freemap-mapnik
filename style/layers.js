@@ -11,10 +11,11 @@ function getFeaturesSql(zoom) {
         when isolation between 3000 and 4500 then 'peak2'
         when isolation between 1500 and 3000 then 'peak3'
         else 'peak' end as type,
-      isolation
+      isolation,
+      null as access
     from
-      osm_features natural
-    left join
+      osm_features
+    natural left join
       isolations
     where
       type = 'peak' and name <> '' and geometry && !bbox!`];
@@ -31,7 +32,8 @@ function getFeaturesSql(zoom) {
             when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end)
             else type
             end as type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_infopoints
     `);
@@ -46,11 +48,13 @@ function getFeaturesSql(zoom) {
           name,
           tags->'ele' as ele,
           type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_features
         where
           type = 'aerodrome' and tags ? 'icao'
+
       union all
         select
           osm_id,
@@ -58,10 +62,12 @@ function getFeaturesSql(zoom) {
           name,
           tags->'ele' as ele,
           type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_feature_polys
-        where type = 'aerodrome' and tags ? 'icao'
+        where
+          type = 'aerodrome' and tags ? 'icao'
     `);
   }
 
@@ -76,7 +82,8 @@ function getFeaturesSql(zoom) {
           name,
           null as ele,
           type,
-          null as isolation
+          null as isolation,
+          tags->'access' as access
         from
           osm_sports
         where
@@ -93,7 +100,8 @@ function getFeaturesSql(zoom) {
             when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end)
             else type
             end as type,
-          null as isolation
+          null as isolation,
+          case when type in ('cave_entrance') then null else tags->'access' end as access
         from
           osm_features
         where
@@ -111,7 +119,8 @@ function getFeaturesSql(zoom) {
             when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end)
             else type
             end as type,
-          null as isolation
+          null as isolation,
+          case when type in ('cave_entrance') then null else tags->'access' end as access
         from
           osm_feature_polys
 
@@ -125,7 +134,8 @@ function getFeaturesSql(zoom) {
             case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
             case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring'
           end as type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_springs
 
@@ -136,7 +146,8 @@ function getFeaturesSql(zoom) {
           name,
           null as ele,
           'ruins' as type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_ruins
 
@@ -147,7 +158,8 @@ function getFeaturesSql(zoom) {
           name,
           null as ele,
           building as type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_place_of_worships
         where
@@ -160,7 +172,9 @@ function getFeaturesSql(zoom) {
             when 'communication' then 'communication'
             when 'observation' then 'observation'
             when 'bell_tower' then 'bell_tower'
-            else 'other' end) as type, null as isolation
+            else 'other' end) as type,
+          null as isolation,
+          null as access
           from
             osm_towers
     `);
@@ -175,7 +189,8 @@ function getFeaturesSql(zoom) {
           name,
           null as ele,
           type,
-          null as isolation
+          null as isolation,
+          null as access
         from
           osm_shops
         where
@@ -188,7 +203,8 @@ function getFeaturesSql(zoom) {
           name,
           null as ele,
           'building' as type,
-          null as isolation
+          null as isolation,
+          tags->'access' as access
         from
           osm_building_points
         where
@@ -205,9 +221,12 @@ function getFeaturesSql(zoom) {
           name,
           null as ele,
           type,
-          null as isolation
+          null as isolation,
+          null as access
         from
-          osm_barrierpoints where type in ('lift_gate', 'swing_gate', 'gate')
+          osm_barrierpoints
+        where
+          type in ('lift_gate', 'swing_gate', 'gate')
     `);
   }
 
@@ -219,9 +238,7 @@ function getFeaturesSql(zoom) {
       by z_order, isolation desc nulls last, ele desc nulls last, osm_id
   `);
 
-  const sql = sqls.join('');
-
-  return sql;
+  return sqls.join('');
 }
 
 const landuseZOrder = "position(type || ',' in 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,kindergarten,school,college,university,village_green,wetland,grass,recreation_ground,zoo,farmyard,retail,commercial,residential,industrial,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,') as z_order";
