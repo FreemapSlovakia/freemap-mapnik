@@ -671,7 +671,7 @@ tables:
       sport:
         mapping:
           sport:
-            - free_flying
+            - __any__
 
   feature_polys: # NOTE used for rendering icons only
     columns:
@@ -828,7 +828,7 @@ tables:
       sport:
         mapping:
           sport:
-            - free_flying
+            - __any__
 
   springs:
     columns:
@@ -884,6 +884,48 @@ tables:
     type: point
     mapping:
       building:
+        - __any__
+
+  sports:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - access
+    type: point
+    mapping:
+      sport:
+        - __any__
+
+  sport_polys:
+    columns:
+      - type: id
+        name: osm_id
+      - type: geometry
+        name: geometry
+      - type: string
+        name: name
+        key: name
+      - type: mapping_value
+        name: type
+      - type: hstore_tags
+        name: tags
+        args:
+          include:
+            - access
+    type: polygon
+    mapping:
+      sport:
         - __any__
 
   power_generators:
