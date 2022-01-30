@@ -234,26 +234,14 @@ tables:
         key: name
       - name: type
         type: mapping_value
-    type: point
-    mapping:
-      shop:
-        - __any__
-
-  shop_polys:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: type
-        type: mapping_value
-    type: polygon
-    mapping:
-      shop:
-        - __any__
+    type: geometry
+    type_mappings:
+      points:
+        shop:
+          - __any__
+      polygons:
+        shop:
+          - __any__
 
   places:
     columns:
@@ -668,10 +656,6 @@ tables:
         mapping:
           highway:
             - bus_stop
-      sport:
-        mapping:
-          sport:
-            - __any__
 
   feature_polys: # NOTE used for rendering icons only
     columns:
@@ -763,7 +747,6 @@ tables:
             - guest_house
             - hostel
             - hotel
-            - hut
             - monument
             - motel
             - museum
@@ -825,10 +808,6 @@ tables:
         mapping:
           railway:
             - station
-      sport:
-        mapping:
-          sport:
-            - __any__
 
   springs:
     columns:
@@ -902,31 +881,14 @@ tables:
         args:
           include:
             - access
-    type: point
-    mapping:
-      sport:
-        - __any__
-
-  sport_polys:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: mapping_value
-        name: type
-      - type: hstore_tags
-        name: tags
-        args:
-          include:
-            - access
-    type: polygon
-    mapping:
-      sport:
-        - __any__
+    type: geometry
+    type_mappings:
+      points:
+        sport:
+          - __any__
+      polygons:
+        sport:
+          - __any__
 
   power_generators:
     columns:
@@ -943,30 +905,14 @@ tables:
       - name: method
         type: string
         key: generator:method
-    type: point
-    mapping:
-      power:
-        - generator
-
-  power_generator_polys:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: source
-        type: string
-        key: generator:source
-      - name: method
-        type: string
-        key: generator:method
-    type: polygon
-    mapping:
-      power:
-        - generator
+    type: geometry
+    type_mappings:
+      points:
+        power:
+          - generator
+      polygons:
+        power:
+          - generator
 
   ruins:
     columns:
@@ -980,27 +926,14 @@ tables:
       - name: type
         type: string
         key: ruins
-    type: point
-    mapping:
-      historic:
-        - ruins
-
-  ruin_polys:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: type
-        type: string
-        key: ruins
-    type: polygon
-    mapping:
-      historic:
-        - ruins
+    type: geometry
+    type_mappings:
+      points:
+        historic:
+          - ruins
+      polygons:
+        historic:
+          - ruins
 
   towers:
     columns:
@@ -1019,44 +952,16 @@ tables:
         key: tower:type
       - name: class
         type: mapping_value
-    type: point
-    mappings:
-      tower:
-        mapping:
-          man_made:
-            - tower
-      mast:
-        mapping:
-          man_made:
-            - mast
-
-  tower_polys:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: ele
-        type: string
-        key: ele
-      - name: type
-        type: string
-        key: tower:type
-      - name: class
-        type: mapping_value
-    type: polygon
-    mappings:
-      tower:
-        mapping:
-          man_made:
-            - tower
-      mast:
-        mapping:
-          man_made:
-            - mast
+    type: geometry
+    type_mappings:
+      points:
+        man_made:
+          - tower
+          - mast
+      polygons:
+        man_made:
+          - tower
+          - mast
 
   place_of_worships:
     columns:
@@ -1073,30 +978,14 @@ tables:
       - name: religion
         type: string
         key: religion
-    type: point
-    mapping:
-      amenity:
-        - place_of_worship
-
-  place_of_worship_polys:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: building
-        type: string
-        key: building
-      - name: religion
-        type: string
-        key: religion
-    type: polygon
-    mapping:
-      amenity:
-        - place_of_worship
+    type: geometry
+    type_mappings:
+      points:
+        amenity:
+          - place_of_worship
+      polygons:
+        amenity:
+          - place_of_worship
 
   infopoints:
     columns:
@@ -1305,43 +1194,22 @@ tables:
       - name: addr:conscriptionnumber
         type: string
         key: addr:conscriptionnumber
-    type: point
-    mapping:
-      addr:housenumber:
-        - __any__
-      addr:streetnumber:
-        - __any__
-      addr:conscriptionnumber:
-        - __any__
-
-  housenumbers_poly:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: type
-        type: mapping_value
-      - name: addr:housenumber
-        type: string
-        key: addr:housenumber
-      - name: addr:streetnumber
-        type: string
-        key: addr:streetnumber
-      - name: addr:conscriptionnumber
-        type: string
-        key: addr:conscriptionnumber
-    type: polygon
-    mapping:
-      addr:housenumber:
-        - __any__
-      addr:streetnumber:
-        - __any__
-      addr:conscriptionnumber:
-        - __any__
+    type: geometry
+    type_mappings:
+      points:
+        addr:housenumber:
+          - __any__
+        addr:streetnumber:
+          - __any__
+        addr:conscriptionnumber:
+          - __any__
+      polygons:
+        addr:housenumber:
+          - __any__
+        addr:streetnumber:
+          - __any__
+        addr:conscriptionnumber:
+          - __any__
 
   waterareas:
     columns:

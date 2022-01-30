@@ -1,11 +1,5 @@
 module.exports = { layers };
 
-const towerType = `concat("class", '_', case type
-  when 'communication' then 'communication'
-  when 'observation' then 'observation'
-  when 'bell_tower' then 'bell_tower'
-  else 'other' end) as type`;
-
 function getFeaturesSql(zoom) {
   const sqls = [`select * from (
     select osm_id, geometry, name, tags->'ele' as ele,
@@ -37,15 +31,13 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all select osm_id, geometry, name, null as ele, type, null as isolation
         from osm_sports where type in ('free_flying')
-      union all select osm_id, geometry, name, null as ele, type, null as isolation
-        from osm_sport_polys where type in ('free_flying')
 
       union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
         from osm_features where type <> 'peak' and (type <> 'tree' or tags->'protected' <> '' and tags->'protected' <> 'no') and (type <> 'saddle' or name <> '')
       union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
         from osm_feature_polys
 
-      union all select osm_id, geometry, name,         ele,
+      union all select osm_id, geometry, name, ele,
         case when type = 'hot_spring' then 'hot_spring' else
         case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
         case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring' end as type, null as isolation
@@ -53,18 +45,17 @@ function getFeaturesSql(zoom) {
 
       union all select osm_id, geometry, name, null as ele, 'ruins' as type, null as isolation
         from osm_ruins
-      union all select osm_id, geometry, name, null as ele, 'ruins' as type, null as isolation
-        from osm_ruin_polys
 
       union all select osm_id, geometry, name, null as ele, building as type, null as isolation
         from osm_place_of_worships where building in ('chapel', 'church', 'basilica', 'temple')
-      union all select osm_id, geometry, name, null as ele, building as type, null as isolation
-        from osm_place_of_worship_polys where building in ('chapel', 'church', 'basilica', 'temple')
 
-      union all select osm_id, geometry, name,         ele, ${towerType}, null as isolation
-        from osm_towers
-      union all select osm_id, geometry, name,         ele, ${towerType}, null as isolation
-        from osm_tower_polys
+      union all select osm_id, geometry, name, ele,
+        concat("class", '_', case type
+          when 'communication' then 'communication'
+          when 'observation' then 'observation'
+          when 'bell_tower' then 'bell_tower'
+          else 'other' end) as type, null as isolation
+      from osm_towers
     `);
   }
 
@@ -72,8 +63,6 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all select osm_id, geometry, name, null as ele, type, null as isolation
         from osm_shops where type in ('convenience', 'fuel', 'confectionery', 'pastry', 'bicycle', 'supermarket')
-      union all select osm_id, geometry, name, null as ele, type, null as isolation
-        from osm_shop_polys where type in ('convenience', 'fuel', 'confectionery', 'pastry', 'bicycle', 'supermarket')
 
       union all select osm_id, geometry, name, null as ele, 'building' as type, null as isolation
         from osm_building_points where type <> 'no'
@@ -279,10 +268,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select geometry, type from osm_feature_lines where type = 'cutline'",
       { minZoom: 13 },
     )
-    .sqlLayer('ruin_polys',
-      'select geometry from osm_ruin_polys',
-      { minZoom: 13 },
-    )
     .sqlLayer('water_area',
       'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas_gen1',
       { maxZoom: 11 },
@@ -376,7 +361,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 11 },
     )
     .sqlLayer('solar_power_plants',
-      "select geometry from osm_power_generator_polys where source = 'solar'",
+      "select geometry from osm_power_generators where source = 'solar'",
       { minZoom: 12 }
     )
     .sqlLayer('buildings',
@@ -599,10 +584,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('housenumbers',
-      `select coalesce(nullif("addr:streetnumber", ''), nullif("addr:housenumber", ''), nullif("addr:conscriptionnumber", '')) as housenumber, geometry from (
-          select * from osm_housenumbers union all select * from osm_housenumbers_poly
-        ) as hn_polys where geometry && !bbox!
-        `,
+      `select coalesce(nullif("addr:streetnumber", ''), nullif("addr:housenumber", ''), nullif("addr:conscriptionnumber", '')) as housenumber, geometry
+        from osm_housenumbers where geometry && !bbox!`,
       { minZoom: 18, bufferSize: 256 })
     .sqlLayer('highway_names',
       'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc, osm_id',
