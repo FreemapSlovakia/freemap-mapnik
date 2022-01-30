@@ -156,6 +156,7 @@ insert into z_order_poi (type) values
 ('reservoir_covered'),
 ('pumping_station'),
 ('wastewater_plant'),
+('outdoor_seating'),
 ('firepit'),
 ('bench'),
 ('beehive'),

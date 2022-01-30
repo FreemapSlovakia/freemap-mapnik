@@ -124,6 +124,7 @@ const pois = [
 
   [16, NN, Y, N, ['guidepost_noname', 'route_marker'], { icon: 'guidepost_x' }],
   [16, NN, N, N, 'picnic_table'],
+  [16, NN, N, N, 'outdoor_seating'],
   [16, 17, N, N, 'picnic_site'],
   [16, 16, N, N, 'board'],
   [16, 17, N, N, 'map'],
