@@ -66,25 +66,25 @@ tables:
         - foot
         - mtb
     columns:
-      - type: id
-        name: osm_id
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: ref
+      - name: ref
+        type: string
         key: ref
-      - type: string
-        name: colour
+      - name: colour
+        type: string
         key: colour
-      - type: string
-        name: osmc:symbol
+      - name: osmc:symbol
+        type: string
         key: osmc:symbol
-      - type: string
-        name: network
+      - name: network
+        type: string
         key: network
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
 
   route_members:
     type: relation_member
@@ -100,110 +100,124 @@ tables:
         - foot
         - mtb
     columns:
-      - type: id
-        name: osm_id
-      - type: member_id
-        name: member
-      - type: geometry
-        name: geometry
-      - type: member_role
-        name: role
+      - name: osm_id
+        type: id
+      - name: member
+        type: member_id
+      - name: geometry
+        type: geometry
+      - name: role
+        type: member_role
         key: role
-      - type: member_type
-        name: type
+      - name: type
+        type: member_type
 
   landusages:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: webmerc_area
-        name: area
+      - name: type
+        type: mapping_value
+      - name: area
+        type: webmerc_area
     type: polygon
-    mapping:
+    mappings:
       man_made:
-        - clearcut # TODO as overlay layer
-        - bunker_silo
-        - wastewater_plant
+        mapping:
+          man_made:
+            - clearcut # TODO as overlay layer
+            - bunker_silo
+            - wastewater_plant
       amenity:
-        - university
-        - school
-        - college
-        - library
-        - parking
-        - hospital
+        mapping:
+          amenity:
+            - university
+            - school
+            - college
+            - library
+            - parking
+            - hospital
       leisure:
-        - park
-        - garden
-        - playground
-        - golf_course
-        - sports_centre
-        - pitch
-        - stadium
-        - dog_park # TODO
+        mapping:
+          leisure:
+          - park
+          - garden
+          - playground
+          - golf_course
+          - sports_centre
+          - pitch
+          - stadium
+          - dog_park # TODO
       tourism:
-        - zoo
+        mapping:
+          tourism:
+            - zoo
       natural:
-        - wood
-        - scrub
-        - wetland # TODO as overlay layer
-        - heath
-        - grassland
-        - beach
-        - sand
-        - moor
-        - fell
-        - bare_rock
-        - scree
+        mapping:
+          natural:
+            - wood
+            - scrub
+            - wetland # TODO as overlay layer
+            - heath
+            - grassland
+            - beach
+            - sand
+            - moor
+            - fell
+            - bare_rock
+            - scree
       landuse:
-        - park
-        - forest
-        - residential
-        - retail
-        - commercial
-        - industrial
-        - railway
-        - cemetery
-        - grass
-        - farmyard
-        - farm
-        - farmland
-        - orchard
-        - vineyard
-        - wood
-        - meadow
-        - village_green
-        - recreation_ground
-        - allotments
-        - quarry
-        - landfill
-        - brownfield
-        - greenfield
-        - depot
-        - garages
-        - military # TODO maybe as overlay layer
-        - plant_nursery
+        mapping:
+          landuse:
+            - park
+            - forest
+            - residential
+            - retail
+            - commercial
+            - industrial
+            - railway
+            - cemetery
+            - grass
+            - farmyard
+            - farm
+            - farmland
+            - orchard
+            - vineyard
+            - wood
+            - meadow
+            - village_green
+            - recreation_ground
+            - allotments
+            - quarry
+            - landfill
+            - brownfield
+            - greenfield
+            - depot
+            - garages
+            - military # TODO maybe as overlay layer
+            - plant_nursery
       highway:
-        - pedestrian
-        - footway
+        mapping:
+          highway:
+            - pedestrian
+            - footway
 
   buildings:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: polygon
     mapping:
       building:
@@ -211,15 +225,15 @@ tables:
 
   shops:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: point
     mapping:
       shop:
@@ -227,15 +241,15 @@ tables:
 
   shop_polys:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: polygon
     mapping:
       shop:
@@ -243,17 +257,17 @@ tables:
 
   places:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: enumerate
-        name: z_order
+      - name: type
+        type: mapping_value
+      - name: z_order
+        type: enumerate
         args:
           values:
             - locality
@@ -266,8 +280,8 @@ tables:
             - region
             - state
             - country
-      - type: integer
-        name: population
+      - name: population
+        type: integer
         key: population
     type: point
     mapping:
@@ -285,17 +299,17 @@ tables:
 
   admin:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: integer
-        name: admin_level
+      - name: type
+        type: mapping_value
+      - name: admin_level
+        type: integer
         key: admin_level
     type: linestring
     mapping:
@@ -304,15 +318,15 @@ tables:
 
   aeroways:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: linestring
     mapping:
       aeroway:
@@ -321,24 +335,24 @@ tables:
 
   waterways:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: bool
-        name: intermittent
+      - name: intermittent
+        type: bool
         key: intermittent
-      - type: bool
-        name: seasonal
+      - name: seasonal
+        type: bool
         key: seasonal
-      - type: bool
-        name: tunnel
+      - name: tunnel
+        type: bool
         key: tunnel
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: linestring
     mapping:
       waterway:
@@ -350,15 +364,15 @@ tables:
 
   barrierways:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: linestring
     mapping:
       barrier:
@@ -366,17 +380,17 @@ tables:
 
   barrierpoints:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: string
-        name: access
+      - name: type
+        type: mapping_value
+      - name: access
+        type: string
         key: access
     type: point
     mapping:
@@ -385,15 +399,15 @@ tables:
 
   feature_lines:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: linestring
     mapping:
       natural:
@@ -417,18 +431,18 @@ tables:
 
   pipelines:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: location
+      - name: location
+        type: string
         key: location
-      - type: string # TODO
-        name: substance
+      - name: substance
+        type: string # TODO
         key: substance
     type: linestring
     mapping:
@@ -437,15 +451,15 @@ tables:
 
   protected_areas:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: polygon
     mapping:
       boundary:
@@ -456,47 +470,72 @@ tables:
 
   features:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: hstore_tags
-        name: tags
+      - name: type
+        type: mapping_value
+      - name: tags
+        type: hstore_tags
         args:
           include:
-            - ele
             - access
+            - ele
+            - icao
             - protected
             - shelter_type
-            - icao
     type: point
     mappings:
-      attractions:
+      tourism:
         mapping:
           tourism:
-            - attraction # must be separate otherwise it wins against other types
-      standard:
+            - alpine_hut
+            - apartment
+            - artwork
+            - attraction
+            - camp_site
+            - caravan_site
+            - castle
+            - chalet
+            - guest_house
+            - hostel
+            - hotel
+            - memorial
+            - monument
+            - motel
+            - museum
+            - picnic_site
+            - viewpoint
+            - wilderness_hut
+            - zoo
+      aeroway:
         mapping:
           aeroway:
             - aerodrome
+      natural:
+        mapping:
           natural:
+            - arch
             - birds_nest
             - cave_entrance
             - peak
             - rock
             - saddle
+            - shrub
             - sinkhole
             - stone
             - tree
-            - arch
+      waterway:
+        mapping:
           waterway:
             - waterfall
             - weir
+      amenity:
+        mapping:
           amenity:
             - atm
             - bank
@@ -527,11 +566,13 @@ tables:
             - ice_cream
             - kindergarten
             - library
+            - monastery
             - pharmacy
             - police
             - post_box
             - post_office
             - pub
+            - ranger_station
             - recycling
             - restaurant
             - school
@@ -548,56 +589,41 @@ tables:
             - waste_disposal
             - water_point
             - watering_place
-            - monastery
-            - ranger_station
-          tourism:
-            - alpine_hut
-            - apartment
-            - artwork
-            - camp_site
-            - caravan_site
-            - castle
-            - chalet
-            - guest_house
-            - hostel
-            - hotel
-            - memorial
-            - monument
-            - motel
-            - museum
-            - picnic_site
-            - viewpoint
-            - wilderness_hut
-            - zoo
+      leisure:
+        mapping:
           leisure:
-            - picnic_table
-            - playground
-            - firepit
-            - water_park
-            - sauna
-            - dog_park # TODO
-            - horse_riding # TODO
-            - resort # TODO
             - beach_resort # TODO
             - bird_hide # TODO
-            - outdoor_seating # TODO+NEW
+            - dog_park # TODO
+            - firepit
+            - horse_riding
+            - outdoor_seating # TODO
+            - picnic_table
+            - playground
+            - resort # TODO
+            - sauna
+            - water_park
+      man_made:
+        mapping:
           man_made:
             - adit
             - beehive
             - chimney
             - communications_tower
             - cross
+            - forester's_lodge
+            - ice_house # TODO
             - mine
             - mineshaft
+            - pumping_station
             - reservoir_covered
             - silo
+            - wastewater_plant
             - water_tower
             - water_well
             - water_works
-            - pumping_station
-            - wastewater_plant
-            - ice_house # new
-            - forester's_lodge
+      historic:
+        mapping:
           historic:
             - archaeological_site
             - boundary_stone
@@ -609,41 +635,57 @@ tables:
             - mine_shaft
             - monastery
             - monument
+            - tree_shrine
             - wayside_cross
             - wayside_shrine
-            - tree_shrine
+      power:
+        mapping:
           power:
             - pole
             - tower
+      military:
+        mapping:
           military:
             - bunker
+      emergency:
+        mapping:
           emergency:
             - access_point # TODO
+      aerialway:
+        mapping:
           aerialway:
             - pylon
             # - station FIXME conflicts with railway=station
+      railway:
+        mapping:
           railway:
-            - station
             - halt
-            - tram_stop # TODO
             - level_crossing # TODO
+            - station
             - subway_entrance # TODO
+            - tram_stop # TODO
+      highway:
+        mapping:
           highway:
             - bus_stop
+      sport:
+        mapping:
+          sport:
+            - free_flying
 
   feature_polys: # NOTE used for rendering icons only
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: hstore_tags
-        name: tags
+      - name: type
+        type: mapping_value
+      - name: tags
+        type: hstore_tags
         args:
           include:
             - ele
@@ -652,18 +694,18 @@ tables:
             - icao
     type: polygon
     mappings:
-      attractions:
-        mapping:
-          tourism:
-            - attraction # must be separate otherwise it wins against other types
-      standard:
+      aeroway:
         mapping:
           aeroway:
             - aerodrome
+      natural:
+        mapping:
           natural:
             - rock
             - stone
             - sinkhole
+      amenity:
+        mapping:
           amenity:
             - bank
             - bar
@@ -707,10 +749,13 @@ tables:
             - veterinary
             - monastery
             - ranger_station
+      tourism:
+        mapping:
           tourism:
             - alpine_hut
             - apartment
             - artwork
+            - attraction
             - camp_site
             - caravan_site
             - castle
@@ -725,6 +770,8 @@ tables:
             - picnic_site
             - wilderness_hut
             - zoo
+      leisure:
+        mapping:
           leisure:
             - firepit
             - playground
@@ -735,7 +782,9 @@ tables:
             - resort # TODO
             - beach_resort # TODO
             - bird_hide # TODO
-            - outdoor_seating # TODO+NEW
+            - outdoor_seating # TODO
+      man_made:
+        mapping:
           man_made:
             - adit
             - chimney
@@ -749,8 +798,10 @@ tables:
             - water_works
             - pumping_station
             - wastewater_plant
-            - ice_house # new
+            - ice_house # TODO
             - forester's_lodge
+      historic:
+        mapping:
           historic:
             - archaeological_site
             - bunker
@@ -762,38 +813,48 @@ tables:
             - monastery
             - monument
             - wayside_shrine
+      military:
+        mapping:
           military:
             - bunker
-          # aerialway:
-          #   - station # FIXME conflicts with railway=station
+      # aerialway:
+      #  mapping:
+      #    aerialway:
+      #      - station # FIXME conflicts with railway=station
+      railway:
+        mapping:
           railway:
             - station
+      sport:
+        mapping:
+          sport:
+            - free_flying
 
   springs:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: string
-        name: ele
+      - name: type
+        type: mapping_value
+      - name: ele
+        type: string
         key: ele
-      - type: bool
-        name: refitted
+      - name: refitted
+        type: bool
         key: refitted
-      - type: bool
-        name: seasonal # new
+      - name: seasonal # TODO
+        type: bool
         key: seasonal
-      - type: string
-        name: drinking_water
+      - name: drinking_water
+        type: string
         key: drinking_water
-      - type: string
-        name: water_characteristic
+      - name: water_characteristic
+        type: string
         key: water_characteristic
     type: point
     mapping:
@@ -806,17 +867,17 @@ tables:
 
   building_points:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: hstore_tags
-        name: tags
+      - name: type
+        type: mapping_value
+      - name: tags
+        type: hstore_tags
         args:
           include:
             - access
@@ -825,62 +886,20 @@ tables:
       building:
         - __any__
 
-  sports:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: mapping_value
-        name: type
-      - type: hstore_tags
-        name: tags
-        args:
-          include:
-            - access
-    type: point
-    mapping:
-      sport:
-        - __any__
-
-  sport_polys:
-    columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
-        key: name
-      - type: mapping_value
-        name: type
-      - type: hstore_tags
-        name: tags
-        args:
-          include:
-            - access
-    type: polygon
-    mapping:
-      sport:
-        - __any__
-
   power_generators:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: source
+      - name: source
+        type: string
         key: generator:source
-      - type: string
-        name: method
+      - name: method
+        type: string
         key: generator:method
     type: point
     mapping:
@@ -889,18 +908,18 @@ tables:
 
   power_generator_polys:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: source
+      - name: source
+        type: string
         key: generator:source
-      - type: string
-        name: method
+      - name: method
+        type: string
         key: generator:method
     type: polygon
     mapping:
@@ -909,15 +928,15 @@ tables:
 
   ruins:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: type
+      - name: type
+        type: string
         key: ruins
     type: point
     mapping:
@@ -926,15 +945,15 @@ tables:
 
   ruin_polys:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: type
+      - name: type
+        type: string
         key: ruins
     type: polygon
     mapping:
@@ -943,21 +962,21 @@ tables:
 
   towers:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: ele
+      - name: ele
+        type: string
         key: ele
-      - type: string
-        name: type
+      - name: type
+        type: string
         key: tower:type
-      - type: mapping_value
-        name: class
+      - name: class
+        type: mapping_value
     type: point
     mappings:
       tower:
@@ -971,21 +990,21 @@ tables:
 
   tower_polys:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: ele
+      - name: ele
+        type: string
         key: ele
-      - type: string
-        name: type
+      - name: type
+        type: string
         key: tower:type
-      - type: mapping_value
-        name: class
+      - name: class
+        type: mapping_value
     type: polygon
     mappings:
       tower:
@@ -999,18 +1018,18 @@ tables:
 
   place_of_worships:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: building
+      - name: building
+        type: string
         key: building
-      - type: string
-        name: religion
+      - name: religion
+        type: string
         key: religion
     type: point
     mapping:
@@ -1019,18 +1038,18 @@ tables:
 
   place_of_worship_polys:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: building
+      - name: building
+        type: string
         key: building
-      - type: string
-        name: religion
+      - name: religion
+        type: string
         key: religion
     type: polygon
     mapping:
@@ -1039,30 +1058,30 @@ tables:
 
   infopoints:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: ele
+      - name: ele
+        type: string
         key: ele
-      - type: bool
-        name: foot
+      - name: foot
+        type: bool
         key: foot
-      - type: bool
-        name: bicycle
+      - name: bicycle
+        type: bool
         key: bicycle
-      - type: bool
-        name: ski
+      - name: ski
+        type: bool
         key: ski
-      - type: bool
-        name: horse
+      - name: horse
+        type: bool
         key: horse
-      - type: mapping_value
-        name: type
+      - name: type
+        type: mapping_value
     type: point
     mapping:
       information:
@@ -1070,20 +1089,21 @@ tables:
         - board
         - map
         - office
+        - route_marker
 
   aerialways:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: mapping_value
-        name: type
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: type
+        type: mapping_value
+      - name: name
+        type: string
         key: name
-      - type: string
-        name: ref
+      - name: ref
+        type: string
         key: ref
     type: linestring
     mapping:
@@ -1092,63 +1112,63 @@ tables:
 
   roads:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: mapping_value
-        name: type
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: type
+        type: mapping_value
+      - name: name
+        type: string
         key: name
-      - type: boolint
-        name: tunnel
+      - name: tunnel
+        type: boolint
         key: tunnel
-      - type: boolint
-        name: embankment
+      - name: embankment
+        type: boolint
         key: embankment
-      - type: boolint
-        name: bridge
+      - name: bridge
+        type: boolint
         key: bridge
-      - type: direction
-        name: oneway
+      - name: oneway
+        type: direction
         key: oneway
-      - type: enumerate
-        name: cutting # TODO
+      - name: cutting # TODO
+        type: enumerate
         key: cutting
         args:
           values:
             - 'yes'
             - left
             - right
-      - type: string
-        name: ref
+      - name: ref
+        type: string
         key: ref
-      - type: wayzorder
-        name: z_order
+      - name: z_order
+        type: wayzorder
         key: layer
-      - type: string
-        name: access
+      - name: access
+        type: string
         key: access
-      - type: string
-        name: bicycle
+      - name: bicycle
+        type: string
         key: bicycle
-      - type: string
-        name: foot
+      - name: foot
+        type: string
         key: foot
-      - type: string
-        name: vehicle
+      - name: vehicle
+        type: string
         key: vehicle
-      - type: string
-        name: service
+      - name: service
+        type: string
         key: service
-      - type: string
-        name: tracktype
+      - name: tracktype
+        type: string
         key: tracktype
-      - type: mapping_key
-        name: class
-      - type: enumerate
-        name: trail_visibility
+      - name: class
+        type: mapping_key
+      - name: trail_visibility
+        type: enumerate
         key: trail_visibility
         args:
           values:
@@ -1225,23 +1245,23 @@ tables:
 
   housenumbers:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: string
-        name: addr:housenumber
+      - name: type
+        type: mapping_value
+      - name: addr:housenumber
+        type: string
         key: addr:housenumber
-      - type: string
-        name: addr:streetnumber
+      - name: addr:streetnumber
+        type: string
         key: addr:streetnumber
-      - type: string
-        name: addr:conscriptionnumber
+      - name: addr:conscriptionnumber
+        type: string
         key: addr:conscriptionnumber
     type: point
     mapping:
@@ -1254,23 +1274,23 @@ tables:
 
   housenumbers_poly:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: string
-        name: addr:housenumber
+      - name: type
+        type: mapping_value
+      - name: addr:housenumber
+        type: string
         key: addr:housenumber
-      - type: string
-        name: addr:streetnumber
+      - name: addr:streetnumber
+        type: string
         key: addr:streetnumber
-      - type: string
-        name: addr:conscriptionnumber
+      - name: addr:conscriptionnumber
+        type: string
         key: addr:conscriptionnumber
     type: polygon
     mapping:
@@ -1283,22 +1303,22 @@ tables:
 
   waterareas:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: string
-        name: name
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: name
+        type: string
         key: name
-      - type: mapping_value
-        name: type
-      - type: webmerc_area
-        name: area
-      - type: bool
-        name: intermittent
+      - name: type
+        type: mapping_value
+      - name: area
+        type: webmerc_area
+      - name: intermittent
+        type: bool
         key: intermittent
-      - type: bool
-        name: seasonal
+      - name: seasonal
+        type: bool
         key: seasonal
     type: polygon
     mapping:
@@ -1316,12 +1336,12 @@ tables:
 
   fixmes:
     columns:
-      - type: id
-        name: osm_id
-      - type: geometry
-        name: geometry
-      - type: mapping_value
-        name: type
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: type
+        type: mapping_value
     type: point
     mapping:
       fixme:
