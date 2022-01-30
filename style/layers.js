@@ -285,7 +285,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 12 },
     )
     .sqlLayer('trees',
-      "select geometry from osm_features where type = 'tree'",
+      "select type, geometry from osm_features where type = 'tree' OR type = 'shrub'",
       { minZoom: 16, bufferSize: 128 },
     )
     // TODO split to several layers: underground/underwater, overground, overhead

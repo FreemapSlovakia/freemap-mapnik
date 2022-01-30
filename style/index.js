@@ -367,7 +367,10 @@ function generateFreemapStyle({
           const size = 2 + Math.pow(2, z - 15);
           style
             .rule({ minZoom: z, maxZoom: z })
-            .markersSymbolizer({ file: 'images/tree2.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true });
+            .markersSymbolizer({
+              file: 'images/tree2.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true,
+              transform: 'scale(1 - ([type] = "shrub") * 0.5, 1 - ([type] = "shrub") * 0.5)',
+            });
         }
       })
     .style('features')
