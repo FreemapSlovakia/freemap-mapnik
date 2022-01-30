@@ -433,7 +433,7 @@ function generateFreemapStyle({
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
     .style('landcover_names')
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
