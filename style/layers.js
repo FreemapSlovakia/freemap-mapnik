@@ -30,7 +30,7 @@ function getFeaturesSql(zoom) {
 
     sqls.push(`
       union all select osm_id, geometry, name, null as ele, type, null as isolation
-        from osm_sports where type in ('free_flying')
+        from osm_sports where type in ('free_flying', 'soccer', 'tennis')
 
       union all select osm_id, geometry, name, tags->'ele' as ele, case type when 'communications_tower' then 'tower_communication' when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end) else type end as type, null as isolation
         from osm_features where type <> 'peak' and (type <> 'tree' or tags->'protected' <> '' and tags->'protected' <> 'no') and (type <> 'saddle' or name <> '')
@@ -261,7 +261,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 10, maxZoom: 11 },
     )
     .sqlLayer('landcover',
-      `select type, geometry, ${landuseZOrder}, name, area from osm_landusages where geometry && !bbox! order by z_order desc, osm_id`,
+      `select type, geometry, ${landuseZOrder} from osm_landusages where geometry && !bbox! order by z_order desc, osm_id`,
       { minZoom: 12, cacheFeatures: true },
     )
     .sqlLayer('cutlines',
@@ -574,7 +574,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .sqlLayer('landcover_names',
       `select type, geometry, name, area
         from osm_landusages left join z_order_landuse using (type)
-        where geometry && !bbox! and type not in ('forest', 'wood', 'scrub', 'heath', 'grassland', 'scree', 'meadow', 'fell')
+        where geometry && !bbox! and type not in ('forest', 'wood', 'scrub', 'heath', 'grassland', 'scree', 'meadow', 'fell') and type <> 'golf_course'
         order by z_order, osm_id`,
       { minZoom: 12, bufferSize: 1024 },
     )

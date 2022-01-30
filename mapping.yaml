@@ -581,11 +581,13 @@ tables:
         mapping:
           leisure:
             - beach_resort # TODO
-            - bird_hide # TODO
+            - bird_hide
             - dog_park # TODO
             - firepit
+            - golf_course
             - horse_riding
-            - outdoor_seating # TODO
+            - miniature_golf
+            - outdoor_seating
             - picnic_table
             - playground
             - resort # TODO
@@ -756,16 +758,18 @@ tables:
       leisure:
         mapping:
           leisure:
-            - firepit
-            - playground
-            - water_park
-            - sauna
-            - dog_park # TODO
-            - horse_riding
-            - resort # TODO
             - beach_resort # TODO
-            - bird_hide # TODO
-            - outdoor_seating # TODO
+            - bird_hide
+            - dog_park # TODO
+            - firepit
+            - golf_course
+            - horse_riding
+            - miniature_golf
+            - outdoor_seating
+            - playground
+            - resort # TODO
+            - sauna
+            - water_park
       man_made:
         mapping:
           man_made:

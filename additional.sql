@@ -88,6 +88,10 @@ insert into z_order_poi (type) values
 ('confectionery'),
 ('hospital'),
 ('pharmacy'),
+('golf_course'),
+('miniature_golf'),
+('soccer'),
+('tennis'),
 ('waterfall'),
 ('refitted_drinking_spring'),
 ('drinking_spring'),
@@ -171,5 +175,5 @@ insert into z_order_poi (type) values
 ('ruins'),
 ('building'),
 ('tree'),
-('gate')
+('gate'),
 ('route_marker');

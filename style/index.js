@@ -75,6 +75,7 @@ const pois = [
   [14, 15, N, N, 'free_flying'],
   [14, 15, N, N, 'forester\'s_lodge'],
   [14, 15, N, N, 'horse_riding'],
+  [14, 15, N, N, 'golf_course'],
 
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
@@ -121,7 +122,11 @@ const pois = [
   [15, 16, N, N, 'bicycle'],
   [15, 16, N, N, 'building'],
   [15, 15, N, Y, 'tree'],
+  [15, 16, N, N, 'bird_hide'],
 
+  [16, 17, N, N, 'miniature_golf'],
+  [16, 17, N, N, 'soccer'],
+  [16, 17, N, N, 'tennis'],
   [16, NN, Y, N, ['guidepost_noname', 'route_marker'], { icon: 'guidepost_x' }],
   [16, NN, N, N, 'picnic_table'],
   [16, NN, N, N, 'outdoor_seating'],

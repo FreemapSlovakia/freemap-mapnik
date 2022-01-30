@@ -835,13 +835,18 @@ const legend = {
 
     poi('poi', 'feeding_place', 'feeding place', 'krmidlo'),
     poi('poi', 'beehive', 'beehive', 'včelý úľ'),
+
     poi('poi', 'horse_riding', 'horse riding', 'jazda na koni'),
+    poi('poi', 'sauna', 'sauna', 'sauna'),
+    poi('poi', 'free_flying', 'paragliding', 'paraglajding'),
+    poi('poi', 'golf_course', 'Golf course', 'Golfový kurt'),
+    poi('poi', 'miniature_golf', 'Miniature golf', 'Minigolf'),
+    poi('poi', 'soccer', 'Socces', 'Futbal'),
+    poi('poi', 'tennis', 'Tennis', 'Tenis'),
 
     poi('poi', 'forester\'s_lodge', 'forester\'s lodge', 'horáreň'),
     poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
     poi('poi', 'attraction', 'attraction', 'atrakcia'),
-    poi('sauna', 'sauna', 'sauna'),
-    poi('free_flying', 'paragliding', 'paraglajding'),
 
     poi('poi', 'firepit', 'firepit', 'ohnisko'),
     poi('poi', 'toilets', 'toilets', 'toalety'),
