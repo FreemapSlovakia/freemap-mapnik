@@ -29,7 +29,7 @@ const NN = null;
 const pois = [
   [12, 12, N, N, 'aerodrome'],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
-  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
+  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' }, maxZoom: 13 }],
   [14, 14, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
@@ -395,7 +395,7 @@ function generateFreemapStyle({
     // texts
     .style('locality_names')
       .typesRule(15, 'locality')
-        .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }), '[name]')
+        .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2, placementType: 'list' }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
@@ -412,6 +412,7 @@ function generateFreemapStyle({
               haloFill: 'white',
               haloRadius: 1.5,
               placement: 'interior',
+              placementType: 'list'
             }), '[name]')
               .placement({ dy: 5 })
               .placement({ dy: -5 })
@@ -425,6 +426,7 @@ function generateFreemapStyle({
           haloFill: 'white',
           haloRadius: 1.5,
           placement: 'interior',
+          placementType: 'list'
         }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
@@ -434,7 +436,7 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 10; z <= 16; z++) {
           style.rule({ filter: `[area] > ${800000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+            .textSymbolizer(font().water().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
               .placement({ dy: 5 })
               .placement({ dy: -5 })
               .placement({ dy: 10 })
@@ -442,7 +444,7 @@ function generateFreemapStyle({
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+        .textSymbolizer(font().water().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
@@ -451,11 +453,11 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]');
+            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]');
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
@@ -464,7 +466,7 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
+            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
               .placement({ dy: 5 })
               .placement({ dy: -5 })
               .placement({ dy: 10 })
@@ -472,7 +474,7 @@ function generateFreemapStyle({
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
@@ -481,7 +483,7 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]')
+            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]')
               .placement({ dy: 5 })
               .placement({ dy: -5 })
               .placement({ dy: 10 })
@@ -489,14 +491,14 @@ function generateFreemapStyle({
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33), placementType: 'list' }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
           .placement({ dy: -10 })
     .style('building_names')
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
