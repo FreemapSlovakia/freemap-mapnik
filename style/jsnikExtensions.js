@@ -47,18 +47,22 @@ const extensions = {
           continue;
         }
 
-        const fnt = font().wrap().if(natural, f => f.nature()).end({ dy: -10, ...(extra.font || {}) });
+        const fnt = font()
+          .wrap()
+          .if(natural, f => f.nature())
+          .end({ placementType: 'list', dy: -10, ...(extra.font || {}) });
 
         const { textSymbolizerEle } = style
           .rule({ filter: types(...Array.isArray(type) ? type : [type]), minZoom: minTextZoom, maxZoom: extra.maxZoom })
-          .textSymbolizer(fnt,
-            withEle ? undefined : '[name]');
+          .textSymbolizer(fnt, withEle ? undefined : '[name]')
+          .placement({ dy: extra && extra.font && extra.font.dy ? -extra.font.dy : 10 });
 
         if (withEle) {
           textSymbolizerEle.text('[name] + "\n"');
           textSymbolizerEle.ele('Format', { size: fnt.size * 0.8 }, '[ele]');
         }
       }
+
       return style; // TODO remove
     },
     area(style, color, ...types) {
