@@ -31,9 +31,12 @@ const extensions = {
           zoom.push(extra.maxZoom);
         }
 
-        // TODO find out a way to make it red
-        style.typesRule(...zoom, ...types)
-          .markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg`, opacity: '1 - ([access] = "private" || [access] = "no") * 0.66' });
+        const r = style.typesRule(...zoom, ...types);
+
+        for (const transform of [undefined, 'translate(6 - ([osm_id] % 2) * 12, 0)', 'translate(-6 + ([osm_id] % 2) * 12, 0)']) {
+          // TODO find out a way to make it red if private
+          r.markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg`, opacity: '1 - ([access] = "private" || [access] = "no") * 0.66', transform });
+        }
       }
 
       return style; // TODO remove

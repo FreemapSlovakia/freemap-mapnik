@@ -396,6 +396,10 @@ function generateFreemapStyle({
     .style('locality_names')
       .typesRule(15, 'locality')
         .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('feature_names')
       .poiNames(pois)
     .style('protected_area_names').doInStyle((style) => {
@@ -408,7 +412,11 @@ function generateFreemapStyle({
               haloFill: 'white',
               haloRadius: 1.5,
               placement: 'interior',
-            }), '[name]');
+            }), '[name]')
+              .placement({ dy: 5 })
+              .placement({ dy: -5 })
+              .placement({ dy: 10 })
+              .placement({ dy: -10 });
       }
     })
       .typesRule(12, 'protected_area', 'nature_reserve')
@@ -418,15 +426,27 @@ function generateFreemapStyle({
           haloRadius: 1.5,
           placement: 'interior',
         }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('water_area_names')
       .doInStyle((style) => {
         for (let z = 10; z <= 16; z++) {
           style.rule({ filter: `[area] > ${800000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]');
+            .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+              .placement({ dy: 5 })
+              .placement({ dy: -5 })
+              .placement({ dy: 10 })
+              .placement({ dy: -10 });
         }
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('feature_poly_names')
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
@@ -435,28 +455,52 @@ function generateFreemapStyle({
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('landcover_names_natural')
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]');
+            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
+              .placement({ dy: 5 })
+              .placement({ dy: -5 })
+              .placement({ dy: 10 })
+              .placement({ dy: -10 });
         }
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('landcover_names')
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]');
+            .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33) }), '[name]')
+              .placement({ dy: 5 })
+              .placement({ dy: -5 })
+              .placement({ dy: 10 })
+              .placement({ dy: -10 });
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', fill: hsl(0, 0, 33), placementType: 'list' }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('building_names')
-      .rule({ minZoom: 17 }) // rest names
+      .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+          .placement({ dy: 5 })
+          .placement({ dy: -5 })
+          .placement({ dy: 10 })
+          .placement({ dy: -10 })
     .style('housenumbers')
       .rule({})
         .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: hsl(0, 0, 33) }), '[housenumber]')

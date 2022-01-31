@@ -695,12 +695,13 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
       { minZoom: 10, bufferSize: 1024 },
     )
-    // TODO/NOTE this renders rest of names - names of unknown feature_polys (not covered in 'feature_names') like: school, kindergarden, recycling
+    // NOTE this renders rest of names - names of unknown feature_polys (not covered in 'feature_names') like: school, kindergarden, recycling
     // TODO what about feature points?
+    // TODO enumerate those features to prevent duplicate names
     .sqlLayer('feature_poly_names',
-      `select geometry, name, 1000 as area
-        from osm_feature_polys left join z_order_poi using (type)
-        where geometry && !bbox! order by z_order, area desc, osm_id`,
+      `select osm_feature_polys.geometry, osm_feature_polys.name, 1000 as area
+        from osm_feature_polys left join z_order_poi using (type) left join osm_landusages using (osm_id)
+        where osm_landusages.osm_id is null and osm_feature_polys.geometry && !bbox! order by z_order, area desc, osm_feature_polys.osm_id`,
       { minZoom: 12, bufferSize: 1024 },
     )
     // TODO
@@ -710,7 +711,11 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     // )
     .sqlLayer(
       'building_names',
-      "select name, type, geometry from osm_buildings where type <> 'no' order by osm_id",
+      `select
+        osm_buildings.name, osm_buildings.type, osm_buildings.geometry
+        from osm_buildings left join osm_landusages using (osm_id)
+        where osm_buildings.type <> 'no' and osm_landusages.osm_id is null
+        order by osm_buildings.osm_id`,
       { bufferSize: 512, minZoom: 17 },
     )
     .sqlLayer(
