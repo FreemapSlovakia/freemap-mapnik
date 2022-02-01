@@ -155,7 +155,7 @@ function road(type, en, sk, noForest = false, trailVisibility = 0) {
   };
 }
 
-function poi(categoryId, type, en, sk, eithEle, ...additional) {
+function poi(categoryId, type, en, sk, eithEle, additional = {}) {
   return {
     categoryId,
     name: {
