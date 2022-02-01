@@ -36,7 +36,7 @@ const pois = [
   [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [13, 13, Y, Y, 'peak', { font: { size: 13, dy: -8 } }],
 
-  [14, 15, N, N, 'castle'],
+  [14, 14, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
   [14, 15, Y, Y, 'arch'],
   [14, 15, Y, Y, 'cave_entrance'],
