@@ -466,40 +466,25 @@ function generateFreemapStyle({
           .placement({ dy: -5 })
           .placement({ dy: 10 })
           .placement({ dy: -10 })
-    .style('landcover_names_natural')
-      .doInStyle((style) => {
-        for (let z = 12; z <= 16; z++) {
-          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
-              .placement({ dy: 5 })
-              .placement({ dy: -5 })
-              .placement({ dy: 10 })
-              .placement({ dy: -10 });
-        }
-      })
-      .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(120, 100, 25), fontsetName: 'italic' }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
     .style('landcover_names')
       .doInStyle((style) => {
-        for (let z = 12; z <= 16; z++) {
-          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
-              .placement({ dy: 5 })
-              .placement({ dy: -5 })
-              .placement({ dy: 10 })
-              .placement({ dy: -10 });
+        for (const natural of [false, true]) {
+          const s = natural ? { fill: hsl(120, 100, 25), fontsetName: 'italic' } : { fill: colors.areaLabel }
+
+          for (let z = 12; z <= 17; z++) {
+            style.rule({
+                filter: `(${natural ? '[natural]' : 'not ([natural])'})` + (z === 17 ? '' : ` and [area] > ${2400000 / (1 << (2 * (z - 10)))}`),
+                minZoom: z,
+                maxZoom: z === 17 ? undefined : z
+              })
+              .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', ...s }), '[name]')
+                .placement({ dy: 5 })
+                .placement({ dy: -5 })
+                .placement({ dy: 10 })
+                .placement({ dy: -10 });
+          }
         }
       })
-      .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
     .style('building_names')
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')

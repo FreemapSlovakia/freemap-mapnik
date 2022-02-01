@@ -738,18 +738,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select type, name, geometry from osm_protected_areas',
       { bufferSize: 1024, minZoom: 8 },
     )
-    .sqlLayer('landcover_names_natural',
-      `select type, geometry, name, area
-        from osm_landusages left join z_order_landuse using (type)
-        where geometry && !bbox! and type in ('forest', 'wood', 'scrub', 'heath', 'grassland', 'scree', 'meadow', 'fell')
-        order by z_order, osm_id`,
-      { minZoom: 12, bufferSize: 1024 },
-    )
     .sqlLayer('landcover_names',
-      `select type, geometry, name, area
-        from osm_landusages left join z_order_landuse using (type)
-        where geometry && !bbox! and type not in ('forest', 'wood', 'scrub', 'heath', 'grassland', 'scree', 'meadow', 'fell') and type <> 'golf_course'
-        order by z_order, osm_id`,
+      `select
+          osm_landusages.geometry, osm_landusages.name, osm_landusages.area,
+          osm_landusages.type in ('forest', 'wood', 'scrub', 'heath', 'grassland', 'scree', 'meadow', 'fell') as natural
+        from
+          osm_landusages
+        left join
+          z_order_landuse using (type)
+        left join
+          osm_feature_polys using (osm_id)
+        where
+          osm_feature_polys.osm_id is null and osm_landusages.geometry && !bbox!
+        order
+          by z_order, osm_id`,
       { minZoom: 12, bufferSize: 1024 },
     )
     .sqlLayer(
