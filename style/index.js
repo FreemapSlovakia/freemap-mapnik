@@ -53,6 +53,7 @@ const pois = [
   [14, 15, Y, N, 'monument'],
   [14, 15, Y, Y, 'viewpoint'],
   [14, 15, Y, N, ['mine', 'adit', 'mineshaft']],
+  [14, 15, Y, N, 'disused_mine'],
   [14, 15, Y, N, 'hotel'],
   [14, 15, Y, N, 'chalet'],
   [14, 15, Y, N, 'hostel'],

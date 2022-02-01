@@ -155,7 +155,7 @@ function road(type, en, sk, noForest = false, trailVisibility = 0) {
   };
 }
 
-function poi(categoryId, type, en, sk, eithEle, access = null) {
+function poi(categoryId, type, en, sk, eithEle, ...additional) {
   return {
     categoryId,
     name: {
@@ -168,7 +168,7 @@ function poi(categoryId, type, en, sk, eithEle, access = null) {
         name: 'Abc',
         type,
         ele: eithEle ? 320 : '',
-        access
+        ...additional
       }, eithEle ? -0.00005 : -0.00003),
     ],
     ...props,
@@ -848,6 +848,7 @@ const legend = {
 
     poi('poi', 'forester\'s_lodge', 'forester\'s lodge', 'horáreň'),
     poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
+    poi('poi', 'disused_mine', 'disused mine, adit or mineshaft', 'zatvorená baňa, štôlňa alebo šachta'),
     poi('poi', 'attraction', 'attraction', 'atrakcia'),
 
     poi('poi', 'firepit', 'firepit', 'ohnisko'),
@@ -1129,7 +1130,7 @@ const legend = {
       ],
       ...props,
     },
-    poi('other', 'picnic_shelter', 'private POI', 'súkromný bod záujmu', undefined, 'no'),
+    poi('other', 'picnic_shelter', 'private POI', 'súkromný bod záujmu', undefined, { access: 'no' }),
   ],
 };
 

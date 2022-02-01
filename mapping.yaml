@@ -14,6 +14,7 @@ tags:
     - protected
     - icao
     - shelter_type
+    - disused
 generalized_tables:
   waterareas_gen1:
     source: waterareas
@@ -476,6 +477,7 @@ tables:
             - icao
             - protected
             - shelter_type
+            - disused
     type: point
     mappings:
       tourism:
@@ -678,6 +680,7 @@ tables:
             - access
             - shelter_type
             - icao
+            - disused
     type: polygon
     mappings:
       aeroway:

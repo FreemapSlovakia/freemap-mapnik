@@ -108,6 +108,7 @@ insert into z_order_poi (type) values
 ('mine'),
 ('adit'),
 ('mineshaft'),
+('disused_mine'),
 ('townhall'),
 ('memorial'),
 ('university'),

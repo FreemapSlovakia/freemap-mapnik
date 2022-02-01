@@ -98,7 +98,7 @@ function getFeaturesSql(zoom) {
           case type
             when 'communications_tower' then 'tower_communication'
             when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end)
-            else type
+            else (case when type in ('mine', 'adit', 'mineshaft') and tags->'disused' not in ('', 'no') then 'disused_mine' else type end)
             end as type,
           null as isolation,
           case when type in ('cave_entrance') then null else tags->'access' end as access
@@ -106,7 +106,7 @@ function getFeaturesSql(zoom) {
           osm_features
         where
           type <> 'peak'
-            and (type <> 'tree' or tags->'protected' <> '' and tags->'protected' <> 'no')
+            and (type <> 'tree' or tags->'protected' not in ('', 'no'))
             and (type <> 'saddle' or name <> '')
 
       union all
@@ -117,7 +117,7 @@ function getFeaturesSql(zoom) {
           tags->'ele' as ele,
           case type when 'communications_tower' then 'tower_communication'
             when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end)
-            else type
+            else (case when type in ('mine', 'adit', 'mineshaft') and tags->'disused' not in ('', 'no') then 'disused_mine' else type end)
             end as type,
           null as isolation,
           case when type in ('cave_entrance') then null else tags->'access' end as access
