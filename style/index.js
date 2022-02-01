@@ -123,6 +123,8 @@ const pois = [
   [15, 16, N, N, 'building'],
   [15, 15, N, Y, 'tree'],
   [15, 16, N, N, 'bird_hide'],
+  [15, 16, N, N, 'kindergarten', { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
+  [15, 16, N, N, 'recycling', { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
   [16, 17, N, N, 'miniature_golf'],
   [16, 17, N, N, 'soccer'],
@@ -322,7 +324,7 @@ function generateFreemapStyle({
     .style('feature_lines_maskable')
       .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
-        .lineSymbolizer({ stroke: hsl(0, 0, 33), strokeWidth: 1 })
+        .lineSymbolizer({ stroke: colors.areaLabel, strokeWidth: 1 })
       .typesRule(14, 'earth_bank')
         .linePatternSymbolizer({ file: 'images/earth_bank.svg' })
     .style('feature_lines')
@@ -454,11 +456,11 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]');
+            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]');
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
@@ -484,7 +486,7 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
           style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]')
+            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
               .placement({ dy: 5 })
               .placement({ dy: -5 })
               .placement({ dy: 10 })
@@ -492,7 +494,7 @@ function generateFreemapStyle({
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: hsl(0, 0, 33) }), '[name]')
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
           .placement({ dy: 5 })
           .placement({ dy: -5 })
           .placement({ dy: 10 })
@@ -506,7 +508,7 @@ function generateFreemapStyle({
           .placement({ dy: -10 })
     .style('housenumbers')
       .rule({})
-        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: hsl(0, 0, 33) }), '[housenumber]')
+        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: colors.areaLabel }), '[housenumber]')
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer(font().line().end({ fill: colors.track }), '[name]')

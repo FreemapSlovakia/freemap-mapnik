@@ -20,6 +20,7 @@ const colors = {
   allotments: hsl(50, 45, 85),
   landfill: hsl(0, 30, 70),
   brownfield: hsl(30, 30, 60),
+  areaLabel: hsl(0, 0, 33),
 };
 
 function hsl(h, s, l) {
