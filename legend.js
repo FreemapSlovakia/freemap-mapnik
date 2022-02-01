@@ -844,6 +844,7 @@ const legend = {
     poi('poi', 'miniature_golf', 'Miniature golf', 'Minigolf'),
     poi('poi', 'soccer', 'Socces', 'Futbal'),
     poi('poi', 'tennis', 'Tennis', 'Tenis'),
+    poi('poi', 'basketball', 'Basketball', 'Basketbal'),
 
     poi('poi', 'forester\'s_lodge', 'forester\'s lodge', 'horáreň'),
     poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),

@@ -87,7 +87,7 @@ function getFeaturesSql(zoom) {
         from
           osm_sports
         where
-          type in ('free_flying', 'soccer', 'tennis')
+          type in ('free_flying', 'soccer', 'tennis', 'basketball')
 
       union all
         select

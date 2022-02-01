@@ -92,6 +92,7 @@ insert into z_order_poi (type) values
 ('miniature_golf'),
 ('soccer'),
 ('tennis'),
+('basketball'),
 ('waterfall'),
 ('refitted_drinking_spring'),
 ('drinking_spring'),

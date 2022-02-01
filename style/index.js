@@ -127,6 +127,7 @@ const pois = [
   [16, 17, N, N, 'miniature_golf'],
   [16, 17, N, N, 'soccer'],
   [16, 17, N, N, 'tennis'],
+  [16, 17, N, N, 'basketball'],
   [16, NN, Y, N, ['guidepost_noname', 'route_marker'], { icon: 'guidepost_x' }],
   [16, NN, N, N, 'picnic_table'],
   [16, NN, N, N, 'outdoor_seating'],
