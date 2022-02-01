@@ -702,7 +702,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         where
           osm_feature_polys.osm_id is null
           and osm_waterareas.type <> 'riverbank'
-          and osm_waterareas.water not in ('river', 'stream')
+          and osm_waterareas.water not in ('river', 'stream', 'canal', 'ditch')
       `, { minZoom: 10, bufferSize: 1024 },
     )
     // TODO
