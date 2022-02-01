@@ -1236,17 +1236,18 @@ tables:
         key: seasonal
     type: polygon
     mapping:
-      waterway:
-        - riverbank
       landuse:
         - basin
         - reservoir
-      natural:
-        - water
       amenity:
         - swimming_pool
+        - fountain
       leisure:
         - swimming_pool
+      natural:
+        - water
+      waterway:
+        - riverbank
 
   fixmes:
     columns:

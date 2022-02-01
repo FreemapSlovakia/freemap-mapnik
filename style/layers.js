@@ -685,25 +685,35 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
 
       for (let zoom = 10; zoom <= 17; zoom++) {
         map.sqlLayer('feature_names',
-          getFeaturesSql(zoom),
+          `SELECT DISTINCT ON (osm_id) * FROM (${getFeaturesSql(zoom)}) subq`,
           { minZoom: zoom, maxZoom: zoom === 17 ? undefined : zoom, bufferSize: 256, cacheFeatures: true }
         );
       }
     })
     // TODO to feature_names to consider z_order
     .sqlLayer('water_area_names',
-      "select name, geometry, type, area from osm_waterareas where type <> 'riverbank'",
+      `select
+          osm_waterareas.name,
+          osm_waterareas.geometry,
+          osm_waterareas.type,
+          osm_waterareas.area
+        from
+          osm_waterareas left join osm_feature_polys using (osm_id)
+        where
+          osm_feature_polys.osm_id IS NULL AND
+          osm_waterareas.type <> 'riverbank'`,
       { minZoom: 10, bufferSize: 1024 },
     )
     // NOTE this renders rest of names - names of unknown feature_polys (not covered in 'feature_names') like: school, kindergarden, recycling
     // TODO what about feature points?
     // TODO enumerate those features to prevent duplicate names
-    .sqlLayer('feature_poly_names',
-      `select osm_feature_polys.geometry, osm_feature_polys.name, 1000 as area
-        from osm_feature_polys left join z_order_poi using (type) left join osm_landusages using (osm_id)
-        where osm_landusages.osm_id is null and osm_feature_polys.geometry && !bbox! order by z_order, area desc, osm_feature_polys.osm_id`,
-      { minZoom: 12, bufferSize: 1024 },
-    )
+    // .sqlLayer('feature_poly_names',
+    //   `select osm_feature_polys.geometry, osm_feature_polys.name, 1000 as area
+    //     from osm_feature_polys left join z_order_poi using (type) left join osm_landusages using (osm_id)
+    //     where osm_landusages.osm_id is null and osm_feature_polys.geometry && !bbox! order by z_order, area desc, osm_feature_polys.osm_id`,
+    //   { minZoom: 12, bufferSize: 1024 },
+    // )
+
     // TODO
     // .sqlLayer('feature_line_names',
     //   "select geometry, name, type from osm_feature_lines where type <> 'valley'",
