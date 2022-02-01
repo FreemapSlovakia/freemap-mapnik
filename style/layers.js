@@ -691,8 +691,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       }
     })
     // TODO to feature_names to consider z_order
-    .sqlLayer('water_area_names',
-      `select
+    .sqlLayer('water_area_names', `
+        select
           osm_waterareas.name,
           osm_waterareas.geometry,
           osm_waterareas.type,
@@ -700,9 +700,10 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         from
           osm_waterareas left join osm_feature_polys using (osm_id)
         where
-          osm_feature_polys.osm_id IS NULL AND
-          osm_waterareas.type <> 'riverbank'`,
-      { minZoom: 10, bufferSize: 1024 },
+          osm_feature_polys.osm_id is null
+          and osm_waterareas.type <> 'riverbank'
+          and osm_waterareas.water not in ('river', 'stream')
+      `, { minZoom: 10, bufferSize: 1024 },
     )
     // TODO
     // .sqlLayer('feature_line_names',
