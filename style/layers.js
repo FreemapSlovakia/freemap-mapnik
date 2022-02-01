@@ -704,16 +704,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           osm_waterareas.type <> 'riverbank'`,
       { minZoom: 10, bufferSize: 1024 },
     )
-    // NOTE this renders rest of names - names of unknown feature_polys (not covered in 'feature_names') like: school, kindergarden, recycling
-    // TODO what about feature points?
-    // TODO enumerate those features to prevent duplicate names
-    // .sqlLayer('feature_poly_names',
-    //   `select osm_feature_polys.geometry, osm_feature_polys.name, 1000 as area
-    //     from osm_feature_polys left join z_order_poi using (type) left join osm_landusages using (osm_id)
-    //     where osm_landusages.osm_id is null and osm_feature_polys.geometry && !bbox! order by z_order, area desc, osm_feature_polys.osm_id`,
-    //   { minZoom: 12, bufferSize: 1024 },
-    // )
-
     // TODO
     // .sqlLayer('feature_line_names',
     //   "select geometry, name, type from osm_feature_lines where type <> 'valley'",
@@ -722,9 +712,24 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .sqlLayer(
       'building_names',
       `select
-        osm_buildings.name, osm_buildings.type, osm_buildings.geometry
-        from osm_buildings left join osm_landusages using (osm_id)
-        where osm_buildings.type <> 'no' and osm_landusages.osm_id is null
+        osm_buildings.name, osm_buildings.geometry
+        from osm_buildings
+        left join osm_landusages using (osm_id)
+        left join osm_feature_polys using (osm_id)
+        left join osm_features using (osm_id)
+        left join osm_place_of_worships using (osm_id)
+        left join osm_sports using (osm_id)
+        left join osm_ruins using (osm_id)
+        left join osm_towers using (osm_id)
+        where
+          osm_buildings.type <> 'no'
+            and osm_landusages.osm_id is null
+            and osm_feature_polys.osm_id is null
+            and osm_features.osm_id is null
+            and osm_place_of_worships.osm_id is null
+            and osm_sports.osm_id is null
+            and osm_ruins.osm_id is null
+            and osm_towers.osm_id is null
         order by osm_buildings.osm_id`,
       { bufferSize: 512, minZoom: 17 },
     )
