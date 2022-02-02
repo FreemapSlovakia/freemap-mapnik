@@ -124,8 +124,8 @@ const pois = [
   [15, 16, N, N, 'building'],
   [15, 15, N, Y, 'tree'],
   [15, 16, N, N, 'bird_hide'],
-  [15, 16, N, N, 'kindergarten', { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
-  [15, 16, N, N, 'recycling', { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
+  [15, 15, N, N, ['kindergarten', 'school', 'university', 'college', 'recycling'],
+    { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
   [16, 17, N, N, 'miniature_golf'],
   [16, 17, N, N, 'soccer'],
