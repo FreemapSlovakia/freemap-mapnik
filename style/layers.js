@@ -1,18 +1,21 @@
 module.exports = { layers };
 
-function getFeaturesSql(zoom) {
+function poiIconProjection(ele = 'null', access = 'null', isolation = 'null') {
+  return `osm_id, geometry, ${ele} as ele, ${access} as access, ${isolation} as isolation`;
+}
+
+function poiNameProjection(ele = 'null', access = 'null', isolation = 'null') {
+  return `osm_id, geometry, name as n, ${ele} as ele, ${access} as access, ${isolation} as isolation`;
+}
+
+function getFeaturesSql(zoom, mkProjection) {
   const sqls = [`select * from (
     select
-      osm_id,
-      geometry,
-      name,
-      tags->'ele' as ele,
+      ${mkProjection("tags->'ele'", 'null', 'isolation')},
       case when isolation > 4500 then 'peak1'
         when isolation between 3000 and 4500 then 'peak2'
         when isolation between 1500 and 3000 then 'peak3'
-        else 'peak' end as type,
-      isolation,
-      null as access
+        else 'peak' end as type
     from
       osm_features
     natural left join
@@ -24,16 +27,11 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          ele,
+          ${mkProjection('ele')},
           case type
             when 'guidepost' then (case when name = '' then 'guidepost_noname' else 'guidepost' end)
             else type
-            end as type,
-          null as isolation,
-          null as access
+            end as type
         from
           osm_infopoints
     `);
@@ -43,13 +41,8 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          tags->'ele' as ele,
-          type,
-          null as isolation,
-          null as access
+          ${mkProjection("tags->'ele'")},
+          type
         from
           osm_features
         where
@@ -57,13 +50,8 @@ function getFeaturesSql(zoom) {
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          tags->'ele' as ele,
-          type,
-          null as isolation,
-          null as access
+          ${mkProjection("tags->'ele'")},
+          type
         from
           osm_feature_polys
         where
@@ -77,13 +65,8 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          null as ele,
-          type,
-          null as isolation,
-          tags->'access' as access
+          ${mkProjection('null', "tags->'access'")},
+          type
         from
           osm_sports
         where
@@ -91,17 +74,12 @@ function getFeaturesSql(zoom) {
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          tags->'ele' as ele,
+          ${mkProjection("tags->'ele'", "case when type in ('cave_entrance') then null else tags->'access' end")},
           case type
             when 'communications_tower' then 'tower_communication'
             when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end)
             else (case when type in ('mine', 'adit', 'mineshaft') and tags->'disused' not in ('', 'no') then 'disused_mine' else type end)
-            end as type,
-          null as isolation,
-          case when type in ('cave_entrance') then null else tags->'access' end as access
+            end as type
         from
           osm_features
         where
@@ -111,55 +89,35 @@ function getFeaturesSql(zoom) {
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          tags->'ele' as ele,
+          ${mkProjection("tags->'ele'", "case when type in ('cave_entrance') then null else tags->'access' end")},
           case type when 'communications_tower' then 'tower_communication'
             when 'shelter' then (case when tags->'shelter_type' in ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') then tags->'shelter_type' else 'shelter' end)
             else (case when type in ('mine', 'adit', 'mineshaft') and tags->'disused' not in ('', 'no') then 'disused_mine' else type end)
-            end as type,
-          null as isolation,
-          case when type in ('cave_entrance') then null else tags->'access' end as access
+            end as type
         from
           osm_feature_polys
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          ele,
+          ${mkProjection('ele')},
             case when type = 'hot_spring' then 'hot_spring' else
-            case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
-            case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring'
-          end as type,
-          null as isolation,
-          null as access
+              case when type = 'spring_box' or refitted = 'yes' then 'refitted_' else '' end ||
+              case when drinking_water = 'yes' or drinking_water = 'treated' then 'drinking_' when drinking_water = 'no' then 'not_drinking_' else '' end || 'spring'
+          end as type
         from
           osm_springs
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          null as ele,
-          'ruins' as type,
-          null as isolation,
-          null as access
+          ${mkProjection()},
+          'ruins' as type
         from
           osm_ruins
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          null as ele,
-          building as type,
-          null as isolation,
-          null as access
+          ${mkProjection()},
+          building as type
         from
           osm_place_of_worships
         where
@@ -167,14 +125,12 @@ function getFeaturesSql(zoom) {
 
       union all
         select
-          osm_id, geometry, name, ele,
+          ${mkProjection('ele')},
           concat("class", '_', case type
             when 'communication' then 'communication'
             when 'observation' then 'observation'
             when 'bell_tower' then 'bell_tower'
-            else 'other' end) as type,
-          null as isolation,
-          null as access
+            else 'other' end) as type
           from
             osm_towers
     `);
@@ -184,13 +140,8 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          null as ele,
-          type,
-          null as isolation,
-          null as access
+          ${mkProjection()},
+          type
         from
           osm_shops
         where
@@ -198,13 +149,8 @@ function getFeaturesSql(zoom) {
 
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          null as ele,
-          'building' as type,
-          null as isolation,
-          tags->'access' as access
+          ${mkProjection('null', "tags->'access'")},
+          'building' as type
         from
           osm_building_points
         where
@@ -216,13 +162,8 @@ function getFeaturesSql(zoom) {
     sqls.push(`
       union all
         select
-          osm_id,
-          geometry,
-          name,
-          null as ele,
-          type,
-          null as isolation,
-          null as access
+          ${mkProjection()},
+          type
         from
           osm_barrierpoints
         where
@@ -678,14 +619,14 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     .doInMap((map) => {
       for (let zoom = 10; zoom <= 17; zoom++) {
         map.sqlLayer('features',
-          getFeaturesSql(zoom),
+          getFeaturesSql(zoom, poiIconProjection),
           { minZoom: zoom, maxZoom: zoom === 17 ? undefined : zoom, bufferSize: 256, cacheFeatures: true }
         );
       }
 
       for (let zoom = 10; zoom <= 17; zoom++) {
         map.sqlLayer('feature_names',
-          `SELECT DISTINCT ON (osm_id) * FROM (${getFeaturesSql(zoom)}) subq`,
+          `select distinct on (osm_id) *, ${zoom < 15 ? "REGEXP_REPLACE(n, '(?<=.{30,})(.{0,30}).*', '\\2…')" : 'n'} as name from (${getFeaturesSql(zoom, poiNameProjection)}) subq`,
           { minZoom: zoom, maxZoom: zoom === 17 ? undefined : zoom, bufferSize: 256, cacheFeatures: true }
         );
       }

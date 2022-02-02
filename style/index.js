@@ -471,7 +471,7 @@ function generateFreemapStyle({
     .style('landcover_names')
       .doInStyle((style) => {
         for (const natural of [false, true]) {
-          const s = natural ? { fill: hsl(120, 100, 25), fontsetName: 'italic' } : { fill: colors.areaLabel }
+          const s = natural ? { fill: hsl(120, 100, 25), fontsetName: 'italic' } : { fill: colors.areaLabel };
 
           for (let z = 12; z <= 17; z++) {
             style.rule({
