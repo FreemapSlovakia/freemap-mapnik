@@ -36,7 +36,7 @@ const extensions = {
         for (const transform of [undefined, 'translate(6 - ([osm_id] % 2) * 12, 0)', 'translate(-6 + ([osm_id] % 2) * 12, 0)']) {
           if (extra.icon !== null) {
             // TODO find out a way to make it red if private
-            r.markersSymbolizer({ file: `images/${extra.icon || types[0]}.svg`, opacity: '1 - ([access] = "private" || [access] = "no") * 0.66', transform });
+            r.markersSymbolizer({ placement: 'point', file: `images/${extra.icon || types[0]}.svg`, opacity: '1 - ([access] = "private" || [access] = "no") * 0.66', transform });
           }
         }
       }

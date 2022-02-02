@@ -857,6 +857,7 @@ const legend = {
 
     poi('poi', 'lift_gate', 'lift gate', 'závora'),
     poi('poi', 'gate', 'gate', 'brána'),
+    poi('poi', 'ford', 'ford', 'brod'),
     poi('poi', 'waste_disposal', 'waste disposal', 'kontajner na odpad'),
     {
       categoryId: 'water',

@@ -158,7 +158,7 @@ function getFeaturesSql(zoom, mkProjection) {
     `);
   }
 
-  if (zoom >= 17) {
+  if (zoom >= 17 && mkProjection !== poiNameProjection) {
     sqls.push(`
       union all
         select
@@ -168,6 +168,13 @@ function getFeaturesSql(zoom, mkProjection) {
           osm_barrierpoints
         where
           type in ('lift_gate', 'swing_gate', 'gate')
+
+      union all
+        select
+          ${mkProjection()},
+          'ford' as type
+        from
+          osm_fords
     `);
   }
 

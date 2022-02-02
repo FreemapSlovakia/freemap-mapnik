@@ -457,6 +457,23 @@ tables:
       leisure:
         - nature_reserve
 
+  fords:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: type
+        type: mapping_value
+    type: geometry
+    type_mappings:
+      points:
+        ford:
+          - __any__
+      linestrings:
+        ford:
+          - __any__
+
   features:
     columns:
       - name: osm_id

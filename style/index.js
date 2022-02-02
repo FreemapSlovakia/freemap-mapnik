@@ -156,6 +156,7 @@ const pois = [
   [17, NN, N, N, 'bench'],
   [17, 18, N, N, 'beehive'],
   [17, NN, N, N, ['lift_gate', 'swing_gate']],
+  [17, NN, N, N, 'ford'],
 
   [18, 19, N, N, 'post_box'],
   [18, 19, N, N, 'telephone'],
