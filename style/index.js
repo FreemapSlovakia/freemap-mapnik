@@ -77,6 +77,8 @@ const pois = [
   [14, 15, N, N, 'forester\'s_lodge'],
   [14, 15, N, N, 'horse_riding'],
   [14, 15, N, N, 'golf_course'],
+  [14, 14, N, N, ['kindergarten', 'recycling'],
+    { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
