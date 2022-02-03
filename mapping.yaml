@@ -4,6 +4,7 @@ areas:
     - building
     - landuse
     - leisure
+    - waterway
     # - natural
     - aeroway
   linear_tags:
@@ -207,6 +208,11 @@ tables:
           highway:
             - pedestrian
             - footway
+      waterway:
+        mapping:
+          waterway:
+            - weir
+            - dam
 
   buildings:
     columns:
@@ -417,6 +423,9 @@ tables:
         - trench
       barrier:
         - ditch # TODO
+      waterway:
+        - dam
+        - weir
 
   pipelines:
     columns:
@@ -497,50 +506,15 @@ tables:
             - disused
     type: point
     mappings:
-      tourism:
+      aerialway:
         mapping:
-          tourism:
-            - alpine_hut
-            - apartment
-            - artwork
-            - attraction
-            - camp_site
-            - caravan_site
-            - castle
-            - chalet
-            - guest_house
-            - hostel
-            - hotel
-            - memorial
-            - monument
-            - motel
-            - museum
-            - picnic_site
-            - viewpoint
-            - wilderness_hut
-            - zoo
+          aerialway:
+            - pylon
+            # - station FIXME conflicts with railway=station
       aeroway:
         mapping:
           aeroway:
             - aerodrome
-      natural:
-        mapping:
-          natural:
-            - arch
-            - birds_nest
-            - cave_entrance
-            - peak
-            - rock
-            - saddle
-            - shrub
-            - sinkhole
-            - stone
-            - tree
-      waterway:
-        mapping:
-          waterway:
-            - waterfall
-            - weir
       amenity:
         mapping:
           amenity:
@@ -596,6 +570,30 @@ tables:
             - waste_disposal
             - water_point
             - watering_place
+      emergency:
+        mapping:
+          emergency:
+            - access_point # TODO
+      highway:
+        mapping:
+          highway:
+            - bus_stop
+      historic:
+        mapping:
+          historic:
+            - archaeological_site
+            - boundary_stone
+            - bunker
+            - castle
+            - manor
+            - memorial
+            - mine
+            - mine_shaft
+            - monastery
+            - monument
+            - tree_shrine
+            - wayside_cross
+            - wayside_shrine
       leisure:
         mapping:
           leisure:
@@ -631,40 +629,28 @@ tables:
             - water_tower
             - water_well
             - water_works
-      historic:
+      military:
         mapping:
-          historic:
-            - archaeological_site
-            - boundary_stone
+          military:
             - bunker
-            - castle
-            - manor
-            - memorial
-            - mine
-            - mine_shaft
-            - monastery
-            - monument
-            - tree_shrine
-            - wayside_cross
-            - wayside_shrine
+      natural:
+        mapping:
+          natural:
+            - arch
+            - birds_nest
+            - cave_entrance
+            - peak
+            - rock
+            - saddle
+            - shrub
+            - sinkhole
+            - stone
+            - tree
       power:
         mapping:
           power:
             - pole
             - tower
-      military:
-        mapping:
-          military:
-            - bunker
-      emergency:
-        mapping:
-          emergency:
-            - access_point # TODO
-      aerialway:
-        mapping:
-          aerialway:
-            - pylon
-            # - station FIXME conflicts with railway=station
       railway:
         mapping:
           railway:
@@ -673,10 +659,34 @@ tables:
             - station
             - subway_entrance # TODO
             - tram_stop # TODO
-      highway:
+      tourism:
         mapping:
-          highway:
-            - bus_stop
+          tourism:
+            - alpine_hut
+            - apartment
+            - artwork
+            - attraction
+            - camp_site
+            - caravan_site
+            - castle
+            - chalet
+            - guest_house
+            - hostel
+            - hotel
+            - memorial
+            - monument
+            - motel
+            - museum
+            - picnic_site
+            - viewpoint
+            - wilderness_hut
+            - zoo
+      waterway:
+        mapping:
+          waterway:
+            - waterfall
+            - weir
+            - dam
 
   feature_polys: # NOTE used for rendering icons only
     columns:
@@ -704,12 +714,6 @@ tables:
         mapping:
           aeroway:
             - aerodrome
-      natural:
-        mapping:
-          natural:
-            - rock
-            - stone
-            - sinkhole
       amenity:
         mapping:
           amenity:
@@ -755,26 +759,19 @@ tables:
             - veterinary
             - monastery
             - ranger_station
-      tourism:
+      historic:
         mapping:
-          tourism:
-            - alpine_hut
-            - apartment
-            - artwork
-            - attraction
-            - camp_site
-            - caravan_site
+          historic:
+            - archaeological_site
+            - bunker
             - castle
-            - chalet
-            - guest_house
-            - hostel
-            - hotel
+            - manor
+            - memorial
+            - mine
+            - mine_shaft
+            - monastery
             - monument
-            - motel
-            - museum
-            - picnic_site
-            - wilderness_hut
-            - zoo
+            - wayside_shrine
       leisure:
         mapping:
           leisure:
@@ -807,19 +804,6 @@ tables:
             - wastewater_plant
             - ice_house # TODO
             - forester's_lodge
-      historic:
-        mapping:
-          historic:
-            - archaeological_site
-            - bunker
-            - castle
-            - manor
-            - memorial
-            - mine
-            - mine_shaft
-            - monastery
-            - monument
-            - wayside_shrine
       military:
         mapping:
           military:
@@ -828,10 +812,41 @@ tables:
       #  mapping:
       #    aerialway:
       #      - station # FIXME conflicts with railway=station
+      natural:
+        mapping:
+          natural:
+            - rock
+            - stone
+            - sinkhole
+      tourism:
+        mapping:
+          tourism:
+            - alpine_hut
+            - apartment
+            - artwork
+            - attraction
+            - camp_site
+            - caravan_site
+            - castle
+            - chalet
+            - guest_house
+            - hostel
+            - hotel
+            - monument
+            - motel
+            - museum
+            - picnic_site
+            - wilderness_hut
+            - zoo
       railway:
         mapping:
           railway:
             - station
+      waterway:
+        mapping:
+          waterway:
+            - weir
+            - dam
 
   springs:
     columns:

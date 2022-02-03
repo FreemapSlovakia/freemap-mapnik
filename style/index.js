@@ -126,6 +126,8 @@ const pois = [
   [15, 16, N, N, 'building'],
   [15, 15, N, Y, 'tree'],
   [15, 16, N, N, 'bird_hide'],
+  [15, 16, N, N, 'dam', { font: { fill: colors.waterLabel } }],
+  [15, 16, N, N, 'weir', { font: { fill: colors.waterLabel } }],
   [15, 15, N, N, ['kindergarten', 'school', 'university', 'college', 'recycling'],
     { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
@@ -195,6 +197,7 @@ function generateFreemapStyle({
       .rule()
         .borderedPolygonSymbolizer('white')
     .style('landcover')
+      .area(hsl(0, 0, 70), 'dam', 'weir')
       .area(colors.forest, 'forest', 'wood')
       .area(colors.farmland, 'farmland')
       .area(colors.grassy, 'meadow', 'park', 'cemetery', 'village_green')
@@ -332,6 +335,10 @@ function generateFreemapStyle({
       .typesRule(14, 'earth_bank')
         .linePatternSymbolizer({ file: 'images/earth_bank.svg' })
     .style('feature_lines')
+      .typesRule(16, 'weir')
+        .lineSymbolizer({ stroke: hsl(0, 0, 40), strokeWidth: 3, strokeDasharray: '9, 3' })
+      .typesRule(16, 'dam')
+        .lineSymbolizer({ stroke: hsl(0, 0, 40), strokeWidth: 3 })
       .typesRule(16, 'dyke')
         .linePatternSymbolizer({ file: 'images/dyke.svg' })
       .typesRule(16, 'embankment')

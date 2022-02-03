@@ -155,6 +155,15 @@ function getFeaturesSql(zoom, mkProjection) {
           osm_building_points
         where
           type <> 'no'
+
+      union all
+        select
+          ${mkProjection()},
+          type
+        from
+          osm_feature_lines
+        where
+          type in ('dam', 'weir')
     `);
   }
 
@@ -189,7 +198,7 @@ function getFeaturesSql(zoom, mkProjection) {
   return sqls.join('');
 }
 
-const landuseZOrder = "position(type || ',' in 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,kindergarten,school,college,university,village_green,wetland,grass,recreation_ground,zoo,farmyard,retail,commercial,residential,industrial,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,') as z_order";
+const landuseZOrder = "position(type || ',' in 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,dam,weir,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,kindergarten,school,college,university,village_green,wetland,grass,recreation_ground,zoo,farmyard,retail,commercial,residential,industrial,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,') as z_order";
 
 function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails, format, custom, legendLayers) {
 

@@ -94,6 +94,8 @@ insert into z_order_poi (type) values
 ('tennis'),
 ('basketball'),
 ('waterfall'),
+('dam'),
+('weir'),
 ('refitted_drinking_spring'),
 ('drinking_spring'),
 ('refitted_spring'),
