@@ -121,6 +121,7 @@ const pois = [
   [15, 16, N, N, 'tower_bell_tower'],
   [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'bus_stop'],
+  [15, 16, N, N, 'sauna'],
   [15, 16, N, N, 'taxi'],
   [15, 16, N, N, 'bicycle'],
   [15, 16, N, N, 'building'],
