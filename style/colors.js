@@ -20,7 +20,6 @@ const colors = {
   water: hsl(216, 65, 65),
   waterLabel: hsl(216, 100, 50),
   waterLabelHalo: hsl(216, 30, 100),
-  wetland: hsl(200, 80, 90),
 };
 
 function hsl(h, s, l) {

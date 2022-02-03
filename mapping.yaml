@@ -16,6 +16,7 @@ tags:
     - icao
     - shelter_type
     - disused
+    - wetland
 generalized_tables:
   waterareas_gen1:
     source: waterareas
@@ -127,6 +128,11 @@ tables:
         type: mapping_value
       - name: area
         type: webmerc_area
+      - name: tags
+        type: hstore_tags
+        args:
+          include:
+            - wetland
     type: polygon
     mappings:
       man_made:
