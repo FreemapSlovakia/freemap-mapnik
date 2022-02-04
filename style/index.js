@@ -129,7 +129,7 @@ const pois = [
   [15, 16, N, N, 'bird_hide'],
   [15, 16, N, N, 'dam', { font: { fill: colors.waterLabel } }],
   [15, 16, N, N, 'weir', { font: { fill: colors.waterLabel } }],
-  [15, 15, N, N, ['kindergarten', 'school', 'university', 'college', 'recycling'],
+  [15, 15, N, N, ['school', 'university', 'college'],
     { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
   [16, 17, N, N, 'miniature_golf'],
