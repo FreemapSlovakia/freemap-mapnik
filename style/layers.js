@@ -719,10 +719,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           z_order_landuse using (type)
         left join
           osm_feature_polys using (osm_id)
+        left join
+          osm_sports on osm_landusages.osm_id = osm_sports.osm_id and osm_sports.type in ('soccer', 'tennis', 'basketball') -- NOTE filtering some POIs (hacky because it affects also lower zooms)
         where
-          osm_feature_polys.osm_id is null and osm_landusages.geometry && !bbox!
+          osm_feature_polys.osm_id is null and osm_sports.osm_id is null and osm_landusages.geometry && !bbox!
         order
-          by z_order, osm_id`,
+          by z_order, osm_feature_polys.osm_id`,
       { minZoom: 12, bufferSize: 1024 },
     )
     .sqlLayer(
