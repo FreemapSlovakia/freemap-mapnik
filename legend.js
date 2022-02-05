@@ -239,7 +239,7 @@ const legend = {
     {
       id: 'accomodation',
       name: {
-        en: 'Acocmodation and selters',
+        en: 'Accomodation and shelters',
         sk: 'Ubytovanie a prístrešky',
       },
     },
@@ -319,7 +319,7 @@ const legend = {
       categoryId: 'terrain',
       name: {
         en: 'earth bank',
-        sk: 'strmý svah',
+        sk: 'ochranná hrádza',
       },
       layers: [
         forest,
@@ -406,7 +406,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'local hiking trail',
-        sk: 'miestná turistická trasa',
+        sk: 'miestna turistická trasa',
       },
       layers: [
         forest,
@@ -442,7 +442,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'x-country ski trail',
-        sk: 'lyžiarská (bežkárska) trasa',
+        sk: 'lyžiarska (bežkárska) trasa',
       },
       layers: [
         forest,
@@ -503,7 +503,7 @@ const legend = {
     road('steps', 'steps', 'schody'),
     road('construction', 'road in construction', 'komunikácia vo výstavbe'),
     road('raceway', 'raceway', 'pretekárska dráha'),
-    road('piste', 'piste', 'bežkárska dráha'),
+    road('piste', 'piste', 'bežkárska dráha/zjazdovka'),
     road('via_ferrata', 'via ferrata', 'ferrata'),
     {
       categoryId: 'communications',
@@ -543,7 +543,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'access denied for pedestrians',
-        sk: 'zákaz vstupu (pešo)',
+        sk: 'zákaz vstupu pre chodcov',
       },
       layers: [
         forest,
@@ -559,7 +559,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'access denied cyclists',
-        sk: 'zákaz vjazdu pre bicykle',
+        sk: 'zákaz vjazdu pre cyklistov',
       },
       layers: [
         forest,
@@ -575,7 +575,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'access denied for pedestrians or cyclists',
-        sk: 'zákaz vstupu (pešo) a zákaz vjazdu pre bicykle',
+        sk: 'zákaz vstupu pre chodcov a cyklistov',
       },
       layers: [
         forest,
@@ -633,7 +633,7 @@ const legend = {
       categoryId: 'railway',
       name: {
         en: 'service or light railway, tram railway',
-        sk: 'servisná alebo ľahká železničná trať, električková trať',
+        sk: 'servisná alebo vedľajšia železničná trať, električková trať',
       },
       layers: [
         forest,
@@ -760,7 +760,7 @@ const legend = {
       ],
       ...props,
     },
-    poi('natural_poi', 'tree', 'protected tree', 'chráneny strom'),
+    poi('natural_poi', 'tree', 'protected tree', 'chránený strom'),
     poi('poi', 'viewpoint', 'viewpoint', 'výhľad'),
 
 
@@ -768,8 +768,8 @@ const legend = {
     poi('water', 'water_well', 'water well', 'studňa'),
     poi('water', 'spring', 'spring', 'prameň', true),
     poi('water', 'refitted_spring', 'refitted spring', 'upravený prameň', true),
-    poi('water', 'drinking_spring', 'drinkable spring', 'pitný prameň', true),
-    poi('water', 'not_drinking_spring', 'not drinkable spring', 'nepitný prameň', true),
+    poi('water', 'drinking_spring', 'drinkable spring', 'prameň pitnej vody', true),
+    poi('water', 'not_drinking_spring', 'not drinkable spring', 'prameň úžitkovej vody', true),
     poi('water', 'hot_spring', 'hot spring', 'termálny prameň', true),
     poi('water', 'watering_place', 'watering place', 'napájadlo'),
     poi('water', 'waterfall', 'waterfall', 'vodopád'),
@@ -794,7 +794,7 @@ const legend = {
     poi('poi', 'pharmacy', 'pharmacy', 'lekáreň'),
     poi('poi', 'bicycle', 'bicycle shop', 'cykloobchod'),
 
-    poi('poi', 'church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
+    poi('poi', 'church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkev, kaplnka, katedrála, chrám, bazilika'),
     poi('poi', 'wayside_shrine', 'wayside shrine', 'božia muka'),
     poi('poi', 'cross', 'cross', 'kríž'),
 
@@ -837,7 +837,7 @@ const legend = {
     poi('poi', 'picnic_site', 'picnic site', 'miesto na piknik'),
 
     poi('poi', 'feeding_place', 'feeding place', 'krmidlo'),
-    poi('poi', 'beehive', 'beehive', 'včelý úľ'),
+    poi('poi', 'beehive', 'beehive', 'včelí úľ'),
 
     poi('poi', 'horse_riding', 'horse riding', 'jazda na koni'),
     poi('poi', 'sauna', 'sauna', 'sauna'),
@@ -880,7 +880,7 @@ const legend = {
       ...props
     },
     landcover('forest', 'forest', 'les'),
-    landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnata plocha'),
+    landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnatá plocha'),
     landcover('heath', 'heath', 'step'),
     landcover('scrub', 'scrub', 'kroviny'),
     landcover('clearcut', 'clearcut', 'holorub'),
