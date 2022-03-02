@@ -189,10 +189,10 @@ function generateFreemapStyle({
     backgroundColor: legendLayers ? undefined : colors.water,
     srs: mercSrs,
   }, extensions)
-    .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular'])
-    .fontSet('italic', ['PT Sans Italic', 'Fira Sans Condensed Italic'])
-    .fontSet('bold', ['PT Sans Bold', 'Fira Sans Condensed Bold'])
-    .fontSet('narrow bold', ['PT Sans Narrow Bold', 'Fira Sans Extra Condensed Bold'])
+    .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular', 'Noto Sans Regular'])
+    .fontSet('italic', ['PT Sans Italic', 'Fira Sans Condensed Italic', 'Noto Sans Italic'])
+    .fontSet('bold', ['PT Sans Bold', 'Fira Sans Condensed Bold', 'Noto Sans Bold'])
+    .fontSet('narrow bold', ['PT Sans Narrow Bold', 'Fira Sans Extra Condensed Bold', 'Noto Sans Bold'])
     .datasource({ name: 'db' }, dbParams)
     .style('sea')
       .rule()
