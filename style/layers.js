@@ -692,6 +692,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         left join osm_sports using (osm_id)
         left join osm_ruins using (osm_id)
         left join osm_towers using (osm_id)
+        left join osm_shops using (osm_id)
         where
           osm_buildings.type <> 'no'
             and osm_landusages.osm_id is null
@@ -701,6 +702,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
             and osm_sports.osm_id is null
             and osm_ruins.osm_id is null
             and osm_towers.osm_id is null
+            and osm_shops.osm_id is null
         order by osm_buildings.osm_id`,
       { bufferSize: 512, minZoom: 17 },
     )
