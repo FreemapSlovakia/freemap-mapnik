@@ -179,7 +179,7 @@ const colorMap = {
   orange: '#ff8000',
   black: 'black',
   white: 'white',
-  purple: '#b000b0',
+  purple: '#c000c0',
   none: '#ff00ff',
 };
 
