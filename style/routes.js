@@ -180,7 +180,7 @@ const colorMap = {
   black: 'black',
   white: 'white',
   purple: '#b000b0',
-  none: '#ff57ff',
+  none: '#ff00ff',
 };
 
 function mapColor(color) {
