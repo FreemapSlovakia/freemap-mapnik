@@ -3,7 +3,7 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs').promises;
 
-const routeColors = ['purple', 'orange', 'white', 'black', 'yellow', 'green', 'blue', 'red'];
+const routeColors = ['none', 'purple', 'orange', 'white', 'black', 'yellow', 'green', 'blue', 'red'];
 
 async function initIcons() {
   const [horseSvg, skiSvg] = await Promise.all([
@@ -15,8 +15,8 @@ async function initIcons() {
     routeColors.map(
       color => Promise.all([
         // TODO u
-        fs.writeFile(path.resolve(os.tmpdir(), `ski-${color}.svg`), skiSvg.replace('#ff00ff', mapColor(color))),
-        fs.writeFile(path.resolve(os.tmpdir(), `horse-${color}.svg`), horseSvg.replace('#ff00ff', mapColor(color))),
+        fs.writeFile(path.resolve(os.tmpdir(), `ski-${color}.svg`), skiSvg.replaceAll('#ff00ff', mapColor(color))),
+        fs.writeFile(path.resolve(os.tmpdir(), `horse-${color}.svg`), horseSvg.replaceAll('#ff00ff', mapColor(color))),
       ]),
     ),
   );
@@ -180,6 +180,7 @@ const colorMap = {
   black: 'black',
   white: 'white',
   purple: '#b000b0',
+  none: '#ff57ff',
 };
 
 function mapColor(color) {

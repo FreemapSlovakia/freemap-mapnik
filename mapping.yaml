@@ -80,6 +80,9 @@ tables:
       - name: colour
         type: string
         key: colour
+      - name: state
+        type: string
+        key: state
       - name: osmc:symbol
         type: string
         key: osmc:symbol
@@ -161,6 +164,7 @@ tables:
           - pitch
           - stadium
           - dog_park # TODO
+          - track
       tourism:
         mapping:
           tourism:
@@ -793,6 +797,7 @@ tables:
             - resort # TODO
             - sauna
             - water_park
+            - track
       man_made:
         mapping:
           man_made:
@@ -1218,6 +1223,8 @@ tables:
             - platform
           attraction:
             - water_slide
+          leisure:
+            - track
 
   housenumbers:
     columns:

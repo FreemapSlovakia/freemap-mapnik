@@ -75,7 +75,7 @@ function highways() {
           .road({ ...highwayDflt, stroke: hsl(180, 50, 50), strokeWidth: 1.5 })
         .rule({ minZoom: 14, filter: "[type] = 'service' and [service] = 'parking_aisle'" })
           .road({ ...highwayDflt, strokeWidth: 1 })
-        .typesRule(14, 'raceway')
+        .rule({ filter: "[type] = 'raceway' or [type] = 'track' and [class] = 'leisure'", minZoom: 14 })
           .road({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray: '9.5,1.5' })
         .typesRule(14, 'piste')
           .road({ ...highwayDflt, strokeWidth: 1.2, stroke: 'white' })
@@ -103,7 +103,7 @@ function highways() {
                 [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
                   style
                     .rule({
-                        filter: `[type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`,
+                        filter: `[class] = 'highway' and [type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`,
                         minZoom: zz[a][0],
                         maxZoom: zz[a][1],
                     })
@@ -122,9 +122,9 @@ function highways() {
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(12, 'path')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1, strokeOpacity: '[trail_visibility]' })
-        .typesRule(12, 'track')
+        .rule({ filter: "[type] = 'track' and [class] = 'highway'", minZoom: 12 })
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2, strokeOpacity: '[trail_visibility]' })
-        .typesRule(14, 'raceway')
+        .rule({ filter: "[type] = 'raceway' or [type] = 'track' and [class] = 'leisure'", minZoom: 14 })
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
         .typesRule(14, 'bridleway')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2, stroke: hsl(120, 50, 80), strokeOpacity: '[trail_visibility]' })

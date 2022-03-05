@@ -251,7 +251,7 @@ function generateFreemapStyle({
       .area(colors.grassy, 'swamp')
         .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
         .polygonPatternSymbolizer({ file: 'images/swamp.svg', alignment: 'global' })
-      .typesRule(12, 'pitch', 'playground', 'golf_course')
+      .typesRule(12, 'pitch', 'playground', 'golf_course', 'track')
         .borderedPolygonSymbolizer(hsl(140, 50, 70))
         .lineSymbolizer({ stroke: hsl(140, 50, 40), strokeWidth: 1 })
       .typesRule(13, 'parking')
@@ -427,10 +427,7 @@ function generateFreemapStyle({
     .style('locality_names')
       .typesRule(15, 'locality')
         .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2, placementType: 'list' }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
+          .placements()
     .style('feature_names')
       .poiNames(pois)
     .style('protected_area_names').doInStyle((style) => {
@@ -445,10 +442,7 @@ function generateFreemapStyle({
               placement: 'interior',
               placementType: 'list'
             }), '[name]')
-              .placement({ dy: 5 })
-              .placement({ dy: -5 })
-              .placement({ dy: 10 })
-              .placement({ dy: -10 });
+              .placements();
       }
     })
       .typesRule(12, 'protected_area', 'nature_reserve')
@@ -459,27 +453,18 @@ function generateFreemapStyle({
           placement: 'interior',
           placementType: 'list'
         }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
+          .placements()
     .style('water_area_names')
       .doInStyle((style) => {
         for (let z = 10; z <= 16; z++) {
           style.rule({ filter: `[area] > ${800000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
             .textSymbolizer(font().water().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
-              .placement({ dy: 5 })
-              .placement({ dy: -5 })
-              .placement({ dy: 10 })
-              .placement({ dy: -10 });
+              .placements();
         }
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().water().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
+          .placements()
     .style('feature_poly_names')
       .doInStyle((style) => {
         for (let z = 12; z <= 16; z++) {
@@ -489,10 +474,7 @@ function generateFreemapStyle({
       })
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
+          .placements()
     .style('landcover_names')
       .doInStyle((style) => {
         for (const natural of [false, true]) {
@@ -505,20 +487,14 @@ function generateFreemapStyle({
                 maxZoom: z === 17 ? undefined : z
               })
               .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', ...s }), '[name]')
-                .placement({ dy: 5 })
-                .placement({ dy: -5 })
-                .placement({ dy: 10 })
-                .placement({ dy: -10 });
+                .placements();
           }
         }
       })
     .style('building_names')
       .rule({ minZoom: 17 })
         .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
-          .placement({ dy: 5 })
-          .placement({ dy: -5 })
-          .placement({ dy: 10 })
-          .placement({ dy: -10 })
+          .placements()
     .style('housenumbers')
       .rule({})
         .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: colors.areaLabel }), '[housenumber]')
@@ -577,33 +553,39 @@ function generateFreemapStyle({
           const sc = 2.5 * Math.pow(1.2, z);
           // TODO wrap it respecting its size
           const placenamesFontStyle = font().wrap().end({
+            margin: 3,
             haloFill: 'white',
             opacity,
             haloOpacity: opacity * 0.9,
             fontsetName: 'narrow bold',
             characterSpacing: 1,
+            placementType: 'list'
           });
 
           style
             .typesRule(z, z, 'city')
-              .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 1.2 * sc }, '[name]');
+              .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 1.2 * sc }, '[name]')
+                .placements();
 
           if (z > 8) {
             style
               .typesRule(z, z, 'town')
-                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]');
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]')
+                  .placements();
           }
 
           if (z > 10) {
             style
               .typesRule(z, z, 'village')
-                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, textTransform: 'uppercase', size: 0.55 * sc}, '[name]');
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, textTransform: 'uppercase', size: 0.55 * sc}, '[name]')
+                  .placements();
           }
 
           if (z > 11) {
             style
               .typesRule(z, z, 'suburb', 'hamlet')
-                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]');
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]')
+                  .placements();
           }
         }
       })

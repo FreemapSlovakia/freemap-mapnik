@@ -60,7 +60,8 @@ const extensions = {
           .placement({ dy: extra && extra.font && extra.font.dy ? -extra.font.dy : 10 });
 
         if (withEle) {
-          textSymbolizerEle.text('[name] + "\n"');
+          textSymbolizerEle.text('[name]');
+          textSymbolizerEle.ele('Format', { size: fnt.size * 0.92 }, '[elehack]');
           textSymbolizerEle.ele('Format', { size: fnt.size * 0.8 }, '[ele]');
         }
       }
@@ -70,6 +71,15 @@ const extensions = {
     area(style, color, ...types) {
       return style.typesRule(...types)
         .borderedPolygonSymbolizer(color);
+    }
+  },
+  textSymbolizer: {
+    placements(textSymbolizer) {
+      for (const off of [3, 6, 9]) {
+        textSymbolizer.placement({ dy: off }).placement({ dy: -off });
+      }
+
+      return textSymbolizer;
     }
   },
   rule: {
