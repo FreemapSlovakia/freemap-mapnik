@@ -391,7 +391,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               1000
             end
         ))) as arr2
-      from osm_route_members join osm_routes on (osm_route_members.osm_id = osm_routes.osm_id and state <> 'proposed')
+      from osm_route_members join osm_routes on (osm_route_members.osm_id = osm_routes.osm_id and state <> 'proposed' and state <> 'absent')
       where geometry && !bbox!
       group by member
     ) as aaa
@@ -558,7 +558,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           layer(
             'sea', // any
             {
-              table: '(select wkb_geometry from cont_dmr5_split limit 0) as foo', // some empty data
+              table: '(select wkb_geometry from cont_dmr_split5 limit 0) as foo', // some empty data
             },
             { compOp: 'src-in' },
             { base: 'db' },
@@ -567,7 +567,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                 layer(
                   'contours',
                   {
-                    table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+                    table: '(select wkb_geometry, height from cont_dmr_split5) as foo',
                   },
                   {
                     minZoom: 12,
