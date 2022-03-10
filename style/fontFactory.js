@@ -4,13 +4,14 @@ module.exports = { font };
 
 function font() {
   return {
+    // margin: 2,
     fontsetName: 'regular',
     fill: 'black',
     haloFill: 'white',
     haloRadius: 1.5,
     haloOpacity: 0.75,
     size: 12,
-    lineSpacing: -2,
+    lineSpacing: -4,
     wrap() {
       return {
         ...this,

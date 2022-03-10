@@ -29,13 +29,14 @@ const NN = null;
 const pois = [
   [12, 12, N, N, 'aerodrome'],
   [12, 12, Y, N, 'guidepost', { icon: 'guidepost_x', font: { fontsetName: 'bold', dy: -8 }, maxZoom: 12 }],
-  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
+  [13, 13, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' }, maxZoom: 13 }],
+  [14, 14, Y, N, 'guidepost', { icon: 'guidepost_xx', font: { fontsetName: 'bold' } }],
   [10, 10, Y, Y, 'peak1', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, 'peak2', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, 'peak3', { icon: 'peak', font: { size: 13, dy: -8 } }],
   [13, 13, Y, Y, 'peak', { font: { size: 13, dy: -8 } }],
 
-  [14, 15, N, N, 'castle'],
+  [14, 14, N, N, 'castle'],
   [14, 15, N, N, 'ruins'],
   [14, 15, Y, Y, 'arch'],
   [14, 15, Y, Y, 'cave_entrance'],
@@ -52,18 +53,19 @@ const pois = [
   [14, 15, Y, N, 'monument'],
   [14, 15, Y, Y, 'viewpoint'],
   [14, 15, Y, N, ['mine', 'adit', 'mineshaft']],
+  [14, 15, Y, N, 'disused_mine'],
   [14, 15, Y, N, 'hotel'],
   [14, 15, Y, N, 'chalet'],
   [14, 15, Y, N, 'hostel'],
   [14, 15, Y, N, 'motel'],
   [14, 15, Y, N, 'guest_house'],
+  [14, 15, Y, N, 'apartment'],
   [14, 15, Y, N, 'wilderness_hut'],
   [14, 15, Y, N, 'alpine_hut'],
   [14, 15, Y, N, 'camp_site'],
   [14, 15, N, N, 'attraction'],
   [14, 15, N, N, 'hospital'],
   [14, 15, N, N, 'townhall'],
-  [14, 15, N, Y, ['hut', 'cabin']], //  fallback
   [14, 15, N, N, ['church', 'chapel', 'cathedral', 'temple', 'basilica']],
   [14, 15, Y, N, 'tower_observation'],
   [14, 15, Y, N, 'archaeological_site'],
@@ -71,11 +73,16 @@ const pois = [
   [14, 15, N, N, 'bus_station'],
   [14, 15, N, N, 'water_park'],
   [14, 15, N, N, 'museum'],
+  [14, 15, N, N, 'free_flying'],
+  [14, 15, N, N, 'forester\'s_lodge'],
+  [14, 15, N, N, 'horse_riding'],
+  [14, 15, N, N, 'golf_course'],
+  [14, 14, N, N, ['kindergarten', 'recycling'],
+    { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
-  [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'chimney'],
   [15, 16, N, N, 'fire_station'],
   [15, 16, N, N, 'community_centre'],
@@ -91,6 +98,7 @@ const pois = [
   [15, 16, Y, N, 'weather_shelter'],
   [15, 16, N, Y, 'rock'],
   [15, 16, N, Y, 'stone'],
+  [15, 16, N, Y, 'sinkhole'],
   [15, 16, N, N, 'pharmacy'],
   [15, 16, N, N, 'cinema'],
   [15, 16, N, N, 'theatre'],
@@ -102,7 +110,7 @@ const pois = [
   [15, 16, N, N, 'convenience'],
   [15, 16, N, N, 'supermarket'],
   [15, 16, N, N, 'fast_food'],
-  [15, 16, N, N, 'confectionery'],
+  [15, 16, N, N, ['confectionery', 'pastry']],
   [15, 16, N, N, 'fuel'],
   [15, 16, N, N, 'post_office'],
   [15, 16, N, N, 'bunker'],
@@ -110,11 +118,27 @@ const pois = [
   [15, NN, N, N, 'mast_other'],
   [15, NN, N, N, 'tower_other'],
   [15, NN, N, N, ['tower_communication', 'mast_communication']],
+  [15, 16, N, N, 'tower_bell_tower'],
+  [15, 16, N, N, 'water_tower'],
   [15, 16, N, N, 'bus_stop'],
+  [15, 16, N, N, 'sauna'],
   [15, 16, N, N, 'taxi'],
   [15, 16, N, N, 'bicycle'],
+  [15, 16, N, N, 'building'],
+  [15, 15, N, Y, 'tree'],
+  [15, 16, N, N, 'bird_hide'],
+  [15, 16, N, N, 'dam', { font: { fill: colors.waterLabel } }],
+  [15, 16, N, N, 'weir', { font: { fill: colors.waterLabel } }],
+  [15, 15, N, N, ['school', 'university', 'college'],
+    { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
+  [16, 17, N, N, 'miniature_golf'],
+  [16, 17, N, N, 'soccer'],
+  [16, 17, N, N, 'tennis'],
+  [16, 17, N, N, 'basketball'],
+  [16, NN, Y, N, ['guidepost_noname', 'route_marker'], { icon: 'guidepost_x' }],
   [16, NN, N, N, 'picnic_table'],
+  [16, NN, N, N, 'outdoor_seating'],
   [16, 17, N, N, 'picnic_site'],
   [16, 16, N, N, 'board'],
   [16, 17, N, N, 'map'],
@@ -124,15 +148,18 @@ const pois = [
   [16, NN, N, N, 'feeding_place', { icon: 'manger' }],
   [16, NN, N, N, 'game_feeding', { icon: 'manger' }],
   [16, 17, N, N, 'playground'],
-  [16, 17, N, N, ['water_works', 'pumping_station', 'wastewater_plant'], { font: { fill: colors.waterLabel } }],
+  [16, 17, N, N, ['water_works', 'reservoir_covered', 'pumping_station', 'wastewater_plant'], { font: { fill: colors.waterLabel } }],
+  [16, 17, N, N, 'cross'],
+
 
   [17, 18, N, N, 'wayside_shrine'],
-  [17, 18, N, N, ['cross', 'wayside_cross']],
+  [17, 18, N, N, ['cross', 'wayside_cross', 'tree_shrine']], // NOTE cros sis also on lower zoom
   [17, NN, N, N, 'firepit'],
   [17, NN, N, N, 'toilets'],
   [17, NN, N, N, 'bench'],
   [17, 18, N, N, 'beehive'],
   [17, NN, N, N, ['lift_gate', 'swing_gate']],
+  [17, NN, N, N, 'ford'],
 
   [18, 19, N, N, 'post_box'],
   [18, 19, N, N, 'telephone'],
@@ -162,15 +189,16 @@ function generateFreemapStyle({
     backgroundColor: legendLayers ? undefined : colors.water,
     srs: mercSrs,
   }, extensions)
-    .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular'])
-    .fontSet('italic', ['PT Sans Italic', 'Fira Sans Condensed Italic'])
-    .fontSet('bold', ['PT Sans Bold', 'Fira Sans Condensed Bold'])
-    .fontSet('narrow bold', ['PT Sans Narrow Bold', 'Fira Sans Extra Condensed Bold'])
+    .fontSet('regular', ['PT Sans Regular', 'Fira Sans Condensed Regular', 'Noto Sans Regular'])
+    .fontSet('italic', ['PT Sans Italic', 'Fira Sans Condensed Italic', 'Noto Sans Italic'])
+    .fontSet('bold', ['PT Sans Bold', 'Fira Sans Condensed Bold', 'Noto Sans Bold'])
+    .fontSet('narrow bold', ['PT Sans Narrow Bold', 'Fira Sans Extra Condensed Bold', 'Noto Sans Bold'])
     .datasource({ name: 'db' }, dbParams)
     .style('sea')
       .rule()
         .borderedPolygonSymbolizer('white')
     .style('landcover')
+      .area(hsl(0, 0, 70), 'dam', 'weir')
       .area(colors.forest, 'forest', 'wood')
       .area(colors.farmland, 'farmland')
       .area(colors.grassy, 'meadow', 'park', 'cemetery', 'village_green')
@@ -206,8 +234,24 @@ function generateFreemapStyle({
       .area(colors.allotments, 'allotments')
       .area(hsl(0, 0, 80), 'industrial', 'wastewater_plant')
       .area(hsl(320, 40, 85), 'commercial', 'retail')
-      .area(colors.wetland, 'wetland')
-      .typesRule(12, 'pitch', 'playground', 'golf_course')
+      .typesRule('wetland')
+        .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
+      .area(colors.heath, 'bog')
+        .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
+        .polygonPatternSymbolizer({ file: 'images/bog.svg', alignment: 'global' })
+      .area(colors.scrub, 'mangrove')
+        .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
+        .polygonPatternSymbolizer({ file: 'images/mangrove.svg', alignment: 'global' })
+      .area(colors.grassy, 'reedbed')
+        .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
+        .polygonPatternSymbolizer({ file: 'images/reedbed.svg', alignment: 'global' })
+      .area(colors.grassy, 'marsh', 'fen', 'wet_meadow')
+      .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
+      .polygonPatternSymbolizer({ file: 'images/marsh.svg', alignment: 'global' })
+      .area(colors.grassy, 'swamp')
+        .polygonPatternSymbolizer({ file: 'images/wetland.svg', alignment: 'global' })
+        .polygonPatternSymbolizer({ file: 'images/swamp.svg', alignment: 'global' })
+      .typesRule(12, 'pitch', 'playground', 'golf_course', 'track')
         .borderedPolygonSymbolizer(hsl(140, 50, 70))
         .lineSymbolizer({ stroke: hsl(140, 50, 40), strokeWidth: 1 })
       .typesRule(13, 'parking')
@@ -242,7 +286,7 @@ function generateFreemapStyle({
       .rule({ filter: "[type] <> 'river'", minZoom: 12 })
         .lineSymbolizer({ stroke: colors.water, strokeWidth: 1.2, strokeOpacity: '1 - [tunnel] / 0.6', strokeDasharray: '[dasharray]' })
       .rule({ minZoom: 14 })
-        .markersSymbolizer({ file: 'images/waterway-arrow.svg', spacing: 350, placement: 'line' })
+        .markersSymbolizer({ file: 'images/waterway-arrow.svg', spacing: 300, placement: 'line' })
     .style('barrierways')
       .rule({ minZoom: 16 })
         .lineSymbolizer({ stroke: hsl(0, 100, 50), strokeWidth: 1, strokeDasharray: '2,1' })
@@ -304,10 +348,14 @@ function generateFreemapStyle({
     .style('feature_lines_maskable')
       .typesRule(13, 'cliff')
         .linePatternSymbolizer({ file: 'images/cliff.svg' })
-        .lineSymbolizer({ stroke: hsl(0, 0, 25), strokeWidth: 1 })
+        .lineSymbolizer({ stroke: colors.areaLabel, strokeWidth: 1 })
       .typesRule(14, 'earth_bank')
         .linePatternSymbolizer({ file: 'images/earth_bank.svg' })
     .style('feature_lines')
+      .typesRule(16, 'weir')
+        .lineSymbolizer({ stroke: hsl(0, 0, 40), strokeWidth: 3, strokeDasharray: '9, 3' })
+      .typesRule(16, 'dam')
+        .lineSymbolizer({ stroke: hsl(0, 0, 40), strokeWidth: 3 })
       .typesRule(16, 'dyke')
         .linePatternSymbolizer({ file: 'images/dyke.svg' })
       .typesRule(16, 'embankment')
@@ -321,7 +369,7 @@ function generateFreemapStyle({
       .doInStyle((style) => {
         for (let z = 13; z <= 19; z++) {
           style.typesRule(z, z === 16 ? 20 : z, 'tree_row')
-            .linePatternSymbolizer({ file: 'images/tree.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
+            .linePatternSymbolizer({ file: 'images/tree2.svg', transform: `scale(${(2 + Math.pow(2, z - 15)) / 4})` });
         }
       })
     .style('embankments')
@@ -358,10 +406,15 @@ function generateFreemapStyle({
           const size = 2 + Math.pow(2, z - 15);
           style
             .rule({ minZoom: z, maxZoom: z })
-            .markersSymbolizer({ file: 'images/tree.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true });
+            .markersSymbolizer({
+              file: 'images/tree2.svg', width: size, height: size, fill: colors.forest, allowOverlap: true, ignorePlacement: true,
+              transform: 'scale(1 - ([type] = "shrub") * 0.5, 1 - ([type] = "shrub") * 0.5)',
+            });
         }
       })
     .style('features')
+      .typesRule(16, 'pylon')
+        .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(13, 'tower')
         .markersSymbolizer({ file: 'images/power_tower.svg', allowOverlap: true, ignorePlacement: true })
       .typesRule(14, 'pole')
@@ -373,7 +426,8 @@ function generateFreemapStyle({
     // texts
     .style('locality_names')
       .typesRule(15, 'locality')
-        .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2 }), '[name]')
+        .textSymbolizer(font().wrap().end({ fill: hsl(0, 0, 40), size: 11, haloRadius: 1.5, haloOpacity: 0.2, placementType: 'list' }), '[name]')
+          .placements()
     .style('feature_names')
       .poiNames(pois)
     .style('protected_area_names').doInStyle((style) => {
@@ -386,7 +440,9 @@ function generateFreemapStyle({
               haloFill: 'white',
               haloRadius: 1.5,
               placement: 'interior',
-            }), '[name]');
+              placementType: 'list'
+            }), '[name]')
+              .placements();
       }
     })
       .typesRule(12, 'protected_area', 'nature_reserve')
@@ -395,31 +451,53 @@ function generateFreemapStyle({
           haloFill: 'white',
           haloRadius: 1.5,
           placement: 'interior',
+          placementType: 'list'
         }), '[name]')
+          .placements()
     .style('water_area_names')
       .doInStyle((style) => {
         for (let z = 10; z <= 16; z++) {
           style.rule({ filter: `[area] > ${800000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]');
+            .textSymbolizer(font().water().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
+              .placements();
         }
       })
       .rule({ minZoom: 17 })
-        .textSymbolizer(font().water().wrap().end({ placement: 'interior' }), '[name]')
+        .textSymbolizer(font().water().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
+          .placements()
+    .style('feature_poly_names')
+      .doInStyle((style) => {
+        for (let z = 12; z <= 16; z++) {
+          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
+            .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]');
+        }
+      })
+      .rule({ minZoom: 17 })
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', fill: colors.areaLabel }), '[name]')
+          .placements()
     .style('landcover_names')
       .doInStyle((style) => {
-        for (let z = 10; z <= 16; z++) {
-          style.rule({ filter: `[area] > ${2400000 / (1 << (2 * (z - 10)))}`, minZoom: z, maxZoom: z })
-            .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]');
+        for (const natural of [false, true]) {
+          const s = natural ? { fill: hsl(120, 100, 25), fontsetName: 'italic' } : { fill: colors.areaLabel };
+
+          for (let z = 12; z <= 17; z++) {
+            style.rule({
+                filter: `(${natural ? '[natural]' : 'not ([natural])'})` + (z === 17 ? '' : ` and [area] > ${2400000 / (1 << (2 * (z - 10)))}`),
+                minZoom: z,
+                maxZoom: z === 17 ? undefined : z
+              })
+              .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list', ...s }), '[name]')
+                .placements();
+          }
         }
       })
-      .rule({ minZoom: 17 })
-        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
     .style('building_names')
-      .rule({ minZoom: 17 }) // rest names
-        .textSymbolizer(font().wrap().end({ placement: 'interior' }), '[name]')
+      .rule({ minZoom: 17 })
+        .textSymbolizer(font().wrap().end({ placement: 'interior', placementType: 'list' }), '[name]')
+          .placements()
     .style('housenumbers')
       .rule({})
-        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: hsl(0, 0, 25) }), '[housenumber]')
+        .textSymbolizer(font().end({ placement: 'interior', size: 8, haloOpacity: 0.5, fill: colors.areaLabel }), '[housenumber]')
     .style('highway_names')
       .rule({ minZoom: 15 })
         .textSymbolizer(font().line().end({ fill: colors.track }), '[name]')
@@ -475,33 +553,39 @@ function generateFreemapStyle({
           const sc = 2.5 * Math.pow(1.2, z);
           // TODO wrap it respecting its size
           const placenamesFontStyle = font().wrap().end({
+            margin: 3,
             haloFill: 'white',
             opacity,
             haloOpacity: opacity * 0.9,
             fontsetName: 'narrow bold',
             characterSpacing: 1,
+            placementType: 'list'
           });
 
           style
             .typesRule(z, z, 'city')
-              .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 1.2 * sc }, '[name]');
+              .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 1.2 * sc }, '[name]')
+                .placements();
 
           if (z > 8) {
             style
               .typesRule(z, z, 'town')
-                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]');
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 2, textTransform: 'uppercase', size: 0.8 * sc }, '[name]')
+                  .placements();
           }
 
           if (z > 10) {
             style
               .typesRule(z, z, 'village')
-                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, textTransform: 'uppercase', size: 0.55 * sc}, '[name]');
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, textTransform: 'uppercase', size: 0.55 * sc}, '[name]')
+                  .placements();
           }
 
           if (z > 11) {
             style
               .typesRule(z, z, 'suburb', 'hamlet')
-                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]');
+                .textSymbolizer({ ...placenamesFontStyle, haloRadius: 1.5, size: 0.5 * sc }, '[name]')
+                  .placements();
           }
         }
       })

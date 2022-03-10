@@ -1,0 +1,9 @@
+<svg width="16" height="16" viewBox="0 0 4.233 4.233" xmlns="http://www.w3.org/2000/svg">
+  <g style="display:inline;opacity:.5">
+    <path style="fill:none;fill-rule:evenodd;stroke:#fff;stroke-width:.79375;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M.794 1.058h2.381v0M2.91.53l.53.528-.53.53v0M1.323.53l-.53.528.53.53M.53 2.646c.264-.397.396-.397.66 0 .265.397.397.397.662 0s.397-.397.662 0c.264.397.396.397.661 0s.397-.397.661 0"/>
+  </g>
+  <g style="display:inline">
+    <path style="fill:none;fill-rule:evenodd;stroke:#000;stroke-width:.264583px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="M.794 1.058h2.381v0M2.91.53l.53.528-.53.53v0M1.323.53l-.53.528.53.53"/>
+    <path style="fill:none;fill-rule:evenodd;stroke:#0064ff;stroke-width:.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M.53 2.646c.264-.397.396-.397.66 0 .265.397.397.397.662 0s.397-.397.662 0c.264.397.396.397.661 0s.397-.397.661 0"/>
+  </g>
+</svg>

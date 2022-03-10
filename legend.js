@@ -19,6 +19,7 @@ const routeDefaults = {
   h_white: 0,
   h_orange: 0,
   h_purple: 0,
+  h_none: 0,
   h_red_loc: 0,
   h_blue_loc: 0,
   h_green_loc: 0,
@@ -27,6 +28,7 @@ const routeDefaults = {
   h_white_loc: 0,
   h_orange_loc: 0,
   h_purple_loc: 0,
+  h_none_loc: 0,
   b_red: 0,
   b_blue: 0,
   b_green: 0,
@@ -35,6 +37,7 @@ const routeDefaults = {
   b_white: 0,
   b_orange: 0,
   b_purple: 0,
+  b_none: 0,
   s_red: 0,
   s_blue: 0,
   s_green: 0,
@@ -43,6 +46,7 @@ const routeDefaults = {
   s_white: 0,
   s_orange: 0,
   s_purple: 0,
+  s_none: 0,
   r_red: 0,
   r_blue: 0,
   r_green: 0,
@@ -51,6 +55,7 @@ const routeDefaults = {
   r_white: 0,
   r_orange: 0,
   r_purple: 0,
+  r_none: 0,
   refs1: '',
   refs2: '',
   off1: 0,
@@ -128,7 +133,17 @@ function asArea(styles, properties, forZoom = 18) {
 
 const forest = asArea(['landcover'], { type: 'forest' });
 
-function road(type, en, sk, noForest) {
+const roadDefaults = {
+  class: 'highway',
+  service: '',
+  bridge: '',
+  tunnel: '',
+  tracktype: '',
+  oneway: 0,
+  trail_visibility: 1,
+};
+
+function road(type, en, sk, noForest = false, trailVisibility = 0) {
   return {
     categoryId: 'communications',
     name: {
@@ -138,19 +153,14 @@ function road(type, en, sk, noForest) {
     layers: [
       noForest ? null : forest,
       asLine(['higwayGlows', 'highways', 'highway_names'], {
-        type,
-        name: 'Abc',
-        class: 'highway',
-        bridge: '',
-        tunnel: '',
-        tracktype: '',
+        ...roadDefaults, type, trail_visibility: 0.666 ** trailVisibility,
       }),
     ].filter(Boolean),
     ...props,
   };
 }
 
-function poi(categoryId, type, en, sk, eithEle) {
+function poi(categoryId, type, en, sk, eithEle, additional = {}) {
   return {
     categoryId,
     name: {
@@ -162,7 +172,8 @@ function poi(categoryId, type, en, sk, eithEle) {
       asPoint(['features', 'feature_names'], {
         name: 'Abc',
         type,
-        ele: eithEle ? 320 : ''
+        ele: eithEle ? 320 : '',
+        ...additional
       }, eithEle ? -0.00005 : -0.00003),
     ],
     ...props,
@@ -183,38 +194,25 @@ function landcover(type, en, sk) {
 
 
 const track1 = asLine(['higwayGlows', 'highways'], {
+  ...roadDefaults,
   type: 'track',
   tracktype: 'grade1',
-  class: 'highway',
-  bridge: '',
-  tunnel: '',
 });
 
 const track3 = asLine(['higwayGlows', 'highways'], {
+  ...roadDefaults,
   type: 'track',
   tracktype: 'grade3',
-  class: 'highway',
-  bridge: '',
-  tunnel: '',
 });
 
 const track3rev = asLine(['higwayGlows', 'highways'], {
+  ...roadDefaults,
   type: 'track',
   tracktype: 'grade3',
-  class: 'highway',
-  bridge: '',
-  tunnel: '',
 }, true);
 
 const legend = {
   categories: [
-    {
-      id: 'trails',
-      name: {
-        en: 'Marked trails',
-        sk: 'Značené trasy',
-      },
-    },
     {
       id: 'communications',
       name: {
@@ -246,7 +244,7 @@ const legend = {
     {
       id: 'accomodation',
       name: {
-        en: 'Acocmodation and selters',
+        en: 'Accomodation and shelters',
         sk: 'Ubytovanie a prístrešky',
       },
     },
@@ -316,7 +314,7 @@ const legend = {
       },
       layers: [
         forest,
-        asLine(['feature_lines'], {
+        asLine(['feature_lines_maskable'], {
           type: 'cliff'
         }),
       ],
@@ -326,11 +324,11 @@ const legend = {
       categoryId: 'terrain',
       name: {
         en: 'earth bank',
-        sk: 'strmý svah',
+        sk: 'ochranná hrádza',
       },
       layers: [
         forest,
-        asLine(['feature_lines'], {
+        asLine(['feature_lines_maskable'], {
           type: 'earth_bank'
         }),
       ],
@@ -392,7 +390,7 @@ const legend = {
       ...propsForZoom(16),
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'international, national or regional hiking trail',
         sk: 'medzinárodná, národná alebo regionálna turistická trasa',
@@ -410,10 +408,10 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'local hiking trail',
-        sk: 'miestná turistická trasa',
+        sk: 'miestna turistická trasa',
       },
       layers: [
         forest,
@@ -428,7 +426,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'bicycle trail',
         sk: 'cyklotrasa',
@@ -446,10 +444,10 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'x-country ski trail',
-        sk: 'lyžiarská (bežkárska) trasa',
+        sk: 'lyžiarska (bežkárska) trasa',
       },
       layers: [
         forest,
@@ -464,7 +462,7 @@ const legend = {
       ...props,
     },
     {
-      categoryId: 'trails',
+      categoryId: 'communications',
       name: {
         en: 'horse trail',
         sk: 'jazdecká trasa',
@@ -496,11 +494,9 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways', 'highway_names'], {
+          ...roadDefaults,
           type: 'track',
           name: 'Abc',
-          class: 'highway',
-          bridge: '',
-          tunnel: '',
           tracktype: grade ? `grade${grade}` : '',
         }),
       ],
@@ -508,10 +504,11 @@ const legend = {
     })),
     road('bridleway', 'bridleway', 'chodník pre kone'),
     road('cycleway', 'cycleway', 'cyklochodník'),
-    road('path', 'sidewalk, path, steps, platform, pedestrian', 'chodník, cestička, schody, nástupište, pešia zóna'),
+    road('path', 'sidewalk, path, platform, pedestrian', 'chodník, cestička, nástupište, pešia zóna'),
+    road('steps', 'steps', 'schody'),
     road('construction', 'road in construction', 'komunikácia vo výstavbe'),
     road('raceway', 'raceway', 'pretekárska dráha'),
-    road('piste', 'piste', 'bežkárska dráha'),
+    road('piste', 'piste', 'bežkárska dráha/zjazdovka'),
     road('via_ferrata', 'via ferrata', 'ferrata'),
     {
       categoryId: 'communications',
@@ -522,12 +519,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways', 'highway_names'], {
+          ...roadDefaults,
           type: 'secondary',
           name: 'Abc',
-          class: 'highway',
           bridge: 1,
-          tunnel: '',
-          tracktype: '',
         }),
       ],
       ...props,
@@ -541,12 +536,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways', 'highway_names'], {
+          ...roadDefaults,
           type: 'secondary',
           name: 'Abc',
-          class: 'highway',
-          bridge: '',
           tunnel: 1,
-          tracktype: '',
         }),
       ],
       ...props,
@@ -555,7 +548,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'access denied for pedestrians',
-        sk: 'zákaz vstupu (pešo)',
+        sk: 'zákaz vstupu pre chodcov',
       },
       layers: [
         forest,
@@ -571,7 +564,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'access denied cyclists',
-        sk: 'zákaz vjazdu pre bicykle',
+        sk: 'zákaz vjazdu pre cyklistov',
       },
       layers: [
         forest,
@@ -587,7 +580,7 @@ const legend = {
       categoryId: 'communications',
       name: {
         en: 'access denied for pedestrians or cyclists',
-        sk: 'zákaz vstupu (pešo) a zákaz vjazdu pre bicykle',
+        sk: 'zákaz vstupu pre chodcov a cyklistov',
       },
       layers: [
         forest,
@@ -600,6 +593,31 @@ const legend = {
       ...props,
     },
     {
+      categoryId: 'communications',
+      name: {
+        en: 'oneway',
+        sk: 'jednosmerka',
+      },
+      layers: [
+        forest,
+        asLine(['higwayGlows', 'highways'], {
+          type: 'service',
+          class: 'highway',
+          bridge: '',
+          tunnel: '',
+          tracktype: '',
+          oneway: 1
+        }),
+      ],
+      ...props,
+    },
+    road('path', 'excellent or unspecified trail visibility', 'viditeľnosť trasy je výborná alebo neurčená', false, 0),
+    road('path', 'good trail visibility', 'viditeľnosť trasy je dobrá', false, 1),
+    road('path', 'trail is mostly visible', 'trasa je väčšinou viditeľná', false, 2),
+    road('path', 'trail is sometimes visible and sometimes not', 'trasa je striedavo viditeľná', false, 3),
+    road('path', 'trail is mostly not visible', 'trasa nie je väčšinou viditeľná', false, 4),
+    road('path', 'trail is not visible at all', 'trasa nie je vôbec viditeľná', false, 5),
+    {
       categoryId: 'railway',
       name: {
         en: 'main railway',
@@ -608,13 +626,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
-          service: '',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
         }),
       ],
       ...props,
@@ -623,18 +638,16 @@ const legend = {
       categoryId: 'railway',
       name: {
         en: 'service or light railway, tram railway',
-        sk: 'servisná alebo ľahká železničná trať, električková trať',
+        sk: 'servisná alebo vedľajšia železničná trať, električková trať',
       },
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
           service: 'service',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
         }),
       ],
       ...props,
@@ -648,13 +661,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'miniature',
           class: 'railway',
-          service: '',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
         }),
       ],
       ...props,
@@ -668,13 +678,10 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'construction',
           class: 'railway',
-          service: '',
-          bridge: '',
-          tunnel: '',
-          tracktype: '',
         }),
       ],
       ...props,
@@ -688,13 +695,11 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
-          service: '',
           bridge: 1,
-          tunnel: '',
-          tracktype: '',
         }),
       ],
       ...props,
@@ -708,25 +713,24 @@ const legend = {
       layers: [
         forest,
         asLine(['higwayGlows', 'highways'], {
+          ...roadDefaults,
           name: 'Abc',
           type: 'rail',
           class: 'railway',
-          service: '',
-          bridge: 0,
           tunnel: 1,
-          tracktype: '',
         }),
       ],
       ...props,
     },
     poi('accomodation', 'hotel', 'hotel', 'hotel'),
     poi('accomodation', 'motel', 'motel', 'motel'),
-    poi('accomodation', 'guest_house', 'guest_house', 'penzión'),
+    poi('accomodation', 'guest_house', 'guest house', 'penzión'),
+    poi('accomodation', 'apartment', 'apartment', 'apartmán'),
     poi('accomodation', 'hostel', 'hostel', 'ubytovňa'),
     poi('accomodation', 'chalet', 'chalet', 'chata'),
     poi('accomodation', 'alpine_hut', 'alpine hut', 'horská chata'),
     poi('accomodation', 'wilderness_hut', 'wilderness hut', 'chata v divočine'),
-    poi('accomodation', 'hut', 'hut, cabin', 'búda, chatka'),
+    poi('accomodation', 'building', 'building', 'budova'),
     poi('accomodation', 'camp_site', 'camp site', 'kemp'),
     poi('accomodation', 'hunting_stand', 'hunting stand', 'poľovnícky posed'),
     poi('accomodation', 'basic_hut', 'basic hut', 'jednoduchá chatka'),
@@ -746,6 +750,7 @@ const legend = {
     poi('natural_poi', 'arch', 'rock arch', 'skalné okno'),
     poi('natural_poi', 'rock', 'rock', 'skala'),
     poi('natural_poi', 'stone', 'stone', 'balvan'),
+    poi('natural_poi', 'sinkhole', 'sinkhole', 'závrt'),
     {
       categoryId: 'natural_poi',
       name: {
@@ -760,6 +765,7 @@ const legend = {
       ],
       ...props,
     },
+    poi('natural_poi', 'tree', 'protected tree', 'chránený strom'),
     poi('poi', 'viewpoint', 'viewpoint', 'výhľad'),
 
 
@@ -767,12 +773,14 @@ const legend = {
     poi('water', 'water_well', 'water well', 'studňa'),
     poi('water', 'spring', 'spring', 'prameň', true),
     poi('water', 'refitted_spring', 'refitted spring', 'upravený prameň', true),
-    poi('water', 'drinking_spring', 'drinkable spring', 'pitný prameň', true),
-    poi('water', 'not_drinking_spring', 'not drinkable spring', 'nepitný prameň', true),
+    poi('water', 'drinking_spring', 'drinkable spring', 'prameň pitnej vody', true),
+    poi('water', 'not_drinking_spring', 'not drinkable spring', 'prameň úžitkovej vody', true),
     poi('water', 'hot_spring', 'hot spring', 'termálny prameň', true),
     poi('water', 'watering_place', 'watering place', 'napájadlo'),
     poi('water', 'waterfall', 'waterfall', 'vodopád'),
-    poi('water', 'water_works', 'water works', 'vodný zdroj, čistička'),
+    poi('water', 'dam', 'dam', 'vodopád'),
+    poi('water', 'weir', 'weir', 'hrádza'),
+    poi('water', 'water_works', 'water works, covered water reservoir, water treatment plant', 'vodný zdroj, krytá vodná nádrž, čistička'),
     poi('water', 'fountain', 'fountain', 'fontána'),
 
     poi('poi', 'castle', 'castle', 'hrad'),
@@ -791,7 +799,7 @@ const legend = {
     poi('poi', 'pharmacy', 'pharmacy', 'lekáreň'),
     poi('poi', 'bicycle', 'bicycle shop', 'cykloobchod'),
 
-    poi('poi', 'church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkva, kaplnka, katedrála, chrám, bazilika'),
+    poi('poi', 'church', 'church, chapel, cathedral, temple, basilica', 'kostol, cerkev, kaplnka, katedrála, chrám, bazilika'),
     poi('poi', 'wayside_shrine', 'wayside shrine', 'božia muka'),
     poi('poi', 'cross', 'cross', 'kríž'),
 
@@ -807,7 +815,7 @@ const legend = {
     poi('gastro_poi', 'convenience', 'convenience store', 'potraviny'),
     poi('gastro_poi', 'supermarket', 'supermarket', 'supermarket'),
     poi('gastro_poi', 'fast_food', 'fast food', 'rýchle občerstvenie'),
-    poi('gastro_poi', 'confectionery', 'confectionery', 'cukráreň'),
+    poi('gastro_poi', 'confectionery', 'confectionery', 'cukráreň'), // also pastry
 
     poi('poi', 'bunker', 'bunker', 'bunker'),
     poi('poi', 'boundary_stone', 'boundary stone', 'hraničný kameň'),
@@ -824,6 +832,7 @@ const legend = {
 
     poi('poi', 'tower_observation', 'observation tower', 'vyhliadková veža'),
     poi('poi', 'tower_communication', 'communication tower', 'komunikačná veža'),
+    poi('poi', 'tower_bell_tower', 'bell tower', 'zvonica'),
     poi('poi', 'tower_other', 'tower', 'veža'),
     poi('poi', 'water_tower', 'water tower', 'vodná veža'),
     poi('poi', 'chimney', 'chimney', 'komín'),
@@ -833,11 +842,21 @@ const legend = {
     poi('poi', 'picnic_site', 'picnic site', 'miesto na piknik'),
 
     poi('poi', 'feeding_place', 'feeding place', 'krmidlo'),
-    poi('poi', 'beehive', 'beehive', 'včelý úľ'),
+    poi('poi', 'beehive', 'beehive', 'včelí úľ'),
 
+    poi('poi', 'horse_riding', 'horse riding', 'jazda na koni'),
+    poi('poi', 'sauna', 'sauna', 'sauna'),
+    poi('poi', 'free_flying', 'paragliding', 'paraglajding'),
+    poi('poi', 'golf_course', 'golf course', 'golfový kurt'),
+    poi('poi', 'miniature_golf', 'miniature golf', 'minigolf'),
+    poi('poi', 'soccer', 'socces', 'futbal'),
+    poi('poi', 'tennis', 'tennis', 'tenis'),
+    poi('poi', 'basketball', 'basketball', 'basketbal'),
+
+    poi('poi', 'forester\'s_lodge', 'forester\'s lodge', 'horáreň'),
     poi('poi', 'mine', 'mine, adit, mineshaft', 'baňa, štôlňa, šachta'),
+    poi('poi', 'disused_mine', 'disused mine, adit or mineshaft', 'zatvorená baňa, štôlňa alebo šachta'),
     poi('poi', 'attraction', 'attraction', 'atrakcia'),
-    poi('sauna', 'sauna', 'sauna'),
 
     poi('poi', 'firepit', 'firepit', 'ohnisko'),
     poi('poi', 'toilets', 'toilets', 'toalety'),
@@ -845,6 +864,7 @@ const legend = {
 
     poi('poi', 'lift_gate', 'lift gate', 'závora'),
     poi('poi', 'gate', 'gate', 'brána'),
+    poi('poi', 'ford', 'ford', 'brod'),
     poi('poi', 'waste_disposal', 'waste disposal', 'kontajner na odpad'),
     {
       categoryId: 'water',
@@ -865,12 +885,18 @@ const legend = {
       ...props
     },
     landcover('forest', 'forest', 'les'),
-    landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnata plocha'),
+    landcover('meadow', 'meadow, park, village green, grassland', 'lúka, park, mestská zeleň, trávnatá plocha'),
     landcover('heath', 'heath', 'step'),
     landcover('scrub', 'scrub', 'kroviny'),
     landcover('clearcut', 'clearcut', 'holorub'),
     landcover('scree', 'scree', 'štrk'),
     landcover('bare_rock', 'bare rock', 'holá skala'),
+    landcover('wetland', 'wetland', 'mokraď'),
+    landcover('bog', 'bog', 'rašelinisko'),
+    landcover('marsh', 'marsh, fen, wet meadow', 'močiar, slatinisko, mokrá lúka'),
+    landcover('swamp', 'swamp', 'bahnisko'),
+    landcover('reedbed', 'reedbed', 'rákosie'),
+    landcover('mangrove', 'mangrove', 'mangrovy'),
     landcover('farmland', 'farmland', 'pole'),
     landcover('farmyard', 'farmyard', 'družstvo'),
     landcover('orchard', 'orchard', 'ovocný sad'),
@@ -883,7 +909,7 @@ const legend = {
     landcover('industrial', 'industrial zone, wastewater plant', 'industriálna zóna, ČOV'),
     landcover('quarry', 'quarry', 'lom'),
     landcover('cemetery', 'cemetery', 'cintorín'),
-    landcover('playground', 'pitch, playground, golf course', 'ihrisko, detské ihrisko, golfové ihrisko'),
+    landcover('playground', 'pitch, playground, golf course, track', 'ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha'),
     landcover('parking', 'parking', 'parkovisko'),
     landcover('bunker_silo', 'bunker silo', 'silo'),
     landcover('landfill', 'landfill', 'skládka'),
@@ -1118,6 +1144,7 @@ const legend = {
       ],
       ...props,
     },
+    poi('other', 'picnic_shelter', 'private POI', 'súkromný bod záujmu', undefined, { access: 'no' }),
   ],
 };
 

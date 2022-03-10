@@ -75,14 +75,14 @@ function highways() {
           .road({ ...highwayDflt, stroke: hsl(180, 50, 50), strokeWidth: 1.5 })
         .rule({ minZoom: 14, filter: "[type] = 'service' and [service] = 'parking_aisle'" })
           .road({ ...highwayDflt, strokeWidth: 1 })
-        .typesRule(14, 'raceway')
+        .rule({ filter: "[type] = 'raceway' or ([type] = 'track' and [class] = 'leisure')", minZoom: 14 })
           .road({ ...highwayDflt, strokeWidth: 1.2, strokeDasharray: '9.5,1.5' })
-        .typesRule(14, 'bridleway')
-          .lineSymbolizer({ ...highwayDflt, strokeWidth: 1.2, stroke: hsl(120, 50, 30), strokeDasharray: '6,3' })
         .typesRule(14, 'piste')
           .road({ ...highwayDflt, strokeWidth: 1.2, stroke: 'white' })
-        .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
+        .typesRule(14, 'footway', 'pedestrian', 'platform')
           .road({ ...highwayDflt, strokeWidth: 1, strokeDasharray: '4,2' })
+        .typesRule(14, 'steps')
+          .linePatternSymbolizer({ file: 'images/steps.svg' })
         .doInStyle((style) => {
           const w = [0.5, 0.75, 1];
           const zz = [[12, 12], [13, 13], [14]];
@@ -92,38 +92,42 @@ function highways() {
               .rule({ minZoom: zz[a][0], maxZoom: zz[a][1], filter: "[type] = 'service' and [service] != 'parking_aisle' or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway'" })
                 .road({ ...highwayDflt, strokeWidth: k * 1.2 })
               .typesRule(...zz[a], 'path')
-                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3' })
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '3,3', strokeOpacity: '[trail_visibility]' })
               .typesRule(...zz[a], 'cycleway')
-                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3' })
-              .typesRule(...zz[a], 'via_ferrata')
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3', stroke: '#b400ff', strokeOpacity: '[trail_visibility]' })
+              .typesRule(14, 'bridleway')
+                .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '6,3', stroke: hsl(120, 50, 30), strokeOpacity: '[trail_visibility]' })
+                    .typesRule(...zz[a], 'via_ferrata')
                 .road({ ...highwayDflt, strokeWidth: k * 1, strokeDasharray: '4,4' })
               .doInStyle((style) => {
                 [undefined, '8,2', '6,4', '4,6', '2,8', '3,7,7,3'].forEach((strokeDasharray, i) => {
                   style
                     .rule({
-                        filter: `[type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`,
+                        filter: `[class] = 'highway' and [type] = 'track' and [tracktype] = ${i === 5 ? "''" : `'grade${i + 1}'`}`,
                         minZoom: zz[a][0],
                         maxZoom: zz[a][1],
                     })
-                      .road({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray });
+                      .road({ ...highwayDflt, strokeWidth: k * 1.2, strokeDasharray, strokeOpacity: '[trail_visibility]' });
                 });
               });
           }
         })
+        .rule({ minZoom: 14, filter: '[oneway] <> 0' })
+          .markersSymbolizer({ file: 'images/highway-arrow.svg', spacing: 100, placement: 'line', transform: 'rotate(90 - [oneway] * 90, 0, 0)' })
       .style('higwayGlows')
-        .typesRule(14, 'footway', 'pedestrian', 'steps', 'platform')
+        .typesRule(14, 'footway', 'pedestrian', 'platform', 'steps')
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(14, 'via_ferrata')
         .lineSymbolizer({ stroke: 'black', strokeWidth: 3, strokeDasharray: '0,4,4,0' })
         .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
         .typesRule(12, 'path')
-          .lineSymbolizer({ ...glowDflt, strokeWidth: 1 })
-        .typesRule(12, 'track')
-          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
-        .typesRule(14, 'raceway')
+          .lineSymbolizer({ ...glowDflt, strokeWidth: 1, strokeOpacity: '[trail_visibility]' })
+        .rule({ filter: "[type] = 'track' and [class] = 'highway'", minZoom: 12 })
+          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2, strokeOpacity: '[trail_visibility]' })
+        .rule({ filter: "[type] = 'raceway' or ([type] = 'track' and [class] = 'leisure')", minZoom: 14 })
           .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2 })
         .typesRule(14, 'bridleway')
-          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2,stroke: hsl(120, 50, 80) })
+          .lineSymbolizer({ ...glowDflt, strokeWidth: 1.2, stroke: hsl(120, 50, 80), strokeOpacity: '[trail_visibility]' })
         .typesRule('motorway', 'trunk')
           .lineSymbolizer({ ...highwayDflt, strokeWidth: 4 })
         .typesRule('primary', 'motorway_link', 'trunk_link')
@@ -136,11 +140,11 @@ function highways() {
           .lineSymbolizer({ ...highwayDflt, strokeWidth: 2.5 })
         .typesRule(14, 'piste')
           .road({ ...highwayDflt, strokeWidth: 2.2, stroke: '#a0a0a0', strokeDasharray: '6,2',  })
-        .style('accessRestrictions')
-          .rule({ filter: '[no_bicycle] = 1' })
-            .markersSymbolizer({ file: 'images/no_bicycle.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })
-          .rule({ filter: '[no_foot] = 1' })
-            .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 48, spacingOffset: 0.001, placement: 'line', opacity: 0.75, ignorePlacement: true })
+      .style('accessRestrictions')
+        .rule({ filter: '[no_bicycle] = 1' })
+          .markersSymbolizer({ file: 'images/no_bicycle.svg', spacing: 48, placement: 'line', opacity: 0.75, ignorePlacement: true })
+        .rule({ filter: '[no_foot] = 1' })
+          .markersSymbolizer({ file: 'images/no_foot.svg', spacing: 48, spacingOffset: 0.001, placement: 'line', opacity: 0.75, ignorePlacement: true })
       ;
   };
 }
