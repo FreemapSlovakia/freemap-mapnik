@@ -271,7 +271,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     end
   `;
 
-  const routesQuery = `
+  const getRoutesQuery = (includeNetworks) => `
     select
       st_linemerge(st_collect(geometry)) as geometry,
       idx(arr1, 0) as h_red,
@@ -392,7 +392,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
             end
         ))) as arr2
       from osm_route_members join osm_routes on (osm_route_members.osm_id = osm_routes.osm_id and state <> 'proposed')
-      where geometry && !bbox!
+      where ${!includeNetworks ? '' : `network in (${includeNetworks.map(n => `'${n}'`).join(',')}) and `}geometry && !bbox!
       group by member
     ) as aaa
     group by
@@ -663,11 +663,23 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       "select geometry from osm_landusages where type = 'military'")
     // .sqlLayer(['routeGlows', 'routes'],
     .sqlLayer('routes',
-      routesQuery,
-      { minZoom: 11, maxZoom: 13, bufferSize: 512 },
+      getRoutesQuery(['iwn', 'icn']),
+      { minZoom: 9, maxZoom: 9, bufferSize: 512 },
     )
     .sqlLayer('routes',
-      routesQuery,
+      getRoutesQuery(['iwn', 'nwn', 'icn', 'ncn']),
+      { minZoom: 10, maxZoom: 10, bufferSize: 512 },
+    )
+    .sqlLayer('routes',
+      getRoutesQuery(['iwn', 'nwn', 'rwn', 'icn', 'ncn', 'rcn']),
+      { minZoom: 11, maxZoom: 11, bufferSize: 512 },
+    )
+    .sqlLayer('routes',
+      getRoutesQuery(),
+      { minZoom: 12, maxZoom: 13, bufferSize: 512 },
+    )
+    .sqlLayer('routes',
+      getRoutesQuery(),
       { minZoom: 14, clearLabelCache: 'on', bufferSize: 2048 }, // NOTE clearing cache because of contour elevation labels
     )
     .layer(
@@ -796,7 +808,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('route_names',
-      routesQuery,
+      getRoutesQuery(),
       { minZoom: 14, bufferSize: 2048 }, // NOTE probably must be same bufferSize as routes
     )
     .sqlLayer('aerialway_names',
