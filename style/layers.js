@@ -709,7 +709,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               ${zoom < 15 ? "REGEXP_REPLACE(n, '(?<=.{30,})(.{0,30}).*', '\\2…')" : 'n'} as name,
               case when ele <> '' then chr(10) || chr(8203) else '' end as elehack
             from (${getFeaturesSql(zoom, poiNameProjection)}) subq`,
-          { minZoom: zoom, maxZoom: zoom === 17 ? undefined : zoom, bufferSize: 256, cacheFeatures: true }
+          { minZoom: zoom, maxZoom: zoom === 17 ? undefined : zoom, bufferSize: 512, cacheFeatures: true }
         );
       }
     })
