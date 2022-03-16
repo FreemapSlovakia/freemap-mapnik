@@ -39,11 +39,11 @@ generalized_tables:
     tolerance: 50
   waterways_gen0:
     source: waterways_gen1
-    sql_filter:
+    sql_filter: type='river'
     tolerance: 200
   waterways_gen1:
     source: waterways
-    sql_filter:
+    sql_filter: type='river'
     tolerance: 50
   landusages_gen1:
     source: landusages

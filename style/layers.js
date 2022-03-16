@@ -443,9 +443,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       'select geometry, type, intermittent OR seasonal as tmp from osm_waterareas',
       { minZoom: 12 },
     )
+    // TODO remove `where type = 'river'` once db is reimported
     .sqlLayer('water_line',
-      "select geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray from osm_waterways_gen1",
-      { maxZoom: 11 },
+      "select geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray from osm_waterways_gen0 where type = 'river'",
+      { maxZoom: 9 },
+    )
+    // TODO remove `where type = 'river'` once db is reimported
+    .sqlLayer('water_line',
+      "select geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray from osm_waterways_gen1 where type = 'river'",
+      { minZoom: 10, maxZoom: 11 },
     )
     .sqlLayer('water_line',
       "select geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray from osm_waterways",
@@ -786,7 +792,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
         from osm_housenumbers where geometry && !bbox!`,
       { minZoom: 18, bufferSize: 256 })
     .sqlLayer('highway_names',
-      'select name, geometry, type from osm_roads where geometry && !bbox! order by z_order desc, osm_id',
+      "select name, st_linemerge(st_collect(geometry)) as geometry, type from osm_roads where geometry && !bbox! and name <> '' group by z_order, name, type order by z_order desc",
       { minZoom: 15, bufferSize: 1024 },
     )
     .sqlLayer('route_names',
@@ -798,8 +804,14 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16, bufferSize: 1024 },
     )
     .sqlLayer('water_line_names',
-      `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways`,
-      { minZoom: 12, bufferSize: 1024 },
+      `select ${process.env.FM_CUSTOM_SQL || ''} st_linemerge(st_collect(geometry)) as geometry, name, type from osm_waterways where type = 'river' and name <> '' group by name, type`,
+      // `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways where type = 'river' and name <> ''`,
+      { minZoom: 12, maxZoom: 13, bufferSize: 1024 },
+    )
+    .sqlLayer('water_line_names',
+      `select ${process.env.FM_CUSTOM_SQL || ''} st_linemerge(st_collect(geometry)) as geometry, name, type from osm_waterways where name <> '' group by name, type`,
+      // `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways where name <> ''`,
+      { minZoom: 14, bufferSize: 1024 },
     )
     .sqlLayer('fixmes',
       'select geometry from osm_fixmes',
