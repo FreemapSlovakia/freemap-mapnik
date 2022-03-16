@@ -35,10 +35,10 @@ function routes(glows, ...types) {
   const isHorse = types.includes('horse');
 
   return (style) => {
-    for (let zoomVar = 0; zoomVar < 2; zoomVar++) {
-      const zoomParams = { minZoom: zoomVar === 0 ? 12 : 9, maxZoom: zoomVar === 0 ? undefined : 11 };
-      const zo = zoomVar === 0 ? 3 : 1;
-      const wf = zoomVar === 0 ? 2 : 1.5;
+    for (const zoomVar of [0, 1, 2]) {
+      const zoomParams = zoomVar === 0 ? { maxZoom: 11 } : zoomVar === 1 ? { minZoom: 12, maxZoom: 12 } : { minZoom: 13 };
+      const zo = [1, 2, 3][zoomVar];
+      const wf = [1.5, 1.5, 2][zoomVar];
 
       const df = 1.25;
 
