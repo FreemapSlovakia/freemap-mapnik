@@ -816,12 +816,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16, bufferSize: 1024 },
     )
     .sqlLayer('water_line_names',
-      `select ${process.env.FM_CUSTOM_SQL || ''} st_linemerge(st_collect(geometry)) as geometry, name, type from osm_waterways where type = 'river' and name <> '' group by name, type`,
+      `select ${process.env.FM_CUSTOM_SQL || ''} st_linemerge(st_collect(geometry)) as geometry, name, type from osm_waterways where geometry && !bbox! and type = 'river' and name <> '' group by name, type`,
       // `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways where type = 'river' and name <> ''`,
       { minZoom: 12, maxZoom: 13, bufferSize: 1024 },
     )
     .sqlLayer('water_line_names',
-      `select ${process.env.FM_CUSTOM_SQL || ''} st_linemerge(st_collect(geometry)) as geometry, name, type from osm_waterways where name <> '' group by name, type`,
+      `select ${process.env.FM_CUSTOM_SQL || ''} st_linemerge(st_collect(geometry)) as geometry, name, type from osm_waterways where geometry && !bbox! and name <> '' group by name, type`,
       // `select ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type from osm_waterways where name <> ''`,
       { minZoom: 14, bufferSize: 1024 },
     )
