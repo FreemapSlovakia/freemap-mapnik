@@ -2,7 +2,7 @@
 const { colors, hsl } = require('./colors');
 const { types } = require('./jsnikExtensions');
 
-const glowDflt = { stroke: hsl(0, 33, 70)};
+const glowDflt = { stroke: hsl(0, 33, 70) };
 const highwayDflt = { stroke: colors.track };
 
 module.exports = {
