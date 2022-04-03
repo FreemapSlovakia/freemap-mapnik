@@ -480,10 +480,20 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               'mask',
               {
                 type: 'gdal',
-                file: 'shading/sk-dmr5-mask.tif',
+                file: 'shading/sk-mask.tif',
               },
               { compOp: 'dst-out' },
             );
+
+            // AT is not so detailed
+            // layer(
+            //   'mask',
+            //   {
+            //     type: 'gdal',
+            //     file: 'shading/at-mask.tif',
+            //   },
+            //   { compOp: 'dst-out' },
+            // );
           }
         );
       } else {
@@ -547,24 +557,14 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .doInMap((map) => {
       if (shading || contours) {
-        // map.layer('hillshade', {
-        //   type: 'gdal',
-        //   // file: '/home/martin/fm/dmr5/build/final.tif',
-        //   file: 'shading/final.tiff',
-        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/out.vrt',
-        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/build/final.tif',
-        //   // file: '/media/martin/ecf9e826-7b6b-4992-adad-71232022b316/martin/dmr5/w/build/M.tif',
-        // });
-
-        // render sk-dmr5; use mask because mapnik has issues with no-data
         map.layer('mask', {
           type: 'gdal',
-          file: 'shading/sk-dmr5-mask.tif',
+          file: 'shading/at-mask.tif',
         }, { compOp: 'src-over' }, {}, ({layer}) => {
           layer(
             'sea', // any
             {
-              table: '(select wkb_geometry from cont_dmr5_split limit 0) as foo', // some empty data
+              table: '(select wkb_geometry from contour_at_split limit 0) as foo', // some empty data
             },
             { compOp: 'src-in' },
             { base: 'db' },
@@ -573,7 +573,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                 layer(
                   'contours',
                   {
-                    table: '(select wkb_geometry, height from cont_dmr5_split) as foo',
+                    table: '(select wkb_geometry, height from contour_at_split) as foo',
                   },
                   {
                     minZoom: 12,
@@ -587,7 +587,48 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                   'hillshade',
                   {
                     type: 'gdal',
-                    file: 'shading/sk-dmr5.tif',
+                    file: 'shading/at.tif',
+                  },
+                  { },
+                  { },
+                );
+              }
+            }
+          );
+        });
+
+        // render sk; use mask because mapnik has issues with no-data
+        map.layer('mask', {
+          type: 'gdal',
+          file: 'shading/sk-mask.tif',
+        }, { compOp: 'src-over' }, {}, ({layer}) => {
+          layer(
+            'sea', // any
+            {
+              table: '(select wkb_geometry from contour_sk_split limit 0) as foo', // some empty data
+            },
+            { compOp: 'src-in' },
+            { base: 'db' },
+            ({ layer }) => {
+              if (contours) {
+                layer(
+                  'contours',
+                  {
+                    table: '(select wkb_geometry, height from contour_sk_split) as foo',
+                  },
+                  {
+                    minZoom: 12,
+                  },
+                  { base: 'db' }
+                );
+              }
+
+              if (shading) {
+                layer(
+                  'hillshade',
+                  {
+                    type: 'gdal',
+                    file: 'shading/sk.tif',
                   },
                   { },
                   { },
@@ -605,12 +646,21 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           { compOp: 'src-over' },
           { base: 'db' },
           ({ layer }) => {
-            // to cut out area of sk-dmr5
+            // to cut out area of sk
             layer(
               'mask',
               {
                 type: 'gdal',
-                file: 'shading/sk-dmr5-mask.tif',
+                file: 'shading/sk-mask.tif',
+              },
+              {},
+            );
+
+            layer(
+              'mask',
+              {
+                type: 'gdal',
+                file: 'shading/at-mask.tif',
               },
               {},
             );

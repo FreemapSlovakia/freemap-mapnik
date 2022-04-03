@@ -218,7 +218,7 @@ build/final.tif.ovr: build/final.tif
 # cd pl; find -name '*.tif' | parallel -j 12 whitebox_tools -r=FeaturePreservingSmoothing --dem={} --num_iter=4 --norm_diff=30 --filter=20 -o=../smooth-pl/{} --wd=.
 
 ## build SK vrt
-# gdalbuildvrt -r cubic -allow_projection_difference -a_srs epsg:8353 smooth-sk.vrt smooth-sk/*.tif
+# gdalbuildvrt -r cubic smooth-sk.vrt smooth-sk/*.tif
 
 ## build PL vrt
 # gdalbuildvrt -r cubic smooth-pl.vrt smooth-pl/*.tif
