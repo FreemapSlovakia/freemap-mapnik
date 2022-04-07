@@ -557,69 +557,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     )
     .doInMap((map) => {
       if (shading || contours) {
-        // map.layer(
-        //   'sea', // any
-        //   {
-        //     table: '(select geom from contour_split limit 0) as foo', //  // some empty data
-        //   },
-        //   { compOp: 'src-over' },
-        //   { base: 'db' },
-        //   ({ layer }) => {
-        //     layer(
-        //       'mask',
-        //       {
-        //         type: 'gdal',
-        //         file: 'shading/ch-mask.tif',
-        //       },
-        //       {},
-        //     );
-
-        //     layer(
-        //       'mask',
-        //       {
-        //         type: 'gdal',
-        //         file: 'shading/sk-mask.tif',
-        //       },
-        //       {},
-        //     );
-
-        //     layer(
-        //       'sea', // any
-        //       {
-        //         table: '(select wkb_geometry from contour_at_split limit 0) as foo', // some empty data
-        //       },
-        //       { compOp: 'src-out' },
-        //       { base: 'db' },
-        //       ({ layer }) => {
-        //         if (contours) {
-        //           layer(
-        //             'contours',
-        //             {
-        //               table: '(select wkb_geometry, height from contour_at_split) as foo',
-        //             },
-        //             {
-        //               minZoom: 12,
-        //             },
-        //             { base: 'db' }
-        //           );
-        //         }
-
-        //         if (shading) {
-        //           layer(
-        //             'hillshade',
-        //             {
-        //               type: 'gdal',
-        //               file: 'shading/at.tif',
-        //             },
-        //             { },
-        //             { },
-        //           );
-        //         }
-        //       }
-        //     );
-        //   }
-        // );
-
         map.layer('mask', {
           type: 'gdal',
           file: 'shading/at-mask.tif',
@@ -656,6 +593,18 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                   { },
                 );
               }
+
+              // remove overlap with SK
+              layer('mask', {
+                type: 'gdal',
+                file: 'shading/sk-mask.tif',
+              }, { compOp: 'dst-out' });
+
+              // remove overlap with CH
+              layer('mask', {
+                type: 'gdal',
+                file: 'shading/ch-mask.tif',
+              }, { compOp: 'dst-out' });
             }
           );
         });
@@ -696,6 +645,53 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                   { },
                 );
               }
+            }
+          );
+        });
+
+        map.layer('mask', {
+          type: 'gdal',
+          file: 'shading/si-mask.tif',
+        }, { compOp: 'src-over' }, {}, ({layer}) => {
+          layer(
+            'sea', // any
+            {
+              table: '(select wkb_geometry from contour_si_split limit 0) as foo', // some empty data
+            },
+            { compOp: 'src-in' },
+            { base: 'db' },
+            ({ layer }) => {
+              if (contours) {
+                layer(
+                  'contours',
+                  {
+                    table: '(select wkb_geometry, height from contour_si_split) as foo',
+                  },
+                  {
+                    minZoom: 12,
+                  },
+                  { base: 'db' }
+                );
+              }
+
+              if (shading) {
+                layer(
+                  'hillshade',
+                  {
+                    type: 'gdal',
+                    file: 'shading/si.tif',
+                  },
+                  { },
+                  { },
+                );
+              }
+
+              // remove overlap with AT (SI is more detailed but has artefacts on the edges); TODO reove it from tif
+              layer('mask', {
+                type: 'gdal',
+                file: 'shading/at-mask.tif',
+              }, { compOp: 'dst-out' });
+
             }
           );
         });
@@ -764,6 +760,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               {
                 type: 'gdal',
                 file: 'shading/ch-mask.tif',
+              },
+              {},
+            );
+
+            layer(
+              'mask',
+              {
+                type: 'gdal',
+                file: 'shading/si-mask.tif',
               },
               {},
             );
