@@ -625,6 +625,7 @@ tables:
           man_made:
             - adit
             - beehive
+            - apiary
             - chimney
             - communications_tower
             - cross

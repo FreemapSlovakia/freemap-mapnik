@@ -168,6 +168,7 @@ insert into z_order_poi (type) values
 ('firepit'),
 ('bench'),
 ('beehive'),
+('apiary'),
 ('waste_basket'),
 ('waste_disposal'),
 ('lift_gate'),
