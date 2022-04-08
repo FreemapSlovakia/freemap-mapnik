@@ -605,6 +605,12 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                 type: 'gdal',
                 file: 'shading/ch-mask.tif',
               }, { compOp: 'dst-out' });
+
+              // remove overlap with SI
+              layer('mask', {
+                type: 'gdal',
+                file: 'shading/si-mask.tif',
+              }, { compOp: 'dst-out' });
             }
           );
         });
@@ -685,13 +691,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                   { },
                 );
               }
-
-              // remove overlap with AT (SI is more detailed but has artefacts on the edges); TODO reove it from tif
-              layer('mask', {
-                type: 'gdal',
-                file: 'shading/at-mask.tif',
-              }, { compOp: 'dst-out' });
-
             }
           );
         });
@@ -745,7 +744,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           { compOp: 'src-over' },
           { base: 'db' },
           ({ layer }) => {
-            // to cut out area of sk
+            // to cut out detailed
             layer(
               'mask',
               {
