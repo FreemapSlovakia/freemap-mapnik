@@ -556,185 +556,67 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       { minZoom: 16 },
     )
     .doInMap((map) => {
+      function addShadingAndContours(cc, cutCcs) {
+        map.layer('mask', {
+          type: 'gdal',
+          file: `shading/${cc}-mask.tif`,
+        }, { compOp: 'src-over' }, {}, ({layer}) => {
+          layer(
+            'sea', // any
+            {
+              table: `(select wkb_geometry from contour_${cc}_split limit 0) as foo`, // some empty data
+            },
+            { compOp: 'src-in' },
+            { base: 'db' },
+            ({ layer }) => {
+              if (contours) {
+                layer(
+                  'contours',
+                  {
+                    table: `(select wkb_geometry, height from contour_${cc}_split) as foo`,
+                  },
+                  {
+                    minZoom: 12,
+                  },
+                  { base: 'db' }
+                );
+              }
+
+              if (shading) {
+                layer(
+                  'hillshade',
+                  {
+                    type: 'gdal',
+                    file: `shading/${cc}.tif`,
+                  },
+                  { },
+                  { },
+                );
+              }
+
+              for (const cutCc of cutCcs) {
+                layer('mask', {
+                  type: 'gdal',
+                  file: `shading/${cutCc}-mask.tif`,
+                }, { compOp: 'dst-out' });
+              }
+            }
+          );
+        });
+      }
+
       if (shading || contours) {
-        map.layer('mask', {
-          type: 'gdal',
-          file: 'shading/at-mask.tif',
-        }, { compOp: 'src-over' }, {}, ({layer}) => {
-          layer(
-            'sea', // any
-            {
-              table: '(select wkb_geometry from contour_at_split limit 0) as foo', // some empty data
-            },
-            { compOp: 'src-in' },
-            { base: 'db' },
-            ({ layer }) => {
-              if (contours) {
-                layer(
-                  'contours',
-                  {
-                    table: '(select wkb_geometry, height from contour_at_split) as foo',
-                  },
-                  {
-                    minZoom: 12,
-                  },
-                  { base: 'db' }
-                );
-              }
+        // addShadingAndContours('it', []);
 
-              if (shading) {
-                layer(
-                  'hillshade',
-                  {
-                    type: 'gdal',
-                    file: 'shading/at.tif',
-                  },
-                  { },
-                  { },
-                );
-              }
+        addShadingAndContours('at', ['sk', 'ch', 'si']);
 
-              // remove overlap with SK
-              layer('mask', {
-                type: 'gdal',
-                file: 'shading/sk-mask.tif',
-              }, { compOp: 'dst-out' });
+        addShadingAndContours('it', ['at', 'ch', 'si']);
 
-              // remove overlap with CH
-              layer('mask', {
-                type: 'gdal',
-                file: 'shading/ch-mask.tif',
-              }, { compOp: 'dst-out' });
+        addShadingAndContours('ch', []);
 
-              // remove overlap with SI
-              layer('mask', {
-                type: 'gdal',
-                file: 'shading/si-mask.tif',
-              }, { compOp: 'dst-out' });
-            }
-          );
-        });
+        addShadingAndContours('si', []);
 
-        map.layer('mask', {
-          type: 'gdal',
-          file: 'shading/ch-mask.tif',
-        }, { compOp: 'src-over' }, {}, ({layer}) => {
-          layer(
-            'sea', // any
-            {
-              table: '(select wkb_geometry from contour_ch_split limit 0) as foo', // some empty data
-            },
-            { compOp: 'src-in' },
-            { base: 'db' },
-            ({ layer }) => {
-              if (contours) {
-                layer(
-                  'contours',
-                  {
-                    table: '(select wkb_geometry, height from contour_ch_split) as foo',
-                  },
-                  {
-                    minZoom: 12,
-                  },
-                  { base: 'db' }
-                );
-              }
-
-              if (shading) {
-                layer(
-                  'hillshade',
-                  {
-                    type: 'gdal',
-                    file: 'shading/ch.tif',
-                  },
-                  { },
-                  { },
-                );
-              }
-            }
-          );
-        });
-
-        map.layer('mask', {
-          type: 'gdal',
-          file: 'shading/si-mask.tif',
-        }, { compOp: 'src-over' }, {}, ({layer}) => {
-          layer(
-            'sea', // any
-            {
-              table: '(select wkb_geometry from contour_si_split limit 0) as foo', // some empty data
-            },
-            { compOp: 'src-in' },
-            { base: 'db' },
-            ({ layer }) => {
-              if (contours) {
-                layer(
-                  'contours',
-                  {
-                    table: '(select wkb_geometry, height from contour_si_split) as foo',
-                  },
-                  {
-                    minZoom: 12,
-                  },
-                  { base: 'db' }
-                );
-              }
-
-              if (shading) {
-                layer(
-                  'hillshade',
-                  {
-                    type: 'gdal',
-                    file: 'shading/si.tif',
-                  },
-                  { },
-                  { },
-                );
-              }
-            }
-          );
-        });
-
-        // render sk; use mask because mapnik has issues with no-data
-        map.layer('mask', {
-          type: 'gdal',
-          file: 'shading/sk-mask.tif',
-        }, { compOp: 'src-over' }, {}, ({layer}) => {
-          layer(
-            'sea', // any
-            {
-              table: '(select wkb_geometry from contour_sk_split limit 0) as foo', // some empty data
-            },
-            { compOp: 'src-in' },
-            { base: 'db' },
-            ({ layer }) => {
-              if (contours) {
-                layer(
-                  'contours',
-                  {
-                    table: '(select wkb_geometry, height from contour_sk_split) as foo',
-                  },
-                  {
-                    minZoom: 12,
-                  },
-                  { base: 'db' }
-                );
-              }
-
-              if (shading) {
-                layer(
-                  'hillshade',
-                  {
-                    type: 'gdal',
-                    file: 'shading/sk.tif',
-                  },
-                  { },
-                  { },
-                );
-              }
-            }
-          );
-        });
+        addShadingAndContours('sk', []);
 
         map.layer(
           'sea', // any
@@ -745,41 +627,17 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           { base: 'db' },
           ({ layer }) => {
             // to cut out detailed
-            layer(
-              'mask',
-              {
-                type: 'gdal',
-                file: 'shading/at-mask.tif',
-              },
-              {},
-            );
 
-            layer(
-              'mask',
-              {
-                type: 'gdal',
-                file: 'shading/ch-mask.tif',
-              },
-              {},
-            );
-
-            layer(
-              'mask',
-              {
-                type: 'gdal',
-                file: 'shading/si-mask.tif',
-              },
-              {},
-            );
-
-            layer(
-              'mask',
-              {
-                type: 'gdal',
-                file: 'shading/sk-mask.tif',
-              },
-              {},
-            );
+            for (const cc of ['it', 'at', 'ch', 'si', 'sk']) {
+              layer(
+                'mask',
+                {
+                  type: 'gdal',
+                  file: `shading/${cc}-mask.tif`,
+                },
+                {},
+              );
+            }
 
             layer(
               'sea', // any

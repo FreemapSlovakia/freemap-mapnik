@@ -283,6 +283,9 @@ build/final.tif.ovr: build/final.tif
 # gdal2tiles.py -r near -z 17 --xyz --processes=$(getconf _NPROCESSORS_ONLN) -n -w none sh.vrt sh
 
 
+# SI:
+
+gdal_rasterize -burn 255 -init 0 -a_nodata 0 -a_srs EPSG:3857 -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=DEFLATE -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -tr 1.194328566968441 1.194328566968441 -tap -ot Byte si-sb.gpkg si-mask.tif
 
 
 ### Other DEM sources
