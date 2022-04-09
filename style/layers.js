@@ -480,7 +480,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               'mask',
               {
                 type: 'gdal',
-                file: 'shading/sk-mask.tif',
+                file: 'shading/sk/mask.tif',
               },
               { compOp: 'dst-out' },
             );
@@ -490,7 +490,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
             //   'mask',
             //   {
             //     type: 'gdal',
-            //     file: 'shading/at-mask.tif',
+            //     file: 'shading/at/mask.tif',
             //   },
             //   { compOp: 'dst-out' },
             // );
@@ -559,7 +559,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       function addShadingAndContours(cc, cutCcs) {
         map.layer('mask', {
           type: 'gdal',
-          file: `shading/${cc}-mask.tif`,
+          file: `shading/${cc}/mask.tif`,
         }, { compOp: 'src-over' }, {}, ({layer}) => {
           layer(
             'sea', // any
@@ -587,7 +587,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                   'hillshade',
                   {
                     type: 'gdal',
-                    file: `shading/${cc}.tif`,
+                    file: `shading/${cc}/final.tif`,
                   },
                   { },
                   { },
@@ -597,7 +597,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               for (const cutCc of cutCcs) {
                 layer('mask', {
                   type: 'gdal',
-                  file: `shading/${cutCc}-mask.tif`,
+                  file: `shading/${cutCc}/mask.tif`,
                 }, { compOp: 'dst-out' });
               }
             }
@@ -633,7 +633,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
                 'mask',
                 {
                   type: 'gdal',
-                  file: `shading/${cc}-mask.tif`,
+                  file: `shading/${cc}/mask.tif`,
                 },
                 {},
               );
