@@ -606,8 +606,6 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
       }
 
       if (shading || contours) {
-        // addShadingAndContours('it', []);
-
         addShadingAndContours('at', ['sk', 'ch', 'si']);
 
         addShadingAndContours('it', ['at', 'ch', 'si']);
