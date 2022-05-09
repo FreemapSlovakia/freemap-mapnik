@@ -37,7 +37,6 @@ const pois = [
   [13, 13, Y, Y, 'peak', { font: { size: 13, dy: -8 } }],
 
   [14, 14, N, N, 'castle'],
-  [14, 15, N, N, 'ruins'],
   [14, 15, Y, Y, 'arch'],
   [14, 15, Y, Y, 'cave_entrance'],
   [14, 15, Y, Y, 'spring', { font: { fill: colors.waterLabel } }],
@@ -83,6 +82,7 @@ const pois = [
   [15, NN, Y, N, 'guidepost_noname', { icon: 'guidepost_x' }],
   [15, 15, Y, Y, 'saddle', { font: { size: 13, dy: -8 } }],
 
+  [15, 16, N, N, 'ruins'],
   [15, 16, N, N, 'chimney'],
   [15, 16, N, N, 'fire_station'],
   [15, 16, N, N, 'community_centre'],
