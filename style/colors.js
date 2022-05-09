@@ -15,7 +15,7 @@ const colors = {
   orchard: hsl(80, 60, 80),
   road: hsl(40, 60, 50),
   ruin: hsl(0, 0, 60),
-  scrub: hsl(100, 45, 72),
+  scrub: hsl(85, 35, 75),
   track: hsl(0, 33, 25),
   water: hsl(216, 65, 65),
   waterLabel: hsl(216, 100, 50),
