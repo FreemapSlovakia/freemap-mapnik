@@ -218,6 +218,7 @@ const legend = {
       name: {
         en: 'Roads',
         sk: 'Cesty',
+        it: 'Strade',
       },
     },
     {
@@ -225,6 +226,7 @@ const legend = {
       name: {
         en: 'Railways',
         sk: 'Železnice',
+        it: 'Ferrovie',
       },
     },
     {
@@ -232,6 +234,7 @@ const legend = {
       name: {
         en: 'Land use',
         sk: 'Plochy',
+        it: 'Uso del suolo',
       },
     },
     {
@@ -239,6 +242,7 @@ const legend = {
       name: {
         en: 'Borders, areas',
         sk: 'Hranice, oblasti',
+        it: 'Confini, aree',
       },
     },
     {
@@ -246,6 +250,7 @@ const legend = {
       name: {
         en: 'Accomodation and shelters',
         sk: 'Ubytovanie a prístrešky',
+        it: 'Alloggi e rifugi',
       },
     },
     {
@@ -253,6 +258,7 @@ const legend = {
       name: {
         en: 'Natural Points of Interest',
         sk: 'Prírodné body záujmu',
+        it: 'Punti di interesse naturale',
       },
     },
     {
@@ -260,6 +266,7 @@ const legend = {
       name: {
         en: 'Gastronomy',
         sk: 'Gastronómia',
+        it: 'Gastronomia',
       },
     },
     {
@@ -267,6 +274,7 @@ const legend = {
       name: {
         en: 'Water',
         sk: 'Voda',
+        it: 'Acqua',
       },
     },
     {
@@ -274,6 +282,7 @@ const legend = {
       name: {
         en: 'Other Points of Interest',
         sk: 'Ostatné body záujmu',
+        it: 'Altri punti di interesse',
       },
     },
     {
@@ -281,6 +290,7 @@ const legend = {
       name: {
         en: 'Terrain',
         sk: 'Terén',
+        it: 'Terreno',
       },
     },
     {
@@ -288,6 +298,7 @@ const legend = {
       name: {
         en: 'Other',
         sk: 'Ostatné',
+        it: 'Altri',
       },
     },
   ],
@@ -297,6 +308,7 @@ const legend = {
       name: {
         en: 'gully',
         sk: 'roklina',
+        it: 'Canalone',
       },
       layers: [
         forest,
@@ -311,6 +323,7 @@ const legend = {
       name: {
         en: 'cliff',
         sk: 'bralo',
+        it: 'Rupe',
       },
       layers: [
         forest,
@@ -325,6 +338,7 @@ const legend = {
       name: {
         en: 'earth bank',
         sk: 'ochranná hrádza',
+        it: 'Terrapieno',
       },
       layers: [
         forest,
@@ -339,6 +353,7 @@ const legend = {
       name: {
         en: 'embankment',
         sk: 'nábrežie, násyp, hrádza',
+        it: 'Argine',
       },
       layers: [
         forest,
@@ -353,6 +368,7 @@ const legend = {
       name: {
         en: 'dyke',
         sk: 'násyp, hrádza',
+        it: 'Diga',
       },
       layers: [
         forest,
@@ -367,6 +383,7 @@ const legend = {
       name: {
         en: 'cutline',
         sk: 'prierez',
+        it: 'Area disboscata',
       },
       layers: [
         forest,
@@ -381,6 +398,7 @@ const legend = {
       name: {
         en: 'tree row',
         sk: 'stromoradie',
+        it: 'Filare di alberi',
       },
       layers: [
         asLine(['feature_lines'], {
@@ -394,6 +412,7 @@ const legend = {
       name: {
         en: 'international, national or regional hiking trail',
         sk: 'medzinárodná, národná alebo regionálna turistická trasa',
+        it: 'Percorsi escursionistici internazionali, nazionali o regionali',
       },
       layers: [
         forest,
@@ -412,6 +431,7 @@ const legend = {
       name: {
         en: 'local hiking trail',
         sk: 'miestna turistická trasa',
+        it: 'Percorso escursionistico locale',
       },
       layers: [
         forest,
