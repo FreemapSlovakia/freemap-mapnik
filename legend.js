@@ -1044,6 +1044,7 @@ const legend = {
       name: {
         en: 'stream in culvert',
         sk: 'potok v priepuste',
+        it: 'canale sotterraneo', 
       },
       layers: [asLine(['water_line', 'water_line_names'], {
         type: 'stream',
@@ -1058,6 +1059,7 @@ const legend = {
       name: {
         en: 'itermittend or seasonal stream',
         sk: 'občasný alebo sezónny potok',
+        it: 'torrente intermittente o stagionale',
       },
       layers: [asLine(['water_line', 'water_line_names'], {
         type: 'stream',
@@ -1072,6 +1074,7 @@ const legend = {
       name: {
         en: 'aerialway',
         sk: 'lanovka, vlek',
+        it: 'via aerea, teleferica',
       },
       layers: [
         asLine(['aerialways', 'aerialway_names'], {
@@ -1086,6 +1089,7 @@ const legend = {
       name: {
         en: 'aeroway',
         sk: 'letisková dráha',
+        it: 'pista atterraggio',
       },
       layers: [
         asLine(['aeroways'], {
@@ -1100,6 +1104,7 @@ const legend = {
       name: {
         en: 'power line with power tower',
         sk: 'vedenie vysokého napätia so stožiarom',
+        it: 'linea elettrica con torre di alimentazione',
       },
       layers: [
         asLine(['feature_lines'], {
@@ -1116,6 +1121,7 @@ const legend = {
       name: {
         en: 'minor power line with power pole',
         sk: 'elektrické vedenie so stĺpom',
+        it: 'linea elettrica minore con palo di alimentazione',
       },
       layers: [
         asLine(['feature_lines'], {
@@ -1132,6 +1138,7 @@ const legend = {
       name: {
         en: 'fence, wall',
         sk: 'plot, múr',
+        it: 'recinzione, muro',
       },
       layers: [asLine(['barrierways'], {
         type: 'fence',
@@ -1143,6 +1150,7 @@ const legend = {
       name: {
         en: 'locality name',
         sk: 'názov lokality',
+        it: 'nome di località',
       },
       layers: [
         forest,
@@ -1162,6 +1170,7 @@ const legend = {
       name: {
         en: 'pipeline',
         sk: 'potrubie',
+        it: 'tubatura',
       },
       layers: [asLine(['pipelines'], {
         location: 'overground',
@@ -1173,6 +1182,7 @@ const legend = {
       name: {
         en: 'underground pipeline',
         sk: 'podzemné potrubie',
+        it: 'tubatura sotterranea',
       },
       layers: [asLine(['pipelines'], {
         location: 'underground',
@@ -1184,13 +1194,14 @@ const legend = {
       name: {
         en: 'unfinished mapping, map feature for fixing',
         sk: 'nedomapovaný prvok, prvok na opravenie',
+        it: 'mappatura incompiuta, indicatore per la correzione',
       },
       layers: [
         asPoint(['fixmes'], {}),
       ],
       ...props,
     },
-    poi('other', 'picnic_shelter', 'private POI', 'súkromný bod záujmu', undefined, { access: 'no' }),
+    poi('other', 'picnic_shelter', 'private POI', 'súkromný bod záujmu', 'POI privato', undefined, { access: 'no' }),
   ],
 };
 
