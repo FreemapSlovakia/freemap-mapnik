@@ -450,6 +450,7 @@ const legend = {
       name: {
         en: 'bicycle trail',
         sk: 'cyklotrasa',
+        it: 'percorso ciclistico',
       },
       layers: [
         forest,
@@ -468,6 +469,7 @@ const legend = {
       name: {
         en: 'x-country ski trail',
         sk: 'lyžiarska (bežkárska) trasa',
+        it: 'percorso sci-alpinismo',
       },
       layers: [
         forest,
@@ -486,6 +488,7 @@ const legend = {
       name: {
         en: 'horse trail',
         sk: 'jazdecká trasa',
+        it: 'percorso a cavallo',
       },
       layers: [
         forest,
@@ -500,16 +503,17 @@ const legend = {
       ...props,
     },
 
-    road('motorway', 'highway, motorway', 'diaľnica a cesta pre motorové vozidlá'),
-    road('primary', 'primary road', 'cesta 1. triedy'),
-    road('secondary', 'secondary road', 'cesta 2. triedy'),
-    road('tertiary', 'tertiary road', 'cesta 3. triedy'),
-    road('residential', 'street, unclassified road or road of unknown kind', 'ulica, neklasifikovaná cesta alebo cesta neznámeho druhu'),
+    road('motorway', 'highway, motorway', 'diaľnica a cesta pre motorové vozidlá', 'autostrada'),
+    road('primary', 'primary road', 'cesta 1. triedy', 'primaria'),
+    road('secondary', 'secondary road', 'cesta 2. triedy', 'secondaria'),
+    road('tertiary', 'tertiary road', 'cesta 3. triedy', 'terziaria'),
+    road('residential', 'street, unclassified road or road of unknown kind', 'ulica, neklasifikovaná cesta alebo cesta neznámeho druhu', 'residenziale'),
     ...['', 1, 2, 3, 4, 5].map((grade) => ({
       categoryId: 'communications',
       name: {
         en: 'track ' + (grade ? `(grade ${grade})` : '(unknown grade)') + (grade === 1 ? ', service road' : ''),
         sk: `lesná alebo poľná cesta (${grade ? `kvalita ${grade}` : 'neznáma kvalita'})${grade === 1 ? ', servisná/prístupová cesta' : ''}`,
+        it: 'traccia ' + (grade ? `(grade ${grade})` : '(grade sconosciuto)') + (grade === 1 ? ', strada di servizio' : ''),
       },
       layers: [
         forest,
@@ -522,19 +526,20 @@ const legend = {
       ],
       ...props,
     })),
-    road('bridleway', 'bridleway', 'chodník pre kone'),
-    road('cycleway', 'cycleway', 'cyklochodník'),
-    road('path', 'sidewalk, path, platform, pedestrian', 'chodník, cestička, nástupište, pešia zóna'),
-    road('steps', 'steps', 'schody'),
-    road('construction', 'road in construction', 'komunikácia vo výstavbe'),
-    road('raceway', 'raceway', 'pretekárska dráha'),
-    road('piste', 'piste', 'bežkárska dráha/zjazdovka'),
-    road('via_ferrata', 'via ferrata', 'ferrata'),
+    road('bridleway', 'bridleway', 'chodník pre kone', 'mulattiera'),
+    road('cycleway', 'cycleway', 'cyklochodník', 'pista ciclabile'),
+    road('path', 'sidewalk, path, platform, pedestrian', 'chodník, cestička, nástupište, pešia zóna', 'sentiero'),
+    road('steps', 'steps', 'schody', 'scale'),
+    road('construction', 'road in construction', 'komunikácia vo výstavbe', 'in costruzione'),
+    road('raceway', 'raceway', 'pretekárska dráha', 'pista'),
+    road('piste', 'piste', 'bežkárska dráha/zjazdovka', 'pista'),
+    road('via_ferrata', 'via ferrata', 'ferrata', 'via ferrata'),
     {
       categoryId: 'communications',
       name: {
         en: 'bridge',
         sk: 'most',
+        it: 'ponte',
       },
       layers: [
         forest,
@@ -552,6 +557,7 @@ const legend = {
       name: {
         en: 'tunnel',
         sk: 'tunel',
+        it: 'tunnel',
       },
       layers: [
         forest,
@@ -569,6 +575,7 @@ const legend = {
       name: {
         en: 'access denied for pedestrians',
         sk: 'zákaz vstupu pre chodcov',
+        it: 'accesso vietato ai pedoni',
       },
       layers: [
         forest,
@@ -585,6 +592,7 @@ const legend = {
       name: {
         en: 'access denied cyclists',
         sk: 'zákaz vjazdu pre cyklistov',
+        it: 'accesso vietato ai ciclisti',
       },
       layers: [
         forest,
@@ -601,6 +609,7 @@ const legend = {
       name: {
         en: 'access denied for pedestrians or cyclists',
         sk: 'zákaz vstupu pre chodcov a cyklistov',
+        it: 'accesso vietato a pedoni e ciclisti',
       },
       layers: [
         forest,
@@ -617,6 +626,7 @@ const legend = {
       name: {
         en: 'oneway',
         sk: 'jednosmerka',
+        it: 'senso unico',
       },
       layers: [
         forest,
@@ -631,17 +641,18 @@ const legend = {
       ],
       ...props,
     },
-    road('path', 'excellent or unspecified trail visibility', 'viditeľnosť trasy je výborná alebo neurčená', false, 0),
-    road('path', 'good trail visibility', 'viditeľnosť trasy je dobrá', false, 1),
-    road('path', 'trail is mostly visible', 'trasa je väčšinou viditeľná', false, 2),
-    road('path', 'trail is sometimes visible and sometimes not', 'trasa je striedavo viditeľná', false, 3),
-    road('path', 'trail is mostly not visible', 'trasa nie je väčšinou viditeľná', false, 4),
-    road('path', 'trail is not visible at all', 'trasa nie je vôbec viditeľná', false, 5),
+    road('path', 'excellent or unspecified trail visibility', 'viditeľnosť trasy je výborná alebo neurčená', 'visibilitò eccellente o non specificata', false, 0),
+    road('path', 'good trail visibility', 'viditeľnosť trasy je dobrá', 'buona visibilità della traccia', false, 1),
+    road('path', 'trail is mostly visible', 'trasa je väčšinou viditeľná', 'traccia prevalentemente visibile', false, 2),
+    road('path', 'trail is sometimes visible and sometimes not', 'trasa je striedavo viditeľná', 'traccia talvolta non visibile', false, 3),
+    road('path', 'trail is mostly not visible', 'trasa nie je väčšinou viditeľná', 'traccia prevalentemente non visibile', false, 4),
+    road('path', 'trail is not visible at all', 'trasa nie je vôbec viditeľná', 'traccia non visibile', false, 5),
     {
       categoryId: 'railway',
       name: {
         en: 'main railway',
         sk: 'hlavná železničná trať',
+        it: 'ferrovia principale',
       },
       layers: [
         forest,
@@ -659,6 +670,7 @@ const legend = {
       name: {
         en: 'service or light railway, tram railway',
         sk: 'servisná alebo vedľajšia železničná trať, električková trať',
+        it: 'ferrovia di servizio, linea tram',
       },
       layers: [
         forest,
@@ -677,6 +689,7 @@ const legend = {
       name: {
         en: 'miniature, monorail, funicular, narrow_gauge or subway railway',
         sk: 'miniatúrna koľaj, jednokoľajka, úzkokoľajka, pozemná lanová dráha alebo metro',
+        it: 'ferrovia in miniatura, monorotaia, funicolare, a scartamento ridotto o metropolitana',
       },
       layers: [
         forest,
@@ -694,6 +707,7 @@ const legend = {
       name: {
         en: 'railway in construction',
         sk: 'železničná trať vo výstavbe',
+        it: 'ferrovia in costruzione',
       },
       layers: [
         forest,
@@ -711,6 +725,7 @@ const legend = {
       name: {
         en: 'railway bridge',
         sk: 'železničný most',
+        it: 'ponte della ferrovia',
       },
       layers: [
         forest,
@@ -729,6 +744,7 @@ const legend = {
       name: {
         en: 'railway tunnel',
         sk: 'železničný tunel',
+        it: 'tunnel ferroviario',
       },
       layers: [
         forest,
@@ -742,40 +758,41 @@ const legend = {
       ],
       ...props,
     },
-    poi('accomodation', 'hotel', 'hotel', 'hotel'),
-    poi('accomodation', 'motel', 'motel', 'motel'),
-    poi('accomodation', 'guest_house', 'guest house', 'penzión'),
-    poi('accomodation', 'apartment', 'apartment', 'apartmán'),
-    poi('accomodation', 'hostel', 'hostel', 'ubytovňa'),
-    poi('accomodation', 'chalet', 'chalet', 'chata'),
-    poi('accomodation', 'alpine_hut', 'alpine hut', 'horská chata'),
-    poi('accomodation', 'wilderness_hut', 'wilderness hut', 'chata v divočine'),
-    poi('accomodation', 'building', 'building', 'budova'),
-    poi('accomodation', 'camp_site', 'camp site', 'kemp'),
-    poi('accomodation', 'hunting_stand', 'hunting stand', 'poľovnícky posed'),
-    poi('accomodation', 'basic_hut', 'basic hut', 'jednoduchá chatka'),
-    poi('accomodation', 'shelter', 'shelter', 'prístrešok'),
-    poi('accomodation', 'picnic_shelter', 'picnic shelter', 'piknikový prístrešok'),
-    poi('accomodation', 'weather_shelter', 'weather shelter', 'prístrešok pre nepriaznivé počasie'),
-    poi('accomodation', 'lean_to', 'lean-to shelter', 'prístrešok na bivak'),
-    poi('accomodation', 'public_transport', 'public transport shelter', 'prístrešok hromadnej dopravy'),
+    poi('accomodation', 'hotel', 'hotel', 'hotel', 'hotel'),
+    poi('accomodation', 'motel', 'motel', 'motel', 'motel'),
+    poi('accomodation', 'guest_house', 'guest house', 'penzión', 'pensione'),
+    poi('accomodation', 'apartment', 'apartment', 'apartmán','appartamento'),
+    poi('accomodation', 'hostel', 'hostel', 'ubytovňa', 'ostello'),
+    poi('accomodation', 'chalet', 'chalet', 'chata', 'chalet'),
+    poi('accomodation', 'alpine_hut', 'alpine hut', 'horská chata', 'rifugio alpino'),
+    poi('accomodation', 'wilderness_hut', 'wilderness hut', 'chata v divočine', 'bivacco'),
+    poi('accomodation', 'building', 'building', 'budova', 'edificio'),
+    poi('accomodation', 'camp_site', 'camp site', 'kemp', 'campeggio'),
+    poi('accomodation', 'hunting_stand', 'hunting stand', 'poľovnícky posed', 'capanno di caccia'),
+    poi('accomodation', 'basic_hut', 'basic hut', 'jednoduchá chatka', 'capanno'),
+    poi('accomodation', 'shelter', 'shelter', 'prístrešok', 'riparo'),
+    poi('accomodation', 'picnic_shelter', 'picnic shelter', 'piknikový prístrešok', 'tavolo da picnic'),
+    poi('accomodation', 'weather_shelter', 'weather shelter', 'prístrešok pre nepriaznivé počasie', 'riparo'),
+    poi('accomodation', 'lean_to', 'lean-to shelter', 'prístrešok na bivak', 'tettoia'),
+    poi('accomodation', 'public_transport', 'public transport shelter', 'prístrešok hromadnej dopravy', 'riparo trasporti pubblici'),
 
-    poi('poi', 'guidepost', 'guidepost', 'smerovník', true),
-    poi('poi', 'board', 'board', 'tabuľa'),
-    poi('poi', 'map', 'map', 'mapa'),
+    poi('poi', 'guidepost', 'guidepost', 'smerovník', 'guida', true),
+    poi('poi', 'board', 'board', 'tabuľa', 'pannello informativo'),
+    poi('poi', 'map', 'map', 'mapa', 'mappa'),
 
-    poi('natural_poi', 'peak', 'peak', 'vrchol', true),
-    poi('natural_poi', 'saddle', 'saddle', 'sedlo'),
-    poi('natural_poi', 'cave_entrance', 'cave', 'jaskyňa'),
-    poi('natural_poi', 'arch', 'rock arch', 'skalné okno'),
-    poi('natural_poi', 'rock', 'rock', 'skala'),
-    poi('natural_poi', 'stone', 'stone', 'balvan'),
-    poi('natural_poi', 'sinkhole', 'sinkhole', 'závrt'),
+    poi('natural_poi', 'peak', 'peak', 'vrchol', 'cima', true),
+    poi('natural_poi', 'saddle', 'saddle', 'sedlo', 'sella'),
+    poi('natural_poi', 'cave_entrance', 'cave', 'jaskyňa', 'ingresso grotta'),
+    poi('natural_poi', 'arch', 'rock arch', 'skalné okno','arco di roccia'),
+    poi('natural_poi', 'rock', 'rock', 'skala', 'roccia'),
+    poi('natural_poi', 'stone', 'stone', 'balvan', 'pietra'),
+    poi('natural_poi', 'sinkhole', 'sinkhole', 'závrt', 'dolina'),
     {
       categoryId: 'natural_poi',
       name: {
         en: 'tree',
         sk: 'strom',
+        it: 'albero',
       },
       layers: [
         asPoint(['trees'], {
@@ -785,26 +802,26 @@ const legend = {
       ],
       ...props,
     },
-    poi('natural_poi', 'tree', 'protected tree', 'chránený strom'),
-    poi('poi', 'viewpoint', 'viewpoint', 'výhľad'),
+    poi('natural_poi', 'tree', 'protected tree', 'chránený strom', 'albero protetto'),
+    poi('poi', 'viewpoint', 'viewpoint', 'výhľad', 'punto panoramico'),
 
 
-    poi('water', 'drinking_water', 'drinking water', 'pitná voda'),
-    poi('water', 'water_well', 'water well', 'studňa'),
-    poi('water', 'spring', 'spring', 'prameň', true),
-    poi('water', 'refitted_spring', 'refitted spring', 'upravený prameň', true),
-    poi('water', 'drinking_spring', 'drinkable spring', 'prameň pitnej vody', true),
-    poi('water', 'not_drinking_spring', 'not drinkable spring', 'prameň úžitkovej vody', true),
-    poi('water', 'hot_spring', 'hot spring', 'termálny prameň', true),
-    poi('water', 'watering_place', 'watering place', 'napájadlo'),
-    poi('water', 'waterfall', 'waterfall', 'vodopád'),
-    poi('water', 'dam', 'dam', 'vodopád'),
-    poi('water', 'weir', 'weir', 'hrádza'),
-    poi('water', 'water_works', 'water works, covered water reservoir, water treatment plant', 'vodný zdroj, krytá vodná nádrž, čistička'),
-    poi('water', 'fountain', 'fountain', 'fontána'),
+    poi('water', 'drinking_water', 'drinking water', 'pitná voda', 'acqua'),
+    poi('water', 'water_well', 'water well', 'studňa', 'pozzo'),
+    poi('water', 'spring', 'spring', 'prameň', 'sorgente', true),
+    poi('water', 'refitted_spring', 'refitted spring', 'upravený prameň', 'sorgente modificata', true),
+    poi('water', 'drinking_spring', 'drinkable spring', 'prameň pitnej vody', 'sorgente potabile', true),
+    poi('water', 'not_drinking_spring', 'not drinkable spring', 'prameň úžitkovej vody', 'sorgente non potabile', true),
+    poi('water', 'hot_spring', 'hot spring', 'termálny prameň', 'sorgente calda', true),
+    poi('water', 'watering_place', 'watering place', 'napájadlo','abbeveratoio'),
+    poi('water', 'waterfall', 'waterfall', 'vodopád', 'cascata'),
+    poi('water', 'dam', 'dam', 'vodopád', 'diga'),
+    poi('water', 'weir', 'weir', 'hrádza','stramazzo'),
+    poi('water', 'water_works', 'water works, covered water reservoir, water treatment plant', 'vodný zdroj, krytá vodná nádrž, čistička', 'opera idrica/trattamento acque'),
+    poi('water', 'fountain', 'fountain', 'fontána', 'fontanella'),
 
-    poi('poi', 'castle', 'castle', 'hrad'),
-    poi('poi', 'ruins', 'ruins', 'ruiny'),
+    poi('poi', 'castle', 'castle', 'hrad','castello'),
+    poi('poi', 'ruins', 'ruins', 'ruiny','rovine'),
 
     poi('poi', 'monument', 'monument', 'pomník'),
     poi('poi', 'memorial', 'memorial', 'pamätník'),
