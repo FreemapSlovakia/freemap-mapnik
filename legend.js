@@ -940,23 +940,24 @@ const legend = {
     landcover('farmyard', 'farmyard', 'družstvo','aia'),
     landcover('orchard', 'orchard', 'ovocný sad','frutteto'),
     landcover('vineyard', 'vineyard', 'vinica','vigneto'),
-    landcover('garden', 'garden', 'záhrada'),
-    landcover('plant_nursery', 'plant nursery', 'lesná škôlka'),
-    landcover('beach', 'beach', 'pláž'),
-    landcover('residential', 'residential zone', 'obytná zóna'),
-    landcover('commercial', 'commercial zone', 'komerčná zóna'),
-    landcover('industrial', 'industrial zone, wastewater plant', 'industriálna zóna, ČOV'),
-    landcover('quarry', 'quarry', 'lom'),
+    landcover('garden', 'garden', 'záhrada', 'giardino'),
+    landcover('plant_nursery', 'vivaio', 'lesná škôlka', ''),
+    landcover('beach', 'beach', 'pláž', 'spiaggia'),
+    landcover('residential', 'residential zone', 'obytná zóna', 'zona residenziale'),
+    landcover('commercial', 'commercial zone', 'komerčná zóna', 'zona commerciale'),
+    landcover('industrial', 'industrial zone, wastewater plant', 'industriálna zóna, ČOV', 'zona industriale'),
+    landcover('quarry', 'quarry', 'lom', 'cava'),
     landcover('cemetery', 'cemetery', 'cintorín'),
-    landcover('playground', 'pitch, playground, golf course, track', 'ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha'),
-    landcover('parking', 'parking', 'parkovisko'),
-    landcover('bunker_silo', 'bunker silo', 'silo'),
-    landcover('landfill', 'landfill', 'skládka'),
+    landcover('playground', 'pitch, playground, golf course, track', 'ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha','campo da gioco, parco giochi, campo da golf, pista'),
+    landcover('parking', 'parking', 'parkovisko', 'parcheggio'),
+    landcover('bunker_silo', 'bunker silo', 'silo', 'sbancamento'),
+    landcover('landfill', 'landfill', 'skládka', 'discarica'),
     {
       categoryId: 'landcover',
       name: {
         en: 'solar power plant',
         sk: 'slnečná elektráreň',
+        it: 'centrale fotovoltaica'.
       },
       layers: [asArea(['solar_power_plants'], {})],
       ...props
@@ -967,6 +968,7 @@ const legend = {
       name: {
         en: 'national park',
         sk: 'národný park',
+        it: 'parco nazionale',
       },
       layers: [asArea(['protected_areas'], {
         type: 'national_park',
@@ -978,6 +980,7 @@ const legend = {
       name: {
         en: 'protected area, nature reserve',
         sk: 'chránená oblasť, prírodná rezervácia',
+        it: 'area protetta, riserva naturale', 
       },
       layers: [asArea(['protected_areas'], {
         type: 'protected_area',
@@ -989,6 +992,7 @@ const legend = {
       name: {
         en: 'military zone',
         sk: 'vojenská zóna',
+        it: 'zona militare',
       },
       layers: [asArea(['military_areas'], {
         type: 'military',
@@ -1000,6 +1004,7 @@ const legend = {
       name: {
         en: 'state border',
         sk: 'štátna hranica',
+        it: 'confine di stato',
       },
       layers: [asArea(['borders'], {})],
       ...props,
@@ -1009,6 +1014,7 @@ const legend = {
       name: {
         en: 'river',
         sk: 'rieka',
+        it: 'fiume',
       },
       layers: [asLine(['water_line', 'water_line_names'], {
         type: 'river',
@@ -1023,6 +1029,7 @@ const legend = {
       name: {
         en: 'stream',
         sk: 'potok',
+        it: 'torrente',
       },
       layers: [asLine(['water_line', 'water_line_names'], {
         type: 'stream',
