@@ -143,12 +143,13 @@ const roadDefaults = {
   trail_visibility: 1,
 };
 
-function road(type, en, sk, noForest = false, trailVisibility = 0) {
+function road(type, en, sk, it, noForest = false, trailVisibility = 0) {
   return {
     categoryId: 'communications',
     name: {
       en,
       sk,
+      it,
     },
     layers: [
       noForest ? null : forest,
@@ -160,12 +161,13 @@ function road(type, en, sk, noForest = false, trailVisibility = 0) {
   };
 }
 
-function poi(categoryId, type, en, sk, eithEle, additional = {}) {
+function poi(categoryId, type, en, sk, it, eithEle, additional = {}) {
   return {
     categoryId,
     name: {
       en,
       sk,
+      it,
     },
     layers: [
       forest,
@@ -180,12 +182,13 @@ function poi(categoryId, type, en, sk, eithEle, additional = {}) {
   };
 }
 
-function landcover(type, en, sk) {
+function landcover(type, en, sk, it) {
   return {
     categoryId: 'landcover',
     name: {
       en,
       sk,
+      it,
     },
     layers: [asArea(['landcover'], { type })],
     ...props
@@ -825,7 +828,7 @@ const legend = {
 
     poi('poi', 'monument', 'monument', 'pomník', 'monumento'),
     poi('poi', 'memorial', 'memorial', 'pamätník', 'memoriale'),
-    poi('poi', 'artwork', 'artwork', 'umelecké dielo', 'opera d''arte'),
+    poi('poi', 'artwork', 'artwork', 'umelecké dielo', 'opera d\'arte'),
 
     poi('poi', 'townhall', 'townhall', 'radnica, obecný úrad','municipio'),
     poi('poi', 'fire_station', 'fire station', 'hasičská stanica', 'pompieri'),
@@ -918,7 +921,7 @@ const legend = {
       name: {
         en: 'itermittend or seasonal water area',
         sk: 'občasná alebo sezónna vodná plocha',
-        it: 'area acquatica intermittente o stagionale'.
+        it: 'area acquatica intermittente o stagionale',
       },
       layers: [asArea(['water_area', 'water_area_names'], { name: 'Abc', tmp: 1 })],
       ...props
@@ -957,7 +960,7 @@ const legend = {
       name: {
         en: 'solar power plant',
         sk: 'slnečná elektráreň',
-        it: 'centrale fotovoltaica'.
+        it: 'centrale fotovoltaica',
       },
       layers: [asArea(['solar_power_plants'], {})],
       ...props
@@ -980,7 +983,7 @@ const legend = {
       name: {
         en: 'protected area, nature reserve',
         sk: 'chránená oblasť, prírodná rezervácia',
-        it: 'area protetta, riserva naturale', 
+        it: 'area protetta, riserva naturale',
       },
       layers: [asArea(['protected_areas'], {
         type: 'protected_area',
@@ -1044,7 +1047,7 @@ const legend = {
       name: {
         en: 'stream in culvert',
         sk: 'potok v priepuste',
-        it: 'canale sotterraneo', 
+        it: 'canale sotterraneo',
       },
       layers: [asLine(['water_line', 'water_line_names'], {
         type: 'stream',
