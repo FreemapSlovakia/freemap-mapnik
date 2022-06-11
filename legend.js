@@ -1165,7 +1165,7 @@ const legend = {
       ...props,
     },
     {
-      ...road('water_slide', 'water slide', 'tobogán', true),
+      ...road('water_slide', 'water slide', 'tobogán', 'scivolo d\'acqua', true),
       categoryId: 'other',
     },
     {
