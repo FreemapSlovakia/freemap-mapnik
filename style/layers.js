@@ -235,7 +235,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
     rights.push('ski', 'piste');
   }
 
-  const [leftsIn, rightsIn] = [lefts, rights].map((side) => side.map(item => `'${item}'`).join(',') || '_x_');
+  const [leftsIn, rightsIn] = [lefts, rights].map((side) => side.map(item => `'${item}'`).join(',') || "'_x_'");
 
   if (legendLayers) {
     return (map) => map.doInMap((map) => {
