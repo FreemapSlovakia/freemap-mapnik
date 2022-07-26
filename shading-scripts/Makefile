@@ -281,6 +281,7 @@ build/final.tif.ovr: build/final.tif
 # gdaldem hillshade -alg Horn -z 1.5 -co JPEG_QUALITY=95 -co COMPRESS=JPEG -co NUM_THREADS=24 -co TILED=YES -co BIGTIFF=YES pl-warped.tif pl-hs.tif
 # gdalbuildvrt sh.vrt -r nearest pl-hs.tif sk-hs.tif
 # gdal2tiles.py -r near -z 17 --xyz --processes=$(getconf _NPROCESSORS_ONLN) -n -w none sh.vrt sh
+# find -type d | parallel -j 24 mogrify -format jpg '{}/*.png'
 
 
 # SI:
@@ -306,3 +307,4 @@ wget -i ./slovenia/urls
 pdal pipeline ./slovenia/pdal_dtm.json
 whitebox_tools -r=FeaturePreservingSmoothing --dem=GK_535_153_filled.tif --num_iter=3 --norm_diff=30 --filter=11 -o=./GK_535_153_smooth.tif --wd=.
 python /usr/lib/python3/dist-packages/osgeo_utils/gdal_edit.py -a_srs EPSG:3794 GK_535_153_filled.tif
+

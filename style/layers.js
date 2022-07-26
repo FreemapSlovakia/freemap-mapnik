@@ -485,6 +485,15 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
               { compOp: 'dst-out' },
             );
 
+            layer(
+              'mask',
+              {
+                type: 'gdal',
+                file: 'shading/pl/mask.tif',
+              },
+              { compOp: 'dst-out' },
+            );
+
             // AT / CH is not so detailed
             // layer(
             //   'mask',
@@ -614,6 +623,8 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
 
         addShadingAndContours('si', []);
 
+        addShadingAndContours('pl', ['sk']);
+
         addShadingAndContours('sk', []);
 
         map.layer(
@@ -626,7 +637,7 @@ function layers(shading, contours, hikingTrails, bicycleTrails, skiTrails, horse
           ({ layer }) => {
             // to cut out detailed
 
-            for (const cc of ['it', 'at', 'ch', 'si', 'sk']) {
+            for (const cc of ['it', 'at', 'ch', 'si', 'pl', 'sk']) {
               layer(
                 'mask',
                 {
