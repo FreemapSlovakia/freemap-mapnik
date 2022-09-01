@@ -13,9 +13,11 @@
     "color-convert": "2.0.1",
     "config": "3.3.7",
     "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver#develop",
-    "jsnik": "0.0.9"
+    "jsxnik": "0.0.3"
   },
   "devDependencies": {
+    "@types/color-convert": "2.0.0",
+    "@types/config": "3.3.0",
     "eslint": "8.10.0",
     "nodemon": "2.0.15"
   }

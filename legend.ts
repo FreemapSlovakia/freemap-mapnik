@@ -1,4 +1,4 @@
-function propsForZoom(zoom) {
+function propsForZoom(zoom: number) {
   const factor = Math.pow(2, 18 - zoom);
 
   return {
@@ -67,7 +67,7 @@ const routeDefaults = {
  * @param {string[]} styles
  * @param {Record<string, unknown>} properties
  */
-function asLine(styles, properties, reverse, forZoom = 18) {
+function asLine(styles, properties, reverse?:boolean, forZoom = 18) {
   const factor = Math.pow(2, 18 - forZoom);
 
   return {
@@ -161,7 +161,7 @@ function road(type, en, sk, it, noForest = false, trailVisibility = 0) {
   };
 }
 
-function poi(categoryId, type, en, sk, it, eithEle, additional = {}) {
+function poi(categoryId, type, en, sk, it, eithEle?: boolean, additional = {}) {
   return {
     categoryId,
     name: {
@@ -182,7 +182,7 @@ function poi(categoryId, type, en, sk, it, eithEle, additional = {}) {
   };
 }
 
-function landcover(type, en, sk, it) {
+function landcover(type: string, en: string, sk: string, it: string) {
   return {
     categoryId: 'landcover',
     name: {
@@ -214,7 +214,7 @@ const track3rev = asLine(['higwayGlows', 'highways'], {
   tracktype: 'grade3',
 }, true);
 
-const legend = {
+export const legend = {
   categories: [
     {
       id: 'communications',
@@ -950,7 +950,7 @@ const legend = {
     landcover('commercial', 'commercial zone', 'komerčná zóna', 'zona commerciale'),
     landcover('industrial', 'industrial zone, wastewater plant', 'industriálna zóna, ČOV', 'zona industriale'),
     landcover('quarry', 'quarry', 'lom', 'cava'),
-    landcover('cemetery', 'cemetery', 'cintorín'),
+    landcover('cemetery', 'cemetery', 'cintorín', 'cimitero'),
     landcover('playground', 'pitch, playground, golf course, track', 'ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha','campo da gioco, parco giochi, campo da golf, pista'),
     landcover('parking', 'parking', 'parkovisko', 'parcheggio'),
     landcover('bunker_silo', 'bunker silo', 'silo', 'sbancamento'),
