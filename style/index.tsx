@@ -1,15 +1,11 @@
 /* eslint-disable indent */
 
+import { serialize } from "jsxnik/serialize";
 import config from "config";
-import { createMap } from "jsnik";
-import { mercSrs } from "freemap-mapserver/lib/projections"; // TODO ugly
 import { font } from "./fontFactory";
 import { colors, hsl } from "./colors";
-import { extensions, types as filterTypes } from "./jsnikExtensions";
 import { Routes } from "./Routes";
 import {
-  Datasource,
-  Filter,
   Font,
   FontSet,
   Format,
@@ -17,9 +13,6 @@ import {
   LineSymbolizer,
   Map,
   MarkersSymbolizer,
-  MaxScaleDenominator,
-  MinScaleDenominator,
-  Parameter,
   Placement,
   PolygonPatternSymbolizer,
   PolygonSymbolizer,
@@ -36,13 +29,13 @@ import { Layers } from "./layers";
 import { DatasourceEx } from "./DatasourceEx";
 
 const dbParams = config.get("db") as Record<string, string>;
-const contoursCfg = config.get("mapFeatures.contours");
-const shadingCfg = config.get("mapFeatures.shading");
-const hikingTrailsCfg = config.get("mapFeatures.hikingTrails");
-const bicycleTrailsCfg = config.get("mapFeatures.bicycleTrails");
-const horseTrailsCfg = config.get("mapFeatures.horseTrails");
-const skiTrailsCfg = config.get("mapFeatures.skiTrails");
-const dumpXml = config.get("dumpXml");
+const contoursCfg = config.get("mapFeatures.contours") as boolean;
+const shadingCfg = config.get("mapFeatures.shading") as boolean;
+const hikingTrailsCfg = config.get("mapFeatures.hikingTrails") as boolean;
+const bicycleTrailsCfg = config.get("mapFeatures.bicycleTrails") as boolean;
+const horseTrailsCfg = config.get("mapFeatures.horseTrails") as boolean;
+const skiTrailsCfg = config.get("mapFeatures.skiTrails") as boolean;
+const dumpXml = config.get("dumpXml") as boolean;
 
 const N = false;
 const Y = true;
@@ -204,6 +197,26 @@ function Placements() {
   );
 }
 
+type Params = {
+  features?: {
+    shading: boolean;
+    contours: boolean;
+    hikingTrails: boolean;
+    bicycleTrails: boolean;
+    skiTrails: boolean;
+    horseTrails: boolean;
+  };
+  custom?: {
+    styles: unknown; // TODO
+    layers: unknown; // TODO
+  };
+  legendLayers?: {
+    styles: string;
+    geojson: unknown; // TODO GeoJSON
+  }[];
+  format?: string;
+};
+
 export function generateFreemapStyle({
   features: { shading, contours, hikingTrails, bicycleTrails, skiTrails, horseTrails } = {
     shading: shadingCfg,
@@ -216,9 +229,12 @@ export function generateFreemapStyle({
   custom,
   legendLayers,
   format,
-} = {}) {
-  return (
-    <Map backgroundColor={legendLayers ? undefined : colors.water} srs={mercSrs}>
+}: Params = {}) {
+  return serialize(
+    <Map
+      backgroundColor={legendLayers ? undefined : colors.water}
+      srs="'+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over'"
+    >
       <FontSet name="regular">
         <Font faceName="PT Sans Regular" />
         <Font faceName="Fira Sans Condensed Regular" />
@@ -1143,7 +1159,7 @@ export function generateFreemapStyle({
         </Rule>
       </Style>
 
-      {() => {
+      {(() => {
         const x: string[] = [];
 
         if (hikingTrails) {
@@ -1173,7 +1189,7 @@ export function generateFreemapStyle({
             </Style>
           </>
         ) : undefined;
-      }}
+      })()}
 
       <Style name="route_names">
         <Rule>
@@ -1254,8 +1270,6 @@ export function generateFreemapStyle({
       />
     </Map>
   );
-
-  //   .stringify({ pretty: dumpXml });
 }
 
 export const mapnikConfig = generateFreemapStyle();

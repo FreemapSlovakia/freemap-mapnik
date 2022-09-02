@@ -1,19 +1,19 @@
 {
   db: {
-    type: 'postgis',
-    host: 'localhost',
+    type: "postgis",
+    host: "localhost",
     port: 5432,
-    user: 'gis',
-    dbname: 'gis',
-    password: 'secret',
+    user: "gis",
+    dbname: "gis",
+    password: "secret",
     estimateExtent: false,
-    extent: '557173.4135719,4364860.6746929,3333877.3735052365809679,6659193.9171888176351786',
+    extent: "557173.4135719,4364860.6746929,3333877.3735052365809679,6659193.9171888176351786",
     max_size: 24,
   },
   dirs: {
-    tiles: 'tiles',
-    expires: 'expires',
-    fonts: 'fonts',
+    tiles: "tiles",
+    expires: "expires",
+    fonts: "fonts",
   },
   server: {
     port: 4000,
@@ -35,15 +35,16 @@
   limits: {
     minZoom: 0,
     maxZoom: 19,
-    polygon: 'limit.geojson',
+    polygon: "limit.geojson",
     scales: [1, 2, 3],
     cleanup: true,
   },
-  prerender: { // set to null to disable pre-rendering
+  // set to null to disable pre-rendering
+  prerender: {
     // workers: 8, commented out = use num of cpus
     minZoom: 8,
     maxZoom: 14,
-    polygon: 'limit.geojson',
+    polygon: "limit.geojson",
     zoomPrio: [12, 13, 14, 15, 11, 16, 10, 9, 8],
   },
   rerenderOlderThanMs: 0, // use 0 to disable
@@ -52,9 +53,9 @@
   notFoundAsTransparent: true,
   maxMapUseCount: false,
   format: {
-    extension: 'jpeg',
-    mimeType: 'image/jpeg',
-    codec: 'jpeg92',
+    extension: "jpeg",
+    mimeType: "image/jpeg",
+    codec: "jpeg92",
   },
   minExpiredBatchSize: 500,
   expiresZoom: 14, // imposm3 is configured to check for expired tiles on zoom 14

@@ -23,5 +23,5 @@ export const colors = {
 };
 
 export function hsl(h: number, s: number, l: number) {
-  return `#${convert.hsl.hex(h, s, l)}`;
+  return `#${convert.hsl.hex([h, s, l])}`;
 }

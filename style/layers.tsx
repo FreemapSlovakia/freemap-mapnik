@@ -229,12 +229,12 @@ type Props = {
   bicycleTrails: boolean;
   skiTrails: boolean;
   horseTrails: boolean;
-  format: string;
+  format?: string;
   custom?: {
     styles: unknown; // TODO
     layers: unknown; // TODO
   };
-  legendLayers: {
+  legendLayers?: {
     styles: string;
     geojson: unknown; // TODO GeoJSON
   }[];
