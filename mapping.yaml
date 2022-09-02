@@ -32,8 +32,7 @@ generalized_tables:
     tolerance: 200
   roads_gen1:
     source: roads
-    sql_filter:
-      type IN ('motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary',
+    sql_filter: type IN ('motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary',
       'primary_link', 'secondary', 'secondary_link', 'tertiary', 'tertiary_link')
       OR class IN('railway')
     tolerance: 50
@@ -156,15 +155,15 @@ tables:
       leisure:
         mapping:
           leisure:
-          - park
-          - garden
-          - playground
-          - golf_course
-          - sports_centre
-          - pitch
-          - stadium
-          - dog_park # TODO
-          - track
+            - park
+            - garden
+            - playground
+            - golf_course
+            - sports_centre
+            - pitch
+            - stadium
+            - dog_park # TODO
+            - track
       tourism:
         mapping:
           tourism:
@@ -1120,7 +1119,7 @@ tables:
         key: cutting
         args:
           values:
-            - 'yes'
+            - "yes"
             - left
             - right
       - name: ref
@@ -1159,12 +1158,12 @@ tables:
             - intermediate
             - bad
             - horrible
-            - 'no'
+            - "no"
     type: linestring
     filters:
       reject:
         area:
-          - 'yes'
+          - "yes"
     mappings:
       railway:
         mapping:

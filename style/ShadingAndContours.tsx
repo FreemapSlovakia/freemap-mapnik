@@ -30,9 +30,7 @@ export function ShadingAndContours({ cc, cutCcs, contours, shading }: Props) {
           <SqlLayer styleName="contours" minZoom={12} sql="SELECT wkb_geometry, height FROM contour_${cc}_split" />
         )}
 
-        {shading && (
-          <GdalLayer styleName="hillshade" file={`shading/${cc}/final.tif`} />
-        )}
+        {shading && <GdalLayer styleName="hillshade" file={`shading/${cc}/final.tif`} />}
 
         {cutCcs.map((cutCc) => (
           <GdalLayer styleName="mask" compOp="dst-out" file={`shading/${cutCc}/mask.tif`} />

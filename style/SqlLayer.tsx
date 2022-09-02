@@ -4,7 +4,7 @@ import { StyledLayer } from "./StyledLayer";
 type Props = {
   sql: string;
   children?: JSX.Element;
-} & Omit<Parameters<typeof StyledLayer>[0], 'children'>;
+} & Omit<Parameters<typeof StyledLayer>[0], "children">;
 
 export function SqlLayer({ sql, children, ...rest }: Props) {
   return (

@@ -27,19 +27,22 @@ export function Highways() {
 
         <RuleEx
           minZoom={13}
-          filter={`[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types('light_rail', 'tram')})`}
+          filter={`[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types(
+            "light_rail",
+            "tram"
+          )})`}
         >
           <Rail color={hsl(0, 0, 20)} weight={1} sleeperWeight={4.5} spacing={9.5} glowWidth={1} />
         </RuleEx>
 
         <RuleEx
           minZoom={13}
-          filter={`[class] = 'railway' and (${types('miniature', 'monorail', 'funicular', 'narrow_gauge', 'subway')})`}
+          filter={`[class] = 'railway' and (${types("miniature", "monorail", "funicular", "narrow_gauge", "subway")})`}
         >
           <Rail color={hsl(0, 0, 20)} weight={1} sleeperWeight={4.5} spacing={7.5} glowWidth={1} />
         </RuleEx>
 
-        <RuleEx minZoom={14} filter={`[class] = 'railway' and (${types('construction', 'disused', 'preserved')})`}>
+        <RuleEx minZoom={14} filter={`[class] = 'railway' and (${types("construction", "disused", "preserved")})`}>
           <Rail color={hsl(0, 0, 33)} weight={1} sleeperWeight={4.5} spacing={7.5} glowWidth={1} />
         </RuleEx>
 

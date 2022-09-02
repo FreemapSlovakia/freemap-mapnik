@@ -3,7 +3,7 @@ export function seq(from: number, toIncl: number) {
 }
 
 export function types(...type: string[]) {
-  return type.map((x) => `[type] = '${x.replace("'", "\\'")}'`).join(' or ');
+  return type.map((x) => `[type] = '${x.replace("'", "\\'")}'`).join(" or ");
 }
 
 export const zoomDenoms = [

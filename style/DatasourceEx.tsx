@@ -2,7 +2,7 @@ import { Datasource, Layer, Parameter, StyleName } from "jsxnik/mapnikConfig";
 
 type Props = {
   params: Record<string, string>;
-} & Omit<Parameters<typeof Datasource>[0], 'children'>;
+} & Omit<Parameters<typeof Datasource>[0], "children">;
 
 export function DatasourceEx({ params, ...rest }: Props) {
   return (
