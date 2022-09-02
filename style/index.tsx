@@ -262,12 +262,14 @@ export function generateFreemapStyle({
       <DatasourceEx name="db" params={dbParams} />
 
       <Style name="sea">
-        <BorderedPolygonSymbolizer color="white" />
+        <Rule>
+          <BorderedPolygonSymbolizer color="white" />
+        </Rule>
       </Style>
 
       <Style name="landcover">
-        {/* <PolygonPatternSymbolizer file='images/fell.svg' alignment='global' opacity: 0.5 }) /> */}
         <RuleEx type={["dam", "weir"]}>
+          {/* <PolygonPatternSymbolizer file='images/fell.svg' alignment='global' opacity: 0.5 }) /> */}
           <BorderedPolygonSymbolizer color={hsl(0, 0, 70)} />
         </RuleEx>
 
@@ -1076,9 +1078,8 @@ export function generateFreemapStyle({
                 <RuleEx minZoom={z} maxZoom={z} type="town">
                   <TextSymbolizer {...placenamesFontStyle} haloRadius={2} textTransform="uppercase" size={0.8 * sc}>
                     [name]
+                    <Placements />
                   </TextSymbolizer>
-
-                  <Placements />
                 </RuleEx>
               )}
 
