@@ -585,7 +585,7 @@ export function generateFreemapStyle({
       <Style name="cutlines">
         {seq(12, 16).map((z) => (
           <RuleEx minZoom={z} maxZoom={z === 16 ? undefined : z} type="cutline">
-            <LineSymbolizer stroke={colors.scrub} strokeWidth="2 + 0.33 * Math.pow(2, z - 12)" />
+            <LineSymbolizer stroke={colors.scrub} strokeWidth={2 + 0.33 * Math.pow(2, z - 12)} />
           </RuleEx>
         ))}
       </Style>
@@ -732,8 +732,8 @@ export function generateFreemapStyle({
                 width={size}
                 height={size}
                 fill={colors.forest}
-                allow-overlap
-                ignore-placement
+                allowOverlap
+                ignorePlacement
                 transform='scale(1 - ([type] = "shrub") * 0.5, 1 - ([type] = "shrub") * 0.5)'
               />
             </RuleEx>
@@ -1010,40 +1010,6 @@ export function generateFreemapStyle({
             </RuleEx>
           );
         })}
-      </Style>
-
-      <Style name="water_line_names">
-        <RuleEx minZoom={12} type="river">
-          <TextSymbolizer
-            {...font().water().line(400).end({
-              characterSpacing: 2,
-              simplifyAlgorithm: "douglas-peucker",
-              simplify: 10,
-              "max-char-angle-delta": 30,
-            })}
-          >
-            [name]
-          </TextSymbolizer>
-        </RuleEx>
-
-        <RuleEx minZoom={14} filter="[type] <> 'river'">
-          <TextSymbolizer
-            {...font().water().line(300).end({
-              characterSpacing: 2,
-              simplifyAlgorithm: "douglas-peucker",
-              simplify: 10,
-              "max-char-angle-delta": 30,
-            })}
-          >
-            [name]
-          </TextSymbolizer>
-        </RuleEx>
-      </Style>
-
-      <Style name="fixmes">
-        <Rule>
-          <MarkersSymbolizer file="images/fixme.svg" />
-        </Rule>
       </Style>
 
       <Style name="water_line_names">
