@@ -568,14 +568,14 @@ export function Layers({
 
       <SqlLayer
         styleName="highways"
+        maxZoom={11}
+        groupBy="tunnel"
         sql="
           SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
           FROM osm_roads_gen1
           WHERE geometry && !bbox!
           ORDER BY z_order, osm_id
         "
-        maxZoom={11}
-        groupBy="tunnel"
       />
 
       <SqlLayer
@@ -593,6 +593,7 @@ export function Layers({
 
       <SqlLayer
         styleName="accessRestrictions"
+        minZoom={14}
         sql="
           SELECT
             CASE
@@ -608,10 +609,9 @@ export function Layers({
           FROM osm_roads
           WHERE type NOT IN ('trunk', 'motorway', 'trunk_link', 'motorway_link') AND geometry && !bbox!
         "
-        minZoom={14}
       />
 
-      <SqlLayer styleName="aerialways" sql="SELECT geometry, type FROM osm_aerialways" minZoom={12} />
+      <SqlLayer styleName="aerialways" minZoom={12} sql="SELECT geometry, type FROM osm_aerialways" />
 
       {/* <SqlLayer
         styleName="highways"
@@ -619,12 +619,12 @@ export function Layers({
         maxZoom={13}
       /> */}
 
-      <SqlLayer styleName="aeroways" sql="SELECT geometry, type FROM osm_aeroways" minZoom={11} />
+      <SqlLayer styleName="aeroways" minZoom={11} sql="SELECT geometry, type FROM osm_aeroways" />
 
       <SqlLayer
         styleName="solar_power_plants"
-        sql="SELECT geometry FROM osm_power_generators WHERE source = 'solar'"
         minZoom={12}
+        sql="SELECT geometry FROM osm_power_generators WHERE source = 'solar'"
       />
 
       <SqlLayer styleName="buildings" sql="SELECT geometry, type FROM osm_buildings  WHERE type <> 'no'" minZoom={13} />
@@ -673,7 +673,11 @@ export function Layers({
       <SqlLayer
         styleName="borders"
         opacity={0.5}
-        sql="SELECT ST_LineMerge(ST_Collect(geometry)) AS geometry FROM osm_admin WHERE admin_level = 2 AND geometry && !bbox!"
+        sql="
+          SELECT ST_LineMerge(ST_Collect(geometry)) AS geometry
+          FROM osm_admin
+          WHERE admin_level = 2 AND geometry && !bbox!
+        "
       />
 
       <SqlLayer styleName="military_areas" sql="SELECT geometry FROM osm_landusages WHERE type = 'military'" />
@@ -698,7 +702,7 @@ export function Layers({
         bufferSize={512}
       />
 
-      <SqlLayer styleName="routes" sql={getRoutesQuery()} minZoom={12} maxZoom={13} bufferSize={512} />
+      <SqlLayer styleName="routes" minZoom={12} maxZoom={13} bufferSize={512} sql={getRoutesQuery()} />
 
       <SqlLayer
         styleName="routes"
@@ -723,7 +727,12 @@ export function Layers({
         bufferSize={1024}
         maxZoom={8}
         clearLabelCache
-        sql="SELECT name, type, geometry FROM osm_places WHERE type = 'city' AND geometry && !bbox! ORDER BY z_order DESC, osm_id"
+        sql="
+          SELECT name, type, geometry
+          FROM osm_places
+          WHERE type = 'city' AND geometry && !bbox!
+          ORDER BY z_order DESC, osm_id
+        "
       />
 
       <SqlLayer
@@ -732,7 +741,12 @@ export function Layers({
         minZoom={9}
         maxZoom={10}
         clearLabelCache
-        sql="SELECT name, type, geometry FROM osm_places WHERE (type = 'city' OR type = 'town') AND geometry && !bbox! ORDER BY z_order DESC, osm_id"
+        sql="
+          SELECT name, type, geometry
+          FROM osm_places
+          WHERE (type = 'city' OR type = 'town') AND geometry && !bbox!
+          ORDER BY z_order DESC, osm_id
+        "
       />
 
       <SqlLayer
@@ -741,7 +755,12 @@ export function Layers({
         minZoom={11}
         maxZoom={11}
         clearLabelCache
-        sql="SELECT name, type, geometry FROM osm_places WHERE (type = 'city' OR type = 'town' OR type = 'town' OR type = 'village') AND geometry && !bbox! ORDER BY z_order DESC, osm_id"
+        sql="
+          SELECT name, type, geometry
+          FROM osm_places
+          WHERE (type = 'city' OR type = 'town' OR type = 'town' OR type = 'village') AND geometry && !bbox!
+          ORDER BY z_order DESC, osm_id
+        "
       />
 
       <SqlLayer
@@ -750,7 +769,12 @@ export function Layers({
         minZoom={12}
         maxZoom={14}
         clearLabelCache
-        sql="SELECT name, type, geometry FROM osm_places WHERE type <> 'locality' AND geometry && !bbox! ORDER BY z_order DESC, osm_id"
+        sql="
+          SELECT name, type, geometry
+          FROM osm_places
+          WHERE type <> 'locality' AND geometry && !bbox!
+          ORDER BY z_order DESC, osm_id
+        "
       />
 
       {seq(10, 17).map((zoom) => (
@@ -859,7 +883,8 @@ export function Layers({
           LEFT JOIN
             osm_feature_polys USING (osm_id)
           LEFT JOIN
-            osm_sports on osm_landusages.osm_id = osm_sports.osm_id AND osm_sports.type IN ('soccer', 'tennis', 'basketball') -- NOTE filtering some POIs (hacky because it affects also lower zooms)
+            -- NOTE filtering some POIs (hacky because it affects also lower zooms)
+            osm_sports on osm_landusages.osm_id = osm_sports.osm_id AND osm_sports.type IN ('soccer', 'tennis', 'basketball')
           WHERE
             osm_feature_polys.osm_id IS NULL AND osm_sports.osm_id IS NULL AND osm_landusages.geometry && !bbox!
           ORDER BY
@@ -893,7 +918,8 @@ export function Layers({
           FROM osm_roads
           WHERE geometry && !bbox! AND name <> ''
           GROUP BY z_order, name, type
-          ORDER BY z_order DESC"
+          ORDER BY z_order DESC
+        "
       />
 
       <SqlLayer
@@ -959,7 +985,12 @@ export function Layers({
         clearLabelCache
         bufferSize={1024}
         minZoom={15}
-        sql="SELECT name, type, geometry FROM osm_places WHERE type <> 'locality' AND geometry && !bbox! ORDER BY z_order DESC, osm_id"
+        sql="
+          SELECT name, type, geometry
+          FROM osm_places
+          WHERE type <> 'locality' AND geometry && !bbox!
+          ORDER BY z_order DESC, osm_id
+        "
       />
 
       {format !== "svg" && format !== "pdf" && (
