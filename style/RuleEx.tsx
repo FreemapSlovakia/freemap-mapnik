@@ -12,8 +12,8 @@ type Props = {
 export function RuleEx({ minZoom, maxZoom, type, filter, children }: Props) {
   return (
     <Rule>
-      {minZoom !== undefined && <MinScaleDenominator>{zoomDenoms[minZoom]}</MinScaleDenominator>}
-      {maxZoom !== undefined && <MaxScaleDenominator>{zoomDenoms[maxZoom]}</MaxScaleDenominator>}
+      {minZoom !== undefined && <MaxScaleDenominator>{zoomDenoms[minZoom]}</MaxScaleDenominator>}
+      {maxZoom !== undefined && <MinScaleDenominator>{zoomDenoms[maxZoom + 1]}</MinScaleDenominator>}
       {type != undefined && <Filter>{types(...(Array.isArray(type) ? type : [type]))}</Filter>}
       {filter != undefined && <Filter>{filter}</Filter>}
       {children}
