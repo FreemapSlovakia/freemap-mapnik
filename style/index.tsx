@@ -448,7 +448,7 @@ export function generateFreemapStyle({
           <LineSymbolizer stroke={hsl(176, 153, 200)} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx minZoom={12} maxZoom={14}>
+        <RuleEx minZoom={15}>
           <PolygonPatternSymbolizer file="images/solar.svg" alignment="global" />
           <LineSymbolizer stroke={hsl(176, 153, 200)} strokeWidth={1} />
         </RuleEx>

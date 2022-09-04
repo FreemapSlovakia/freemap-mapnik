@@ -91,7 +91,7 @@ export function Highways() {
         })}
 
         <RuleEx minZoom={12} type={["motorway", "trunk"]}>
-          <LineSymbolizer {...highwayDflt} stroke={colors.road} strokeWidth={2.5} />
+          <Road {...highwayDflt} stroke={colors.road} strokeWidth={2.5} />
         </RuleEx>
 
         <RuleEx minZoom={12} type={["motorway_link", "trunk_link", "primary"]}>
