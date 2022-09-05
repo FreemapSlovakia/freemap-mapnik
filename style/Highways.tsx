@@ -6,6 +6,7 @@ import { RuleEx } from "./RuleEx";
 import { Rail } from "./Rail";
 import { seq, types } from "./utils";
 import { Road } from "./Road";
+import { SqlLayer } from "./SqlLayer";
 
 const glowDflt = { stroke: hsl(0, 33, 70), strokeLinejoin: "round" as const };
 const highwayDflt = { stroke: colors.track, strokeLinejoin: "round" as const };
@@ -295,6 +296,76 @@ export function Highways() {
           />
         </RuleEx>
       </Style>
+
+      <SqlLayer
+        styleName="highways"
+        maxZoom={9}
+        groupBy="tunnel"
+        sql="
+          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
+          FROM osm_roads_gen0
+          WHERE geometry && !bbox!
+          ORDER BY z_order, osm_id
+        "
+      />
+
+      <SqlLayer
+        styleName="highways"
+        minZoom={10}
+        maxZoom={11}
+        groupBy="tunnel"
+        sql="
+          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
+          FROM osm_roads_gen1
+          WHERE geometry && !bbox!
+          ORDER BY z_order, osm_id
+        "
+      />
+
+      <SqlLayer
+        styleName="highways"
+        maxZoom={11}
+        groupBy="tunnel"
+        sql="
+          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
+          FROM osm_roads_gen1
+          WHERE geometry && !bbox!
+          ORDER BY z_order, osm_id
+        "
+      />
+
+      <SqlLayer
+        styleName={["higwayGlows", "highways"]}
+        minZoom={12}
+        cacheFeatures
+        groupBy="tunnel"
+        // ORDER BY CASE WHEN type = 'rail' AND (service = 'main' OR service = '') THEN 1000 ELSE z_order END
+        sql="
+          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
+          FROM osm_roads
+          WHERE geometry && !bbox! ORDER BY z_order, osm_id
+        "
+      />
+
+      <SqlLayer
+        styleName="accessRestrictions"
+        minZoom={14}
+        sql="
+          SELECT
+            CASE
+              WHEN bicycle NOT IN ('', 'yes', 'designated', 'official', 'permissive')
+              OR bicycle = '' AND vehicle NOT IN ('', 'yes', 'designated', 'official', 'permissive')
+              OR bicycle = '' AND vehicle = '' AND access NOT IN ('', 'yes', 'designated', 'official', 'permissive')
+              THEN 1 ELSE 0 END AS no_bicycle,
+            CASE
+              WHEN foot NOT IN ('', 'yes', 'designated', 'official', 'permissive')
+              OR foot = '' AND access NOT IN ('', 'yes', 'designated', 'official', 'permissive')
+              THEN 1 ELSE 0 END AS no_foot,
+            geometry
+          FROM osm_roads
+          WHERE type NOT IN ('trunk', 'motorway', 'trunk_link', 'motorway_link') AND geometry && !bbox!
+        "
+      />
     </>
   );
 }

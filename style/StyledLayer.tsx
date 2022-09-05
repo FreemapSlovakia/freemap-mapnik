@@ -7,16 +7,28 @@ type Props = {
   minZoom?: number;
 } & Parameters<typeof Layer>[0];
 
+let _enabled = true;
+
+export function setLayersEnabled(enabled: boolean) {
+  _enabled = enabled;
+}
+
 export function StyledLayer({ styleName, children, maxZoom, minZoom, ...rest }: Props) {
   return (
-    <Layer
-      maximumScaleDenominator={minZoom && zoomDenoms[minZoom]}
-      minimumScaleDenominator={maxZoom && zoomDenoms[maxZoom + 1]}
-      {...rest}
-    >
-      {Array.isArray(styleName) ? styleName.map((s) => <StyleName>{s}</StyleName>) : <StyleName>{styleName}</StyleName>}
+    _enabled && (
+      <Layer
+        maximumScaleDenominator={minZoom && zoomDenoms[minZoom]}
+        minimumScaleDenominator={maxZoom && zoomDenoms[maxZoom + 1]}
+        {...rest}
+      >
+        {Array.isArray(styleName) ? (
+          styleName.map((s) => <StyleName>{s}</StyleName>)
+        ) : (
+          <StyleName>{styleName}</StyleName>
+        )}
 
-      {children}
-    </Layer>
+        {children}
+      </Layer>
+    )
   );
 }
