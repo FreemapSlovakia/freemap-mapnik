@@ -166,7 +166,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
         >
           {contours && <SqlLayer styleName="contours" minZoom={12} sql="SELECT geom, height FROM contour_split" />}
 
-          {shading && <GdalLayer styleName="shadingAndContoursMask" file="shading/final.tiff" />}
+          {shading && <GdalLayer styleName="hillshade" file="shading/final.tiff" />}
         </SqlLayer>
       </SqlLayer>
     </>
