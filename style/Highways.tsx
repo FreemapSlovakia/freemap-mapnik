@@ -1,6 +1,4 @@
 import { LinePatternSymbolizer, LineSymbolizer, MarkersSymbolizer, Style } from "jsxnik/mapnikConfig";
-
-/* eslint-disable indent */
 import { colors, hsl } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { Rail } from "./Rail";

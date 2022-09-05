@@ -1,7 +1,5 @@
-/* eslint-disable indent */
-
 import config from "config";
-import { Map, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
+import { Map } from "jsxnik/mapnikConfig";
 import { serialize } from "jsxnik/serialize";
 import { AerialwayNames } from "./AerialwayNames";
 import { Aerialways } from "./Aerialways";
@@ -20,7 +18,6 @@ import { FeatureLines } from "./FeatureLines";
 import { FeatureLinesMaskable } from "./FeatureLinesMaskable";
 import { FeatureNames, Features } from "./features";
 import { Fixmes } from "./Fixmes";
-import { font } from "./fontFactory";
 import { FontSets } from "./FontSets";
 import { Geonames } from "./Geonames";
 import { HighwayNames } from "./HighwayNames";
@@ -32,18 +29,15 @@ import { Legend, Props as LegendProps } from "./Legend";
 import { LocalityNames } from "./LocalityNames";
 import { MilitaryAreas } from "./MilitaryAreas";
 import { Pipelines } from "./Pipelines";
-import { Placements } from "./Placements";
 import { Placenames as Placenames2, Placenames2 as Placenames1 } from "./Placenames";
 import { ProtectedAreaNames } from "./ProtectedAreaNames";
 import { ProtectedAreas } from "./ProtectedAreas";
 import { RouteNames, RoutesLayer } from "./routes";
-import { RuleEx } from "./RuleEx";
 import { Sea } from "./Sea";
 import { ShadingAndCountours } from "./ShadingAndContours";
 import { SolarPowerPlants } from "./SolarPowerPlants";
 import { setLayersEnabled } from "./StyledLayer";
 import { Trees } from "./Trees";
-import { seq } from "./utils";
 import { ValleysRidges } from "./ValleysRidges";
 import { WaterArea } from "./WaterArea";
 import { WaterAreaNames } from "./WaterAreaNames";
@@ -103,16 +97,6 @@ function generateFreemapStyleInt({
   legendLayers,
   format,
 }: Params = {}) {
-  if (legendLayers) {
-    try {
-      setLayersEnabled(false);
-
-      // ...
-    } finally {
-      setLayersEnabled(true);
-    }
-  }
-
   return serialize(
     <Map
       backgroundColor={legendLayers ? undefined : colors.water}
@@ -121,27 +105,6 @@ function generateFreemapStyleInt({
       <FontSets />
 
       {!legendLayers && <DatasourceEx name="db" params={dbParams} />}
-
-      <Style name="feature_poly_names">
-        {seq(12, 16).map((z) => (
-          <RuleEx filter={`[area] > ${2400000 / (1 << (2 * (z - 10)))}`} minZoom={z} maxZoom={z}>
-            <TextSymbolizer
-              {...font().wrap().end({ placement: "interior", placementType: "list", fill: colors.areaLabel })}
-            >
-              [name]
-            </TextSymbolizer>
-          </RuleEx>
-        ))}
-
-        <RuleEx minZoom={17}>
-          <TextSymbolizer
-            {...font().wrap().end({ placement: "interior", placementType: "list", fill: colors.areaLabel })}
-          >
-            [name]
-            <Placements />
-          </TextSymbolizer>
-        </RuleEx>
-      </Style>
 
       <Sea />
 
@@ -167,12 +130,6 @@ function generateFreemapStyleInt({
 
       <Aerialways />
 
-      {/* <SqlLayer
-        styleName="highways"
-        sql="SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway FROM osm_roads_gen0 ORDER BY z_order"
-        maxZoom={13}
-      /> */}
-
       <Aeroways />
 
       <SolarPowerPlants />
@@ -189,8 +146,6 @@ function generateFreemapStyleInt({
 
       <MilitaryAreas />
 
-      {/* .sqlLayer(['routeGlows', 'routes'], */}
-
       <RoutesLayer {...routeProps} />
 
       <Geonames />
@@ -202,13 +157,6 @@ function generateFreemapStyleInt({
       <FeatureNames />
 
       <WaterAreaNames />
-
-      {/* TODO
-      <SqlLayer
-        styleName="feature_line_names"
-        sql="SELECT geometry, name, type FROM osm_feature_lines WHERE type <> 'valley'"
-        minZoom={14}
-      /> */}
 
       <BuildingNames />
 
