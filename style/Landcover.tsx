@@ -163,17 +163,17 @@ export function Landcover() {
           <PolygonPatternSymbolizer file="images/wetland.svg" alignment="global" />
         </RuleEx>
 
-        <RuleEx type={["pitch", "playground", "golf_course", "track"]}>
+        <RuleEx type={["pitch", "playground", "golf_course", "track"]} minZoom={12}>
           <PolygonSymbolizer fill={hsl(140, 50, 70)} />
           <LineSymbolizer stroke={hsl(140, 50, 40)} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx type="parking">
+        <RuleEx type="parking" minZoom={13}>
           <PolygonSymbolizer fill={hsl(0, 33, 80)} />
           <LineSymbolizer stroke={hsl(0, 33, 65)} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx type="bunker_silo">
+        <RuleEx type="bunker_silo" minZoom={13}>
           <PolygonSymbolizer fill={hsl(50, 34, 35)} />
           <LineSymbolizer stroke={hsl(50, 34, 20)} strokeWidth={1} />
         </RuleEx>

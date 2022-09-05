@@ -435,8 +435,8 @@ export function FeatureNames() {
             .if(natural, (f: any) => f.nature())
             .end({ placementType: "list", dy: -10, ...(extra.font || {}) });
 
-          return (
-            <RuleEx type={type} minZoom={minTextZoom ?? undefined} maxZoom={extra.maxZoom}>
+          return minTextZoom == undefined ? undefined : (
+            <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
               <TextSymbolizer {...fnt}>
                 [name]
                 {withEle && (

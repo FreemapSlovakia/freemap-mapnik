@@ -5,7 +5,7 @@ import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { seq } from "./utils";
 
-export function PlaceNames1() {
+export function PlaceNames2() {
   return (
     <>
       <Style name="placenames">
@@ -83,7 +83,7 @@ export function PlaceNames1() {
   );
 }
 
-export function PlaceNames2() {
+export function PlaceNames1() {
   return (
     <>
       <SqlLayer
