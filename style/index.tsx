@@ -29,10 +29,10 @@ import { Legend, Props as LegendProps } from "./Legend";
 import { LocalityNames } from "./LocalityNames";
 import { MilitaryAreas } from "./MilitaryAreas";
 import { Pipelines } from "./Pipelines";
-import { Placenames as Placenames2, Placenames2 as Placenames1 } from "./Placenames";
+import { PlaceNames1, PlaceNames2 } from "./Placenames";
 import { ProtectedAreaNames } from "./ProtectedAreaNames";
 import { ProtectedAreas } from "./ProtectedAreas";
-import { RouteNames, RoutesLayer } from "./routes";
+import { RouteNames, Routes } from "./routes";
 import { Sea } from "./Sea";
 import { ShadingAndCountours } from "./ShadingAndContours";
 import { SolarPowerPlants } from "./SolarPowerPlants";
@@ -146,11 +146,11 @@ function generateFreemapStyleInt({
 
       <MilitaryAreas />
 
-      <RoutesLayer {...routeProps} />
+      <Routes {...routeProps} />
 
       <Geonames />
 
-      <Placenames1 />
+      <PlaceNames1 />
 
       <Features />
 
@@ -180,7 +180,7 @@ function generateFreemapStyleInt({
 
       <ValleysRidges />
 
-      <Placenames2 />
+      <PlaceNames2 />
 
       {!legendLayers && format !== "svg" && format !== "pdf" && <Crop />}
 

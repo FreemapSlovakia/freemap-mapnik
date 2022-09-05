@@ -381,7 +381,7 @@ function RouteStyles({ glows, types }: Props) {
   });
 }
 
-export function RoutesLayer(routeProps: RouteProps) {
+export function Routes(routeProps: RouteProps) {
   return (
     <>
       {(() => {
