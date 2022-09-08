@@ -10,7 +10,7 @@ const glowDflt = { stroke: hsl(0, 33, 70), strokeLinejoin: "round" as const };
 
 const highwayDflt = { stroke: colors.track, strokeLinejoin: "round" as const };
 
-const highwayWidthFormula = "pow(1.5, @zoom - 8)";
+const highwayWidthFormula = "pow(1.5, max(8.6, @zoom) - 8)";
 
 export function Highways() {
   return (
@@ -291,54 +291,16 @@ export function Highways() {
         </RuleEx>
       </Style>
 
-      <SqlLayer
-        styleName="highways"
-        maxZoom={9}
-        groupBy="tunnel"
-        sql="
-          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
-          FROM osm_roads_gen0
-          WHERE geometry && !bbox!
-          ORDER BY z_order, osm_id
-        "
-      />
+      <SqlLayer styleName="highways" maxZoom={9} groupBy="tunnel" sql={getHighwaySql("osm_roads_gen0")} />
 
-      <SqlLayer
-        styleName="highways"
-        minZoom={10}
-        maxZoom={11}
-        groupBy="tunnel"
-        sql="
-          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
-          FROM osm_roads_gen1
-          WHERE geometry && !bbox!
-          ORDER BY z_order, osm_id
-        "
-      />
-
-      <SqlLayer
-        styleName="highways"
-        maxZoom={11}
-        groupBy="tunnel"
-        sql="
-          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
-          FROM osm_roads_gen1
-          WHERE geometry && !bbox!
-          ORDER BY z_order, osm_id
-        "
-      />
+      <SqlLayer styleName="highways" minZoom={10} maxZoom={11} groupBy="tunnel" sql={getHighwaySql("osm_roads_gen1")} />
 
       <SqlLayer
         styleName={["higwayGlows", "highways"]}
         minZoom={12}
         cacheFeatures
         groupBy="tunnel"
-        // ORDER BY CASE WHEN type = 'rail' AND (service = 'main' OR service = '') THEN 1000 ELSE z_order END
-        sql="
-          SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
-          FROM osm_roads
-          WHERE geometry && !bbox! ORDER BY z_order, osm_id
-        "
+        sql={getHighwaySql("osm_roads")}
       />
 
       <SqlLayer
@@ -362,4 +324,13 @@ export function Highways() {
       />
     </>
   );
+}
+
+function getHighwaySql(table: string) {
+  return `
+    SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
+    FROM ${table}
+    WHERE geometry && !bbox!
+    ORDER BY z_order, CASE WHEN type = 'rail' AND service IN ('', 'main') THEN 2 ELSE 1 END, osm_id
+  `;
 }
