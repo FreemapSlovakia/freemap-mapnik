@@ -9,26 +9,24 @@ export function ProtectedAreaNames() {
   return (
     <>
       <Style name="protected_area_names">
-        {[8, 9, 10].map((z) => (
-          <RuleEx minZoom={z} maxZoom={z} type="national_park">
-            <TextSymbolizer
-              {...font()
-                .nature()
-                .wrap()
-                .end({
-                  size: 9 + Math.pow(2, z - 7),
-                  fill: hsl(120, 100, 25),
-                  haloFill: "white",
-                  haloRadius: 1.5,
-                  placement: "interior",
-                  placementType: "list",
-                })}
-            >
-              [name]
-              <Placements />
-            </TextSymbolizer>
-          </RuleEx>
-        ))}
+        <RuleEx minZoom={8} maxZoom={10} type="national_park">
+          <TextSymbolizer
+            {...font()
+              .nature()
+              .wrap()
+              .end({
+                size: "9 + pow(2, @zoom - 7)",
+                fill: hsl(120, 100, 25),
+                haloFill: "white",
+                haloRadius: 1.5,
+                placement: "interior",
+                placementType: "list",
+              })}
+          >
+            [name]
+            <Placements />
+          </TextSymbolizer>
+        </RuleEx>
 
         <RuleEx minZoom={12} type={["protected_area", "nature_reserve"]}>
           <TextSymbolizer

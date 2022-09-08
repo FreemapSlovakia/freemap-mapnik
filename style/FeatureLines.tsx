@@ -25,7 +25,7 @@ export function FeatureLines() {
         </RuleEx>
 
         {seq(13, 19).map((z) => (
-          <RuleEx minZoom={z} maxZoom={z === 16 ? undefined : z} type="tree_row">
+          <RuleEx minZoom={z} maxZoom={z} type="tree_row">
             <LinePatternSymbolizer file="images/tree2.svg" transform={`scale(${(2 + Math.pow(2, z - 15)) / 4})`} />
           </RuleEx>
         ))}

@@ -7,7 +7,10 @@ import { Road } from "./Road";
 import { SqlLayer } from "./SqlLayer";
 
 const glowDflt = { stroke: hsl(0, 33, 70), strokeLinejoin: "round" as const };
+
 const highwayDflt = { stroke: colors.track, strokeLinejoin: "round" as const };
+
+const highwayWidthFormula = "pow(1.5, @zoom - 8)";
 
 export function Highways() {
   return (
@@ -65,29 +68,21 @@ export function Highways() {
           );
         })}
 
-        {seq(8, 11).map((z) => {
-          const koef = 0.5 * Math.pow(1.5, z - 8);
+        <RuleEx minZoom={8} maxZoom={11} type={["motorway", "trunk", "motorway_link", "trunk_link"]}>
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.8 * ${highwayWidthFormula}`} />
+        </RuleEx>
 
-          return (
-            <>
-              <RuleEx minZoom={z} maxZoom={z} type={["motorway", "trunk", "motorway_link", "trunk_link"]}>
-                <LineSymbolizer {...highwayDflt} strokeWidth={1.6 * koef} />
-              </RuleEx>
+        <RuleEx minZoom={8} maxZoom={11} type={["primary", "primary_link"]}>
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.7 * ${highwayWidthFormula}`} />
+        </RuleEx>
 
-              <RuleEx minZoom={z} maxZoom={z} type={["primary", "primary_link"]}>
-                <LineSymbolizer {...highwayDflt} strokeWidth={1.4 * koef} />
-              </RuleEx>
+        <RuleEx minZoom={8} maxZoom={11} type={["secondary", "secondary_link"]}>
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.6 * ${highwayWidthFormula}`} />
+        </RuleEx>
 
-              <RuleEx minZoom={z} maxZoom={z} type={["secondary", "secondary_link"]}>
-                <LineSymbolizer {...highwayDflt} strokeWidth={1.2 * koef} />
-              </RuleEx>
-
-              <RuleEx minZoom={z} maxZoom={z} type={["tertiary", "tertiary_link"]}>
-                <LineSymbolizer {...highwayDflt} strokeWidth={1.0 * koef} />
-              </RuleEx>
-            </>
-          );
-        })}
+        <RuleEx minZoom={8} maxZoom={11} type={["tertiary", "tertiary_link"]}>
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.5 * ${highwayWidthFormula}`} />
+        </RuleEx>
 
         <RuleEx minZoom={12} type={["motorway", "trunk"]}>
           <Road {...highwayDflt} stroke={colors.road} strokeWidth={2.5} />
@@ -103,6 +98,7 @@ export function Highways() {
 
         <RuleEx minZoom={12} type="construction">
           <Road {...highwayDflt} stroke="yellow" strokeWidth={1.5 + 1 / 3} strokeDasharray="5,5" />
+
           <Road {...highwayDflt} stroke="#666" strokeWidth={1.5 + 1 / 3} strokeDasharray="0,5,5,0" />
         </RuleEx>
 

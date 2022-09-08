@@ -3,21 +3,18 @@ import { font } from "./fontFactory";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
 
 export function WaterAreaNames() {
   /* TODO to feature_names to consider z_order */
   return (
     <>
       <Style name="water_area_names">
-        {seq(10, 16).map((z) => (
-          <RuleEx filter={`[area] > ${800000 / (1 << (2 * (z - 10)))}`} minZoom={z} maxZoom={z}>
-            <TextSymbolizer {...font().water().wrap().end({ placement: "interior", placementType: "list" })}>
-              [name]
-              <Placements />
-            </TextSymbolizer>
-          </RuleEx>
-        ))}
+        <RuleEx filter={`[area] > 800000 / pow(2, (2 * (@zoom - 10)))`} minZoom={10} maxZoom={16}>
+          <TextSymbolizer {...font().water().wrap().end({ placement: "interior", placementType: "list" })}>
+            [name]
+            <Placements />
+          </TextSymbolizer>
+        </RuleEx>
 
         <RuleEx minZoom={17}>
           <TextSymbolizer {...font().water().wrap().end({ placement: "interior", placementType: "list" })}>
