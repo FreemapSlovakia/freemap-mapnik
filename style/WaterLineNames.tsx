@@ -9,6 +9,7 @@ export function WaterLineNames() {
       <Style name="water_line_names">
         <RuleEx minZoom={12} type="river">
           <TextSymbolizer
+            smooth={0.5}
             {...font().water().line(400).end({
               characterSpacing: 2,
               simplifyAlgorithm: "douglas-peucker",
@@ -22,6 +23,7 @@ export function WaterLineNames() {
 
         <RuleEx minZoom={14} filter="[type] <> 'river'">
           <TextSymbolizer
+            smooth={0.5}
             {...font().water().line(300).end({
               characterSpacing: 2,
               simplifyAlgorithm: "douglas-peucker",

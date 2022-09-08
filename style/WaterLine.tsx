@@ -64,7 +64,7 @@ export function WaterLine() {
         </RuleEx>
 
         <RuleEx minZoom={14}>
-          <MarkersSymbolizer file="images/waterway-arrow.svg" spacing={300} placement="line" />
+          <MarkersSymbolizer smooth={0.5} file="images/waterway-arrow.svg" spacing={300} placement="line" />
         </RuleEx>
       </Style>
     </>
