@@ -1,11 +1,11 @@
-const convert = require('color-convert');
+import convert from "color-convert";
 
-const colors = {
+export const colors = {
   allotments: hsl(50, 45, 85),
   areaLabel: hsl(0, 0, 33),
   brownfield: hsl(30, 30, 60),
   building: hsl(0, 0, 50),
-  contour: 'black',
+  contour: "black",
   farmland: hsl(60, 70, 95),
   farmyard: hsl(50, 44, 80),
   forest: hsl(120, 40, 82),
@@ -22,11 +22,6 @@ const colors = {
   waterLabelHalo: hsl(216, 30, 100),
 };
 
-function hsl(h, s, l) {
-  return `#${convert.hsl.hex(h, s, l)}`;
+export function hsl(h: number, s: number, l: number) {
+  return `#${convert.hsl.hex([h, s, l])}`;
 }
-
-module.exports = {
-  colors,
-  hsl,
-};

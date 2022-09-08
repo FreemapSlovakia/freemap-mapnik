@@ -1,11 +1,11 @@
 {
   db: {
-    type: 'postgis',
-    host: 'freemap-postgis',
+    type: "postgis",
+    host: "freemap-postgis",
     port: 5432,
-    user: 'postgres',
-    dbname: 'postgres',
-    password: 'secret',
+    user: "postgres",
+    dbname: "postgres",
+    password: "secret",
   },
   forceTileRendering: true,
   dumpXml: false,

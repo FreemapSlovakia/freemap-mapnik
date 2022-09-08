@@ -4,7 +4,7 @@
 
 ## Requirements
 
-* Docker
+- Docker
 
 ## Initial setup
 
@@ -47,9 +47,9 @@ docker run --rm --name=freemap-mapnik -v $(pwd):/freemap-mapnik --network=freema
 
 Alternatives:
 
-* open [preview.html](../preview.html) in your browser
-  * after changing and saving some style (eg. [app/style/index.js](../app/style/index.js)) just reload the page
-* use any app where you can enter following TMS URL template: `http://localhost:4000/{z}/{x}/{y}`
-* use JSOM
-  * use TMS map URL `tms[19]:http://localhost:4000/{zoom}/{x}/{y}`
-  * after changing and saving some style right-click the map and choose _FLush tile cache_.
+- open [preview.html](../preview.html) in your browser
+  - after changing and saving some style (eg. [app/style/index.js](../app/style/index.js)) just reload the page
+- use any app where you can enter following TMS URL template: `http://localhost:4000/{z}/{x}/{y}`
+- use JSOM
+  - use TMS map URL `tms[19]:http://localhost:4000/{zoom}/{x}/{y}`
+  - after changing and saving some style right-click the map and choose _FLush tile cache_.

@@ -153,9 +153,7 @@ gdalwarp -overwrite -of GTiff -ot Float32 -co NBITS=16 -co TILED=YES -co PREDICT
 # -s_srs "+proj=krovak +ellps=bessel +nadgrids=slovak"
 ```
 
-
 gdal_translate -of AAIGrid square.tif square.asc
-
 
 Convert HGT to tiff
 

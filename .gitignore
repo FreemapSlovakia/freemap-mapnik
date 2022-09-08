@@ -11,3 +11,5 @@ sandbox
 shading
 *land-polygons*
 grid
+dist
+*.osm.pbf
