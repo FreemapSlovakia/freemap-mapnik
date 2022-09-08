@@ -435,19 +435,21 @@ export function FeatureNames() {
             .if(natural, (f: any) => f.nature())
             .end({ placementType: "list", dy: -10, ...(extra.font || {}) });
 
-          return minTextZoom == undefined ? undefined : (
-            <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
-              <TextSymbolizer {...fnt}>
-                [name]
-                {withEle && (
-                  <>
-                    <Format size={fnt.size * 0.92}>[elehack]</Format>
-                    <Format size={fnt.size * 0.8}>[ele]</Format>
-                  </>
-                )}
-                <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />
-              </TextSymbolizer>
-            </RuleEx>
+          return (
+            minTextZoom != undefined && (
+              <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
+                <TextSymbolizer {...fnt}>
+                  [name]
+                  {withEle && (
+                    <>
+                      <Format size={fnt.size * 0.92}>[elehack]</Format>
+                      <Format size={fnt.size * 0.8}>[ele]</Format>
+                    </>
+                  )}
+                  <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />
+                </TextSymbolizer>
+              </RuleEx>
+            )
           );
         })}
       </Style>
