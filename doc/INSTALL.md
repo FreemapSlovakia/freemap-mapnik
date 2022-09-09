@@ -7,6 +7,16 @@
 - GDAL including python-gdal
 - imposm3
 
+## Get sources
+
+Run:
+
+```bash
+git clone https://github.com/FreemapSlovakia/freemap-mapnik.git
+cd freemap-mapnik
+npm i
+```
+
 ## Installing prerequisites
 
 1. Get OpenStreetMap data (eg. from [Geofabrik](http://download.geofabrik.de/))
@@ -19,14 +29,12 @@
 1. Run `npm run watch`
 1. Open [preview.html](../preview.html) in your browser
 
-## Get sources
+## Building
 
-Run:
+To build sources for production run:
 
-```
-git clone https://github.com/FreemapSlovakia/freemap-mapnik.git
-cd freemap-mapnik
-npm i
+```bash
+npm run build
 ```
 
 ## Importing OSM data to PostGIS
@@ -50,13 +58,13 @@ You must have imposm3 installed. For instructions how to build it see https://gi
 
 To import the data use following command (with correct pbf filename):
 
-```
+```bash
 ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read slovakia-latest.osm.pbf -write
 ```
 
 Then deploy the import to production:
 
-```
+```bash
 ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
 ```
 
@@ -66,7 +74,7 @@ See also [instructions to compute and import peak isolations](./PEAK_ISOLATION.m
 
 #### Building Imposm on MacOS
 
-```
+```bash
 brew install golang leveldb geos
 ```
 
@@ -83,15 +91,15 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
 
 1. Download `europe-latest.osm.pbf` from Geofabrik
 1. Extract area of focus with Osmium:
-   ```
+   ```bash
    osmium extract -p limit.geojson -s smart -S types=multipolygon,route,boundary europe-latest.osm.pbf -o extract.pbf
    ```
 1. Import the extract:
-   ```
+   ```bash
    ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read extract.pbf -diff -write -cachedir ./cache -diffdir ./diff
    ```
 1. Deploy the import to production:
-   ```
+   ```bash
    ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
    ```
 1. Import `additional.sql` to Postgresql
@@ -99,13 +107,13 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
    See https://planet.openstreetmap.org/replication/minute/ for finding sequence number.
 1. Delete cached tiles
 1. Run minutely diff importing in the background:
-   ```
+   ```bash
    nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -limitto limit.geojson -cachedir ./cache -diffdir ./diff -expiretiles-zoom 14 -expiretiles-dir ./expires &
    ```
 
 ## Nginx as front tier
 
-```
+```nginx
 server {
     ...
 
@@ -147,7 +155,7 @@ done
 
 EPSG:3857: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
 
-```
+```bash
 gdalwarp -overwrite -of GTiff -ot Float32 -co NBITS=16 -co TILED=YES -co PREDICTOR=3 -co COMPRESS=ZSTD -co NUM_THREADS=ALL_CPUS -multi -wo NUM_THREADS=ALL_CPUS -srcnodata -9999 -r cubicspline -order 3 -tr 19.109257071294062687 19.109257071294062687 -tap -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" -s_srs "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=542.5,89.2,456.9,5.517,2.275,5.516,6.96 +pm=greenwich +units=m +nadgrids=slovak +no_defs" sk.tiff sk_w.tiff
 
 # -s_srs "+proj=krovak +ellps=bessel +nadgrids=slovak"
@@ -157,16 +165,16 @@ gdal_translate -of AAIGrid square.tif square.asc
 
 Convert HGT to tiff
 
-```
+```bash
 for i in *.HGT; do gdalwarp -overwrite -of GTiff -ot Float32 -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -r cubicspline -order 3 -tr 20 20 -multi -dstnodata NaN -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" $i ${i%.HGT}.tiff; done
 ```
 
 Fill nodata in tiffs
 
-```
+```bash
 for i in N*.tiff; do gdal_fillnodata.py -of GTiff -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" $i ${i%.tiff}.filled.tiff; done
 ```
 
-```
+```bash
 gdal_merge.py -of GTiff -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -n NaN -a_nodata NaN -o merged.tiff N*.filled.tiff sk_w.tiff
 ```

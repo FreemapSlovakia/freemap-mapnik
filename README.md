@@ -19,6 +19,8 @@ https://www.freemap.sk/?layers=X
 
 ### Using Docker
 
+**probably outdated**
+
 Use this method for easier installation for development purposes.
 
 Please see [doc/DOCKER.md](./doc/DOCKER.md).
