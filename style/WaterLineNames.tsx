@@ -40,7 +40,7 @@ export function WaterLineNames() {
         styleName="water_line_names"
         minZoom={12}
         maxZoom={13}
-        bufferSize={1024}
+        bufferSize={2048}
         // `SELECT ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type FROM osm_waterways WHERE type = 'river' AND name <> ''`,
         sql={`
           SELECT ${process.env.FM_CUSTOM_SQL || ""} ST_LineMerge(ST_Collect(geometry)) AS geometry, name, type
@@ -53,7 +53,7 @@ export function WaterLineNames() {
       <SqlLayer
         styleName="water_line_names"
         minZoom={14}
-        bufferSize={1024}
+        bufferSize={2048}
         // `SELECT ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type FROM osm_waterways WHERE name <> ''`,
         sql={`
           SELECT ${process.env.FM_CUSTOM_SQL || ""} ST_LineMerge(ST_Collect(geometry)) AS geometry, name, type
