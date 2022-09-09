@@ -39,7 +39,11 @@ export function FeatureLinesMaskable({ shading }: Props) {
           minZoom={13}
           compOp="src-over"
           // TODO for effectivity filter out cliffs/earth_banks
-          sql="SELECT geometry, type FROM osm_feature_lines WHERE type NOT IN ('cutline', 'valley', 'ridge')"
+          sql="
+            SELECT geometry, type
+            FROM osm_feature_lines
+            WHERE type NOT IN ('cutline', 'valley', 'ridge')
+          "
         >
           {["pl", "sk" /*, "at", "ch" (AT / CH is not so detailed) */].map((cc) => (
             <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cc}/mask.tif`} />
@@ -50,7 +54,11 @@ export function FeatureLinesMaskable({ shading }: Props) {
           styleName="feature_lines_maskable"
           minZoom={13}
           cacheFeatures
-          sql="SELECT geometry, type FROM osm_feature_lines WHERE type NOT IN ('cutline', 'valley', 'ridge')"
+          sql="
+            SELECT geometry, type
+            FROM osm_feature_lines
+            WHERE type NOT IN ('cutline', 'valley', 'ridge')
+          "
         />
       )}
     </>
