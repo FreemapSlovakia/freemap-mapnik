@@ -332,7 +332,7 @@ export const legend = {
       },
       layers: [
         forest,
-        asLine(["feature_lines"], {
+        asLine(["feature_lines_maskable"], {
           type: "gully",
         }),
       ],
@@ -377,7 +377,7 @@ export const legend = {
       },
       layers: [
         forest,
-        asLine(["feature_lines"], {
+        asLine(["feature_lines_maskable"], {
           type: "embankment",
         }),
       ],
@@ -392,7 +392,7 @@ export const legend = {
       },
       layers: [
         forest,
-        asLine(["feature_lines"], {
+        asLine(["feature_lines_maskable"], {
           type: "dyke",
         }),
       ],
