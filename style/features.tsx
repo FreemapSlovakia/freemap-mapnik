@@ -353,6 +353,8 @@ const pois: [number, number | null, boolean, boolean, string | string[], {}?][] 
   [18, 19, N, N, "telephone"],
   [18, NN, N, N, "gate"],
   [18, NN, N, N, "waste_disposal"],
+
+  [19, NN, N, N, "waste_basket"],
 ];
 
 export function Features() {
