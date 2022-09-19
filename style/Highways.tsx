@@ -8,12 +8,7 @@ import { SqlLayer } from "./SqlLayer";
 
 const glowDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
   stroke: hsl(0, 33, 70),
-  strokeLinejoin: "round" as const,
-};
-
-const highwayDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
-  stroke: colors.track,
-  strokeLinejoin: "round" as const,
+  strokeLinejoin: "round",
 };
 
 const highwayWidthFormula = "pow(1.5, max(8.6, @zoom) - 8)";
@@ -75,69 +70,69 @@ export function Highways() {
         })}
 
         <RuleEx minZoom={8} maxZoom={11} type={["motorway", "trunk", "motorway_link", "trunk_link"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={`0.8 * ${highwayWidthFormula}`} />
+          <LineSymbolizer strokeWidth={`0.8 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={8} maxZoom={11} type={["primary", "primary_link"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={`0.7 * ${highwayWidthFormula}`} />
+          <LineSymbolizer strokeWidth={`0.7 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={8} maxZoom={11} type={["secondary", "secondary_link"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={`0.6 * ${highwayWidthFormula}`} />
+          <LineSymbolizer strokeWidth={`0.6 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={8} maxZoom={11} type={["tertiary", "tertiary_link"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={`0.5 * ${highwayWidthFormula}`} />
+          <LineSymbolizer strokeWidth={`0.5 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={12} type={["motorway", "trunk"]}>
-          <Road {...highwayDflt} stroke={colors.road} strokeWidth={2.5} />
+          <Road stroke={colors.road} strokeWidth={2.5} />
         </RuleEx>
 
         <RuleEx minZoom={12} type={["motorway_link", "trunk_link", "primary"]}>
-          <Road {...highwayDflt} stroke={colors.road} strokeWidth={1.5 + 2 / 3} />
+          <Road stroke={colors.road} strokeWidth={1.5 + 2 / 3} />
         </RuleEx>
 
         <RuleEx minZoom={12} type={["primary_link", "secondary"]}>
-          <Road {...highwayDflt} stroke={colors.road} strokeWidth={1.5 + 1 / 3} />
+          <Road stroke={colors.road} strokeWidth={1.5 + 1 / 3} />
         </RuleEx>
 
         <RuleEx minZoom={12} type="construction">
-          <Road {...highwayDflt} stroke="yellow" strokeWidth={1.5 + 1 / 3} strokeDasharray="5,5" />
+          <Road stroke="yellow" strokeWidth={1.5 + 1 / 3} strokeDasharray="5,5" />
 
-          <Road {...highwayDflt} stroke="#666" strokeWidth={1.5 + 1 / 3} strokeDasharray="0,5,5,0" />
+          <Road stroke="#666" strokeWidth={1.5 + 1 / 3} strokeDasharray="0,5,5,0" />
         </RuleEx>
 
         <RuleEx minZoom={12} type={["secondary_link", "tertiary", "tertiary_link"]}>
-          <Road {...highwayDflt} stroke={colors.road} strokeWidth={1.5} />
+          <Road stroke={colors.road} strokeWidth={1.5} />
         </RuleEx>
 
         <RuleEx minZoom={12} maxZoom={14} type={["living_street", "residential", "unclassified", "road"]}>
-          <Road {...highwayDflt} strokeWidth={1} />
+          <Road strokeWidth={1} />
         </RuleEx>
 
         <RuleEx minZoom={14} type={["living_street", "residential", "unclassified", "road"]}>
-          <Road {...highwayDflt} stroke={colors.road} strokeWidth={1} />
+          <Road stroke={colors.road} strokeWidth={1} />
         </RuleEx>
 
         <RuleEx minZoom={14} type="water_slide">
-          <Road {...highwayDflt} stroke={hsl(180, 50, 50)} strokeWidth={1.5} />
+          <Road stroke={hsl(180, 50, 50)} strokeWidth={1.5} />
         </RuleEx>
 
         <RuleEx minZoom={14} filter="[type] = 'service' and [service] = 'parking_aisle'">
-          <Road {...highwayDflt} strokeWidth={1} />
+          <Road strokeWidth={1} />
         </RuleEx>
 
         <RuleEx filter="[type] = 'raceway' or ([type] = 'track' and [class] = 'leisure')" minZoom={14}>
-          <Road {...highwayDflt} strokeWidth={1.2} strokeDasharray="9.5,1.5" />
+          <Road strokeWidth={1.2} strokeDasharray="9.5,1.5" />
         </RuleEx>
 
         <RuleEx minZoom={14} type="piste">
-          <Road {...highwayDflt} strokeWidth={1.2} stroke="white" />
+          <Road strokeWidth={1.2} stroke="white" />
         </RuleEx>
 
         <RuleEx minZoom={14} type={["footway", "pedestrian", "platform"]}>
-          <Road {...highwayDflt} strokeWidth={1} strokeDasharray="4,2" />
+          <Road strokeWidth={1} strokeDasharray="4,2" />
         </RuleEx>
 
         <RuleEx minZoom={14} type="steps">
@@ -157,26 +152,19 @@ export function Highways() {
               maxZoom={z[1]}
               filter="[type] = 'service' and [service] != 'parking_aisle' or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway'"
             >
-              <Road {...highwayDflt} strokeWidth={k * 1.2} />
+              <Road strokeWidth={k * 1.2} />
             </RuleEx>
 
             <RuleEx minZoom={z[0]} maxZoom={z[1]} type="path">
-              <Road {...highwayDflt} strokeWidth={k * 1} strokeDasharray="3,3" strokeOpacity="[trail_visibility]" />
+              <Road strokeWidth={k * 1} strokeDasharray="3,3" strokeOpacity="[trail_visibility]" />
             </RuleEx>
 
             <RuleEx minZoom={z[0]} maxZoom={z[1]} type="cycleway">
-              <Road
-                {...highwayDflt}
-                strokeWidth={k * 1}
-                strokeDasharray="6,3"
-                stroke="#b400ff"
-                strokeOpacity="[trail_visibility]"
-              />
+              <Road strokeWidth={k * 1} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
             </RuleEx>
 
             <RuleEx minZoom={z[0]} maxZoom={z[1]} type="bridleway">
               <Road
-                {...highwayDflt}
                 strokeWidth={k * 1}
                 strokeDasharray="6,3"
                 stroke={hsl(120, 50, 30)}
@@ -185,7 +173,7 @@ export function Highways() {
             </RuleEx>
 
             <RuleEx minZoom={z[0]} maxZoom={z[1]} type="via_ferrata">
-              <Road {...highwayDflt} strokeWidth={k * 1} strokeDasharray="4,4" />
+              <Road strokeWidth={k * 1} strokeDasharray="4,4" />
             </RuleEx>
 
             {[undefined, "8,2", "6,4", "4,6", "2,8", "3,7,7,3"].map((strokeDasharray, i) => (
@@ -196,12 +184,7 @@ export function Highways() {
                 minZoom={z[0]}
                 maxZoom={z[1]}
               >
-                <Road
-                  {...highwayDflt}
-                  strokeWidth={k * 1.2}
-                  strokeDasharray={strokeDasharray}
-                  strokeOpacity="[trail_visibility]"
-                />
+                <Road strokeWidth={k * 1.2} strokeDasharray={strokeDasharray} strokeOpacity="[trail_visibility]" />
               </RuleEx>
             ))}
           </>
@@ -250,27 +233,27 @@ export function Highways() {
         </RuleEx>
 
         <RuleEx type={["motorway", "trunk"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={4} />
+          <LineSymbolizer strokeWidth={4} />
         </RuleEx>
 
         <RuleEx type={["primary", "motorway_link", "trunk_link"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={3 + 2 / 3} />
+          <LineSymbolizer strokeWidth={3 + 2 / 3} />
         </RuleEx>
 
         <RuleEx type={["primary_link", "secondary", "construction"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={3 + 1 / 3} />
+          <LineSymbolizer strokeWidth={3 + 1 / 3} />
         </RuleEx>
 
         <RuleEx type={["secondary_link", "tertiary", "tertiary_link"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={3} />
+          <LineSymbolizer strokeWidth={3} />
         </RuleEx>
 
         <RuleEx minZoom={14} type={["living_street", "residential", "unclassified", "road"]}>
-          <LineSymbolizer {...highwayDflt} strokeWidth={2.5} />
+          <LineSymbolizer strokeWidth={2.5} />
         </RuleEx>
 
         <RuleEx minZoom={14} type="piste">
-          <Road {...highwayDflt} strokeWidth={2.2} stroke="#a0a0a0" strokeDasharray="6,2" />
+          <Road strokeWidth={2.2} stroke="#a0a0a0" strokeDasharray="6,2" />
         </RuleEx>
       </Style>
 

@@ -246,10 +246,10 @@ function RouteStyles({ glows, types }: Props) {
 
     const df = 1.25;
 
-    const glowStyle = {
-      stroke: "white" as const,
-      strokeLinejoin: "round" as const,
-      strokeLinecap: "butt" as const,
+    const glowStyle: Partial<Parameters<typeof LineSymbolizer>[0]> = {
+      stroke: "white",
+      strokeLinejoin: "round",
+      strokeLinecap: "butt",
       strokeOpacity: 0.33,
     };
 
