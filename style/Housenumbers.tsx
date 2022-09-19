@@ -1,6 +1,6 @@
 import { Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { SqlLayer } from "./SqlLayer";
 
 export function Housenumbers() {
@@ -8,9 +8,9 @@ export function Housenumbers() {
     <>
       <Style name="housenumbers">
         <Rule>
-          <TextSymbolizer {...font().end({ placement: "interior", size: 8, haloOpacity: 0.5, fill: colors.areaLabel })}>
+          <TextSymbolizerEx placement="interior" size={8} haloOpacity={0.5} fill={colors.areaLabel}>
             [housenumber]
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </Rule>
       </Style>
 

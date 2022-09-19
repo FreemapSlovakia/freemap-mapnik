@@ -1,6 +1,6 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { hsl } from "./colors";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -10,20 +10,10 @@ export function LocalityNames() {
     <>
       <Style name="locality_names">
         <RuleEx minZoom={15} type="locality">
-          <TextSymbolizer
-            {...font()
-              .wrap()
-              .end({
-                fill: hsl(0, 0, 40),
-                size: 11,
-                haloRadius: 1.5,
-                haloOpacity: 0.2,
-                placementType: "list",
-              })}
-          >
+          <TextSymbolizerEx wrap fill={hsl(0, 0, 40)} size={11} haloRadius={1.5} haloOpacity={0.2} placementType="list">
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

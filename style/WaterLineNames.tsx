@@ -1,5 +1,5 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
@@ -8,31 +8,31 @@ export function WaterLineNames() {
     <>
       <Style name="water_line_names">
         <RuleEx minZoom={12} type="river">
-          <TextSymbolizer
+          <TextSymbolizerEx
+            water
+            line={400}
             smooth={0.5}
-            {...font().water().line(400).end({
-              characterSpacing: 2,
-              simplifyAlgorithm: "douglas-peucker",
-              simplify: 10,
-              "max-char-angle-delta": 30,
-            })}
+            characterSpacing={2}
+            simplifyAlgorithm="douglas-peucker"
+            simplify={10}
+            maxCharAngleDelta={30}
           >
             [name]
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={14} filter="[type] <> 'river'">
-          <TextSymbolizer
+          <TextSymbolizerEx
+            water
+            line={300}
             smooth={0.5}
-            {...font().water().line(300).end({
-              characterSpacing: 2,
-              simplifyAlgorithm: "douglas-peucker",
-              simplify: 10,
-              "max-char-angle-delta": 30,
-            })}
+            characterSpacing={2}
+            simplifyAlgorithm="douglas-peucker"
+            simplify={10}
+            maxCharAngleDelta={30}
           >
             [name]
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

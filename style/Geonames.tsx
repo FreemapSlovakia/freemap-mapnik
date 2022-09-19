@@ -1,5 +1,5 @@
 import { Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { ShpLayer } from "./ShpLayer";
 
 export function Geonames() {
@@ -7,22 +7,22 @@ export function Geonames() {
     <>
       <Style name="geonames">
         <Rule>
-          <TextSymbolizer
-            {...font().line().nature().end({
-              haloFill: "white",
-              characterSpacing: 1,
-              haloRadius: 2,
-              allowOverlap: true,
-              opacity: "0.8 - pow(1.5, @zoom - 9) / 5",
-              haloOpacity: "0.8 - pow(1.5, @zoom - 9) / 5",
-              size: "8 + pow(1.9, @zoom - 6)",
-              horizontalAlignment: "adjust",
-              smooth: 0.2,
-              "max-char-angle-delta": 180,
-            })}
+          <TextSymbolizerEx
+            line
+            nature
+            haloFill="white"
+            characterSpacing={1}
+            haloRadius={2}
+            allowOverlap
+            opacity="0.8 - pow(1.5, @zoom - 9) / 5"
+            haloOpacity="0.8 - pow(1.5, @zoom - 9) / 5"
+            size="8 + pow(1.9, @zoom - 6)"
+            horizontalAlignment="adjust"
+            smooth={0.2}
+            maxCharAngleDelta={180}
           >
             [name]
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </Rule>
       </Style>
 

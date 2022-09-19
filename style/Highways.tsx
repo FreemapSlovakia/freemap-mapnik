@@ -6,9 +6,15 @@ import { seq, types } from "./utils";
 import { Road } from "./Road";
 import { SqlLayer } from "./SqlLayer";
 
-const glowDflt = { stroke: hsl(0, 33, 70), strokeLinejoin: "round" as const };
+const glowDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
+  stroke: hsl(0, 33, 70),
+  strokeLinejoin: "round" as const,
+};
 
-const highwayDflt = { stroke: colors.track, strokeLinejoin: "round" as const };
+const highwayDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
+  stroke: colors.track,
+  strokeLinejoin: "round" as const,
+};
 
 const highwayWidthFormula = "pow(1.5, max(8.6, @zoom) - 8)";
 

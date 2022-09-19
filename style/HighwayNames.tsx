@@ -1,6 +1,6 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
@@ -9,7 +9,9 @@ export function HighwayNames() {
     <>
       <Style name="highway_names">
         <RuleEx minZoom={15}>
-          <TextSymbolizer {...font().line().end({ fill: colors.track })}>[name]</TextSymbolizer>
+          <TextSymbolizerEx line fill={colors.track}>
+            [name]
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

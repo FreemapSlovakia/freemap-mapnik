@@ -1,5 +1,5 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -10,17 +10,17 @@ export function WaterAreaNames() {
     <>
       <Style name="water_area_names">
         <RuleEx filter={`[area] > 800000 / pow(2, (2 * (@zoom - 10)))`} minZoom={10} maxZoom={16}>
-          <TextSymbolizer {...font().water().wrap().end({ placement: "interior", placementType: "list" })}>
+          <TextSymbolizerEx water wrap placement="interior" placementType="list">
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={17}>
-          <TextSymbolizer {...font().water().wrap().end({ placement: "interior", placementType: "list" })}>
+          <TextSymbolizerEx water wrap placement="interior" placementType="list">
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

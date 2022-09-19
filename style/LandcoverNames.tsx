@@ -1,6 +1,6 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors, hsl } from "./colors";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -22,14 +22,10 @@ export function LandcoverNames() {
               minZoom={z}
               maxZoom={z === 17 ? undefined : z}
             >
-              <TextSymbolizer
-                {...font()
-                  .wrap()
-                  .end({ placement: "interior", placementType: "list", ...s })}
-              >
+              <TextSymbolizerEx wrap placement="interior" placementType="list" {...s}>
                 [name]
                 <Placements />
-              </TextSymbolizer>
+              </TextSymbolizerEx>
             </RuleEx>
           ));
         })}

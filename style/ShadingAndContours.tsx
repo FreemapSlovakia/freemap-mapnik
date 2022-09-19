@@ -1,7 +1,7 @@
 import { LineSymbolizer, RasterSymbolizer, Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
 import { DatasourceEx } from "./DatasourceEx";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { GdalLayer } from "./GdalLayer";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -20,9 +20,9 @@ function ContoursStyle() {
       <RuleEx minZoom={13} maxZoom={14} filter="([height] % 100 = 0) and ([height] != 0)">
         <LineSymbolizer stroke={colors.contour} strokeWidth={0.4} smooth={1} />
 
-        <TextSymbolizer {...font().line().end({ fill: colors.contour, smooth: 1, upright: "left" })}>
+        <TextSymbolizerEx line fill={colors.contour} smooth={1} upright="left">
           [height]
-        </TextSymbolizer>
+        </TextSymbolizerEx>
       </RuleEx>
 
       <RuleEx minZoom={12} maxZoom={12} filter="([height] % 50 = 0) and ([height] != 0)">
@@ -36,9 +36,9 @@ function ContoursStyle() {
       <RuleEx minZoom={15} filter="([height] % 100 = 0) and ([height] != 0)">
         <LineSymbolizer stroke={colors.contour} strokeWidth={0.6} smooth={1} />
 
-        <TextSymbolizer {...font().line().end({ fill: colors.contour, smooth: 1, upright: "left" })}>
+        <TextSymbolizerEx line fill={colors.contour} smooth={1} upright={"left"}>
           [height]
-        </TextSymbolizer>
+        </TextSymbolizerEx>
       </RuleEx>
 
       <RuleEx minZoom={15} filter="([height] % 10 = 0) and ([height] != 0)">
@@ -46,9 +46,9 @@ function ContoursStyle() {
       </RuleEx>
 
       <RuleEx minZoom={15} filter="([height] % 50 = 0) and ([height] % 100 != 0)">
-        <TextSymbolizer {...font().line().end({ fill: colors.contour, smooth: 1, upright: "left" })}>
+        <TextSymbolizerEx line fill={colors.contour} smooth={1} upright="left">
           [height]
-        </TextSymbolizer>
+        </TextSymbolizerEx>
       </RuleEx>
     </Style>
   );

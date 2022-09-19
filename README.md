@@ -2,11 +2,12 @@
 
 ## Features
 
-- Mapnik configuration in Javascript adding all benefits of scripting (preventing repetition, programatic style generation, …)
+- Mapnik configuration in TypeScript (JSX) adding all benefits of typed scripting (preventing repetition, programatic style generation, type validation, code assist, …)
 - Map tile serving (TMS)
-- PDF output
+- Rendering (export) to PDF/SVG/JPG/PNG
+- Support of tiles for HiDPI / Retina devices
 - Configurable map pre-rendering
-- On-demand tile rendering (if tile is not rendered yet)
+- On-demand tile rendering (if requested tile is not rendered yet)
 - Detection of dirty tiles (based on changes reported by imposm3) and rendering scheduling
 - Easy style development and debugging (save and reload)
 - Many features are configurable

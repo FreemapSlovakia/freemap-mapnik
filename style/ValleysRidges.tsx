@@ -1,5 +1,5 @@
 import { Placement, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { seq } from "./utils";
@@ -14,22 +14,19 @@ export function ValleysRidges() {
           const size = 10 + Math.pow(2.5, z - 12);
           return (
             <RuleEx minZoom={z} maxZoom={z}>
-              <TextSymbolizer
-                {...font()
-                  .nature()
-                  .line(200)
-                  .end({
-                    size,
-                    characterSpacing: cs * 3,
-                    haloRadius: 1.5,
-                    haloOpacity: opacity * 0.9,
-                    opacity,
-                    lineSpacing: `[offset_factor] * ${6 + 3 * Math.pow(2.5, z - 12)}`, // this is to simulate dy adjusted to text orientation
-                    placementType: "list",
-                    smooth: 0.2,
-                    "max-char-angle-delta": 180,
-                    // horizontalAlignment: 'adjust',
-                  })}
+              <TextSymbolizerEx
+                nature
+                line={200}
+                size={size}
+                characterSpacing={cs * 3}
+                haloRadius={1.5}
+                haloOpacity={opacity * 0.9}
+                opacity={opacity}
+                lineSpacing={`[offset_factor] * ${6 + 3 * Math.pow(2.5, z - 12)}`} // this is to simulate dy adjusted to text orientation
+                placementType="list"
+                smooth={0.2}
+                maxCharAngleDelta={180}
+                // horizontalAlignment="adjust"
               >
                 {'[name] + "\n "'}
                 <Placement characterSpacing={cs * 2} />
@@ -41,7 +38,7 @@ export function ValleysRidges() {
 
                 {z > 13 && <Placement characterSpacing={0} size={size * 0.75} />}
                 {z > 14 && <Placement characterSpacing={0} size={size * 0.5} />}
-              </TextSymbolizer>
+              </TextSymbolizerEx>
             </RuleEx>
           );
         })}

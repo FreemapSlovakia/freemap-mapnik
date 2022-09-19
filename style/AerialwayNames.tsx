@@ -1,5 +1,5 @@
 import { Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { SqlLayer } from "./SqlLayer";
 
 export function AerialwayNames() {
@@ -7,7 +7,9 @@ export function AerialwayNames() {
     <>
       <Style name="aerialway_names">
         <Rule>
-          <TextSymbolizer {...font().line().end({ fill: "black", dy: 6 })}>[name]</TextSymbolizer>
+          <TextSymbolizerEx line fill="black" dy={6}>
+            [name]
+          </TextSymbolizerEx>
         </Rule>
       </Style>
 

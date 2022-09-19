@@ -1,6 +1,6 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { hsl } from "./colors";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -10,40 +10,34 @@ export function ProtectedAreaNames() {
     <>
       <Style name="protected_area_names">
         <RuleEx minZoom={8} maxZoom={10} type="national_park">
-          <TextSymbolizer
-            {...font()
-              .nature()
-              .wrap()
-              .end({
-                size: "9 + pow(2, @zoom - 7)",
-                fill: hsl(120, 100, 25),
-                haloFill: "white",
-                haloRadius: 1.5,
-                placement: "interior",
-                placementType: "list",
-              })}
+          <TextSymbolizerEx
+            nature
+            wrap
+            size="9 + pow(2, @zoom - 7)"
+            fill={hsl(120, 100, 25)}
+            haloFill="white"
+            haloRadius={1.5}
+            placement="interior"
+            placementType="list"
           >
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={12} type={["protected_area", "nature_reserve"]}>
-          <TextSymbolizer
-            {...font()
-              .nature()
-              .wrap()
-              .end({
-                fill: hsl(120, 100, 25),
-                haloFill: "white",
-                haloRadius: 1.5,
-                placement: "interior",
-                placementType: "list",
-              })}
+          <TextSymbolizerEx
+            nature
+            wrap
+            fill={hsl(120, 100, 25)}
+            haloFill="white"
+            haloRadius={1.5}
+            placement="interior"
+            placementType="list"
           >
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

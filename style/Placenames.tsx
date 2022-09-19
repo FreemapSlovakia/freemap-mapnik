@@ -1,5 +1,5 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -7,7 +7,8 @@ import { SqlLayer } from "./SqlLayer";
 const scaleFormula = "2.5 * pow(1.2, @zoom)";
 
 export function PlaceNames2() {
-  const placenamesFontStyle = font().wrap().end({
+  const placenamesFontStyle: Partial<Parameters<typeof TextSymbolizerEx>[0]> = {
+    wrap: true,
     margin: 3,
     haloFill: "white",
     opacity: "0.5 + ((@zoom <= 14) * 0.5)",
@@ -15,13 +16,13 @@ export function PlaceNames2() {
     fontsetName: "narrow bold",
     characterSpacing: 1,
     placementType: "list",
-  });
+  };
 
   return (
     <>
       <Style name="placenames">
         <RuleEx minZoom={6} type="city">
-          <TextSymbolizer
+          <TextSymbolizerEx
             {...placenamesFontStyle}
             haloRadius={2}
             textTransform="uppercase"
@@ -29,11 +30,11 @@ export function PlaceNames2() {
           >
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={9} type="town">
-          <TextSymbolizer
+          <TextSymbolizerEx
             {...placenamesFontStyle}
             haloRadius={2}
             textTransform="uppercase"
@@ -41,11 +42,11 @@ export function PlaceNames2() {
           >
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={11} type="village">
-          <TextSymbolizer
+          <TextSymbolizerEx
             {...placenamesFontStyle}
             haloRadius={1.5}
             textTransform="uppercase"
@@ -53,14 +54,14 @@ export function PlaceNames2() {
           >
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={12} type={["suburb", "hamlet"]}>
-          <TextSymbolizer {...placenamesFontStyle} haloRadius={1.5} size={`0.5 * ${scaleFormula}`}>
+          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.5 * ${scaleFormula}`}>
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

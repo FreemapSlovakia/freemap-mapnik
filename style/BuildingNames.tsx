@@ -1,5 +1,5 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -9,10 +9,10 @@ export function BuildingNames() {
     <>
       <Style name="building_names">
         <RuleEx minZoom={17}>
-          <TextSymbolizer {...font().wrap().end({ placement: "interior", placementType: "list" })}>
+          <TextSymbolizerEx wrap placement="interior" placementType="list">
             [name]
             <Placements />
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </RuleEx>
       </Style>
 

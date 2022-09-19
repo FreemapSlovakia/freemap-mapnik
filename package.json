@@ -14,15 +14,15 @@
     "color-convert": "2.0.1",
     "config": "3.3.8",
     "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver#develop",
-    "jsxnik": "0.0.7"
+    "jsxnik": "0.0.8"
   },
   "devDependencies": {
     "typescript": "^4.8.3",
     "@types/color-convert": "2.0.0",
     "@types/config": "3.3.0",
-    "eslint": "8.23.0",
-    "@types/node": "^18.7.16",
+    "eslint": "8.23.1",
+    "@types/node": "^18.7.18",
     "concurrently": "^7.4.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.20"
   }
 }

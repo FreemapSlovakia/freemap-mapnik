@@ -1,6 +1,6 @@
 import { Format, MarkersSymbolizer, Placement, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { seq } from "./utils";
@@ -431,29 +431,23 @@ export function FeatureNames() {
   return (
     <>
       <Style name="feature_names">
-        {pois.map(([, minTextZoom, withEle, natural, type, extra = {} as any]) => {
-          const fnt = font()
-            .wrap()
-            .if(natural, (f: any) => f.nature())
-            .end({ placementType: "list", dy: -10, ...(extra.font || {}) });
-
-          return (
+        {pois.map(
+          ([, minTextZoom, withEle, natural, type, extra = {} as any]) =>
             minTextZoom != undefined && (
               <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
-                <TextSymbolizer {...fnt}>
+                <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
                   [name]
                   {withEle && (
                     <>
-                      <Format size={fnt.size * 0.92}>[elehack]</Format>
-                      <Format size={fnt.size * 0.8}>[ele]</Format>
+                      <Format size={12 * 0.92}>[elehack]</Format>
+                      <Format size={12 * 0.8}>[ele]</Format>
                     </>
                   )}
                   <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />
-                </TextSymbolizer>
+                </TextSymbolizerEx>
               </RuleEx>
             )
-          );
-        })}
+        )}
       </Style>
 
       {seq(10, 17).map((zoom) => (

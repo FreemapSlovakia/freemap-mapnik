@@ -4,7 +4,7 @@ import { tmpdir } from "os";
 import path from "path";
 import fs from "fs/promises";
 import { SqlLayer } from "./SqlLayer";
-import { font } from "./fontFactory";
+import { TextSymbolizerEx } from "./TextSymbolizerEx";
 
 export type RouteProps = {
   hikingTrails: boolean;
@@ -459,21 +459,13 @@ export function RouteNames(routeProps: RouteProps) {
     <>
       <Style name="route_names">
         <Rule>
-          <TextSymbolizer
-            {...font()
-              .line(500)
-              .end({ fill: "black", size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: "4 + [off1] * 2.5" })}
-          >
+          <TextSymbolizerEx line={500} fill="black" size={11} haloRadius={1.5} haloOpacity={0.2} dy="4 + [off1] * 2.5">
             [refs1]
-          </TextSymbolizer>
+          </TextSymbolizerEx>
 
-          <TextSymbolizer
-            {...font()
-              .line(500)
-              .end({ fill: "black", size: 11, haloRadius: 1.5, haloOpacity: 0.2, dy: "-4 - [off2] * 4" })}
-          >
+          <TextSymbolizerEx line={500} fill="black" size={11} haloRadius={1.5} haloOpacity={0.2} dy="-4 - [off2] * 4">
             [refs2]
-          </TextSymbolizer>
+          </TextSymbolizerEx>
         </Rule>
       </Style>
 
