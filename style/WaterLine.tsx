@@ -2,6 +2,15 @@ import { LineSymbolizer, MarkersSymbolizer, Style } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
+import { seq } from "./utils";
+
+// see https://github.com/mapnik/mapnik/issues/4349
+const sqls: Record<number, string> = {
+  12: "ST_Segmentize(ST_Simplify(geometry, 30), 200) AS geometry",
+  13: "ST_Segmentize(ST_Simplify(geometry, 20), 200) AS geometry",
+  14: "ST_Segmentize(ST_Simplify(geometry, 10), 200) AS geometry",
+  15: "geometry",
+};
 
 export function WaterLine() {
   return (
@@ -19,11 +28,49 @@ export function WaterLine() {
         sql="SELECT geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray FROM osm_waterways_gen1"
       />
 
-      <SqlLayer
-        styleName="water_line"
-        minZoom={12}
-        sql="SELECT geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray FROM osm_waterways"
-      />
+      {["water_line_glow", "water_line"].map((name) =>
+        seq(12, 15).map((z) => (
+          <>
+            <SqlLayer
+              styleName={name}
+              minZoom={z}
+              maxZoom={z >= 15 ? undefined : z}
+              sql={`
+                SELECT
+                  ${sqls[z]},
+                  type,
+                  tunnel,
+                  CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray
+                FROM
+                  osm_waterways
+            `}
+              cacheFeatures
+            />
+          </>
+        ))
+      )}
+
+      <Style name="water_line_glow">
+        <RuleEx type="river">
+          <LineSymbolizer
+            stroke="white"
+            strokeWidth={3.4}
+            strokeOpacity="0.5 - [tunnel] / 0.6"
+            strokeDasharray="[dasharray]"
+            smooth={0.5}
+          />
+        </RuleEx>
+
+        <RuleEx filter="[type] <> 'river'">
+          <LineSymbolizer
+            stroke="white"
+            strokeWidth={2.4}
+            strokeOpacity="0.5 - [tunnel] / 0.6"
+            strokeDasharray="[dasharray]"
+            smooth={0.5}
+          />
+        </RuleEx>
+      </Style>
 
       <Style name="water_line">
         <RuleEx minZoom={0} maxZoom={8} type="river">
