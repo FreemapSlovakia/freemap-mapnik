@@ -31,8 +31,8 @@ export function TextSymbolizerEx({ wrap, nature, water, line, ...rest }: Props) 
   if (line !== undefined) {
     props.placement = "line";
 
-    if (typeof line === "number") {
-      props.spacing = line;
+    if (props.spacing === undefined) {
+      props.spacing = typeof line === "number" ? line : 200;
     }
   }
 
