@@ -14,7 +14,7 @@
     "color-convert": "2.0.1",
     "config": "3.3.8",
     "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver#develop",
-    "jsxnik": "0.0.8"
+    "jsxnik": "0.0.9"
   },
   "devDependencies": {
     "typescript": "^4.8.3",
