@@ -467,6 +467,9 @@ tables:
         key: name
       - name: type
         type: mapping_value
+      - name: protected_class
+        type: string
+        key: protected_class
     type: polygon
     mapping:
       boundary:
