@@ -26,6 +26,7 @@ export function ValleysRidges() {
                 placementType="list"
                 smooth={0.2}
                 maxCharAngleDelta={180}
+                margin={5}
                 // horizontalAlignment="adjust"
               >
                 {'[name] + "\n "'}
@@ -49,7 +50,16 @@ export function ValleysRidges() {
         minZoom={13}
         clearLabelCache
         bufferSize={1024}
-        sql="SELECT geometry, name, 0.8 AS offset_factor FROM osm_feature_lines WHERE type = 'valley' AND name <> ''"
+        sql={`
+          SELECT
+            geometry, name, LEAST(1.2, ST_Length(geometry) / 5000) AS offset_factor
+          FROM
+            osm_feature_lines
+          WHERE
+            type = 'valley' AND name <> ''
+          ORDER BY
+            ST_Length(geometry) DESC
+        `}
       />
 
       <SqlLayer
@@ -57,7 +67,16 @@ export function ValleysRidges() {
         minZoom={13}
         clearLabelCache
         bufferSize={1024}
-        sql="SELECT geometry, name, 0 AS offset_factor FROM osm_feature_lines WHERE type = 'ridge' AND name <> ''"
+        sql={`
+          SELECT
+            geometry, name, 0 AS offset_factor
+          FROM
+            osm_feature_lines
+          WHERE
+            type = 'ridge' AND name <> ''
+          ORDER BY
+            ST_Length(geometry) DESC
+        `}
       />
     </>
   );
