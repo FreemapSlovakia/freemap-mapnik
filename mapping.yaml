@@ -18,6 +18,7 @@ tags:
     - disused
     - wetland
     - denotation
+    - fee
 generalized_tables:
   waterareas_gen1:
     source: waterareas
@@ -519,6 +520,7 @@ tables:
             - shelter_type
             - disused
             - denotation
+            - fee
     type: point
     mappings:
       aerialway:
