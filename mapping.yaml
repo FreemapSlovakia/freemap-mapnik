@@ -17,6 +17,7 @@ tags:
     - shelter_type
     - disused
     - wetland
+    - denotation
 generalized_tables:
   waterareas_gen1:
     source: waterareas
@@ -517,6 +518,7 @@ tables:
             - protected
             - shelter_type
             - disused
+            - denotation
     type: point
     mappings:
       aerialway:
