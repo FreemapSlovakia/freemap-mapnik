@@ -112,9 +112,9 @@ function generateFreemapStyleInt({
 
       <Cutlines />
 
-      <WaterArea />
-
       <WaterLine />
+
+      <WaterArea />
 
       <Trees />
 
