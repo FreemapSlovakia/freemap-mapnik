@@ -11,6 +11,11 @@ const glowDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
   strokeLinejoin: "round",
 };
 
+const highwayDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
+  stroke: colors.track,
+  strokeLinejoin: "round",
+};
+
 const highwayWidthFormula = "pow(1.5, max(8.6, @zoom) - 8)";
 
 export function Highways() {
@@ -70,19 +75,19 @@ export function Highways() {
         })}
 
         <RuleEx minZoom={8} maxZoom={11} type={["motorway", "trunk", "motorway_link", "trunk_link"]}>
-          <LineSymbolizer strokeWidth={`0.8 * ${highwayWidthFormula}`} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.8 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={8} maxZoom={11} type={["primary", "primary_link"]}>
-          <LineSymbolizer strokeWidth={`0.7 * ${highwayWidthFormula}`} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.7 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={8} maxZoom={11} type={["secondary", "secondary_link"]}>
-          <LineSymbolizer strokeWidth={`0.6 * ${highwayWidthFormula}`} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.6 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={8} maxZoom={11} type={["tertiary", "tertiary_link"]}>
-          <LineSymbolizer strokeWidth={`0.5 * ${highwayWidthFormula}`} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={`0.5 * ${highwayWidthFormula}`} />
         </RuleEx>
 
         <RuleEx minZoom={12} type={["motorway", "trunk"]}>
@@ -233,23 +238,23 @@ export function Highways() {
         </RuleEx>
 
         <RuleEx type={["motorway", "trunk"]}>
-          <LineSymbolizer strokeWidth={4} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={4} />
         </RuleEx>
 
         <RuleEx type={["primary", "motorway_link", "trunk_link"]}>
-          <LineSymbolizer strokeWidth={3 + 2 / 3} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={3 + 2 / 3} />
         </RuleEx>
 
         <RuleEx type={["primary_link", "secondary", "construction"]}>
-          <LineSymbolizer strokeWidth={3 + 1 / 3} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={3 + 1 / 3} />
         </RuleEx>
 
         <RuleEx type={["secondary_link", "tertiary", "tertiary_link"]}>
-          <LineSymbolizer strokeWidth={3} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={3} />
         </RuleEx>
 
         <RuleEx minZoom={14} type={["living_street", "residential", "unclassified", "road"]}>
-          <LineSymbolizer strokeWidth={2.5} />
+          <LineSymbolizer {...highwayDflt} strokeWidth={2.5} />
         </RuleEx>
 
         <RuleEx minZoom={14} type="piste">
