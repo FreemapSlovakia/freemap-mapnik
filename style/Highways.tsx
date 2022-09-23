@@ -160,11 +160,19 @@ export function Highways() {
               <Road strokeWidth={k * 1.2} />
             </RuleEx>
 
-            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="path">
+            <RuleEx
+              minZoom={z[0]}
+              maxZoom={z[1]}
+              filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated')"
+            >
               <Road strokeWidth={k * 1} strokeDasharray="3,3" strokeOpacity="[trail_visibility]" />
             </RuleEx>
 
-            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="cycleway">
+            <RuleEx
+              minZoom={z[0]}
+              maxZoom={z[1]}
+              filter="[type] = 'cycleway' or ([bicycle] = 'designated' and [foot] != 'designated')"
+            >
               <Road strokeWidth={k * 1} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
             </RuleEx>
 
@@ -216,7 +224,7 @@ export function Highways() {
           <LineSymbolizer {...glowDflt} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx minZoom={12} type="path">
+        <RuleEx minZoom={12} filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated')">
           <LineSymbolizer {...glowDflt} strokeWidth={1} strokeOpacity="[trail_visibility]" />
         </RuleEx>
 
@@ -322,7 +330,7 @@ export function Highways() {
 
 function getHighwaySql(table: string) {
   return `
-    SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility
+    SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility, bicycle, foot
     FROM ${table}
     WHERE geometry && !bbox!
     ORDER BY z_order, CASE WHEN type = 'rail' AND service IN ('', 'main') THEN 2 ELSE 1 END, osm_id
