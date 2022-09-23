@@ -16,7 +16,7 @@ type Props0 = {
 
 const contoursDflt: Partial<Parameters<typeof LineSymbolizer & typeof TextSymbolizerEx>[0]> = {
   smooth: 1,
-  simplify: 10,
+  simplify: "5 * @scale",
   simplifyAlgorithm: "visvalingam-whyatt", // radial-distance would be better gere but is buggy, see: https://github.com/mapnik/mapnik/issues/4347
 };
 

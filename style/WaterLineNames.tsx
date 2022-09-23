@@ -14,7 +14,7 @@ export function WaterLineNames() {
             smooth={0.5}
             characterSpacing={2}
             simplifyAlgorithm="douglas-peucker"
-            simplify={10}
+            simplify="5 * @scale"
             maxCharAngleDelta={30}
           >
             [name]
@@ -28,7 +28,7 @@ export function WaterLineNames() {
             smooth={0.5}
             characterSpacing={2}
             simplifyAlgorithm="douglas-peucker"
-            simplify={10}
+            simplify="5 * @scale"
             maxCharAngleDelta={30}
           >
             [name]
