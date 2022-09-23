@@ -595,6 +595,7 @@ tables:
         mapping:
           highway:
             - bus_stop
+            - rest_area
       historic:
         mapping:
           historic:
@@ -777,6 +778,10 @@ tables:
             - veterinary
             - monastery
             - ranger_station
+      highway:
+        mapping:
+          highway:
+            - rest_area
       historic:
         mapping:
           historic:
