@@ -8,7 +8,7 @@ export function Embankments() {
     <>
       <Style name="embankments">
         <Rule>
-          <LinePatternSymbolizer file="images/embankment.svg" />{" "}
+          <LinePatternSymbolizer file="images/embankment.svg" />
         </Rule>
       </Style>
 
