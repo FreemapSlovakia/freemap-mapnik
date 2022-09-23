@@ -9,6 +9,8 @@ type Props = {
   children: JSX.Element;
 } & Partial<Parameters<typeof TextSymbolizer>[0]>;
 
+export const defaultFontSize = 12;
+
 export function TextSymbolizerEx({ wrap, nature, water, line, ...rest }: Props) {
   const props: Parameters<typeof TextSymbolizer>[0] = {
     ...rest,
@@ -42,7 +44,7 @@ export function TextSymbolizerEx({ wrap, nature, water, line, ...rest }: Props) 
       haloFill="white"
       haloRadius={1.5}
       haloOpacity={0.75}
-      size={12}
+      size={defaultFontSize}
       lineSpacing={-4}
       {...props}
     />

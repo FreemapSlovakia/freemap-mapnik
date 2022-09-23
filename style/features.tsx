@@ -1,6 +1,6 @@
 import { Format, MarkersSymbolizer, Placement, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
+import { defaultFontSize, TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { seq } from "./utils";
@@ -209,8 +209,15 @@ const N = false;
 const Y = true;
 const NN = null;
 
+type Extra = {
+  maxZoom?: number;
+  minZoom?: number;
+  icon?: string | null;
+  font?: Partial<Parameters<typeof TextSymbolizerEx>[0]>;
+};
+
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
-const pois: [number, number | null, boolean, boolean, string | string[], {}?][] = [
+const pois: [number, number | null, boolean, boolean, string | string[], Extra?][] = [
   [12, 12, N, N, "aerodrome"],
   [12, 12, Y, N, "guidepost", { icon: "guidepost_x", font: { fontsetName: "bold", dy: -8 }, maxZoom: 12 }],
   [13, 13, Y, N, "guidepost", { icon: "guidepost_xx", font: { fontsetName: "bold" }, maxZoom: 13 }],
@@ -345,7 +352,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], {}?][] 
   [17, NN, N, N, "firepit"],
   [17, NN, N, N, "toilets"],
   [17, NN, N, N, "bench"],
-  [17, 18, N, N, "beehive", "apiary"],
+  [17, 18, N, N, ["beehive", "apiary"]],
   [17, NN, N, N, ["lift_gate", "swing_gate"]],
   [17, NN, N, N, "ford"],
 
@@ -432,15 +439,15 @@ export function FeatureNames() {
     <>
       <Style name="feature_names">
         {pois.map(
-          ([, minTextZoom, withEle, natural, type, extra = {} as any]) =>
+          ([, minTextZoom, withEle, natural, type, extra = {}]) =>
             minTextZoom != undefined && (
               <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
                 <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
                   [name]
                   {withEle && (
                     <>
-                      <Format size={12 * 0.92}>[elehack]</Format>
-                      <Format size={12 * 0.8}>[ele]</Format>
+                      <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.92}>[elehack]</Format>
+                      <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.8}>[ele]</Format>
                     </>
                   )}
                   <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />
