@@ -67,6 +67,7 @@ tables:
         - piste
         - foot
         - mtb
+        - running
     columns:
       - name: osm_id
         type: id
@@ -882,6 +883,9 @@ tables:
       - name: seasonal # TODO
         type: bool
         key: seasonal
+      - name: intermittent # TODO
+        type: bool
+        key: intermittent
       - name: drinking_water
         type: string
         key: drinking_water
