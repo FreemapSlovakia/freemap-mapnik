@@ -50,7 +50,7 @@ export function ValleysRidges() {
         minZoom={13}
         clearLabelCache
         bufferSize={1024}
-        sql={`
+        sql="
           SELECT
             geometry, name, LEAST(1.2, ST_Length(geometry) / 5000) AS offset_factor
           FROM
@@ -59,7 +59,7 @@ export function ValleysRidges() {
             type = 'valley' AND name <> ''
           ORDER BY
             ST_Length(geometry) DESC
-        `}
+        "
       />
 
       <SqlLayer
@@ -67,7 +67,7 @@ export function ValleysRidges() {
         minZoom={13}
         clearLabelCache
         bufferSize={1024}
-        sql={`
+        sql="
           SELECT
             geometry, name, 0 AS offset_factor
           FROM
@@ -76,7 +76,7 @@ export function ValleysRidges() {
             type = 'ridge' AND name <> ''
           ORDER BY
             ST_Length(geometry) DESC
-        `}
+        "
       />
     </>
   );
