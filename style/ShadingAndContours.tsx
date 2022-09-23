@@ -14,39 +14,45 @@ type Props0 = {
   shading: boolean;
 };
 
+const contoursDflt = {
+  smooth: 1,
+  simplify: 20,
+  simplifyAlgorithm: "visvalingam-whyatt", // radial-distance would be better gere but is buggy, see: https://github.com/mapnik/mapnik/issues/4347
+};
+
 function ContoursStyle() {
   return (
     <Style name="contours" opacity={0.33}>
       <RuleEx minZoom={13} maxZoom={14} filter="([height] % 100 = 0) and ([height] != 0)">
-        <LineSymbolizer stroke={colors.contour} strokeWidth={0.4} smooth={1} />
+        <LineSymbolizer stroke={colors.contour} strokeWidth={0.4} {...contoursDflt} />
 
-        <TextSymbolizerEx line fill={colors.contour} smooth={1} upright="left">
+        <TextSymbolizerEx line fill={colors.contour} upright="left" {...contoursDflt}>
           [height]
         </TextSymbolizerEx>
       </RuleEx>
 
       <RuleEx minZoom={12} maxZoom={12} filter="([height] % 50 = 0) and ([height] != 0)">
-        <LineSymbolizer stroke={colors.contour} strokeWidth={0.2} smooth={1} />
+        <LineSymbolizer stroke={colors.contour} strokeWidth={0.2} {...contoursDflt} />
       </RuleEx>
 
       <RuleEx minZoom={13} maxZoom={14} filter="([height] % 20 = 0) and ([height] != 0)">
-        <LineSymbolizer stroke={colors.contour} strokeWidth={0.2} smooth={1} />
+        <LineSymbolizer stroke={colors.contour} strokeWidth={0.2} {...contoursDflt} />
       </RuleEx>
 
       <RuleEx minZoom={15} filter="([height] % 100 = 0) and ([height] != 0)">
-        <LineSymbolizer stroke={colors.contour} strokeWidth={0.6} smooth={1} />
+        <LineSymbolizer stroke={colors.contour} strokeWidth={0.6} {...contoursDflt} />
 
-        <TextSymbolizerEx line fill={colors.contour} smooth={1} upright={"left"}>
+        <TextSymbolizerEx line fill={colors.contour} upright="left" {...contoursDflt}>
           [height]
         </TextSymbolizerEx>
       </RuleEx>
 
       <RuleEx minZoom={15} filter="([height] % 10 = 0) and ([height] != 0)">
-        <LineSymbolizer stroke={colors.contour} strokeWidth={0.3} smooth={1} />
+        <LineSymbolizer stroke={colors.contour} strokeWidth={0.3} {...contoursDflt} />
       </RuleEx>
 
       <RuleEx minZoom={15} filter="([height] % 50 = 0) and ([height] % 100 != 0)">
-        <TextSymbolizerEx line fill={colors.contour} smooth={1} upright="left">
+        <TextSymbolizerEx line fill={colors.contour} {...contoursDflt} upright="left">
           [height]
         </TextSymbolizerEx>
       </RuleEx>
