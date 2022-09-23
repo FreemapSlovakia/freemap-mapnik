@@ -6,9 +6,9 @@ import { seq } from "./utils";
 
 // see https://github.com/mapnik/mapnik/issues/4349
 const sqls: Record<number, string> = {
-  12: "ST_Segmentize(ST_Simplify(geometry, 30), 200) AS geometry",
-  13: "ST_Segmentize(ST_Simplify(geometry, 20), 200) AS geometry",
-  14: "ST_Segmentize(ST_Simplify(geometry, 10), 200) AS geometry",
+  12: "ST_Segmentize(ST_Simplify(geometry, 24), 200) AS geometry",
+  13: "ST_Segmentize(ST_Simplify(geometry, 12), 200) AS geometry",
+  14: "ST_Segmentize(ST_Simplify(geometry, 6), 200) AS geometry",
   15: "geometry",
 };
 
