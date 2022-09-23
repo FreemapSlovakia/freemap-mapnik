@@ -14,9 +14,9 @@ type Props0 = {
   shading: boolean;
 };
 
-const contoursDflt = {
+const contoursDflt: Partial<Parameters<typeof LineSymbolizer & typeof TextSymbolizerEx>[0]> = {
   smooth: 1,
-  simplify: 20,
+  simplify: 10,
   simplifyAlgorithm: "visvalingam-whyatt", // radial-distance would be better gere but is buggy, see: https://github.com/mapnik/mapnik/issues/4347
 };
 
