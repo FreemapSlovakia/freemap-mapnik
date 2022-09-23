@@ -53,7 +53,6 @@ export function FeatureLinesMaskable({ shading }: Props) {
         <SqlLayer
           styleName="feature_lines_maskable"
           minZoom={13}
-          cacheFeatures
           sql="
             SELECT geometry, type
             FROM osm_feature_lines

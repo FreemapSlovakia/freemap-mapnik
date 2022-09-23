@@ -34,7 +34,6 @@ export function FeatureLines() {
       <SqlLayer
         styleName="feature_lines"
         minZoom={13}
-        cacheFeatures
         sql="
           SELECT geometry, type
           FROM osm_feature_lines

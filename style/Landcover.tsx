@@ -183,7 +183,7 @@ export function Landcover() {
 
       <SqlLayer styleName="landcover" minZoom={10} maxZoom={11} sql={getLandcoverSelect("_gen1")} />
 
-      <SqlLayer styleName="landcover" minZoom={12} cacheFeatures sql={getLandcoverSelect("")} />
+      <SqlLayer styleName="landcover" minZoom={12} sql={getLandcoverSelect("")} />
     </>
   );
 }
