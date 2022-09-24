@@ -3,24 +3,32 @@ import { hsl } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
-export function Borders() {
+type Props = {
+  forLowzoom?: boolean;
+};
+
+export function Borders({ forLowzoom }: Props) {
   return (
     <>
-      <Style name="borders">
-        <RuleEx maxZoom={10}>
-          <LineSymbolizer
-            stroke={hsl(278, 100, 50)}
-            strokeWidth="0.5 + 6 * pow(1.4, @zoom - 11)"
-            strokeLinejoin="round"
-          />
-        </RuleEx>
+      {!forLowzoom && (
+        <Style name="borders">
+          <RuleEx maxZoom={10}>
+            <LineSymbolizer
+              stroke={hsl(278, 100, 50)}
+              strokeWidth="0.5 + 6 * pow(1.4, @zoom - 11)"
+              strokeLinejoin="round"
+            />
+          </RuleEx>
 
-        <RuleEx minZoom={11}>
-          <LineSymbolizer stroke={hsl(278, 100, 50)} strokeWidth={6} strokeLinejoin="round" />
-        </RuleEx>
-      </Style>
+          <RuleEx minZoom={11}>
+            <LineSymbolizer stroke={hsl(278, 100, 50)} strokeWidth={6} strokeLinejoin="round" />
+          </RuleEx>
+        </Style>
+      )}
 
       <SqlLayer
+        maxZoom={forLowzoom ? 7 : undefined}
+        minZoom={forLowzoom ? undefined : 8}
         styleName="borders"
         opacity={0.5}
         sql="

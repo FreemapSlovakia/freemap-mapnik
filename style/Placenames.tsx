@@ -87,6 +87,7 @@ export function PlaceNames1() {
       <SqlLayer
         styleName="placenames"
         bufferSize={1024}
+        minZoom={8}
         maxZoom={8}
         clearLabelCache
         sql="

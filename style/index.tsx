@@ -9,6 +9,7 @@ import { Borders } from "./Borders";
 import { BuildingNames } from "./BuildingNames";
 import { Buildings } from "./Buildings";
 import { colors } from "./colors";
+import { CountryNames } from "./CountryNames";
 import { Crop } from "./Crop";
 import { Custom } from "./Custom";
 import { Cutlines } from "./Cutlines";
@@ -181,6 +182,8 @@ function generateFreemapStyleInt({
       <ValleysRidges />
 
       <PlaceNames2 />
+
+      <CountryNames />
 
       {!legendLayers && format !== "svg" && format !== "pdf" && <Crop />}
 
