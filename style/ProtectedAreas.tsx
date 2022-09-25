@@ -10,12 +10,12 @@ export function ProtectedAreas() {
   return (
     <>
       <Style name="protected_areas_A">
-        {seq(11, 14).map((z) => (
-          <RuleEx minZoom={z === 11 ? 8 : z} maxZoom={z} filter={nationalParkFilter}>
+        {seq(10, 14).map((z) => (
+          <RuleEx minZoom={z === 10 ? 8 : z} maxZoom={z} filter={nationalParkFilter}>
             <PolygonPatternSymbolizer
               file="images/national_park_area.svg"
               alignment="global"
-              opacity={0.4 - (z - 11) / 10}
+              opacity={0.5 - (z - 10) / 10}
             />
           </RuleEx>
         ))}
