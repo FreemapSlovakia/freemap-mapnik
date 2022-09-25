@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
-  <path d="M4 2v1h2.28L5.15 6H2v1h2.78l-1.25 3.33.93.35 1.38-3.67h4.31l1.38 3.67.97-.35L11.22 7H14V6h-3.15L9.73 3H12V2zm3.35 1h1.3l1.13 3H6.21z" color="#000" opacity=".5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M4 2v1h2.28L5.15 6H2v1h2.78l-1.25 3.33.93.35 1.38-3.67h4.31l1.38 3.67.97-.35L11.22 7H14V6h-3.15L9.73 3H12V2zm3.35 1h1.3l1.13 3H6.21z" color="#000" fill-rule="evenodd"/>
+<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+  <path style="fill:none;fill-opacity:.5;fill-rule:evenodd;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:.5;stroke-miterlimit:4;stroke-dasharray:none" d="M12.31 2.998c-.02 0-.038 0-.058.002H7.869v1h1.998l-.355 1H6l-3 8h14l3-8h-6.645L13 4h1.992V3h-2.666l-.015-.002zM10.93 4h1.01l.355 1h-1.72l.355-1z" />
+  <path style="fill:#bfbfbf;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M6 5h14l-3 8H3Z" />
+  <path d="M12.311 2.998a.5.5 0 0 0-.059.002H7.87v1h1.998l-.714 2h-2.27v1h1.912l-.834 2.33c-.225.628.717.966.942.338L9.859 7h3.148l.95 2.666c.223.629 1.166.295.943-.334L14.07 7h1.914V6H13.71L13 4h1.993V3h-2.667a.501.501 0 0 0-.015-.002ZM10.93 4h1.01l.71 2h-2.434Z" color="#000" />
 </svg>
