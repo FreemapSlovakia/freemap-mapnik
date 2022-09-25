@@ -20,7 +20,10 @@ export function MilitaryAreas() {
         </RuleEx>
       </Style>
 
-      <SqlLayer styleName="military_areas" sql="SELECT geometry FROM osm_landusages WHERE type = 'military'" />
+      <SqlLayer
+        styleName="military_areas"
+        sql="SELECT geometry FROM osm_landusages WHERE type = 'military' AND geometry && !bbox!"
+      />
     </>
   );
 }

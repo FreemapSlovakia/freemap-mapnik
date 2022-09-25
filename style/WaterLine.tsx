@@ -18,14 +18,21 @@ export function WaterLine() {
       <SqlLayer
         styleName="water_line"
         maxZoom={9}
-        sql="SELECT geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray FROM osm_waterways_gen0"
+        sql="
+          SELECT geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray
+          FROM osm_waterways_gen0
+          WHERE geometry && !bbox!
+        "
       />
 
       <SqlLayer
         styleName="water_line"
         minZoom={10}
         maxZoom={11}
-        sql="SELECT geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray FROM osm_waterways_gen1"
+        sql="
+          SELECT geometry, type, tunnel, CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray
+          FROM osm_waterways_gen1
+          WHERE geometry && !bbox!"
       />
 
       {["water_line_glow", "water_line"].map((name) =>
@@ -43,6 +50,8 @@ export function WaterLine() {
                   CASE WHEN intermittent OR seasonal THEN '6,3' ELSE '1000,0' END AS dasharray
                 FROM
                   osm_waterways
+                WHERE
+                  geometry && !bbox!
             `}
               cacheFeatures
             />

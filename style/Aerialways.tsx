@@ -11,7 +11,11 @@ export function Aerialways() {
         </Rule>
       </Style>
 
-      <SqlLayer styleName="aerialways" minZoom={12} sql="SELECT geometry, type FROM osm_aerialways" />
+      <SqlLayer
+        styleName="aerialways"
+        minZoom={12}
+        sql="SELECT geometry, type FROM osm_aerialways WHERE geometry && !bbox!"
+      />
     </>
   );
 }

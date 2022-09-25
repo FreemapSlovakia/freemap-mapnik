@@ -17,7 +17,7 @@ export function AerialwayNames() {
         styleName="aerialway_names"
         minZoom={16}
         bufferSize={1024}
-        sql="SELECT geometry, name, type FROM osm_aerialways"
+        sql="SELECT geometry, name, type FROM osm_aerialways WHERE geometry && !bbox!"
       />
     </>
   );

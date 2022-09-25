@@ -28,8 +28,11 @@ export function Trees() {
           SELECT type, geometry
           FROM osm_features
           WHERE
-            type = 'tree' AND (NOT (tags ? 'protected') OR tags->'protected' = 'no') AND (NOT (tags ? 'denotation') OR tags->'denotation' <> 'natural_monument')
-            OR type = 'shrub'"
+            geometry && !bbox! AND (
+              type = 'tree' AND (NOT (tags ? 'protected') OR tags->'protected' = 'no') AND (NOT (tags ? 'denotation') OR tags->'denotation' <> 'natural_monument')
+              OR type = 'shrub'
+            )
+        "
       />
     </>
   );

@@ -23,7 +23,7 @@ export function Fixmes() {
         </Rule>
       </Style>
 
-      <SqlLayer styleName="fixmes" sql="SELECT geometry FROM osm_fixmes" minZoom={14} />
+      <SqlLayer styleName="fixmes" sql="SELECT geometry FROM osm_fixmes WHERE geometry && !bbox!" minZoom={14} />
 
       <SqlLayer
         styleName="fixmes_lines"

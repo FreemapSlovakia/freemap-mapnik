@@ -37,7 +37,8 @@ export function WaterAreaNames() {
           FROM
             osm_waterareas LEFT JOIN osm_feature_polys USING (osm_id)
           WHERE
-            osm_feature_polys.osm_id IS NULL
+            osm_waterareas.geometry && !bbox!
+            AND osm_feature_polys.osm_id IS NULL
             AND osm_waterareas.type <> 'riverbank'
             AND osm_waterareas.water NOT IN ('river', 'stream', 'canal', 'ditch')
         "

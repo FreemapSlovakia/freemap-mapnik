@@ -42,7 +42,7 @@ export function FeatureLinesMaskable({ shading }: Props) {
           sql="
             SELECT geometry, type
             FROM osm_feature_lines
-            WHERE type NOT IN ('cutline', 'valley', 'ridge')
+            WHERE type NOT IN ('cutline', 'valley', 'ridge') AND geometry && !bbox!
           "
         >
           {["pl", "sk" /*, "at", "ch" (AT / CH is not so detailed) */].map((cc) => (
@@ -56,7 +56,7 @@ export function FeatureLinesMaskable({ shading }: Props) {
           sql="
             SELECT geometry, type
             FROM osm_feature_lines
-            WHERE type NOT IN ('cutline', 'valley', 'ridge')
+            WHERE type NOT IN ('cutline', 'valley', 'ridge') AND geometry && !bbox!
           "
         />
       )}

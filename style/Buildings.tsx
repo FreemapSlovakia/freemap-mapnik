@@ -12,7 +12,11 @@ export function Buildings() {
         </RuleEx>
       </Style>
 
-      <SqlLayer styleName="buildings" sql="SELECT geometry, type FROM osm_buildings  WHERE type <> 'no'" minZoom={13} />
+      <SqlLayer
+        styleName="buildings"
+        sql="SELECT geometry, type FROM osm_buildings WHERE type <> 'no' AND geometry && !bbox!"
+        minZoom={13}
+      />
     </>
   );
 }

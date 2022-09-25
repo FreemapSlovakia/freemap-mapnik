@@ -46,7 +46,7 @@ export function ProtectedAreaNames() {
         styleName="protected_area_names"
         bufferSize={1024}
         minZoom={8}
-        sql="SELECT type, name, protected_class, geometry FROM osm_protected_areas"
+        sql="SELECT type, name, protected_class, geometry FROM osm_protected_areas WHERE geometry && !bbox!"
       />
     </>
   );

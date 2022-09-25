@@ -56,7 +56,7 @@ export function ValleysRidges() {
           FROM
             osm_feature_lines
           WHERE
-            type = 'valley' AND name <> ''
+            type = 'valley' AND name <> '' AND geometry && !bbox!
           ORDER BY
             ST_Length(geometry) DESC
         "
@@ -73,7 +73,7 @@ export function ValleysRidges() {
           FROM
             osm_feature_lines
           WHERE
-            type = 'ridge' AND name <> ''
+            type = 'ridge' AND name <> '' AND geometry && !bbox!
           ORDER BY
             ST_Length(geometry) DESC
         "

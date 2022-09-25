@@ -12,7 +12,11 @@ export function Barrierways() {
         </RuleEx>
       </Style>
 
-      <SqlLayer styleName="barrierways" sql="SELECT geometry, type FROM osm_barrierways" minZoom={16} />
+      <SqlLayer
+        styleName="barrierways"
+        sql="SELECT geometry, type FROM osm_barrierways WHERE geometry && !bbox!"
+        minZoom={16}
+      />
     </>
   );
 }

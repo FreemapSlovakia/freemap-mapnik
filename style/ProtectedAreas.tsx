@@ -30,7 +30,10 @@ export function ProtectedAreas() {
         </RuleEx>
       </Style>
 
-      <SqlLayer styleName="protected_areas" sql="SELECT type, protected_class, geometry FROM osm_protected_areas" />
+      <SqlLayer
+        styleName="protected_areas"
+        sql="SELECT type, protected_class, geometry FROM osm_protected_areas WHERE geometry && !bbox!"
+      />
     </>
   );
 }

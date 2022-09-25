@@ -6,7 +6,11 @@ import { SqlLayer } from "./SqlLayer";
 export function Aeroways() {
   return (
     <>
-      <SqlLayer styleName="aeroways" minZoom={11} sql="SELECT geometry, type FROM osm_aeroways" />
+      <SqlLayer
+        styleName="aeroways"
+        minZoom={11}
+        sql="SELECT geometry, type FROM osm_aeroways WHERE geometry && !bbox!"
+      />
 
       <Style name="aeroways">
         {(() => {

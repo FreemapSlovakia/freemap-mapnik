@@ -21,7 +21,7 @@ export function SolarPowerPlants() {
       <SqlLayer
         styleName="solar_power_plants"
         minZoom={12}
-        sql="SELECT geometry FROM osm_power_generators WHERE source = 'solar'"
+        sql="SELECT geometry FROM osm_power_generators WHERE source = 'solar' AND geometry && !bbox!"
       />
     </>
   );

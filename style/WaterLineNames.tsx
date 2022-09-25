@@ -41,7 +41,7 @@ export function WaterLineNames() {
         minZoom={12}
         maxZoom={13}
         bufferSize={2048}
-        // `SELECT ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type FROM osm_waterways WHERE type = 'river' AND name <> ''`,
+        // `SELECT ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type FROM osm_waterways WHERE type = 'river' AND name <> '' AND geometry && !bbox!`,
         sql={`
           SELECT ${process.env.FM_CUSTOM_SQL || ""} ST_LineMerge(ST_Collect(geometry)) AS geometry, name, type
           FROM osm_waterways
@@ -54,10 +54,11 @@ export function WaterLineNames() {
         styleName="water_line_names"
         minZoom={14}
         bufferSize={2048}
-        // `SELECT ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type FROM osm_waterways WHERE name <> ''`,
+        // `SELECT ${process.env.FM_CUSTOM_SQL || ''} geometry, name, type FROM osm_waterways WHERE name <> '' AND geometry && !bbox!`,
         sql={`
           SELECT ${process.env.FM_CUSTOM_SQL || ""} ST_LineMerge(ST_Collect(geometry)) AS geometry, name, type
-          FROM osm_waterways WHERE geometry && !bbox! AND name <> ''
+          FROM osm_waterways
+          WHERE geometry && !bbox! AND name <> ''
           GROUP BY name, type
         `}
       />

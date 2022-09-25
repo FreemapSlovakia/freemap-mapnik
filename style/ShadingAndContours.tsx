@@ -111,7 +111,11 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: Props0) {
         sql={`SELECT wkb_geometry FROM contour_${cc}_split LIMIT 0`}
       >
         {contours && (
-          <SqlLayer styleName="contours" minZoom={12} sql={`SELECT wkb_geometry, height FROM contour_${cc}_split`} />
+          <SqlLayer
+            styleName="contours"
+            minZoom={12}
+            sql={`SELECT wkb_geometry, height FROM contour_${cc}_split WHERE wkb_geometry && !bbox!`}
+          />
         )}
 
         {shading && <GdalLayer styleName="hillshade" file={`shading/${cc}/final.tif`} />}
@@ -170,7 +174,13 @@ export function ShadingAndCountours({ contours, shading }: Props) {
           compOp="src-out"
           sql="SELECT geom FROM contour_split LIMIT 0" // some empty data
         >
-          {contours && <SqlLayer styleName="contours" minZoom={12} sql="SELECT geom, height FROM contour_split" />}
+          {contours && (
+            <SqlLayer
+              styleName="contours"
+              minZoom={12}
+              sql="SELECT geom, height FROM contour_split WHERE geom && !bbox!"
+            />
+          )}
 
           {shading && <GdalLayer styleName="hillshade" file="shading/final.tiff" />}
         </SqlLayer>

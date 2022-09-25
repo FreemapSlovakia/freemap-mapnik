@@ -16,7 +16,7 @@ export function Cutlines() {
       <SqlLayer
         styleName="cutlines"
         minZoom={13}
-        sql="SELECT geometry, type FROM osm_feature_lines WHERE type = 'cutline'"
+        sql="SELECT geometry, type FROM osm_feature_lines WHERE type = 'cutline' AND geometry && !bbox!"
       />
     </>
   );

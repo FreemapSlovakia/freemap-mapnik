@@ -33,7 +33,11 @@ export function Pipelines() {
         </RuleEx>
       </Style>
 
-      <SqlLayer styleName="pipelines" minZoom={13} sql="SELECT geometry, location FROM osm_pipelines" />
+      <SqlLayer
+        styleName="pipelines"
+        minZoom={13}
+        sql="SELECT geometry, location FROM osm_pipelines WHERE geometry && !bbox!"
+      />
     </>
   );
 }
