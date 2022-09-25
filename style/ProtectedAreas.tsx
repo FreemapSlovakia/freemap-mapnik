@@ -27,7 +27,12 @@ export function ProtectedAreas() {
 
       <Style name="protected_areas_B" opacity={0.66}>
         <RuleEx minZoom={8} maxZoom={12} filter={nationalParkFilter}>
-          <LineSymbolizer stroke={colors.protected} strokeWidth={2} strokeDasharray="10,4" strokeLinejoin="round" />
+          <LineSymbolizer
+            stroke={colors.protected}
+            strokeWidth="(@zoom > 10) * 1 + 2"
+            strokeDasharray="10,4"
+            strokeLinejoin="round"
+          />
         </RuleEx>
 
         <RuleEx minZoom={13} filter={nationalParkFilter}>
