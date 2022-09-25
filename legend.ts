@@ -575,7 +575,26 @@ export const legend = {
     })),
     road("bridleway", "bridleway", "chodník pre kone", "mulattiera"),
     road("cycleway", "cycleway", "cyklochodník", "pista ciclabile"),
-    road("path", "sidewalk, path, platform, pedestrian", "chodník, cestička, nástupište, pešia zóna", "sentiero"),
+    road("footway", "sidewalk, platform, pedestrian", "chodník, nástupište, pešia zóna", "sentiero"),
+    road("path", "path", "cestička", "sentiero"),
+    {
+      categoryId: "communications",
+      name: {
+        en: "path for pedestrians and bicycles",
+        sk: "komunikácia pre peších aj cyklistov",
+        it: "path for pedestrians and bicycles", // TODO translate
+      },
+      layers: [
+        forest,
+        asLine(["higwayGlows", "highways", "highway_names"], {
+          ...roadDefaults,
+          type: "path",
+          foot: "designated",
+          bicycle: "designated",
+        }),
+      ].filter(Boolean),
+      ...props,
+    },
     road("steps", "steps", "schody", "scale"),
     road("construction", "road in construction", "komunikácia vo výstavbe", "in costruzione"),
     road("raceway", "raceway", "pretekárska dráha", "pista"),

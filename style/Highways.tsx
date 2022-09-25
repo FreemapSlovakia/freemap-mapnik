@@ -171,7 +171,15 @@ export function Highways() {
             <RuleEx
               minZoom={z[0]}
               maxZoom={z[1]}
-              filter="[type] = 'cycleway' or ([bicycle] = 'designated' and [foot] != 'designated')"
+              filter="[type] = 'path' and [bicycle] = 'designated' and [foot] = 'designated'"
+            >
+              <Road strokeWidth={k * 1} strokeDasharray="4,2" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
+            </RuleEx>
+
+            <RuleEx
+              minZoom={z[0]}
+              maxZoom={z[1]}
+              filter="[type] = 'cycleway' or ([type] = 'path' and [bicycle] = 'designated' and [foot] != 'designated')"
             >
               <Road strokeWidth={k * 1} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
             </RuleEx>
@@ -214,7 +222,13 @@ export function Highways() {
       </Style>
 
       <Style name="higwayGlows">
-        <RuleEx minZoom={14} type={["footway", "pedestrian", "platform", "steps"]}>
+        <RuleEx
+          minZoom={14}
+          filter={
+            types("footway", "pedestrian", "platform", "steps") +
+            " or ([type] = 'path' and [bicycle] = 'designated' and [foot] = 'designated')"
+          }
+        >
           <LineSymbolizer {...glowDflt} strokeWidth={1} />
         </RuleEx>
 
@@ -224,7 +238,7 @@ export function Highways() {
           <LineSymbolizer {...glowDflt} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx minZoom={12} filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated')">
+        <RuleEx minZoom={12} filter="[type] = 'path' and [bicycle] != 'designated'">
           <LineSymbolizer {...glowDflt} strokeWidth={1} strokeOpacity="[trail_visibility]" />
         </RuleEx>
 
