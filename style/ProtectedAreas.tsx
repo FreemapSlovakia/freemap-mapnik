@@ -2,7 +2,7 @@ import { LinePatternSymbolizer, LineSymbolizer, PolygonPatternSymbolizer, Style 
 import { colors, hsl } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
-import { types } from "./utils";
+import { seq, types } from "./utils";
 
 export const nationalParkFilter = "[type] = 'national_park' or ([type] = 'protected_area' and [protect_class] = '2')";
 
@@ -10,13 +10,15 @@ export function ProtectedAreas() {
   return (
     <>
       <Style name="protected_areas_A">
-        <RuleEx minZoom={8} maxZoom={11} filter={nationalParkFilter}>
-          <PolygonPatternSymbolizer file="images/national_park_area.svg" alignment="global" opacity={0.4} />
-        </RuleEx>
-
-        <RuleEx minZoom={12} maxZoom={12} filter={nationalParkFilter}>
-          <PolygonPatternSymbolizer file="images/national_park_area.svg" alignment="global" opacity={0.3} />
-        </RuleEx>
+        {seq(11, 14).map((z) => (
+          <RuleEx minZoom={z === 11 ? 8 : z} maxZoom={z} filter={nationalParkFilter}>
+            <PolygonPatternSymbolizer
+              file="images/national_park_area.svg"
+              alignment="global"
+              opacity={0.4 - (z - 11) / 10}
+            />
+          </RuleEx>
+        ))}
 
         <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')">
           <LinePatternSymbolizer file="images/protected_area.svg" />
