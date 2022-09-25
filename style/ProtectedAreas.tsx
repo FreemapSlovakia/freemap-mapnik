@@ -1,5 +1,5 @@
 import { LinePatternSymbolizer, LineSymbolizer, PolygonPatternSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
+import { colors, hsl } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { types } from "./utils";
@@ -15,7 +15,7 @@ export function ProtectedAreas() {
         </RuleEx>
 
         <RuleEx minZoom={12} maxZoom={12} filter={nationalParkFilter}>
-          <PolygonPatternSymbolizer file="images/national_park_area.svg" alignment="global" opacity={0.2} />
+          <PolygonPatternSymbolizer file="images/national_park_area.svg" alignment="global" opacity={0.3} />
         </RuleEx>
 
         <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')">
@@ -24,12 +24,8 @@ export function ProtectedAreas() {
       </Style>
 
       <Style name="protected_areas_B" opacity={0.66}>
-        <RuleEx minZoom={8} maxZoom={11} filter={nationalParkFilter}>
-          <LineSymbolizer stroke="#107010" strokeWidth={2} strokeDasharray="10,4" strokeLinejoin="round" />
-        </RuleEx>
-
-        <RuleEx minZoom={12} maxZoom={12} filter={nationalParkFilter}>
-          <LineSymbolizer stroke="#107010" strokeWidth={2} strokeDasharray="10,4" strokeLinejoin="round" />
+        <RuleEx minZoom={8} maxZoom={12} filter={nationalParkFilter}>
+          <LineSymbolizer stroke={colors.protected} strokeWidth={2} strokeDasharray="10,4" strokeLinejoin="round" />
         </RuleEx>
 
         <RuleEx minZoom={13} filter={nationalParkFilter}>

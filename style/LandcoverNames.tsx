@@ -11,7 +11,7 @@ export function LandcoverNames() {
     <>
       <Style name="landcover_names">
         {[false, true].map((natural) => {
-          const s = natural ? { fill: hsl(120, 100, 25), fontsetName: "italic" } : { fill: colors.areaLabel };
+          const s = natural ? { fill: colors.protected, fontsetName: "italic" } : { fill: colors.areaLabel };
 
           return seq(12, 17).map((z) => (
             <RuleEx

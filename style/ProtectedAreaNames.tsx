@@ -1,5 +1,5 @@
 import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
+import { colors, hsl } from "./colors";
 import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
@@ -15,7 +15,7 @@ export function ProtectedAreaNames() {
             nature
             wrap
             size="9 + pow(2, @zoom - 7)"
-            fill={hsl(120, 100, 25)}
+            fill={colors.protected}
             haloFill="white"
             haloRadius={1.5}
             placement="interior"
@@ -30,7 +30,7 @@ export function ProtectedAreaNames() {
           <TextSymbolizerEx
             nature
             wrap
-            fill={hsl(120, 100, 25)}
+            fill={colors.protected}
             haloFill="white"
             haloRadius={1.5}
             placement="interior"

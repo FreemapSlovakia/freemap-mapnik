@@ -13,6 +13,7 @@ export const colors = {
   heath: hsl(85, 60, 83),
   landfill: hsl(0, 30, 70),
   orchard: hsl(80, 60, 80),
+  protected: "#107010",
   road: hsl(40, 60, 50),
   ruin: hsl(0, 0, 60),
   scrub: hsl(85, 35, 75),
