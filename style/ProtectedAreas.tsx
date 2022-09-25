@@ -4,7 +4,7 @@ import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { types } from "./utils";
 
-export const nationalParkFilter = "[type] = 'national_park' or ([type] = 'protcted_area' and [protect_class] = 2)";
+export const nationalParkFilter = "[type] = 'national_park' or ([type] = 'protected_area' and [protect_class] = '2')";
 
 export function ProtectedAreas() {
   return (
@@ -26,7 +26,7 @@ export function ProtectedAreas() {
           <LineSymbolizer stroke={hsl(120, 100, 31)} strokeWidth={4} strokeDasharray="25,7" strokeOpacity={0.4} />
         </RuleEx>
 
-        <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> 2)">
+        <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')">
           <LinePatternSymbolizer file="images/protected_area.svg" />
         </RuleEx>
       </Style>
