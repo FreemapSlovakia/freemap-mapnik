@@ -4,12 +4,13 @@ import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
+import { nationalParkFilter } from "./ProtectedAreas";
 
 export function ProtectedAreaNames() {
   return (
     <>
       <Style name="protected_area_names">
-        <RuleEx minZoom={8} maxZoom={10} type="national_park">
+        <RuleEx minZoom={8} maxZoom={10} filter={nationalParkFilter}>
           <TextSymbolizerEx
             nature
             wrap
@@ -45,7 +46,7 @@ export function ProtectedAreaNames() {
         styleName="protected_area_names"
         bufferSize={1024}
         minZoom={8}
-        sql="SELECT type, name, geometry FROM osm_protected_areas"
+        sql="SELECT type, name, protected_class, geometry FROM osm_protected_areas"
       />
     </>
   );
