@@ -81,8 +81,9 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
 
       UNION ALL
         SELECT
-          ${mkProjection("tags->'ele'", "CASE WHEN type IN ('cave_entrance') THEN null ELSE tags->'access' END")},
+          ${mkProjection("tags->'ele'", "tags->'access'")},
           CASE
+            WHEN type = 'cave_entrance' AND tags ? 'fee' AND tags->'fee' <> 'no' THEN 'cave'
             WHEN type = 'tree' AND tags->'protected' <> 'no' THEN 'tree_protected'
             WHEN type = 'communications_tower' THEN 'tower_communication'
             WHEN type = 'shelter' THEN (CASE WHEN tags->'shelter_type' IN ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') THEN tags->'shelter_type' ELSE 'shelter' END)
@@ -98,7 +99,7 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
 
       UNION ALL
         SELECT
-          ${mkProjection("tags->'ele'", "CASE WHEN type IN ('cave_entrance') THEN null ELSE tags->'access' END")},
+          ${mkProjection("tags->'ele'", "tags->'access'")},
           CASE type WHEN 'communications_tower' THEN 'tower_communication'
             WHEN 'shelter' THEN (CASE WHEN tags->'shelter_type' IN ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') THEN tags->'shelter_type' ELSE 'shelter' END)
             ELSE (CASE WHEN type IN ('mine', 'adit', 'mineshaft') AND tags->'disused' NOT IN ('', 'no') THEN 'disused_mine' ELSE type END)
@@ -407,7 +408,7 @@ export function Features() {
                       // TODO find out a way to make it red if private
                       multiPolicy="whole"
                       file={`images/${extra.icon || (Array.isArray(type) ? type[0] : type)}.svg`}
-                      opacity='1 - ([access] = "private" || [access] = "no") * 0.66'
+                      opacity='1 - ([type] != "cave_entrance" and ([access] = "private" or [access] = "no")) * 0.66'
                       transform={transform}
                     />
                   )
