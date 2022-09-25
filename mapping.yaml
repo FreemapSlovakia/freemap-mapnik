@@ -1330,6 +1330,12 @@ tables:
         - __any__
 
   fixmes_lines:
+    filters:
+      require: # TODO maybe more
+        railway: [__any__]
+        highway: [__any__]
+        waterway: [__any__]
+        barrier: [__any__]
     columns:
       - name: osm_id
         type: id
