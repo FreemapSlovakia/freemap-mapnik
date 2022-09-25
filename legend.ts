@@ -906,7 +906,14 @@ export const legend = {
       ],
       ...props,
     },
-    poi("natural_poi", "tree", "protected tree", "chránený strom", "albero protetto"),
+    poi("natural_poi", "tree_protected", "protected tree", "chránený strom", "albero protetto"),
+    poi(
+      "natural_poi",
+      "tree",
+      "monumental tree",
+      "monumentálny strom",
+      "monumental tree" // TODO translate
+    ),
     poi("poi", "viewpoint", "viewpoint", "výhľad", "punto panoramico"),
 
     poi("water", "drinking_water", "drinking water", "pitná voda", "acqua"),
