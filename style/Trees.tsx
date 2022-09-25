@@ -24,7 +24,12 @@ export function Trees() {
         styleName="trees"
         minZoom={16}
         bufferSize={128}
-        sql="SELECT type, geometry FROM osm_features WHERE type = 'tree' OR type = 'shrub'"
+        sql="
+          SELECT type, geometry
+          FROM osm_features
+          WHERE
+            type = 'tree' AND (NOT (tags ? 'protected') OR tags->'protected' = 'no') AND (NOT (tags ? 'denotation') OR tags->'denotation' <> 'natural_monument')
+            OR type = 'shrub'"
       />
     </>
   );

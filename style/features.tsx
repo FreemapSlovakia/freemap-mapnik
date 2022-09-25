@@ -1,5 +1,5 @@
 import { Format, MarkersSymbolizer, Placement, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
+import { colors, hsl } from "./colors";
 import { defaultFontSize, TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -82,16 +82,18 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
       UNION ALL
         SELECT
           ${mkProjection("tags->'ele'", "CASE WHEN type IN ('cave_entrance') THEN null ELSE tags->'access' END")},
-          CASE type
-            WHEN 'communications_tower' THEN 'tower_communication'
-            WHEN 'shelter' THEN (CASE WHEN tags->'shelter_type' IN ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') THEN tags->'shelter_type' ELSE 'shelter' END)
-            ELSE (CASE WHEN type IN ('mine', 'adit', 'mineshaft') AND tags->'disused' NOT IN ('', 'no') THEN 'disused_mine' ELSE type END)
+          CASE
+            WHEN type = 'tree' AND tags->'protected' <> 'no' THEN 'tree_protected'
+            WHEN type = 'communications_tower' THEN 'tower_communication'
+            WHEN type = 'shelter' THEN (CASE WHEN tags->'shelter_type' IN ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') THEN tags->'shelter_type' ELSE 'shelter' END)
+            WHEN type IN ('mine', 'adit', 'mineshaft') AND tags->'disused' <> 'no' THEN 'disused_mine'
+            ELSE type
             END AS type
         FROM
           osm_features
         WHERE
           type <> 'peak'
-            AND (type <> 'tree' OR tags->'protected' NOT IN ('', 'no'))
+            AND (type <> 'tree' OR tags->'protected' NOT IN ('', 'no') OR tags->'denotation' = 'natural_monument')
             AND (type <> 'saddle' OR name <> '')
 
       UNION ALL
@@ -315,6 +317,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [15, 16, N, N, "taxi"],
   [15, 16, N, N, "bicycle"],
   [15, 16, N, N, "building"],
+  [15, 15, N, Y, "tree_protected", { font: { fill: hsl(120, 100, 31) } }],
   [15, 15, N, Y, "tree"],
   [15, 16, N, N, "bird_hide"],
   [15, 16, N, N, "dam", { font: { fill: colors.waterLabel } }],
