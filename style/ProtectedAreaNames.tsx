@@ -26,7 +26,7 @@ export function ProtectedAreaNames() {
           </TextSymbolizerEx>
         </RuleEx>
 
-        <RuleEx minZoom={12} type={["protected_area", "nature_reserve"]}>
+        <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')">
           <TextSymbolizerEx
             nature
             wrap
@@ -46,7 +46,7 @@ export function ProtectedAreaNames() {
         styleName="protected_area_names"
         bufferSize={1024}
         minZoom={8}
-        sql="SELECT type, name, geometry FROM osm_protected_areas WHERE geometry && !bbox!"
+        sql="SELECT type, name, protect_class, geometry FROM osm_protected_areas WHERE geometry && !bbox! ORDER BY area DESC"
       />
     </>
   );

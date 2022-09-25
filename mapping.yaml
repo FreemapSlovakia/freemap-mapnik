@@ -476,6 +476,8 @@ tables:
       - name: protect_class
         type: string
         key: protect_class
+      - name: area
+        type: webmerc_area
     type: polygon
     mapping:
       boundary:

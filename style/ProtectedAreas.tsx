@@ -9,21 +9,13 @@ export const nationalParkFilter = "[type] = 'national_park' or ([type] = 'protec
 export function ProtectedAreas() {
   return (
     <>
-      <Style name="protected_areas">
+      <Style name="protected_areas_A">
         <RuleEx minZoom={8} maxZoom={11} filter={nationalParkFilter}>
-          <LineSymbolizer stroke={hsl(120, 100, 31)} strokeWidth={3} strokeDasharray="25,7" strokeOpacity={0.8} />
-
           <PolygonPatternSymbolizer file="images/national_park_area.svg" alignment="global" opacity={0.4} />
         </RuleEx>
 
         <RuleEx minZoom={12} maxZoom={12} filter={nationalParkFilter}>
           <PolygonPatternSymbolizer file="images/national_park_area.svg" alignment="global" opacity={0.2} />
-
-          <LineSymbolizer stroke={hsl(120, 100, 31)} strokeWidth={4} strokeDasharray="25,7" strokeOpacity={0.4} />
-        </RuleEx>
-
-        <RuleEx minZoom={13} filter={nationalParkFilter}>
-          <LineSymbolizer stroke={hsl(120, 100, 31)} strokeWidth={4} strokeDasharray="25,7" strokeOpacity={0.4} />
         </RuleEx>
 
         <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')">
@@ -31,8 +23,23 @@ export function ProtectedAreas() {
         </RuleEx>
       </Style>
 
+      <Style name="protected_areas_B" opacity={0.66}>
+        <RuleEx minZoom={8} maxZoom={11} filter={nationalParkFilter}>
+          <LineSymbolizer stroke="#107010" strokeWidth={2} strokeDasharray="10,4" strokeLinejoin="round" />
+        </RuleEx>
+
+        <RuleEx minZoom={12} maxZoom={12} filter={nationalParkFilter}>
+          <LineSymbolizer stroke="#107010" strokeWidth={2} strokeDasharray="10,4" strokeLinejoin="round" />
+        </RuleEx>
+
+        <RuleEx minZoom={13} filter={nationalParkFilter}>
+          <LinePatternSymbolizer file="images/national_park.svg" />
+        </RuleEx>
+      </Style>
+
       <SqlLayer
-        styleName="protected_areas"
+        styleName={["protected_areas_A", "protected_areas_B"]}
+        cacheFeatures
         sql="SELECT type, protect_class, geometry FROM osm_protected_areas WHERE geometry && !bbox!"
       />
     </>
