@@ -1328,3 +1328,16 @@ tables:
     mapping:
       fixme:
         - __any__
+
+  fixmes_lines:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: type
+        type: mapping_value
+    type: linestring
+    mapping:
+      fixme:
+        - __any__
