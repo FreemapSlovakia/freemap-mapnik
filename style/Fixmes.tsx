@@ -14,7 +14,7 @@ export function Fixmes() {
         <Rule>
           <MarkersSymbolizer
             file="images/fixme.svg"
-            spacing={100}
+            spacing={150}
             placement="line"
             opacity={0.75}
             ignorePlacement
@@ -25,7 +25,14 @@ export function Fixmes() {
 
       <SqlLayer styleName="fixmes" sql="SELECT geometry FROM osm_fixmes" minZoom={14} />
 
-      <SqlLayer styleName="fixmes_lines" sql="SELECT geometry FROM osm_fixmes_lines" minZoom={14} />
+      <SqlLayer
+        styleName="fixmes_lines"
+        sql="
+          SELECT geometry FROM osm_feature_lines WHERE fixme <> '' AND geometry && !bbox!
+          UNION SELECT geometry FROM osm_roads WHERE fixme <> '' AND geometry && !bbox!
+        "
+        minZoom={14}
+      />
     </>
   );
 }

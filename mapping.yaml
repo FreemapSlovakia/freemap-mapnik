@@ -415,6 +415,9 @@ tables:
         key: name
       - name: type
         type: mapping_value
+      - name: fixme
+        type: string
+        key: fixme
     type: linestring
     mapping:
       natural:
@@ -1175,6 +1178,9 @@ tables:
             - bad
             - horrible
             - "no"
+      - name: fixme
+        type: string
+        key: fixme
     type: linestring
     filters:
       reject:
@@ -1325,25 +1331,6 @@ tables:
       - name: type
         type: mapping_value
     type: point
-    mapping:
-      fixme:
-        - __any__
-
-  fixmes_lines:
-    filters:
-      require: # TODO maybe more
-        railway: [__any__]
-        highway: [__any__]
-        waterway: [__any__]
-        barrier: [__any__]
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: type
-        type: mapping_value
-    type: linestring
     mapping:
       fixme:
         - __any__
