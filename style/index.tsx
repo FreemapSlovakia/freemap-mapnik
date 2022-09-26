@@ -29,6 +29,7 @@ import { LandcoverNames } from "./LandcoverNames";
 import { Legend, Props as LegendProps } from "./Legend";
 import { LocalityNames } from "./LocalityNames";
 import { MilitaryAreas } from "./MilitaryAreas";
+import { NationalParkNames } from "./NationalParkNames";
 import { Pipelines } from "./Pipelines";
 import { PlaceNames1, PlaceNames2 } from "./Placenames";
 import { ProtectedAreaNames } from "./ProtectedAreaNames";
@@ -153,7 +154,7 @@ function generateFreemapStyleInt({
 
       <PlaceNames1 />
 
-      <ProtectedAreaNames />
+      <NationalParkNames />
 
       <Features />
 
@@ -162,6 +163,8 @@ function generateFreemapStyleInt({
       <WaterAreaNames />
 
       <BuildingNames />
+
+      <ProtectedAreaNames />
 
       <LandcoverNames />
 

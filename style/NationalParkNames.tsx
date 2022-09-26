@@ -4,14 +4,15 @@ import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
 import { SqlLayer } from "./SqlLayer";
 
-export function ProtectedAreaNames() {
+export function NationalParkNames() {
   return (
     <>
-      <Style name="protected_area_names">
+      <Style name="national_park_names">
         <Rule>
           <TextSymbolizerEx
             nature
             wrap
+            size="9 + pow(2, @zoom - 7)"
             fill={colors.protected}
             haloFill="white"
             haloRadius={1.5}
@@ -25,14 +26,15 @@ export function ProtectedAreaNames() {
       </Style>
 
       <SqlLayer
-        styleName="protected_area_names"
+        styleName="national_park_names"
         bufferSize={1024}
-        minZoom={12}
+        minZoom={8}
+        maxZoom={10}
         sql="
           SELECT type, name, protect_class, geometry
           FROM osm_protected_areas
-          WHERE geometry && !bbox! AND (type = 'nature_reserve' OR (type = 'protected_area' AND protect_class <> '2'))
-          ORDER BY area DESC
+          WHERE geometry && !bbox! AND (type = 'national_park' OR (type = 'protected_area' AND protect_class = '2'))
+          ORDER BY name LIKE ('Ochranné pásmo %'), area DESC
         "
       />
     </>
