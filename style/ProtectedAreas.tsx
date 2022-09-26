@@ -29,7 +29,7 @@ export function ProtectedAreas() {
         <RuleEx minZoom={8} maxZoom={12} filter={nationalParkFilter}>
           <LineSymbolizer
             stroke={colors.protected}
-            strokeWidth="(@zoom > 10) * 1 + 2"
+            strokeWidth="(@zoom > 10) * 0.5 * (@zoom - 10) + 2"
             strokeDasharray="10,4"
             strokeLinejoin="round"
           />

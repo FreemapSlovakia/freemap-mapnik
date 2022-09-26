@@ -46,7 +46,12 @@ export function ProtectedAreaNames() {
         styleName="protected_area_names"
         bufferSize={1024}
         minZoom={8}
-        sql="SELECT type, name, protect_class, geometry FROM osm_protected_areas WHERE geometry && !bbox! ORDER BY area DESC"
+        sql="
+          SELECT type, name, protect_class, geometry
+          FROM osm_protected_areas
+          WHERE geometry && !bbox!
+          ORDER BY name LIKE ('Ochranné pásmo %'), area DESC
+        "
       />
     </>
   );

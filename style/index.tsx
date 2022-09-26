@@ -153,6 +153,8 @@ function generateFreemapStyleInt({
 
       <PlaceNames1 />
 
+      <ProtectedAreaNames />
+
       <Features />
 
       <FeatureNames />
@@ -160,8 +162,6 @@ function generateFreemapStyleInt({
       <WaterAreaNames />
 
       <BuildingNames />
-
-      <ProtectedAreaNames />
 
       <LandcoverNames />
 
