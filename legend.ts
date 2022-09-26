@@ -187,6 +187,7 @@ function poi(
           name: "Abc",
           type,
           ele: eithEle ? 320 : "",
+          elehack: eithEle ? "\n\u200B" : "",
           ...additional,
         },
         eithEle ? -0.00005 : -0.00003
@@ -406,12 +407,17 @@ export const legend = {
         it: "Area disboscata",
       },
       layers: [
-        forest,
-        asLine(["cutlines"], {
-          type: "cutline",
-        }),
+        asArea(["landcover"], { type: "forest" }, 16),
+        asLine(
+          ["cutlines"],
+          {
+            type: "cutline",
+          },
+          false,
+          16
+        ),
       ],
-      ...props,
+      ...propsForZoom(16),
     },
     {
       categoryId: "terrain",
