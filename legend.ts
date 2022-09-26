@@ -1110,14 +1110,14 @@ export const legend = {
       },
       layers: [
         asArea(
-          ["protected_areas"],
+          ["protected_areas_B", "protected_areas_A"],
           {
             type: "national_park",
           },
-          10
+          13
         ),
       ],
-      ...propsForZoom(10),
+      ...propsForZoom(13),
     },
     {
       categoryId: "borders",
@@ -1127,7 +1127,7 @@ export const legend = {
         it: "area protetta, riserva naturale",
       },
       layers: [
-        asArea(["protected_areas"], {
+        asArea(["protected_areas_A"], {
           type: "protected_area",
         }),
       ],
