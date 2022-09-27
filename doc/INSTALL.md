@@ -2,19 +2,15 @@
 
 ## Requirements
 
-- Node.js 12
+- Node.js 14+
 - PostGIS
 - GDAL including python-gdal
 - imposm3
 
 ## Get sources
 
-Run:
-
 ```bash
 git clone https://github.com/FreemapSlovakia/freemap-mapnik.git
-cd freemap-mapnik
-npm i
 ```
 
 ## Installing prerequisites
@@ -34,6 +30,7 @@ npm i
 To build sources for production run:
 
 ```bash
+npm i
 npm run build
 ```
 
