@@ -1,4 +1,4 @@
-import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
+import { Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { hsl } from "./colors";
 import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
@@ -9,12 +9,12 @@ export function LocalityNames() {
   return (
     <>
       <Style name="locality_names">
-        <RuleEx minZoom={15} type="locality">
+        <Rule>
           <TextSymbolizerEx wrap fill={hsl(0, 0, 40)} size={11} haloRadius={1.5} haloOpacity={0.2} placementType="list">
             [name]
             <Placements />
           </TextSymbolizerEx>
-        </RuleEx>
+        </Rule>
       </Style>
 
       <SqlLayer
@@ -24,8 +24,8 @@ export function LocalityNames() {
         sql="
           SELECT name, type, geometry
           FROM osm_places
-          WHERE type = 'locality' AND geometry && !bbox!
-          ORDER BY osm_id
+          WHERE type IN ('locality', 'city_block', 'plot') AND geometry && !bbox!
+          ORDER BY z_order DESC, population DESC, osm_id
         "
       />
     </>

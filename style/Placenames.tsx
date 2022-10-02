@@ -26,7 +26,7 @@ export function PlaceNames2() {
             {...placenamesFontStyle}
             haloRadius={2}
             textTransform="uppercase"
-            size={`1.2 * ${scaleFormula}`}
+            size={`1.20 * ${scaleFormula}`}
           >
             [name]
             <Placements />
@@ -38,7 +38,7 @@ export function PlaceNames2() {
             {...placenamesFontStyle}
             haloRadius={2}
             textTransform="uppercase"
-            size={`0.8 * ${scaleFormula}`}
+            size={`0.80 * ${scaleFormula}`}
           >
             [name]
             <Placements />
@@ -57,8 +57,36 @@ export function PlaceNames2() {
           </TextSymbolizerEx>
         </RuleEx>
 
-        <RuleEx minZoom={12} type={["suburb", "hamlet"]}>
-          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.5 * ${scaleFormula}`}>
+        <RuleEx minZoom={12} type={["hamlet", "allotments"]}>
+          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.50 * ${scaleFormula}`}>
+            [name]
+            <Placements />
+          </TextSymbolizerEx>
+        </RuleEx>
+
+        <RuleEx minZoom={13} type={["suburb"]}>
+          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.50 * ${scaleFormula}`}>
+            [name]
+            <Placements />
+          </TextSymbolizerEx>
+        </RuleEx>
+
+        <RuleEx minZoom={14} type={["isolated_dwelling", "quarter"]}>
+          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.45 * ${scaleFormula}`}>
+            [name]
+            <Placements />
+          </TextSymbolizerEx>
+        </RuleEx>
+
+        <RuleEx minZoom={15} type={["neighbourhood"]}>
+          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.40 * ${scaleFormula}`}>
+            [name]
+            <Placements />
+          </TextSymbolizerEx>
+        </RuleEx>
+
+        <RuleEx minZoom={16} type={["farm", "borough", "square"]}>
+          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.35 * ${scaleFormula}`}>
             [name]
             <Placements />
           </TextSymbolizerEx>
@@ -74,7 +102,7 @@ export function PlaceNames2() {
           SELECT name, type, geometry
           FROM osm_places
           WHERE type <> 'locality' AND geometry && !bbox!
-          ORDER BY z_order DESC, osm_id
+          ORDER BY z_order DESC, population DESC, osm_id
         "
       />
     </>

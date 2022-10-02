@@ -278,6 +278,15 @@ tables:
         args:
           values:
             - locality
+            - plot
+            - isolated_dwelling
+            - square
+            - farm
+            - city_block
+            - quarter
+            - neighbourhood
+            - allotments
+            - borough
             - suburb
             - hamlet
             - village
@@ -293,16 +302,7 @@ tables:
     type: point
     mapping:
       place:
-        - country
-        - state
-        - region
-        - county
-        - city
-        - town
-        - village
-        - hamlet
-        - suburb
-        - locality
+        - __any__
 
   admin:
     columns:
