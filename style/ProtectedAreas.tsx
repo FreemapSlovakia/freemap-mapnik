@@ -10,7 +10,7 @@ export function ProtectedAreas() {
   return (
     <>
       <Style name="protected_areas_A">
-        {seq(10, 14).map((z) => (
+        {seq(10, 13).map((z) => (
           <RuleEx minZoom={z === 10 ? 8 : z} maxZoom={z} filter={nationalParkFilter}>
             <PolygonPatternSymbolizer
               file="images/national_park_area.svg"
@@ -26,17 +26,22 @@ export function ProtectedAreas() {
       </Style>
 
       <Style name="protected_areas_B" opacity={0.66}>
-        <RuleEx minZoom={8} maxZoom={12} filter={nationalParkFilter}>
+        <RuleEx minZoom={8} filter={nationalParkFilter}>
           <LineSymbolizer
             stroke={colors.protected}
-            strokeWidth="(@zoom > 10) * 0.5 * (@zoom - 10) + 2"
-            strokeDasharray="10,4"
-            strokeLinejoin="round"
+            strokeWidth="((@zoom > 10) * 0.5 * (@zoom - 10) + 2) / 2"
+            strokeMiterlimit={1}
+            strokeLinejoin="miter"
           />
-        </RuleEx>
 
-        <RuleEx minZoom={13} filter={nationalParkFilter}>
-          <LinePatternSymbolizer file="images/national_park.svg" />
+          <LineSymbolizer
+            offset="-((@zoom > 10) * 0.5 * (@zoom - 10) + 2) / 2"
+            strokeOpacity={0.5}
+            stroke={colors.protected}
+            strokeWidth="((@zoom > 10) * 0.5 * (@zoom - 10) + 2)"
+            strokeMiterlimit={1}
+            strokeLinejoin="miter"
+          />
         </RuleEx>
       </Style>
 

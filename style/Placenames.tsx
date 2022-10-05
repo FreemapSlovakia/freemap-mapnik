@@ -57,14 +57,7 @@ export function PlaceNames2() {
           </TextSymbolizerEx>
         </RuleEx>
 
-        <RuleEx minZoom={12} type={["hamlet", "allotments"]}>
-          <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.50 * ${scaleFormula}`}>
-            [name]
-            <Placements />
-          </TextSymbolizerEx>
-        </RuleEx>
-
-        <RuleEx minZoom={13} type={["suburb"]}>
+        <RuleEx minZoom={12} type={["hamlet", "allotments", "suburb"]}>
           <TextSymbolizerEx {...placenamesFontStyle} haloRadius={1.5} size={`0.50 * ${scaleFormula}`}>
             [name]
             <Placements />
