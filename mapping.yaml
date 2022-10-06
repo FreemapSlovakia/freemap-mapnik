@@ -145,6 +145,7 @@ tables:
           man_made:
             - clearcut # TODO as overlay layer
             - bunker_silo
+            - storage_tank
             - wastewater_plant
       amenity:
         mapping:

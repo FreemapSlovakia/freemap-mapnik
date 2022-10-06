@@ -173,7 +173,7 @@ export function Landcover() {
           <LineSymbolizer stroke={hsl(0, 33, 65)} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx type="bunker_silo" minZoom={13}>
+        <RuleEx type={["bunker_silo", "storage_tank"]} minZoom={13}>
           <PolygonSymbolizer fill={hsl(50, 34, 35)} />
           <LineSymbolizer stroke={hsl(50, 34, 20)} strokeWidth={1} />
         </RuleEx>

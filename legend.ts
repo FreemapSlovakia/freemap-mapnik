@@ -1094,7 +1094,12 @@ export const legend = {
       "campo da gioco, parco giochi, campo da golf, pista"
     ),
     landcover("parking", "parking", "parkovisko", "parcheggio"),
-    landcover("bunker_silo", "bunker silo", "silo", "sbancamento"),
+    landcover(
+      "bunker_silo",
+      "bunker silo, storage tank",
+      "silo, skladovací kontajner",
+      "sbancamento" /* TODO + storage tank */
+    ),
     landcover("landfill", "landfill", "skládka", "discarica"),
     {
       categoryId: "landcover",
