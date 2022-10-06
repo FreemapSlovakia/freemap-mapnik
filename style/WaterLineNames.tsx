@@ -17,7 +17,7 @@ export function WaterLineNames() {
             simplify="5 * @scale"
             maxCharAngleDelta={30}
           >
-            [name]
+            [name].replace('^[Pp]otok\\b *', '').replace('\\b[Pp]otok$', 'p.')
           </TextSymbolizerEx>
         </RuleEx>
 
@@ -31,7 +31,7 @@ export function WaterLineNames() {
             simplify="5 * @scale"
             maxCharAngleDelta={30}
           >
-            [name]
+            [name].replace('^[Pp]otok\\b *', '').replace('\\b[Pp]otok$', 'p.')
           </TextSymbolizerEx>
         </RuleEx>
       </Style>

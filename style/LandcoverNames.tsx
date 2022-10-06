@@ -23,7 +23,9 @@ export function LandcoverNames() {
               maxZoom={z === 17 ? undefined : z}
             >
               <TextSymbolizerEx wrap placement="interior" placementType="list" {...s}>
-                [name]
+                {
+                  "[name].replace('[Čč]istička odpadových vôd', 'ČOV').replace('[Pp]oľnohospodárske družstvo', 'PD').replace('[Nn]ámestie', 'nám.')"
+                }
                 <Placements />
               </TextSymbolizerEx>
             </RuleEx>

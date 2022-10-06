@@ -11,14 +11,14 @@ export function WaterAreaNames() {
       <Style name="water_area_names">
         <RuleEx filter={`[area] > 800000 / pow(2, (2 * (@zoom - 10)))`} minZoom={10} maxZoom={16}>
           <TextSymbolizerEx water wrap placement="interior" placementType="list">
-            [name]
+            [name].replace('[Vv]odná nádrž\\b', 'v. n.')
             <Placements />
           </TextSymbolizerEx>
         </RuleEx>
 
         <RuleEx minZoom={17}>
           <TextSymbolizerEx water wrap placement="interior" placementType="list">
-            [name]
+            [name].replace('[Vv]odná nádrž\\b', 'v. n.')
             <Placements />
           </TextSymbolizerEx>
         </RuleEx>
