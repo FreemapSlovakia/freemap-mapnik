@@ -1096,7 +1096,7 @@ export const legend = {
     landcover("parking", "parking", "parkovisko", "parcheggio"),
     landcover(
       "bunker_silo",
-      "bunker silo, storage tank",
+      "(bunker) silo, storage tank",
       "silo, skladovací kontajner",
       "sbancamento" /* TODO + storage tank */
     ),
