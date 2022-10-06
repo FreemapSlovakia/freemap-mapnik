@@ -510,7 +510,7 @@ export function FeatureNames() {
             minTextZoom != undefined && (
               <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
                 <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
-                  {extra.exp ?? "[name]"}
+                  {(extra.exp ?? "[name]") + ".replace('^(.{30})...+', '$1…')"}
                   {withEle && (
                     <>
                       <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.92}>[elehack]</Format>
@@ -533,7 +533,7 @@ export function FeatureNames() {
           sql={`
             SELECT DISTINCT ON (osm_id)
               *,
-              ${zoom < 15 ? "REGEXP_REPLACE(n, '(?<=.{30,})(.{0,30}).*', '\\2…')" : "n"} AS name,
+              n AS name,
               CASE WHEN ele <> '' THEN chr(10) || chr(8203) ELSE '' END AS elehack
             FROM (${getFeaturesSql(zoom, poiNameProjection)}) subq
           `}
