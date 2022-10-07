@@ -223,7 +223,7 @@ type Extra = {
 const bs = "\\\\b *";
 
 const springExpr = {
-  exp: `[name].replace('^([Mm]inerálny )?[Pp]prameň${bs}', '').replace('\\\\b[Pp]rameň$', 'prm.').replace('\\\\b[Ss]tud(ničk|ň)a$', 'stud.')`,
+  exp: `[name].replace('^([Mm]inerálny )?[Pp]rameň${bs}', '').replace('\\\\b[Pp]rameň$', 'prm.').replace('\\\\b[Ss]tud(ničk|ň)a\\\\b', 'stud.').replace('\\\\b[Vv]yvieračka\\\\b', 'vyv.')`,
 };
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
