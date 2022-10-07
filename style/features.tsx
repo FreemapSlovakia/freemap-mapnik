@@ -507,20 +507,48 @@ export function FeatureNames() {
       <Style name="feature_names">
         {pois.map(
           ([, minTextZoom, withEle, natural, type, extra = {}]) =>
-            minTextZoom != undefined && (
-              <RuleEx type={type} minZoom={minTextZoom} maxZoom={extra.maxZoom}>
-                <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
-                  {(extra.exp ?? "[name]") + ".replace('^(.{30})...+', '$1…')"}
-                  {withEle && (
-                    <>
-                      <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.92}>[elehack]</Format>
-                      <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.8}>[ele]</Format>
-                    </>
-                  )}
-                  <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />
-                </TextSymbolizerEx>
-              </RuleEx>
-            )
+            minTextZoom != undefined &&
+            seq(0, 1).map((shorten) => {
+              // seq woodo is because of https://github.com/mapnik/mapnik/issues/4356
+              let minZoom = minTextZoom;
+
+              let maxZoom = extra.maxZoom;
+
+              if (shorten) {
+                if (minZoom > 14) {
+                  return;
+                }
+
+                if (!maxZoom || maxZoom > 14) {
+                  maxZoom = 14;
+                }
+              } else {
+                if (maxZoom && maxZoom < 15) {
+                  return;
+                }
+
+                if (minZoom < 15) {
+                  minZoom = 15;
+                }
+              }
+
+              console.log({ minZoom, maxZoom, shorten });
+
+              return (
+                <RuleEx type={type} minZoom={minZoom} maxZoom={maxZoom}>
+                  <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
+                    {(extra.exp ?? "[name]") + (shorten ? ".replace('^(.{5})...+', '$1…')" : "")}
+                    {withEle && (
+                      <>
+                        <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.92}>[elehack]</Format>
+                        <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.8}>[ele]</Format>
+                      </>
+                    )}
+                    <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />
+                  </TextSymbolizerEx>
+                </RuleEx>
+              );
+            })
         )}
       </Style>
 
