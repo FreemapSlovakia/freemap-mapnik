@@ -546,7 +546,7 @@ export function FeatureNames() {
               return (
                 <RuleEx type={type} minZoom={minZoom} maxZoom={maxZoom}>
                   <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
-                    {(extra.exp ?? "[name]") + (shorten ? ".replace('^(.{5})...+', '$1…')" : "")}
+                    {(extra.exp ?? "[name]") + (shorten ? ".replace('^(.{30})...+', '$1…')" : "")}
                     {withEle && (
                       <>
                         <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.92}>[elehack]</Format>
