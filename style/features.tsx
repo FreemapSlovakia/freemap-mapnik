@@ -239,7 +239,16 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
 
   [14, 14, N, N, "castle", { exp: `[name].replace('^[Hh]rad${bs}', '')` }],
   [14, 15, Y, Y, "arch"],
-  [14, 15, Y, Y, "cave_entrance", { exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.')` }],
+  [
+    14,
+    15,
+    Y,
+    Y,
+    "cave_entrance",
+    {
+      exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b$', 'p.')`,
+    },
+  ],
   [14, 15, Y, Y, "spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "refitted_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
