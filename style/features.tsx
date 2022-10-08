@@ -541,8 +541,6 @@ export function FeatureNames() {
                 }
               }
 
-              console.log({ minZoom, maxZoom, shorten });
-
               return (
                 <RuleEx type={type} minZoom={minZoom} maxZoom={maxZoom}>
                   <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
