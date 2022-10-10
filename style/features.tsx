@@ -246,7 +246,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
     Y,
     "cave_entrance",
     {
-      exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b$', 'p.')`,
+      exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b', 'p.')`,
     },
   ],
   [14, 15, Y, Y, "spring", { font: { fill: colors.waterLabel }, ...springExpr }],
