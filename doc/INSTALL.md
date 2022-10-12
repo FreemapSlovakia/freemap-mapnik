@@ -56,13 +56,13 @@ You must have imposm3 installed. For instructions how to build it see https://gi
 To import the data use following command (with correct pbf filename):
 
 ```bash
-~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read slovakia-latest.osm.pbf -write
+imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read slovakia-latest.osm.pbf -write
 ```
 
 Then deploy the import to production:
 
 ```bash
-~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
+imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
 ```
 
 Import `additional.sql` to Postgresql.
@@ -84,28 +84,69 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
    - use GeoTIFF format; then convert it to HGT or modify `shading/Makefile` ;-)
 1. To generate shaded relief and contours run `npm i -g dem-iron shp-polyline-splitter && cd shading && make -j 8`
 
-## Setting up minutely diff applying (working notes)
+## Setting up minutely diff applying
+
+Follow these steps also after database reimport, which is required if you've updated `mapping.yaml`:
 
 1. Download `europe-latest.osm.pbf` from Geofabrik
 1. Extract area of focus with Osmium:
    ```bash
    osmium extract -p limit.geojson -s smart -S types=multipolygon,route,boundary europe-latest.osm.pbf -o extract.pbf
    ```
+1. Stop imposm service
+   ```bash
+   systemctl stop imposm3
+   ```
+1. update and compile freemap-mapnik
+   ```bash
+   git pull && npm run build
+   ```
 1. Import the extract:
    ```bash
-   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -read extract.pbf -diff -write -cachedir ./cache -diffdir ./diff
+   imposm import -connection postgis://freemap:freemap@localhost/freemap -mapping mapping.yaml -read extract.pbf -diff -write -cachedir ./cache -diffdir ./diff -overwritecache
+   ```
+1. Delete pbf files
+   ```bash
+   rm europe-latest.osm.pbf extract.pbf
+   ```
+1. Stop prerendering
+   ```bash
+   systemctl stop freemap-mapnik-prerender
    ```
 1. Deploy the import to production:
    ```bash
-   ~/go/bin/imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
+   imposm import -connection postgis://freemap:freemap@localhost/freemap -mapping mapping.yaml -deployproduction
    ```
-1. Import `additional.sql` to Postgresql
-1. Update `./diff/last.state.txt` to reflect timestamp and sequence number of the imported map (I think that for sure the timestamp can be even bit older).
+1. Import `additional.sql` (or apply only its changes) to Postgresql
+1. Update `./diff/last.state.txt` to reflect timestamp and sequence number of the imported map.
    See https://planet.openstreetmap.org/replication/minute/ for finding sequence number.
-1. Delete cached tiles
-1. Run minutely diff importing in the background:
+1. Start imposm and wait to catch it up
    ```bash
-   nohup ~/go/bin/imposm run -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -limitto limit.geojson -cachedir ./cache -diffdir ./diff -expiretiles-zoom 14 -expiretiles-dir ./expires &
+   systemctl start imposm3
+   ```
+1. Now you can optionally stop imposm service to prevent it from interrupring prerendering.
+   You can start it later after pre-rendering has been finished.
+   You can also start it somewhere during pre-rendering to catch-up and stop again, to apply some recent updates.
+1. Delete content of `./expires` directory
+1. Edit `./config/prerender.json5` and change `rerenderOlderThanMs` to current time plus a minute or more
+1. Stop ondemand rendering
+   ```bash
+   systemctl stop freemap-mapnik-ondemand
+   ```
+1. Delete cached highzoom tiles and indexes
+   ```bash
+   cd ./tiles
+   rm -rf 15 16 17 18 19
+   cd ..
+   find ./tiles/14 -name '*.index' -delete
+   ```
+1. Start ondemand rendering
+   ```bash
+   systemctl start freemap-mapnik-ondemand
+   ```
+1. Start prerendering
+   ```bash
+   systemctl start freemap-mapnik-prerender
    ```
 
 ## Nginx as front tier
