@@ -30,7 +30,7 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
       type = 'peak' AND name <> '' AND geometry && !bbox!`,
   ];
 
-  if (zoom >= 12) {
+  if (zoom >= 13) {
     sqls.push(`
       UNION ALL
         SELECT

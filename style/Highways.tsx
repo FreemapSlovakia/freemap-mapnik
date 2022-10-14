@@ -163,7 +163,7 @@ export function Highways() {
             <RuleEx
               minZoom={z[0]}
               maxZoom={z[1]}
-              filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated')"
+              filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated') and (@zoom > 12 or [is_in_route])"
             >
               <Road strokeWidth={k * 1} strokeDasharray="3,3" strokeOpacity="[trail_visibility]" />
             </RuleEx>
@@ -171,7 +171,7 @@ export function Highways() {
             <RuleEx
               minZoom={z[0]}
               maxZoom={z[1]}
-              filter="[type] = 'path' and [bicycle] = 'designated' and [foot] = 'designated'"
+              filter="[type] = 'path' and [bicycle] = 'designated' and [foot] = 'designated' and (@zoom > 12 or [is_in_route])"
             >
               <Road strokeWidth={k * 1} strokeDasharray="4,2" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
             </RuleEx>
@@ -179,12 +179,12 @@ export function Highways() {
             <RuleEx
               minZoom={z[0]}
               maxZoom={z[1]}
-              filter="[type] = 'cycleway' or ([type] = 'path' and [bicycle] = 'designated' and [foot] != 'designated')"
+              filter="[type] = 'cycleway' or ([type] = 'path' and [bicycle] = 'designated' and [foot] != 'designated') and (@zoom > 12 or [is_in_route])"
             >
               <Road strokeWidth={k * 1} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
             </RuleEx>
 
-            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="bridleway">
+            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="bridleway" filter="@zoom > 12 or [is_in_route]">
               <Road
                 strokeWidth={k * 1}
                 strokeDasharray="6,3"
@@ -193,13 +193,13 @@ export function Highways() {
               />
             </RuleEx>
 
-            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="via_ferrata">
+            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="via_ferrata" filter="@zoom > 12 or [is_in_route]">
               <Road strokeWidth={k * 1} strokeDasharray="4,4" />
             </RuleEx>
 
             {[undefined, "8,2", "6,4", "4,6", "2,8", "3,7,7,3"].map((strokeDasharray, i) => (
               <RuleEx
-                filter={`[class] = 'highway' and [type] = 'track' and [tracktype] = ${
+                filter={`[class] = 'highway' and [type] = 'track' and (@zoom > 12 or [is_in_route] or [tracktype] = 'grade1' or [tracktype] = 'grade2') and [tracktype] = ${
                   i === 5 ? "''" : `'grade${i + 1}'`
                 }`}
                 minZoom={z[0]}
@@ -238,11 +238,14 @@ export function Highways() {
           <LineSymbolizer {...glowDflt} strokeWidth={1} />
         </RuleEx>
 
-        <RuleEx minZoom={12} filter="[type] = 'path' and [bicycle] != 'designated'">
+        <RuleEx minZoom={12} filter="[type] = 'path' and [bicycle] != 'designated' and (@zoom > 12 or [is_in_route])">
           <LineSymbolizer {...glowDflt} strokeWidth={1} strokeOpacity="[trail_visibility]" />
         </RuleEx>
 
-        <RuleEx filter="[type] = 'track' and [class] = 'highway'" minZoom={12}>
+        <RuleEx
+          filter="[type] = 'track' and [class] = 'highway' and ([tracktype] = 'grade2' or @zoom > 12 or [is_in_route])"
+          minZoom={12}
+        >
           <LineSymbolizer {...glowDflt} strokeWidth={1.2} strokeOpacity="[trail_visibility]" />
         </RuleEx>
 
@@ -250,7 +253,7 @@ export function Highways() {
           <LineSymbolizer {...glowDflt} strokeWidth={1.2} />
         </RuleEx>
 
-        <RuleEx minZoom={14} type="bridleway">
+        <RuleEx minZoom={13} type="bridleway">
           <LineSymbolizer
             {...glowDflt}
             strokeWidth={1.2}
@@ -344,9 +347,9 @@ export function Highways() {
 
 function getHighwaySql(table: string) {
   return `
-    SELECT geometry, type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility, bicycle, foot
-    FROM ${table}
-    WHERE geometry && !bbox!
-    ORDER BY z_order, CASE WHEN type = 'rail' AND service IN ('', 'main') THEN 2 ELSE 1 END, osm_id
+    SELECT ${table}.geometry, ${table}.type, tracktype, class, service, bridge, tunnel, oneway, power(0.666, greatest(0, trail_visibility - 1)) AS trail_visibility, bicycle, foot, osm_route_members.member AS is_in_route
+    FROM ${table} LEFT JOIN osm_route_members ON osm_route_members.type = 1 AND osm_route_members.member = ${table}.osm_id
+    WHERE ${table}.geometry && !bbox!
+    ORDER BY z_order, CASE WHEN ${table}.type = 'rail' AND service IN ('', 'main') THEN 2 ELSE 1 END, ${table}.osm_id
   `;
 }
