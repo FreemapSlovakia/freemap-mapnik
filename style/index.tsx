@@ -32,6 +32,7 @@ import { MilitaryAreas } from "./MilitaryAreas";
 import { NationalParkNames } from "./NationalParkNames";
 import { Pipelines } from "./Pipelines";
 import { PlaceNames1, PlaceNames2 } from "./Placenames";
+import { PowerLines } from "./PowerLines";
 import { ProtectedAreaNames } from "./ProtectedAreaNames";
 import { ProtectedAreas } from "./ProtectedAreas";
 import { RouteNames, Routes } from "./routes";
@@ -130,8 +131,6 @@ function generateFreemapStyleInt({
 
       <Highways />
 
-      <Aerialways />
-
       <Aeroways />
 
       <SolarPowerPlants />
@@ -141,6 +140,10 @@ function generateFreemapStyleInt({
       <Barrierways />
 
       {(shading || contours) && <ShadingAndCountours shading={shading} contours={contours} />}
+
+      <Aerialways />
+
+      <PowerLines />
 
       <ProtectedAreas />
 

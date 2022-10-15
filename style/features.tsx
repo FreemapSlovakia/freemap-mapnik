@@ -445,18 +445,6 @@ export function Features() {
   return (
     <>
       <Style name="features">
-        <RuleEx minZoom={16} type="pylon">
-          <MarkersSymbolizer file="images/power_tower.svg" allow-overlap ignore-placement />
-        </RuleEx>
-
-        <RuleEx minZoom={13} type="tower">
-          <MarkersSymbolizer file="images/power_tower.svg" allow-overlap ignore-placement />
-        </RuleEx>
-
-        <RuleEx minZoom={14} type="pole">
-          <MarkersSymbolizer file="images/power_pole.svg" allow-overlap ignore-placement />
-        </RuleEx>
-
         {pois.map(([minIcoZoom, , , , type, extra = {} as any]) => {
           if (typeof minIcoZoom !== "number") {
             return undefined;
