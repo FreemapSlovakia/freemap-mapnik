@@ -44,6 +44,12 @@ CREATE INDEX osm_places_type ON osm_places (type);
 
 DROP TABLE IF EXISTS z_order_poi;
 
+CREATE INDEX idx_abc_2 ON osm_route_members (member);
+
+CREATE INDEX infopoints_name_idx ON osm_infopoints (name);
+
+CREATE INDEX places_name_idx ON osm_places (name);
+
 CREATE TABLE z_order_poi (type VARCHAR PRIMARY KEY, z_order SERIAL);
 
 INSERT INTO

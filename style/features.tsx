@@ -5,15 +5,18 @@ import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { seq } from "./utils";
 
-function poiIconProjection(ele = "null", access = "null", isolation = "null") {
-  return `osm_id, geometry, ${ele} AS ele, ${access} AS access, ${isolation} AS isolation`;
+function poiIconProjection(ele = "null", access = "null", isolation = "null", prefix = "") {
+  return `${prefix}osm_id, ${prefix}geometry, ${ele} AS ele, ${access} AS access, ${isolation} AS isolation`;
 }
 
-function poiNameProjection(ele = "null", access = "null", isolation = "null") {
-  return `osm_id, geometry, name AS n, ${ele} AS ele, ${access} AS access, ${isolation} AS isolation`;
+function poiNameProjection(ele = "null", access = "null", isolation = "null", prefix = "") {
+  return `${prefix}osm_id, ${prefix}geometry, ${prefix}name AS n, ${ele} AS ele, ${access} AS access, ${isolation} AS isolation`;
 }
 
-function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: string, isolation?: string) => string) {
+function getFeaturesSql(
+  zoom: number,
+  mkProjection: (ele?: string, access?: string, isolation?: string, prefix?: string) => string
+) {
   const sqls = [
     `SELECT * FROM (
     SELECT
@@ -31,17 +34,47 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
   ];
 
   if (zoom >= 13) {
-    sqls.push(`
-      UNION ALL
-        SELECT
-          ${mkProjection("ele")},
-          CASE type
-            WHEN 'guidepost' THEN (CASE WHEN name = '' THEN 'guidepost_noname' ELSE 'guidepost' END)
-            ELSE type
-            END AS type
-        FROM
-          osm_infopoints
-    `);
+    sqls.push(
+      mkProjection === poiNameProjection && zoom < 15 // prevent guideposts names close to places with equal name
+        ? `
+          UNION ALL
+            SELECT DISTINCT ON (osm_infopoints.osm_id)
+              ${mkProjection("ele", "null", "null", "osm_infopoints.")},
+              CASE
+                WHEN osm_infopoints.type = 'guidepost' THEN (
+                  CASE
+                    WHEN osm_infopoints.name = '' THEN 'guidepost_noname'
+                    WHEN ST_Distance(osm_infopoints.geometry, osm_places.geometry) < 250 THEN 'guidepost_near500'
+                    WHEN ST_Distance(osm_infopoints.geometry, osm_places.geometry) < 500 THEN 'guidepost_near1000'
+                    ELSE 'guidepost'
+                  END
+                )
+                ELSE osm_infopoints.type
+              END AS type
+            FROM
+              osm_infopoints
+            LEFT JOIN
+              osm_places
+            ON
+              osm_infopoints.type = 'guidepost'
+                AND osm_infopoints.name <> ''
+                AND ST_Distance(osm_infopoints.geometry, osm_places.geometry) < 500
+                AND osm_infopoints.name = osm_places.name
+            WHERE
+              osm_infopoints.geometry && !bbox!
+          `
+        : `
+          UNION ALL
+            SELECT
+              ${mkProjection("ele")},
+              CASE type
+                WHEN 'guidepost' THEN (CASE WHEN name = '' THEN 'guidepost_noname' ELSE 'guidepost' END)
+                ELSE type
+                END AS type
+            FROM
+              osm_infopoints
+          `
+    );
   }
 
   if (zoom >= 12 && zoom < 14) {
@@ -229,9 +262,9 @@ const springExpr = {
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 const pois: [number, number | null, boolean, boolean, string | string[], Extra?][] = [
   [12, 12, N, N, "aerodrome", { exp: `[name].replace('^[Ll]etisko${bs}', '')` }],
-  [12, 12, Y, N, "guidepost", { icon: "guidepost_x", font: { fontsetName: "bold", dy: -8 }, maxZoom: 12 }],
+  // [12, 12, Y, N, "guidepost", { icon: "guidepost_x", font: { fontsetName: "bold", dy: -8 }, maxZoom: 12 }], // no more guideposts on z12
   [13, 13, Y, N, "guidepost", { icon: "guidepost_xx", font: { fontsetName: "bold" }, maxZoom: 13 }],
-  [14, 14, Y, N, "guidepost", { icon: "guidepost_xx", font: { fontsetName: "bold" } }],
+  [14, 14, Y, N, ["guidepost", "guidepost_near1000"], { icon: "guidepost_xx", font: { fontsetName: "bold" } }],
   [10, 10, Y, Y, "peak1", { icon: "peak", font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, "peak2", { icon: "peak", font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, "peak3", { icon: "peak", font: { size: 13, dy: -8 } }],
