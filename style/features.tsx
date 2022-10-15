@@ -291,7 +291,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [14, 15, Y, N, "camp_site"],
   [14, 15, N, N, "attraction"],
   [14, 15, N, N, "hospital", { exp: `[name].replace('^[Nn]emocnica\\\\b', 'Nem.')` }],
-  [14, 15, N, N, "townhall", { exp: `[name].replace('^[Oo]becný úrad${bs}', '')` }],
+  [14, NN, N, N, "townhall"],
   [
     14,
     15,
