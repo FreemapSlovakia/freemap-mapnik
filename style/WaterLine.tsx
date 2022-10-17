@@ -70,10 +70,10 @@ export function WaterLine() {
           />
         </RuleEx>
 
-        <RuleEx filter="[type] <> 'river'" minZoom={13}>
+        <RuleEx filter="[type] <> 'river'" minZoom={12}>
           <LineSymbolizer
             stroke="white"
-            strokeWidth={2.4}
+            strokeWidth="((@zoom = 12) * 2) +  ((@zoom > 12) * 2.4)"
             strokeOpacity="0.5 - [tunnel] / 0.6"
             strokeDasharray="[dasharray]"
             smooth={0.5}
@@ -109,10 +109,10 @@ export function WaterLine() {
           />
         </RuleEx>
 
-        <RuleEx minZoom={13} filter="[type] <> 'river'">
+        <RuleEx minZoom={12} filter="[type] <> 'river'">
           <LineSymbolizer
             stroke={colors.water}
-            strokeWidth={1.2}
+            strokeWidth="((@zoom = 12) * 1) +  ((@zoom > 12) * 1.2)"
             strokeOpacity="1 - [tunnel] / 0.6"
             strokeDasharray="[dasharray]"
             smooth={0.5}
