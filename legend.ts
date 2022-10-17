@@ -976,9 +976,9 @@ export const legend = {
     poi("institution", "cinema", "cinema", "kino", "cinema"),
     poi("institution", "post_office", "post office", "pošta", "ufficio postale"),
     poi("institution", "kindergarten", "kindergarten", "škôlka", "kindergarten" /* TODO translate */),
-    poi("institution", "school", "school", "pošta", "škola" /* TODO translate */),
-    poi("institution", "college", "vysoká škola, gymnázium", "pošta", "college" /* TODO translate */),
-    poi("institution", "university", "university", "pošta", "university" /* TODO translate */),
+    poi("institution", "school", "school", "škola", "school" /* TODO translate */),
+    poi("institution", "college", "college", "vysoká škola, gymnázium", "college" /* TODO translate */),
+    poi("institution", "university", "university", "univerzita", "university" /* TODO translate */),
 
     poi("poi", "bicycle", "bicycle shop", "cykloobchod", "negozio bici"),
 
