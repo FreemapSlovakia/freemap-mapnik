@@ -18,6 +18,8 @@ const highwayDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
 
 const highwayWidthFormula = "pow(1.5, max(8.6, @zoom) - 8)";
 
+const ke = `(((@zoom = 12) * 0.66) + ((@zoom = 13) * 0.75) + ((@zoom >= 14) * 1))`;
+
 export function Highways() {
   return (
     <>
@@ -144,71 +146,56 @@ export function Highways() {
           <LinePatternSymbolizer file="images/steps.svg" />
         </RuleEx>
 
-        {(
-          [
-            [[12, 12], 0.5],
-            [[13, 13], 0.75],
-            [[14], 1],
-          ] as [number[], number][]
-        ).map(([z, k], a) => (
-          <>
-            <RuleEx
-              minZoom={z[0]}
-              maxZoom={z[1]}
-              filter="[type] = 'service' and [service] != 'parking_aisle' or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway'"
-            >
-              <Road strokeWidth={k * 1.2} />
-            </RuleEx>
+        <RuleEx
+          minZoom={12}
+          filter="([type] = 'service' and [service] != 'parking_aisle') or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway'"
+        >
+          <Road strokeWidth={`${ke} * 1.2`} />
+        </RuleEx>
 
-            <RuleEx
-              minZoom={z[0]}
-              maxZoom={z[1]}
-              filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated') and (@zoom > 12 or [is_in_route])"
-            >
-              <Road strokeWidth={k * 1} strokeDasharray="3,3" strokeOpacity="[trail_visibility]" />
-            </RuleEx>
+        <RuleEx
+          minZoom={12}
+          filter="[type] = 'path' and not ([bicycle] = 'designated' and [foot] != 'designated') and (@zoom > 12 or [is_in_route])"
+        >
+          <Road strokeWidth={`${ke} * 1`} strokeDasharray="3,3" strokeOpacity="[trail_visibility]" />
+        </RuleEx>
 
-            <RuleEx
-              minZoom={z[0]}
-              maxZoom={z[1]}
-              filter="[type] = 'path' and [bicycle] = 'designated' and [foot] = 'designated' and (@zoom > 12 or [is_in_route])"
-            >
-              <Road strokeWidth={k * 1} strokeDasharray="4,2" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
-            </RuleEx>
+        <RuleEx
+          minZoom={12}
+          filter="[type] = 'path' and [bicycle] = 'designated' and [foot] = 'designated' and (@zoom > 12 or [is_in_route])"
+        >
+          <Road strokeWidth={`${ke} * 1`} strokeDasharray="4,2" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
+        </RuleEx>
 
-            <RuleEx
-              minZoom={z[0]}
-              maxZoom={z[1]}
-              filter="[type] = 'cycleway' or ([type] = 'path' and [bicycle] = 'designated' and [foot] != 'designated') and (@zoom > 12 or [is_in_route])"
-            >
-              <Road strokeWidth={k * 1} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
-            </RuleEx>
+        <RuleEx
+          minZoom={12}
+          filter="[type] = 'cycleway' or ([type] = 'path' and [bicycle] = 'designated' and [foot] != 'designated') and (@zoom > 12 or [is_in_route])"
+        >
+          <Road strokeWidth={`${ke} * 1`} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
+        </RuleEx>
 
-            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="bridleway" filter="@zoom > 12 or [is_in_route]">
-              <Road
-                strokeWidth={k * 1}
-                strokeDasharray="6,3"
-                stroke={hsl(120, 50, 30)}
-                strokeOpacity="[trail_visibility]"
-              />
-            </RuleEx>
+        <RuleEx minZoom={12} type="bridleway" filter="@zoom > 12 or [is_in_route]">
+          <Road
+            strokeWidth={`${ke} * 1`}
+            strokeDasharray="6,3"
+            stroke={hsl(120, 50, 30)}
+            strokeOpacity="[trail_visibility]"
+          />
+        </RuleEx>
 
-            <RuleEx minZoom={z[0]} maxZoom={z[1]} type="via_ferrata" filter="@zoom > 12 or [is_in_route]">
-              <Road strokeWidth={k * 1} strokeDasharray="4,4" />
-            </RuleEx>
+        <RuleEx minZoom={12} type="via_ferrata" filter="@zoom > 12 or [is_in_route]">
+          <Road strokeWidth={`${ke} * 1`} strokeDasharray="4,4" />
+        </RuleEx>
 
-            {[undefined, "8,2", "6,4", "4,6", "2,8", "3,7,7,3"].map((strokeDasharray, i) => (
-              <RuleEx
-                filter={`[class] = 'highway' and [type] = 'track' and (@zoom > 12 or [is_in_route] or [tracktype] = 'grade1' or [tracktype] = 'grade2') and [tracktype] = ${
-                  i === 5 ? "''" : `'grade${i + 1}'`
-                }`}
-                minZoom={z[0]}
-                maxZoom={z[1]}
-              >
-                <Road strokeWidth={k * 1.2} strokeDasharray={strokeDasharray} strokeOpacity="[trail_visibility]" />
-              </RuleEx>
-            ))}
-          </>
+        {[undefined, "8,2", "6,4", "4,6", "2,8", "3,7,7,3"].map((strokeDasharray, i) => (
+          <RuleEx
+            filter={`[class] = 'highway' and [type] = 'track' and (@zoom > 12 or [is_in_route] or [tracktype] = 'grade1') and [tracktype] = ${
+              i === 5 ? "''" : `'grade${i + 1}'`
+            }`}
+            minZoom={12}
+          >
+            <Road strokeWidth={`${ke} * 1.2`} strokeDasharray={strokeDasharray} strokeOpacity="[trail_visibility]" />
+          </RuleEx>
         ))}
 
         <RuleEx minZoom={14} filter="[oneway] <> 0">
@@ -243,10 +230,10 @@ export function Highways() {
         </RuleEx>
 
         <RuleEx
-          filter="[type] = 'track' and [class] = 'highway' and ([tracktype] = 'grade2' or @zoom > 12 or [is_in_route])"
+          filter="(([type] = 'track' and ([tracktype] = 'grade1' or @zoom > 12 or [is_in_route])) or ([type] = 'service' and [service] != 'parking_aisle') or [type] = 'escape' or [type] = 'corridor' or [type] = 'bus_guideway') and [class] = 'highway'"
           minZoom={12}
         >
-          <LineSymbolizer {...glowDflt} strokeWidth={1.2} strokeOpacity="[trail_visibility]" />
+          <LineSymbolizer {...glowDflt} strokeWidth={`${ke} * 1.2`} strokeOpacity="[trail_visibility]" />
         </RuleEx>
 
         <RuleEx filter="[type] = 'raceway' or ([type] = 'track' and [class] = 'leisure')" minZoom={14}>
@@ -339,7 +326,7 @@ export function Highways() {
             geometry
           FROM osm_roads
           WHERE type NOT IN ('trunk', 'motorway', 'trunk_link', 'motorway_link') AND geometry && !bbox!
-        "
+      "
       />
     </>
   );
