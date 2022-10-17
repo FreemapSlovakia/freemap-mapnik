@@ -19,7 +19,7 @@ export function NationalParkNames() {
             placement="interior"
             placementType="list"
           >
-            [name]
+            [name].replace('\\b[Oo]chranné [Pp]ásmo\\b', 'OP').replace('\\b[Nn]árodn(ého|ý) [Pp]arku?\\b', 'NP')
             <Placements />
           </TextSymbolizerEx>
         </Rule>
