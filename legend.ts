@@ -299,6 +299,14 @@ export const legend = {
       },
     },
     {
+      id: "institution",
+      name: {
+        en: "Institutions",
+        sk: "Inštitúcie",
+        it: "Institutions", // TODO translate
+      },
+    },
+    {
       id: "poi",
       name: {
         en: "Other Points of Interest",
@@ -949,28 +957,34 @@ export const legend = {
     poi("poi", "memorial", "memorial", "pamätník", "memoriale"),
     poi("poi", "artwork", "artwork", "umelecké dielo", "opera d'arte"),
 
-    poi("poi", "townhall", "townhall", "radnica, obecný úrad", "municipio"),
-    poi("poi", "fire_station", "fire station", "hasičská stanica", "pompieri"),
-    poi("poi", "police", "police", "polícia", "polizia"),
-    poi("poi", "community_centre", "community centre", "dom kultúru, komunitné centrum", "centro comunitario"),
-    poi("poi", "office", "office", "informačné centrum", "ufficio"),
-    poi("poi", "hospital", "hospital", "nemocnica", "ospedale"),
-    poi("poi", "pharmacy", "pharmacy", "lekáreň", "farmacia"),
-    poi("poi", "bicycle", "bicycle shop", "cykloobchod", "negozio bici"),
-
+    poi("institution", "townhall", "townhall", "radnica, obecný úrad", "municipio"),
+    poi("institution", "fire_station", "fire station", "hasičská stanica", "pompieri"),
+    poi("institution", "police", "police", "polícia", "polizia"),
+    poi("institution", "community_centre", "community centre", "dom kultúru, komunitné centrum", "centro comunitario"),
+    poi("institution", "office", "office", "informačné centrum", "ufficio"),
+    poi("institution", "hospital", "hospital", "nemocnica", "ospedale"),
+    poi("institution", "pharmacy", "pharmacy", "lekáreň", "farmacia"),
     poi(
-      "poi",
+      "institution",
       "church",
       "church, chapel, cathedral, temple, basilica",
       "kostol, cerkev, kaplnka, katedrála, chrám, bazilika",
       "chiesa, cappella, cattedrale, tempio, basilica"
     ),
+    poi("institution", "theatre", "theatre", "divadlo", "teatro"),
+    poi("institution", "museum", "museum", "múzeum", "museo"),
+    poi("institution", "cinema", "cinema", "kino", "cinema"),
+    poi("institution", "post_office", "post office", "pošta", "ufficio postale"),
+    poi("institution", "kindergarten", "kindergarten", "škôlka", "kindergarten" /* TODO translate */),
+    poi("institution", "school", "school", "pošta", "škola" /* TODO translate */),
+    poi("institution", "college", "vysoká škola, gymnázium", "pošta", "college" /* TODO translate */),
+    poi("institution", "university", "university", "pošta", "university" /* TODO translate */),
+
+    poi("poi", "bicycle", "bicycle shop", "cykloobchod", "negozio bici"),
+
     poi("poi", "wayside_shrine", "wayside shrine", "božia muka", "edicola votiva"),
     poi("poi", "cross", "cross", "kríž", "croce"),
 
-    poi("poi", "cinema", "cinema", "kino", "cinema"),
-    poi("poi", "theatre", "theatre", "divadlo", "teatro"),
-    poi("poi", "museum", "museum", "múzeum", "museo"),
     poi("poi", "archaeological_site", "archaeological site", "archeologické nálezisko", "sito archeologico"),
 
     poi("gastro_poi", "pub", "pub", "hostinec, krčma", "pub"),
@@ -985,7 +999,6 @@ export const legend = {
     poi("poi", "bunker", "bunker", "bunker", "bunker"),
     poi("poi", "boundary_stone", "boundary stone", "hraničný kameň", "cippo di confine"),
 
-    poi("poi", "post_office", "post office", "pošta", "ufficio postale"),
     poi("poi", "post_box", "post box", "poštová schránka", "cassetta postale"),
     poi("poi", "telephone", "telephone", "telefón", "telefono"),
 

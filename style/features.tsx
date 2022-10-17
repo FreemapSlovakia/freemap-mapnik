@@ -310,21 +310,6 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [14, 15, N, N, "forester's_lodge"],
   [14, 15, N, N, "horse_riding"],
   [14, 15, N, N, "golf_course"],
-  [
-    14,
-    14,
-    N,
-    N,
-    "kindergarten",
-    {
-      font: { fill: colors.areaLabel },
-      icon: null,
-      exp:
-        "[name].replace('[Zz]ákladná [Šš]kola', 'ZŠ')" +
-        ".replace('[Zz]ákladná [Uu]melecká [Šš]kola', 'ZUŠ')" +
-        ".replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')",
-    },
-  ], // has no icon yet - render as area name
   [14, 14, N, N, "recycling", { font: { fill: colors.areaLabel }, icon: null }], // has no icon yet - render as area name
 
   [15, NN, Y, N, "guidepost_noname", { icon: "guidepost_x" }],
@@ -380,23 +365,54 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [15, 16, N, N, "weir", { font: { fill: colors.waterLabel } }],
   [
     15,
-    15,
+    16,
     N,
     N,
-    ["school", "university", "college"],
+    "school",
     {
-      font: { fill: colors.areaLabel },
-      icon: null,
       exp:
         "[name].replace('[Zz]ákladná [Šš]kola', 'ZŠ')" +
         ".replace('[Zz]ákladná [Uu]melecká [Šš]kola', 'ZUŠ')" +
-        ".replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')" +
         ".replace('[Ss]tredná [Oo]dborná [Šš]kola', 'SOŠ')" +
         ".replace('[Gg]ymnázium ', 'gym. ')" +
         ".replace(' [Gg]ymnázium', ' gym.')" +
         ".replace('[V]ysoká [Šš]kola', 'VŠ')",
     },
-  ], // has no icon yet - render as area name
+  ],
+  [
+    15,
+    16,
+    N,
+    N,
+    "college",
+    {
+      exp:
+        "[name].replace('[Ss]tredná [Oo]dborná [Šš]kola', 'SOŠ')" +
+        ".replace('[Gg]ymnázium ', 'gym. ')" +
+        ".replace(' [Gg]ymnázium', ' gym.')" +
+        ".replace('[V]ysoká [Šš]kola', 'VŠ')",
+    },
+  ],
+  [
+    15,
+    16,
+    N,
+    N,
+    "university",
+    {
+      exp: "[name].replace('[V]ysoká [Šš]kola', 'VŠ')",
+    },
+  ],
+  [
+    15,
+    16,
+    N,
+    N,
+    "kindergarten",
+    {
+      exp: "[name].replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')",
+    },
+  ],
 
   [16, 17, N, N, "miniature_golf"],
   [16, 17, N, N, "soccer"],
