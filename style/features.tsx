@@ -347,7 +347,6 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [15, 16, N, N, "fuel"],
   [15, 16, N, N, "post_office"],
   [15, 16, N, N, "bunker"],
-  [15, 16, N, N, "boundary_stone"],
   [15, NN, N, N, "mast_other"],
   [15, NN, N, N, "tower_other"],
   [15, NN, N, N, ["tower_communication", "mast_communication"]],
@@ -440,6 +439,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   ],
   [16, 17, N, N, "cross"],
 
+  [17, 18, N, N, "boundary_stone"],
   [17, 18, N, N, "wayside_shrine"],
   [17, 18, N, N, ["cross", "wayside_cross", "tree_shrine"]], // NOTE cross is also on lower zoom
   [17, NN, N, N, "firepit"],
