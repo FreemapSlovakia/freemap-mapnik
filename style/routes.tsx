@@ -372,9 +372,9 @@ function RouteStyles({ glows, types }: Props) {
                 )}
               </RuleEx>
             );
-
-            return elements;
           }
+
+          return elements;
         })}
       </>
     );
