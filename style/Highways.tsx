@@ -174,7 +174,7 @@ export function Highways() {
           <Road strokeWidth={`${ke} * 1`} strokeDasharray="6,3" stroke="#b400ff" strokeOpacity="[trail_visibility]" />
         </RuleEx>
 
-        <RuleEx minZoom={12} type="bridleway" filter="@zoom > 12 or [is_in_route]">
+        <RuleEx minZoom={12} filter="[type] = 'bridleway' and (@zoom > 12 or [is_in_route])">
           <Road
             strokeWidth={`${ke} * 1`}
             strokeDasharray="6,3"
@@ -183,7 +183,7 @@ export function Highways() {
           />
         </RuleEx>
 
-        <RuleEx minZoom={12} type="via_ferrata" filter="@zoom > 12 or [is_in_route]">
+        <RuleEx minZoom={12} filter="[type] = 'via_ferrata' and (@zoom > 12 or [is_in_route])">
           <Road strokeWidth={`${ke} * 1`} strokeDasharray="4,4" />
         </RuleEx>
 
