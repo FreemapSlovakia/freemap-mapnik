@@ -306,6 +306,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [14, 15, N, N, "bus_station"],
   [14, 15, N, N, "water_park"],
   [14, 15, N, N, "museum"],
+  [14, 15, N, N, "manor"],
   [14, 15, N, N, "free_flying"],
   [14, 15, N, N, "forester's_lodge"],
   [14, 15, N, N, "horse_riding"],

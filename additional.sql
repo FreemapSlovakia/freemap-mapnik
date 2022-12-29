@@ -67,6 +67,7 @@ VALUES
         ('basic_hut'),
         ('camp_site'),
         ('castle'),
+        ('manor'),
         ('forester''s_lodge'),
         ('guidepost'),
         ('cathedral'),

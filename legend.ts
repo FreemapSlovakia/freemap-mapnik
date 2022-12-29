@@ -971,6 +971,7 @@ export const legend = {
       "kostol, cerkev, kaplnka, katedrála, chrám, bazilika",
       "chiesa, cappella, cattedrale, tempio, basilica"
     ),
+    poi("institution", "manor", "mansion, manor", "kaštieľ, pánske sídlo", "dimora, maniero"),
     poi("institution", "theatre", "theatre", "divadlo", "teatro"),
     poi("institution", "museum", "museum", "múzeum", "museo"),
     poi("institution", "cinema", "cinema", "kino", "cinema"),
