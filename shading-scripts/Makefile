@@ -196,7 +196,12 @@ build/final.tif.ovr: build/final.tif
 
 ### dmr5 stuff (SK, PL)
 
-# for SK keep only *.tif files (move auxiliary files away)
+# mkdir links
+# cd links
+# find .. -path '../LOT*/DMR*.tif' -exec sh -c 'ln -s {} `basename {}`' \;
+# find -name '*.tif' -exec gdal_edit.py -ro {} -a_srs EPSG:8353 \;
+# gdalbuildvrt -resolution highest merged.vrt *.tif
+# gdal_translate -co NUM_THREADS=ALL_CPUS -r nearest -co COMPRESS=DEFLATE -co PREDICTOR=2 -co ZLEVEL=9 -co BIGTIFF=YES --config GDAL_CACHEMAX 1024 merged.vrt merged.tif
 
 ## retile (only) big SK tiffs - cut to halves
 #  mv r_01_17_s.* r_02_17_s.* r_05_17_s.* r_06_18_s.* r_07_17_s.* r_09_17_s.* r_10_17_s.* r_12_18_s.* r_13_18_s.* r_14_18_s.* r_17_18_s.* r_19_18_s.* r_20_18_s.* r_21_18_s.* r_23_20_s.* r_25_19_s.* r_26_18_s.* oksize/
@@ -273,14 +278,10 @@ build/final.tif.ovr: build/final.tif
 # cd masktiles
 # find -name '*.png' | sed -e 's/\.\/\|\.png//g' > ../dirty.tiles
 
-####### simple HS
-# gdalbuildvrt -r cubic -allow_projection_difference -a_srs epsg:8353 sk2.vrt d/*.tif
+####### simple HS (z18)
 # gdalwarp -t_srs 'EPSG:3857' -tr 0.59716428348 0.59716428348 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=DEFLATE -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi sk.vrt sk-warped.tif
 # gdaldem hillshade -alg Horn -z 1.5 -co JPEG_QUALITY=95 -co COMPRESS=JPEG -co NUM_THREADS=24 -co TILED=YES -co BIGTIFF=YES sk-warped.tif sk-hs.tif
-# gdalwarp -t_srs 'EPSG:3857' -tr 0.59716428348 0.59716428348 -tap -r cubic -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=DEFLATE -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi pl.vrt pl-warped.tif
-# gdaldem hillshade -alg Horn -z 1.5 -co JPEG_QUALITY=95 -co COMPRESS=JPEG -co NUM_THREADS=24 -co TILED=YES -co BIGTIFF=YES pl-warped.tif pl-hs.tif
-# gdalbuildvrt sh.vrt -r nearest pl-hs.tif sk-hs.tif
-# gdal2tiles.py -r near -z 17 --xyz --processes=$(getconf _NPROCESSORS_ONLN) -n -w none sh.vrt sh
+# gdal2tiles.py -r near -z 18 --xyz --processes=$(getconf _NPROCESSORS_ONLN) -n -w none sk-hs.tif sh
 # find -type d | parallel -j 24 mogrify -format jpg '{}/*.png'
 
 
