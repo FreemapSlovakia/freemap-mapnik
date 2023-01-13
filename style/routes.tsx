@@ -241,7 +241,7 @@ function RouteStyles({ glows, types }: Props) {
 
   return [0, 1, 2].flatMap((zoomVar) => {
     const zoomParams = zoomVar === 0 ? { maxZoom: 11 } : zoomVar === 1 ? { minZoom: 12, maxZoom: 12 } : { minZoom: 13 };
-    const zo = [1, 2, 3][zoomVar];
+    const zo = [1, 2, 3][zoomVar]; // offset from highway
     const wf = [1.5, 1.5, 2][zoomVar];
 
     const df = 1.25;
