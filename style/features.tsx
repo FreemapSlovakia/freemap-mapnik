@@ -227,6 +227,7 @@ const springExpr = {
 };
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
+// prettier-ignore
 const pois: [number, number | null, boolean, boolean, string | string[], Extra?][] = [
   [12, 12, N, N, "aerodrome", { exp: `[name].replace('^[Ll]etisko${bs}', '')` }],
   [12, 12, Y, N, "guidepost", { icon: "guidepost_x", font: { fontsetName: "bold", dy: -8 }, maxZoom: 12 }],
@@ -239,16 +240,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
 
   [14, 14, N, N, "castle", { exp: `[name].replace('^[Hh]rad${bs}', '')` }],
   [14, 15, Y, Y, "arch"],
-  [
-    14,
-    15,
-    Y,
-    Y,
-    "cave_entrance",
-    {
-      exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b', 'p.')`,
-    },
-  ],
+  [14, 15, Y, Y, "cave_entrance", { exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b', 'p.')`, }],
   [14, 15, Y, Y, "spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "refitted_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
@@ -256,28 +248,11 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [14, 15, Y, Y, "refitted_drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "refitted_not_drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "hot_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
-  [
-    14,
-    15,
-    Y,
-    Y,
-    "waterfall",
-    {
-      font: { fill: colors.waterLabel },
-      exp: `[name].replace('^[Vv]odopád${bs}', '').replace('\\\\b[Vv]odopád$', 'vdp.')`,
-    },
-  ],
+  [14, 15, Y, Y, "waterfall", { font: { fill: colors.waterLabel }, exp: `[name].replace('^[Vv]odopád${bs}', '').replace('\\\\b[Vv]odopád$', 'vdp.')`, }],
   [14, 15, N, N, ["drinking_water", "water_point"], { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, "water_well", { font: { fill: colors.waterLabel } }],
   [14, 15, Y, N, "monument"],
-  [
-    14,
-    15,
-    Y,
-    Y,
-    "viewpoint",
-    { exp: `[name].replace('^[Vv]yhliadka${bs}', '').replace('\\\\b[Vv]yhliadka$', 'vyhl.')` },
-  ],
+  [14, 15, Y, Y, "viewpoint", { exp: `[name].replace('^[Vv]yhliadka${bs}', '').replace('\\\\b[Vv]yhliadka$', 'vyhl.')` }],
   [14, 15, Y, N, ["mine", "adit", "mineshaft"]],
   [14, 15, Y, N, "disused_mine"],
   [14, 15, Y, N, "hotel", { exp: `[name].replace('^[Hh]otel${bs}', '')` }],
@@ -292,14 +267,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [14, 15, N, N, "attraction"],
   [14, 15, N, N, "hospital", { exp: `[name].replace('^[Nn]emocnica\\\\b', 'Nem.')` }],
   [14, NN, N, N, "townhall"],
-  [
-    14,
-    15,
-    N,
-    N,
-    ["church", "chapel", "cathedral", "temple", "basilica"],
-    { exp: `[name].replace('^[Kk]ostol${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')` },
-  ],
+  [14, 15, N, N, ["church", "chapel", "cathedral", "temple", "basilica"], { exp: `[name].replace('^[Kk]ostol${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')` }],
   [14, 15, Y, N, "tower_observation"],
   [14, 15, Y, N, "archaeological_site"],
   [14, 15, N, N, ["station", "halt"]],
@@ -357,18 +325,11 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [15, 16, N, N, "sauna"],
   [15, 16, N, N, "taxi"],
   [15, 16, N, N, "bicycle"],
-  [15, 16, N, N, "building"],
   [15, 15, N, Y, "tree_protected", { font: { fill: hsl(120, 100, 31) } }],
   [15, 15, N, Y, "tree"],
   [15, 16, N, N, "bird_hide"],
   [15, 16, N, N, "dam", { font: { fill: colors.waterLabel } }],
-  [15, 16, N, N, "weir", { font: { fill: colors.waterLabel } }],
-  [
-    15,
-    16,
-    N,
-    N,
-    "school",
+  [15, 16, N, N, "school",
     {
       exp:
         "[name].replace('[Zz]ákladná [Šš]kola', 'ZŠ')" +
@@ -379,12 +340,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
         ".replace('[V]ysoká [Šš]kola', 'VŠ')",
     },
   ],
-  [
-    15,
-    16,
-    N,
-    N,
-    "college",
+  [ 15, 16, N, N, "college",
     {
       exp:
         "[name].replace('[Ss]tredná [Oo]dborná [Šš]kola', 'SOŠ')" +
@@ -393,27 +349,11 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
         ".replace('[V]ysoká [Šš]kola', 'VŠ')",
     },
   ],
-  [
-    15,
-    16,
-    N,
-    N,
-    "university",
-    {
-      exp: "[name].replace('[V]ysoká [Šš]kola', 'VŠ')",
-    },
-  ],
-  [
-    15,
-    16,
-    N,
-    N,
-    "kindergarten",
-    {
-      exp: "[name].replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')",
-    },
-  ],
+  [15, 16, N, N, "university", { exp: "[name].replace('[V]ysoká [Šš]kola', 'VŠ')", }],
+  [15, 16, N, N, "kindergarten", { exp: "[name].replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')", }],
 
+  [16, 17, N, N, "building"],
+  [16, 17, N, N, "weir", { font: { fill: colors.waterLabel } }],
   [16, 17, N, N, "miniature_golf"],
   [16, 17, N, N, "soccer"],
   [16, 17, N, N, "tennis"],
@@ -430,14 +370,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [16, NN, N, N, "feeding_place", { icon: "manger" }],
   [16, NN, N, N, "game_feeding", { icon: "manger" }],
   [16, 17, N, N, "playground", { exp: `[name].replace('^[Dd]etské ihrisko\\\\b', '')` }],
-  [
-    16,
-    17,
-    N,
-    N,
-    ["water_works", "reservoir_covered", "pumping_station", "wastewater_plant"],
-    { font: { fill: colors.waterLabel } },
-  ],
+  [16, 17, N, N, ["water_works", "reservoir_covered", "pumping_station", "wastewater_plant"], { font: { fill: colors.waterLabel } }],
   [16, 17, N, N, "cross"],
 
   [17, 18, N, N, "boundary_stone"],
