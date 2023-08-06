@@ -6,6 +6,7 @@ import { GdalLayer } from "./GdalLayer";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { StyledLayer } from "./StyledLayer";
+import { seq } from "./utils";
 
 type Props0 = {
   cc: string;
@@ -61,35 +62,15 @@ function ContoursStyle() {
 }
 
 function HillshadeStyle() {
+  const zooms = seq(7, 19);
+
   return (
     <Style name="hillshade">
-      <RuleEx /*minZoom={8}*/ maxZoom={8}>
-        <RasterSymbolizer scaling="lanczos" opacity={1.0} />
-      </RuleEx>
-
-      <RuleEx minZoom={9} maxZoom={9}>
-        <RasterSymbolizer scaling="lanczos" opacity={0.9} />
-      </RuleEx>
-
-      <RuleEx minZoom={10} maxZoom={11}>
-        <RasterSymbolizer scaling="lanczos" opacity={0.75} />
-      </RuleEx>
-
-      <RuleEx minZoom={12} maxZoom={12}>
-        <RasterSymbolizer scaling="lanczos" opacity={0.65} />
-      </RuleEx>
-
-      <RuleEx minZoom={13} maxZoom={13}>
-        <RasterSymbolizer scaling="bilinear" opacity={0.55} />
-      </RuleEx>
-
-      <RuleEx minZoom={14} maxZoom={14}>
-        <RasterSymbolizer scaling="bilinear" opacity={0.65} />
-      </RuleEx>
-
-      <RuleEx minZoom={15}>
-        <RasterSymbolizer scaling="bilinear" opacity={0.8} />
-      </RuleEx>
+      {zooms.map((z, i) => (
+        <RuleEx minZoom={i === 0 ? undefined : z} maxZoom={i === zooms.length - 1 ? undefined : z}>
+          <RasterSymbolizer scaling="lanczos" opacity={Math.min(1, 1 - Math.log(z - 7) / 5)} />
+        </RuleEx>
+      ))}
     </Style>
   );
 }
