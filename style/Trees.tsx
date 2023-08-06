@@ -10,8 +10,8 @@ export function Trees() {
         <RuleEx minZoom={16}>
           <MarkersSymbolizer
             file="images/tree2.svg"
-            width="2 + pow(2, @zoom - 15)"
-            height="2 + pow(2, @zoom - 15)"
+            width="(2 + pow(2, @zoom - 15)) * 2"
+            height="(2 + pow(2, @zoom - 15)) * 2"
             fill={colors.forest}
             allowOverlap
             ignorePlacement
