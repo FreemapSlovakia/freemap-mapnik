@@ -1,5 +1,5 @@
 import { LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
+import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
@@ -14,14 +14,14 @@ export function Borders({ forLowzoom }: Props) {
         <Style name="borders">
           <RuleEx maxZoom={10}>
             <LineSymbolizer
-              stroke={hsl(278, 100, 50)}
+              stroke={colors.adminBorder}
               strokeWidth="0.5 + 6 * pow(1.4, @zoom - 11)"
               strokeLinejoin="round"
             />
           </RuleEx>
 
           <RuleEx minZoom={11}>
-            <LineSymbolizer stroke={hsl(278, 100, 50)} strokeWidth={6} strokeLinejoin="round" />
+            <LineSymbolizer stroke={colors.adminBorder} strokeWidth={6} strokeLinejoin="round" />
           </RuleEx>
         </Style>
       )}

@@ -1,5 +1,5 @@
 import { LineSymbolizer, PolygonPatternSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
+import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
@@ -8,7 +8,7 @@ export function MilitaryAreas() {
     <>
       <Style name="military_areas">
         <RuleEx minZoom={10}>
-          <LineSymbolizer stroke={hsl(0, 96, 39)} strokeWidth={3} strokeDasharray="25,7" strokeOpacity={0.8} />
+          <LineSymbolizer stroke={colors.military} strokeWidth={3} strokeDasharray="25,7" strokeOpacity={0.8} />
         </RuleEx>
 
         <RuleEx minZoom={10} maxZoom={13}>

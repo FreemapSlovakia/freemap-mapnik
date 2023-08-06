@@ -1,5 +1,5 @@
 import { LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
+import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
@@ -14,7 +14,7 @@ export function Aeroways() {
 
       <Style name="aeroways">
         {(() => {
-          const aeroBgLine = { stroke: hsl(240, 30, 40) };
+          const aeroBgLine = { stroke: colors.aeroway };
           const aeroFgLine = { stroke: "white", strokeWidth: 1 };
 
           return (

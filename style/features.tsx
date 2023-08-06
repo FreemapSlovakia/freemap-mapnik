@@ -385,6 +385,7 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [17, 18, N, N, ["beehive", "apiary"]],
   [17, NN, N, N, ["lift_gate", "swing_gate"]],
   [17, NN, N, N, "ford"],
+  [17, NN, N, N, "parking"],
 
   [18, 19, N, N, "post_box"],
   [18, 19, N, N, "telephone"],

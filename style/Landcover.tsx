@@ -9,7 +9,7 @@ function getLandcoverSelect(tblSuffix: "_gen0" | "_gen1" | "" = "") {
     SELECT
       CASE WHEN type = 'wetland' AND tags->'wetland' IN ('bog', 'reedbed', 'marsh', 'swamp', 'wet_meadow', 'mangrove', 'fen') THEN tags->'wetland' ELSE type END AS type,
       geometry,
-      position(type || ',' IN 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,dam,weir,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,kindergarten,school,college,university,village_green,wetland,grass,recreation_ground,zoo,farmyard,retail,commercial,residential,industrial,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,') AS z_order
+      position(type || ',' IN 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,dam,weir,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,village_green,wetland,grass,recreation_ground,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,zoo,farmyard,hospital,kindergarten,school,college,university,retail,commercial,residential,industrial,') AS z_order
     FROM
       osm_landusages${tblSuffix}
     WHERE
@@ -52,12 +52,20 @@ export function Landcover() {
           <BorderedPolygonSymbolizer color={colors.landfill} />
         </RuleEx>
 
+        <RuleEx type="hospital">
+          <BorderedPolygonSymbolizer color={colors.hospital} />
+        </RuleEx>
+
+        <RuleEx type={["school", "college", "university"]}>
+          <BorderedPolygonSymbolizer color={colors.college} />
+        </RuleEx>
+
         <RuleEx type="brownfield">
           <BorderedPolygonSymbolizer color={colors.brownfield} />
         </RuleEx>
 
         <RuleEx type={["residential", "living_street"]}>
-          <BorderedPolygonSymbolizer color={hsl(0, 0, 88)} />
+          <BorderedPolygonSymbolizer color={colors.residential} />
         </RuleEx>
 
         <RuleEx type="farmyard">
@@ -69,11 +77,11 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type={["industrial", "wastewater_plant"]}>
-          <BorderedPolygonSymbolizer color={hsl(0, 0, 80)} />
+          <BorderedPolygonSymbolizer color={colors.industrial} />
         </RuleEx>
 
         <RuleEx type={["commercial", "retail"]}>
-          <BorderedPolygonSymbolizer color={hsl(320, 40, 85)} />
+          <BorderedPolygonSymbolizer color={colors.commercial} />
         </RuleEx>
 
         <RuleEx type="cemetery">
@@ -100,7 +108,7 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type="beach">
-          <BorderedPolygonSymbolizer color={hsl(60, 90, 85)} />
+          <BorderedPolygonSymbolizer color={colors.beach} />
           <PolygonPatternSymbolizer file="images/sand.svg" alignment="global" opacity={0.25} />
         </RuleEx>
 
@@ -115,17 +123,17 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type="quarry">
-          <BorderedPolygonSymbolizer color={hsl(0, 0, 70)} />
+          <BorderedPolygonSymbolizer color={colors.quarry} />
           <PolygonPatternSymbolizer file="images/quarry.svg" />
         </RuleEx>
 
         <RuleEx type="scree">
-          <BorderedPolygonSymbolizer color={hsl(0, 0, 90)} />
+          <BorderedPolygonSymbolizer color={colors.scree} />
           <PolygonPatternSymbolizer file="images/scree.svg" opacity={0.33} />
         </RuleEx>
 
         <RuleEx type="clearcut">
-          <BorderedPolygonSymbolizer color={hsl(74, 29, 68)} />
+          <BorderedPolygonSymbolizer color={colors.clearcut} />
           <PolygonPatternSymbolizer file="images/stump.svg" opacity={0.33} />
         </RuleEx>
 
@@ -164,18 +172,18 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type={["pitch", "playground", "golf_course", "track"]} minZoom={12}>
-          <PolygonSymbolizer fill={hsl(140, 50, 70)} />
-          <LineSymbolizer stroke={hsl(140, 50, 40)} strokeWidth={1} />
+          <PolygonSymbolizer fill={colors.pitch} />
+          <LineSymbolizer stroke={colors.pitchStroke} strokeWidth={1} />
         </RuleEx>
 
         <RuleEx type="parking" minZoom={13}>
-          <PolygonSymbolizer fill={hsl(0, 33, 80)} />
-          <LineSymbolizer stroke={hsl(0, 33, 65)} strokeWidth={1} />
+          <PolygonSymbolizer fill={colors.parking} />
+          <LineSymbolizer stroke={colors.parkingStroke} strokeWidth={1} />
         </RuleEx>
 
         <RuleEx type={["bunker_silo", "storage_tank", "silo"]} minZoom={13}>
-          <PolygonSymbolizer fill={hsl(50, 34, 35)} />
-          <LineSymbolizer stroke={hsl(50, 34, 20)} strokeWidth={1} />
+          <PolygonSymbolizer fill={colors.silo} />
+          <LineSymbolizer stroke={colors.siloStroke} strokeWidth={1} />
         </RuleEx>
       </Style>
 

@@ -1,5 +1,5 @@
 import { LineSymbolizer, MarkersSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
+import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
@@ -12,7 +12,7 @@ export function PowerLines() {
         </RuleEx>
 
         <RuleEx minZoom={14} type="minor_line">
-          <LineSymbolizer stroke={hsl(0, 0, 50)} strokeWidth={1} strokeOpacity={0.5} />
+          <LineSymbolizer stroke={colors.powerLine} strokeWidth={1} strokeOpacity={0.5} />
         </RuleEx>
       </Style>
 
