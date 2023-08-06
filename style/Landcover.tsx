@@ -134,7 +134,7 @@ export function Landcover() {
 
         <RuleEx type="clearcut">
           <BorderedPolygonSymbolizer color={colors.clearcut} />
-          <PolygonPatternSymbolizer file="images/stump.svg" opacity={0.33} />
+          <PolygonPatternSymbolizer file="images/stump.svg" opacity={0.25} />
         </RuleEx>
 
         <RuleEx type="bog">
