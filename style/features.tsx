@@ -77,7 +77,7 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
         FROM
           osm_sports
         WHERE
-          type IN ('free_flying', 'soccer', 'tennis', 'basketball')
+          type IN ('free_flying', 'soccer', 'tennis', 'basketball', 'climbing')
 
       UNION ALL
         SELECT
@@ -351,6 +351,8 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   ],
   [15, 16, N, N, "university", { exp: "[name].replace('[V]ysoká [Šš]kola', 'VŠ')", }],
   [15, 16, N, N, "kindergarten", { exp: "[name].replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')", }],
+  [15, 16, N, N, "climbing"],
+
 
   [16, 17, N, N, "building"],
   [16, 17, N, N, "weir", { font: { fill: colors.waterLabel } }],

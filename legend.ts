@@ -1026,6 +1026,7 @@ export const legend = {
     poi("poi", "horse_riding", "horse riding", "jazda na koni", "equitazione"),
     poi("poi", "sauna", "sauna", "sauna", "sauna"),
     poi("poi", "free_flying", "paragliding", "paraglajding", "parapendio"),
+    poi("poi", "climbing", "climbing", "lezenie", "arrampicata"),
     poi("poi", "golf_course", "golf course", "golfový kurt", "golf"),
     poi("poi", "miniature_golf", "miniature golf", "minigolf", "minigolf"),
     poi("poi", "soccer", "socces", "futbal", "calcio"),

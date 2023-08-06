@@ -4,9 +4,12 @@ CREATE EXTENSION hstore;
 
 -- see https://wiki.postgresql.org/wiki/First/last_(aggregate)
 -- Create a function that always returns the first non-NULL item
-CREATE OR REPLACE FUNCTION public.first_agg (anyelement, anyelement) RETURNS anyelement LANGUAGE SQL IMMUTABLE STRICT AS $$
-        SELECT $1;
-$$;
+CREATE
+OR REPLACE FUNCTION public.first_agg (anyelement, anyelement) RETURNS anyelement LANGUAGE SQL IMMUTABLE STRICT AS $ $
+SELECT
+        $ 1;
+
+$ $;
 
 -- And then wrap an aggregate around it
 CREATE AGGREGATE public.FIRST (
@@ -16,9 +19,12 @@ CREATE AGGREGATE public.FIRST (
 );
 
 -- Create a function that always returns the last non-NULL item
-CREATE OR REPLACE FUNCTION public.last_agg (anyelement, anyelement) RETURNS anyelement LANGUAGE SQL IMMUTABLE STRICT AS $$
-        SELECT $2;
-$$;
+CREATE
+OR REPLACE FUNCTION public.last_agg (anyelement, anyelement) RETURNS anyelement LANGUAGE SQL IMMUTABLE STRICT AS $ $
+SELECT
+        $ 2;
+
+$ $;
 
 -- And then wrap an aggregate around it
 CREATE AGGREGATE public.LAST (
@@ -81,6 +87,7 @@ VALUES
         ('museum'),
         ('cinema'),
         ('theatre'),
+        ('climbing'),
         ('free_flying'),
         ('bunker'),
         ('restaurant'),
