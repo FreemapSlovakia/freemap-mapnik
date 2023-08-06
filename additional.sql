@@ -89,6 +89,7 @@ VALUES
         ('theatre'),
         ('climbing'),
         ('free_flying'),
+        ('shooting'),
         ('bunker'),
         ('restaurant'),
         ('pub'),
