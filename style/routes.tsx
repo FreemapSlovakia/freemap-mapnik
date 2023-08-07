@@ -14,7 +14,7 @@ export type RouteProps = {
 };
 
 const colorMap: Record<string, string> = {
-  none: "#ff00ff60",
+  none: "#a0a0a0",
   purple: "#c000c0",
   orange: "#ff8000",
   white: "white",
