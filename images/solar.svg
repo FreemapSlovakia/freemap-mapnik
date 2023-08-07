@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
-    <path fill="#b0a7e9" d="M0 0h8v8H0z"/>
-    <path fill="#3d2bb1" d="M0 0h7v7H0z"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="8" height="8" version="1.1" id="svg98910" sodipodi:docname="solar.svg" inkscape:version="1.2.2 (b0a8486541, 2022-12-01)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs98914" />
+  <sodipodi:namedview id="namedview98912" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" showgrid="false" inkscape:zoom="29.5" inkscape:cx="2.3220339" inkscape:cy="4.0169492" inkscape:window-width="1863" inkscape:window-height="1056" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg98910" />
+  <path fill="#b0a7e9" d="M0 0h8v8H0z" id="path98906" style="fill:#aca1e5;fill-opacity:1" />
+  <path fill="#3d2bb1" d="M0 0h7v7H0z" id="path98908" style="fill:#6c57d9;fill-opacity:1" />
 </svg>
