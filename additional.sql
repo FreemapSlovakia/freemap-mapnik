@@ -181,6 +181,7 @@ VALUES
         ('pumping_station'),
         ('wastewater_plant'),
         ('outdoor_seating'),
+        ('parking'),
         ('firepit'),
         ('bench'),
         ('beehive'),
