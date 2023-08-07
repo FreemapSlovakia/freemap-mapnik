@@ -1,5 +1,4 @@
 import { LineSymbolizer, PolygonPatternSymbolizer, PolygonSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { BorderedPolygonSymbolizer } from "./BorderedPolygonSymbolizer";
 import { colors, hsl } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -9,7 +8,7 @@ function getLandcoverSelect(tblSuffix: "_gen0" | "_gen1" | "" = "") {
     SELECT
       CASE WHEN type = 'wetland' AND tags->'wetland' IN ('bog', 'reedbed', 'marsh', 'swamp', 'wet_meadow', 'mangrove', 'fen') THEN tags->'wetland' ELSE type END AS type,
       geometry,
-      position(type || ',' IN 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,dam,weir,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,village_green,wetland,grass,recreation_ground,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,farmland,zoo,farmyard,hospital,kindergarten,school,college,university,retail,commercial,residential,industrial,') AS z_order
+      position(type || ',' IN 'pedestrian,footway,pitch,library,baracks,parking,cemetery,place_of_worship,dam,weir,clearcut,scrub,orchard,vineyard,landfill,scree,quarry,railway,park,garden,allotments,village_green,wetland,grass,recreation_ground,fell,bare_rock,heath,meadow,wood,forest,golf_course,grassland,farm,zoo,farmyard,hospital,kindergarten,school,college,university,retail,commercial,industrial,residential,farmland,') AS z_order
     FROM
       osm_landusages${tblSuffix}
     WHERE
@@ -25,63 +24,63 @@ export function Landcover() {
       <Style name="landcover">
         <RuleEx type={["dam", "weir"]}>
           {/* <PolygonPatternSymbolizer file='images/fell.svg' alignment='global' opacity: 0.5 }) /> */}
-          <BorderedPolygonSymbolizer color={hsl(0, 0, 70)} />
+          <PolygonSymbolizer fill={hsl(0, 0, 70)} />
         </RuleEx>
 
         <RuleEx type={["forest", "wood"]}>
-          <BorderedPolygonSymbolizer color={colors.forest} />
+          <PolygonSymbolizer fill={colors.forest} />
         </RuleEx>
 
         <RuleEx type="farmland">
-          <BorderedPolygonSymbolizer color={colors.farmland} />
+          <PolygonSymbolizer fill={colors.farmland} />
         </RuleEx>
 
         <RuleEx type={["meadow", "park", "cemetery", "village_green"]}>
-          <BorderedPolygonSymbolizer color={colors.grassy} />
+          <PolygonSymbolizer fill={colors.grassy} />
         </RuleEx>
 
         <RuleEx type={["fell", "grassland", "grass"]}>
-          <BorderedPolygonSymbolizer color={colors.grassy} />
+          <PolygonSymbolizer fill={colors.grassy} />
         </RuleEx>
 
         <RuleEx type="heath">
-          <BorderedPolygonSymbolizer color={colors.heath} />
+          <PolygonSymbolizer fill={colors.heath} />
         </RuleEx>
 
         <RuleEx type="landfill">
-          <BorderedPolygonSymbolizer color={colors.landfill} />
+          <PolygonSymbolizer fill={colors.landfill} />
         </RuleEx>
 
         <RuleEx type="hospital">
-          <BorderedPolygonSymbolizer color={colors.hospital} />
+          <PolygonSymbolizer fill={colors.hospital} />
         </RuleEx>
 
         <RuleEx type={["school", "college", "university"]}>
-          <BorderedPolygonSymbolizer color={colors.college} />
+          <PolygonSymbolizer fill={colors.college} />
         </RuleEx>
 
         <RuleEx type="brownfield">
-          <BorderedPolygonSymbolizer color={colors.brownfield} />
+          <PolygonSymbolizer fill={colors.brownfield} />
         </RuleEx>
 
         <RuleEx type={["residential", "living_street"]}>
-          <BorderedPolygonSymbolizer color={colors.residential} />
+          <PolygonSymbolizer fill={colors.residential} />
         </RuleEx>
 
         <RuleEx type="farmyard">
-          <BorderedPolygonSymbolizer color={colors.farmyard} />
+          <PolygonSymbolizer fill={colors.farmyard} />
         </RuleEx>
 
         <RuleEx type="allotments">
-          <BorderedPolygonSymbolizer color={colors.allotments} />
+          <PolygonSymbolizer fill={colors.allotments} />
         </RuleEx>
 
         <RuleEx type={["industrial", "wastewater_plant"]}>
-          <BorderedPolygonSymbolizer color={colors.industrial} />
+          <PolygonSymbolizer fill={colors.industrial} />
         </RuleEx>
 
         <RuleEx type={["commercial", "retail"]}>
-          <BorderedPolygonSymbolizer color={colors.commercial} />
+          <PolygonSymbolizer fill={colors.commercial} />
         </RuleEx>
 
         <RuleEx type="cemetery">
@@ -93,7 +92,7 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type="vineyard">
-          <BorderedPolygonSymbolizer color={colors.orchard} />
+          <PolygonSymbolizer fill={colors.orchard} />
           <PolygonPatternSymbolizer file="images/grapes.svg" alignment="global" opacity={0.2} />
         </RuleEx>
 
@@ -103,32 +102,32 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type="orchard">
-          <BorderedPolygonSymbolizer color={colors.orchard} />
+          <PolygonSymbolizer fill={colors.orchard} />
           <PolygonPatternSymbolizer file="images/orchard.svg" alignment="global" opacity={0.2} />
         </RuleEx>
 
         <RuleEx type="beach">
-          <BorderedPolygonSymbolizer color={colors.beach} />
+          <PolygonSymbolizer fill={colors.beach} />
           <PolygonPatternSymbolizer file="images/sand.svg" alignment="global" opacity={0.25} />
         </RuleEx>
 
         <RuleEx type="scrub">
-          <BorderedPolygonSymbolizer color={colors.scrub} />
+          <PolygonSymbolizer fill={colors.scrub} />
           <PolygonPatternSymbolizer file="images/scrub.svg" alignment="global" opacity={0.2} />
         </RuleEx>
 
         <RuleEx type="plant_nursery">
-          <BorderedPolygonSymbolizer color={colors.scrub} />
+          <PolygonSymbolizer fill={colors.scrub} />
           <PolygonPatternSymbolizer file="images/plant_nursery.svg" alignment="global" opacity={0.2} />
         </RuleEx>
 
         <RuleEx type="quarry">
-          <BorderedPolygonSymbolizer color={colors.quarry} />
+          <PolygonSymbolizer fill={colors.quarry} />
           <PolygonPatternSymbolizer file="images/quarry.svg" />
         </RuleEx>
 
         <RuleEx type="scree">
-          <BorderedPolygonSymbolizer color={colors.scree} />
+          <PolygonSymbolizer fill={colors.scree} />
           <PolygonPatternSymbolizer file="images/scree.svg" opacity={0.33} />
         </RuleEx>
 
@@ -137,31 +136,31 @@ export function Landcover() {
         </RuleEx>
 
         <RuleEx type="bog">
-          <BorderedPolygonSymbolizer color={colors.heath} />
+          <PolygonSymbolizer fill={colors.heath} />
           <PolygonPatternSymbolizer file="images/wetland.svg" alignment="global" />
           <PolygonPatternSymbolizer file="images/bog.svg" alignment="global" />
         </RuleEx>
 
         <RuleEx type="mangrove">
-          <BorderedPolygonSymbolizer color={colors.scrub} />
+          <PolygonSymbolizer fill={colors.scrub} />
           <PolygonPatternSymbolizer file="images/wetland.svg" alignment="global" />
           <PolygonPatternSymbolizer file="images/mangrove.svg" alignment="global" />
         </RuleEx>
 
         <RuleEx type="reedbed">
-          <BorderedPolygonSymbolizer color={colors.grassy} />
+          <PolygonSymbolizer fill={colors.grassy} />
           <PolygonPatternSymbolizer file="images/wetland.svg" alignment="global" />
           <PolygonPatternSymbolizer file="images/reedbed.svg" alignment="global" />
         </RuleEx>
 
         <RuleEx type={["marsh", "fen", "wet_meadow"]}>
-          <BorderedPolygonSymbolizer color={colors.grassy} />
+          <PolygonSymbolizer fill={colors.grassy} />
           <PolygonPatternSymbolizer file="images/wetland.svg" alignment="global" />
           <PolygonPatternSymbolizer file="images/marsh.svg" alignment="global" />
         </RuleEx>
 
         <RuleEx type="swamp">
-          <BorderedPolygonSymbolizer color={colors.grassy} />
+          <PolygonSymbolizer fill={colors.grassy} />
           <PolygonPatternSymbolizer file="images/wetland.svg" alignment="global" />
           <PolygonPatternSymbolizer file="images/swamp.svg" alignment="global" />
         </RuleEx>

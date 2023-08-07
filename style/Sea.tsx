@@ -1,5 +1,4 @@
-import { Rule, Style } from "jsxnik/mapnikConfig";
-import { BorderedPolygonSymbolizer } from "./BorderedPolygonSymbolizer";
+import { PolygonSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
 import { ShpLayer } from "./ShpLayer";
 
 export function Sea() {
@@ -7,7 +6,7 @@ export function Sea() {
     <>
       <Style name="sea">
         <Rule>
-          <BorderedPolygonSymbolizer color="white" />
+          <PolygonSymbolizer fill="white" />
         </Rule>
       </Style>
 

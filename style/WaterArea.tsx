@@ -1,5 +1,4 @@
 import { PolygonPatternSymbolizer, PolygonSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { BorderedPolygonSymbolizer } from "./BorderedPolygonSymbolizer";
 import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -17,7 +16,7 @@ export function WaterArea() {
         </RuleEx>
 
         <RuleEx minZoom={8} filter="[tmp] != 1">
-          <BorderedPolygonSymbolizer color={colors.water} />
+          <PolygonSymbolizer fill={colors.water} />
         </RuleEx>
 
         <RuleEx maxZoom={9} filter="[tmp] != 1">
