@@ -26,7 +26,7 @@ export const colors = {
   scree: hsl(0, 0, 90),
   track: hsl(0, 33, 25),
   parking: hsl(0, 20, 88),
-  parkingStroke: hsl(0, 20, 75),
+  parkingStroke: hsl(0, 30, 75),
   pitch: hsl(110, 35, 75),
   pitchStroke: hsl(110, 35, 50),
   silo: hsl(50, 30, 50),
