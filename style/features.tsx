@@ -355,6 +355,9 @@ const pois: [number, number | null, boolean, boolean, string | string[], Extra?]
   [15, 16, N, N, "shooting"],
 
 
+  [16, 17, N, Y, "rock"],
+  [16, 17, N, Y, "stone"],
+  [16, 17, N, Y, "sinkhole"],
   [16, 17, N, N, "building"],
   [16, 17, N, N, "weir", { font: { fill: colors.waterLabel } }],
   [16, 17, N, N, "miniature_golf"],
