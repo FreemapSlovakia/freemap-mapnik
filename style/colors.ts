@@ -1,6 +1,7 @@
 import convert from "color-convert";
 
 export const colors = {
+  areaLabel: hsl(0, 0, 33),
   allotments: hsl(50, 45, 88),
   brownfield: hsl(30, 30, 68),
   building: hsl(0, 0, 50),
