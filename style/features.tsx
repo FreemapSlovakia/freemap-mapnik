@@ -83,7 +83,7 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
         SELECT
           ${mkProjection("tags->'ele'", "tags->'access'")},
           CASE
-            WHEN type = 'cave_entrance' AND tags ? 'fee' AND tags->'fee' <> 'no' THEN 'cave'
+            ${/*WHEN type = 'cave_entrance' AND tags ? 'fee' AND tags->'fee' <> 'no' THEN 'cave'*/ ""}
             WHEN type = 'tree' AND tags->'protected' <> 'no' THEN 'tree_protected'
             WHEN type = 'communications_tower' THEN 'tower_communication'
             WHEN type = 'shelter' THEN (CASE WHEN tags->'shelter_type' IN ('shopping_cart', 'lean_to', 'public_transport', 'picnic_shelter', 'basic_hut', 'weather_shelter') THEN tags->'shelter_type' ELSE 'shelter' END)
