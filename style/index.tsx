@@ -1,5 +1,5 @@
 import config from "config";
-import { Map } from "jsxnik/mapnikConfig";
+import { Map, RasterSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
 import { serialize } from "jsxnik/serialize";
 import { AerialwayNames } from "./AerialwayNames";
 import { Aerialways } from "./Aerialways";
@@ -20,6 +20,7 @@ import { FeatureLinesMaskable } from "./FeatureLinesMaskable";
 import { FeatureNames, Features } from "./features";
 import { Fixmes } from "./Fixmes";
 import { FontSets } from "./FontSets";
+import { Foo } from "./Foo";
 import { Geonames } from "./Geonames";
 import { HighwayNames } from "./HighwayNames";
 import { Highways } from "./Highways";
@@ -46,6 +47,7 @@ import { WaterArea } from "./WaterArea";
 import { WaterAreaNames } from "./WaterAreaNames";
 import { WaterLine } from "./WaterLine";
 import { WaterLineNames } from "./WaterLineNames";
+import { GdalLayer } from "./GdalLayer";
 
 const dbParams = config.get("db") as Record<string, string>;
 const contoursCfg = config.get("mapFeatures.contours") as boolean;
@@ -131,6 +133,8 @@ function generateFreemapStyleInt({
 
       <Highways />
 
+      {(shading || contours) && <ShadingAndCountours shading={shading} contours={contours} />}
+
       <Aeroways />
 
       <SolarPowerPlants />
@@ -138,8 +142,6 @@ function generateFreemapStyleInt({
       <Buildings />
 
       <Barrierways />
-
-      {(shading || contours) && <ShadingAndCountours shading={shading} contours={contours} />}
 
       <Aerialways />
 

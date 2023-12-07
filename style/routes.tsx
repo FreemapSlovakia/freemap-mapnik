@@ -1,4 +1,4 @@
-import { LinePatternSymbolizer, LineSymbolizer, Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
+import { LinePatternSymbolizer, LineSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
 import { RuleEx } from "./RuleEx";
 import { tmpdir } from "os";
 import path from "path";
