@@ -143,11 +143,12 @@ tables:
       man_made:
         mapping:
           man_made:
-            - clearcut # TODO as overlay layer
+            - clearcut
             - bunker_silo
             - silo
             - storage_tank
             - wastewater_plant
+            - bridge # TODO
       amenity:
         mapping:
           amenity:
@@ -572,6 +573,7 @@ tables:
             - kindergarten
             - library
             - monastery
+            - parking
             - pharmacy
             - police
             - post_box
@@ -639,8 +641,8 @@ tables:
         mapping:
           man_made:
             - adit
-            - beehive
             - apiary
+            - beehive
             - chimney
             - communications_tower
             - cross
@@ -768,6 +770,7 @@ tables:
             - ice_cream
             - kindergarten
             - library
+            - parking
             - pharmacy
             - police
             - post_office
@@ -816,25 +819,28 @@ tables:
             - playground
             - resort # TODO
             - sauna
-            - water_park
             - track
+            - water_park
       man_made:
         mapping:
           man_made:
             - adit
+            - apiary
+            - beehive
             - chimney
             - communications_tower
             - cross
+            - forester's_lodge
+            - ice_house # TODO
             - mine
             - mineshaft
+            - pumping_station
             - reservoir_covered
             - silo
-            - water_tower
-            - water_works
-            - pumping_station
             - wastewater_plant
-            - ice_house # TODO
-            - forester's_lodge
+            - water_tower
+            - water_well
+            - water_works
       military:
         mapping:
           military:
