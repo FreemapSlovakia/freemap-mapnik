@@ -39,7 +39,7 @@ export function Highways() {
           minZoom={13}
           filter={`[class] = 'railway' and ([type] = 'rail' and [service] != 'main' and [service] != '' or ${types(
             "light_rail",
-            "tram"
+            "tram",
           )})`}
         >
           <Rail color={hsl(0, 0, 20)} weight={1} sleeperWeight={4.5} spacing={9.5} glowWidth={1} />

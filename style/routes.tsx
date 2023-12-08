@@ -1,9 +1,4 @@
-import {
-  LinePatternSymbolizer,
-  LineSymbolizer,
-  Rule,
-  Style,
-} from "jsxnik/mapnikConfig";
+import { LinePatternSymbolizer, LineSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
 import { RuleEx } from "./RuleEx";
 import { tmpdir } from "os";
 import path from "path";
@@ -79,9 +74,7 @@ function getRoutesQuery(
     rights.push("ski", "piste");
   }
 
-  const [leftsIn, rightsIn] = [lefts, rights].map((side) =>
-    side.map((item) => `'${item}'`).join(",") || "'_x_'"
-  );
+  const [leftsIn, rightsIn] = [lefts, rights].map((side) => side.map((item) => `'${item}'`).join(",") || "'_x_'");
 
   return `
     SELECT
@@ -205,10 +198,8 @@ function getRoutesQuery(
         ))) AS arr2
       FROM osm_route_members${genSuffix} JOIN osm_routes ON (osm_route_members${genSuffix}.osm_id = osm_routes.osm_id AND state <> 'proposed')
       WHERE ${
-    !includeNetworks
-      ? ""
-      : `network IN (${includeNetworks.map((n) => `'${n}'`).join(",")}) AND `
-  }geometry && !bbox!
+        !includeNetworks ? "" : `network IN (${includeNetworks.map((n) => `'${n}'`).join(",")}) AND `
+      }geometry && !bbox!
       GROUP BY member
     ) AS aaa
     GROUP BY
@@ -231,15 +222,9 @@ export async function initIcons() {
     Object.entries(colorMap).map(([color, colorValue]) =>
       Promise.all([
         // TODO u
-        fs.writeFile(
-          path.resolve(tmpdir(), `ski-${color}.svg`),
-          String(skiSvg).replaceAll("#ff00ff", colorValue),
-        ),
-        fs.writeFile(
-          path.resolve(tmpdir(), `horse-${color}.svg`),
-          String(horseSvg).replaceAll("#ff00ff", colorValue),
-        ),
-      ])
+        fs.writeFile(path.resolve(tmpdir(), `ski-${color}.svg`), String(skiSvg).replaceAll("#ff00ff", colorValue)),
+        fs.writeFile(path.resolve(tmpdir(), `horse-${color}.svg`), String(horseSvg).replaceAll("#ff00ff", colorValue)),
+      ]),
     ),
   );
 }
@@ -256,11 +241,7 @@ function RouteStyles({ glows, types }: Props) {
   const isHorse = types.includes("horse");
 
   return [0, 1, 2].flatMap((zoomVar) => {
-    const zoomParams = zoomVar === 0
-      ? { maxZoom: 11 }
-      : zoomVar === 1
-      ? { minZoom: 12, maxZoom: 12 }
-      : { minZoom: 13 };
+    const zoomParams = zoomVar === 0 ? { maxZoom: 11 } : zoomVar === 1 ? { minZoom: 12, maxZoom: 12 } : { minZoom: 13 };
 
     const zo = [1, 2, 3][zoomVar]; // offset from highway
 
@@ -288,21 +269,15 @@ function RouteStyles({ glows, types }: Props) {
             elements.push(
               <RuleEx filter={`[r_${color}] > 0`} {...zoomParams}>
                 {
-                  glows
-                    ? (
-                      <LineSymbolizer
-                        {...glowStyle}
-                        strokeWidth={wf + 1}
-                        offset={offset}
-                      />
-                    )
-                    : (
-                      <LinePatternSymbolizer
-                        file={`/tmp/horse-${color}.svg`}
-                        offset={offset}
-                        transform={`scale(${wf / 2})`}
-                      />
-                    )
+                  glows ? (
+                    <LineSymbolizer {...glowStyle} strokeWidth={wf + 1} offset={offset} />
+                  ) : (
+                    <LinePatternSymbolizer
+                      file={`/tmp/horse-${color}.svg`}
+                      offset={offset}
+                      transform={`scale(${wf / 2})`}
+                    />
+                  )
 
                   // <LineSymbolizer
                   //   stroke={colorValue}
@@ -323,21 +298,15 @@ function RouteStyles({ glows, types }: Props) {
             elements.push(
               <RuleEx filter={`[s_${color}] > 0`} {...zoomParams}>
                 {
-                  glows
-                    ? (
-                      <LineSymbolizer
-                        {...glowStyle}
-                        strokeWidth={wf * 1.5 + 1}
-                        offset={offset}
-                      />
-                    )
-                    : (
-                      <LinePatternSymbolizer
-                        file={`/tmp/ski-${color}.svg`}
-                        offset={offset}
-                        transform={`scale(${wf / 2})`}
-                      />
-                    )
+                  glows ? (
+                    <LineSymbolizer {...glowStyle} strokeWidth={wf * 1.5 + 1} offset={offset} />
+                  ) : (
+                    <LinePatternSymbolizer
+                      file={`/tmp/ski-${color}.svg`}
+                      offset={offset}
+                      transform={`scale(${wf / 2})`}
+                    />
+                  )
 
                   // <LineSymbolizer
                   //   stroke={colorValue}
@@ -373,23 +342,17 @@ function RouteStyles({ glows, types }: Props) {
             // major hiking
             elements.push(
               <RuleEx filter={`[h_${color}] > 0`} {...zoomParams}>
-                {glows
-                  ? (
-                    <LineSymbolizer
-                      {...glowStyle}
-                      strokeWidth={wf + 2}
-                      offset={o1}
-                    />
-                  )
-                  : (
-                    <LineSymbolizer
-                      stroke={colorValue}
-                      strokeWidth={wf}
-                      strokeLinejoin="round"
-                      strokeLinecap="butt"
-                      offset={o1}
-                    />
-                  )}
+                {glows ? (
+                  <LineSymbolizer {...glowStyle} strokeWidth={wf + 2} offset={o1} />
+                ) : (
+                  <LineSymbolizer
+                    stroke={colorValue}
+                    strokeWidth={wf}
+                    strokeLinejoin="round"
+                    strokeLinecap="butt"
+                    offset={o1}
+                  />
+                )}
               </RuleEx>,
             );
 
@@ -398,24 +361,18 @@ function RouteStyles({ glows, types }: Props) {
             // local hiking
             elements.push(
               <RuleEx filter={`[h_${color}_loc] > 0`} {...zoomParams}>
-                {glows
-                  ? (
-                    <LineSymbolizer
-                      {...glowStyle}
-                      strokeWidth={wf + 2}
-                      offset={o2}
-                    />
-                  )
-                  : (
-                    <LineSymbolizer
-                      stroke={colorValue}
-                      strokeWidth={wf}
-                      strokeLinejoin="round"
-                      strokeLinecap="butt"
-                      offset={o2}
-                      strokeDasharray={`${wf * 3},${wf * 1}`}
-                    />
-                  )}
+                {glows ? (
+                  <LineSymbolizer {...glowStyle} strokeWidth={wf + 2} offset={o2} />
+                ) : (
+                  <LineSymbolizer
+                    stroke={colorValue}
+                    strokeWidth={wf}
+                    strokeLinejoin="round"
+                    strokeLinecap="butt"
+                    offset={o2}
+                    strokeDasharray={`${wf * 3},${wf * 1}`}
+                  />
+                )}
               </RuleEx>,
             );
           }
@@ -449,19 +406,17 @@ export function Routes(routeProps: RouteProps) {
           x.push("horse");
         }
 
-        return x.length > 0
-          ? (
-            <>
-              <Style name="routeGlows">
-                <RouteStyles glows types={x} />
-              </Style>
+        return x.length > 0 ? (
+          <>
+            <Style name="routeGlows">
+              <RouteStyles glows types={x} />
+            </Style>
 
-              <Style name="routes">
-                <RouteStyles glows={false} types={x} />
-              </Style>
-            </>
-          )
-          : undefined;
+            <Style name="routes">
+              <RouteStyles glows={false} types={x} />
+            </Style>
+          </>
+        ) : undefined;
       })()}
 
       <SqlLayer
@@ -482,26 +437,13 @@ export function Routes(routeProps: RouteProps) {
 
       <SqlLayer
         styleName="routes"
-        sql={getRoutesQuery(routeProps, [
-          "iwn",
-          "nwn",
-          "rwn",
-          "icn",
-          "ncn",
-          "rcn",
-        ], "_gen1")}
+        sql={getRoutesQuery(routeProps, ["iwn", "nwn", "rwn", "icn", "ncn", "rcn"], "_gen1")}
         minZoom={11}
         maxZoom={11}
         bufferSize={512}
       />
 
-      <SqlLayer
-        styleName="routes"
-        minZoom={12}
-        maxZoom={13}
-        bufferSize={512}
-        sql={getRoutesQuery(routeProps)}
-      />
+      <SqlLayer styleName="routes" minZoom={12} maxZoom={13} bufferSize={512} sql={getRoutesQuery(routeProps)} />
 
       <SqlLayer
         styleName="routes"
@@ -520,25 +462,11 @@ export function RouteNames(routeProps: RouteProps) {
     <>
       <Style name="route_names">
         <Rule>
-          <TextSymbolizerEx
-            line={500}
-            fill="black"
-            size={11}
-            haloRadius={1.5}
-            haloOpacity={0.2}
-            dy="4 + [off1] * 2.5"
-          >
+          <TextSymbolizerEx line={500} fill="black" size={11} haloRadius={1.5} haloOpacity={0.2} dy="4 + [off1] * 2.5">
             [refs1]
           </TextSymbolizerEx>
 
-          <TextSymbolizerEx
-            line={500}
-            fill="black"
-            size={11}
-            haloRadius={1.5}
-            haloOpacity={0.2}
-            dy="-4 - [off2] * 4"
-          >
+          <TextSymbolizerEx line={500} fill="black" size={11} haloRadius={1.5} haloOpacity={0.2} dy="-4 - [off2] * 4">
             [refs2]
           </TextSymbolizerEx>
         </Rule>

@@ -56,7 +56,7 @@ export function WaterLine() {
               cacheFeatures
             />
           </>
-        ))
+        )),
       )}
 
       <Style name="water_line_glow">

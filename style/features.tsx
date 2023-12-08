@@ -1,9 +1,4 @@
-import {
-  Format,
-  MarkersSymbolizer,
-  Placement,
-  Style,
-} from "jsxnik/mapnikConfig";
+import { Format, MarkersSymbolizer, Placement, Style } from "jsxnik/mapnikConfig";
 import { colors, hsl } from "./colors";
 import { defaultFontSize, TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
@@ -18,10 +13,7 @@ function poiNameProjection(ele = "null", access = "null", isolation = "null") {
   return `osm_id, geometry, name AS n, ${ele} AS ele, ${access} AS access, ${isolation} AS isolation`;
 }
 
-function getFeaturesSql(
-  zoom: number,
-  mkProjection: (ele?: string, access?: string, isolation?: string) => string,
-) {
+function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: string, isolation?: string) => string) {
   const sqls = [
     `SELECT * FROM (
     SELECT
@@ -231,8 +223,7 @@ type Extra = {
 const bs = "\\\\b *";
 
 const springExpr = {
-  exp:
-    `[name].replace('\\\\b[Mm]inerálny\\\\b', 'min.').replace('\\\\b[Pp]rameň\\\\b', 'prm.').replace('\\\\b[Ss]tud(ničk|ň)a\\\\b', 'stud.').replace('\\\\b[Vv]yvieračka\\\\b', 'vyv.')`,
+  exp: `[name].replace('\\\\b[Mm]inerálny\\\\b', 'min.').replace('\\\\b[Pp]rameň\\\\b', 'prm.').replace('\\\\b[Ss]tud(ničk|ň)a\\\\b', 'stud.').replace('\\\\b[Vv]yvieračka\\\\b', 'vyv.')`,
 };
 
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
@@ -505,9 +496,7 @@ export function Features() {
                     <MarkersSymbolizer
                       // TODO find out a way to make it red if private
                       multiPolicy="whole"
-                      file={`images/${
-                        extra.icon || (Array.isArray(type) ? type[0] : type)
-                      }.svg`}
+                      file={`images/${extra.icon || (Array.isArray(type) ? type[0] : type)}.svg`}
                       opacity='1 - ([type] != "cave_entrance" and ([access] = "private" or [access] = "no")) * 0.66'
                       transform={transform}
                     />
@@ -517,13 +506,11 @@ export function Features() {
           );
         })}
 
-        {
-          /* // rest texts
+        {/* // rest texts
           <RuleEx minZoom={16}>
             <TextSymbolizer ({ ...fontDfltWrap }, nameWithEle)
           </RuleEx>
-        */
-        }
+        */}
       </Style>
 
       {seq(10, 17).map((zoom) => (
@@ -572,29 +559,12 @@ export function FeatureNames() {
 
               return (
                 <RuleEx type={type} minZoom={minZoom} maxZoom={maxZoom}>
-                  <TextSymbolizerEx
-                    wrap
-                    nature={natural}
-                    placementType="list"
-                    dy={-10}
-                    {...(extra.font || {})}
-                  >
-                    {(extra.exp ?? "[name]") +
-                      (shorten ? ".replace('^(.{30})...+', '$1…')" : "")}
+                  <TextSymbolizerEx wrap nature={natural} placementType="list" dy={-10} {...(extra.font || {})}>
+                    {(extra.exp ?? "[name]") + (shorten ? ".replace('^(.{30})...+', '$1…')" : "")}
                     {withEle && (
                       <>
-                        <Format
-                          size={Number(extra.font?.size ?? defaultFontSize) *
-                            0.92}
-                        >
-                          [elehack]
-                        </Format>
-                        <Format
-                          size={Number(extra.font?.size ?? defaultFontSize) *
-                            0.8}
-                        >
-                          [ele]
-                        </Format>
+                        <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.92}>[elehack]</Format>
+                        <Format size={Number(extra.font?.size ?? defaultFontSize) * 0.8}>[ele]</Format>
                       </>
                     )}
                     <Placement dy={extra?.font?.dy ? -extra.font.dy : 10} />

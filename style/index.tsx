@@ -198,7 +198,7 @@ function generateFreemapStyleInt({
       {custom && <Custom {...custom} />}
 
       {legendLayers && <Legend legendLayers={legendLayers} />}
-    </Map>
+    </Map>,
   );
 }
 

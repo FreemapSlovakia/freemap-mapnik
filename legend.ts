@@ -170,7 +170,7 @@ function poi(
   sk: string,
   it: string,
   eithEle?: boolean,
-  additional: Record<string, unknown> = {}
+  additional: Record<string, unknown> = {},
 ) {
   return {
     categoryId,
@@ -190,7 +190,7 @@ function poi(
           elehack: eithEle ? "\n\u200B" : "",
           ...additional,
         },
-        eithEle ? -0.00005 : -0.00003
+        eithEle ? -0.00005 : -0.00003,
       ),
     ],
     ...props,
@@ -229,7 +229,7 @@ const track3rev = asLine(
     type: "track",
     tracktype: "grade3",
   },
-  true
+  true,
 );
 
 export const legend = {
@@ -422,7 +422,7 @@ export const legend = {
             type: "cutline",
           },
           false,
-          16
+          16,
         ),
       ],
       ...propsForZoom(16),
@@ -441,7 +441,7 @@ export const legend = {
             type: "tree_row",
           },
           false,
-          16
+          16,
         ),
       ],
       ...propsForZoom(16),
@@ -464,7 +464,7 @@ export const legend = {
             off1: 1,
             refs1: "2817",
           },
-          true
+          true,
         ),
       ],
       ...props,
@@ -487,7 +487,7 @@ export const legend = {
             off1: 1,
             refs1: "1A",
           },
-          true
+          true,
         ),
       ],
       ...props,
@@ -548,7 +548,7 @@ export const legend = {
             off1: 1,
             refs1: "Neigh",
           },
-          true
+          true,
         ),
       ],
       ...props,
@@ -562,7 +562,7 @@ export const legend = {
       "residential",
       "street, unclassified road or road of unknown kind",
       "ulica, neklasifikovaná cesta alebo cesta neznámeho druhu",
-      "residenziale"
+      "residenziale",
     ),
     ...["", 1, 2, 3, 4, 5].map((grade) => ({
       categoryId: "communications",
@@ -727,7 +727,7 @@ export const legend = {
       "viditeľnosť trasy je výborná alebo neurčená",
       "visibilitò eccellente o non specificata",
       false,
-      0
+      0,
     ),
     road("path", "good trail visibility", "viditeľnosť trasy je dobrá", "buona visibilità della traccia", false, 1),
     road(
@@ -736,7 +736,7 @@ export const legend = {
       "trasa je väčšinou viditeľná",
       "traccia prevalentemente visibile",
       false,
-      2
+      2,
     ),
     road(
       "path",
@@ -744,7 +744,7 @@ export const legend = {
       "trasa je striedavo viditeľná",
       "traccia talvolta non visibile",
       false,
-      3
+      3,
     ),
     road(
       "path",
@@ -752,7 +752,7 @@ export const legend = {
       "trasa nie je väčšinou viditeľná",
       "traccia prevalentemente non visibile",
       false,
-      4
+      4,
     ),
     road("path", "trail is not visible at all", "trasa nie je vôbec viditeľná", "traccia non visibile", false, 5),
     {
@@ -887,7 +887,7 @@ export const legend = {
       "public_transport",
       "public transport shelter",
       "prístrešok hromadnej dopravy",
-      "riparo trasporti pubblici"
+      "riparo trasporti pubblici",
     ),
 
     poi("poi", "guidepost", "guidepost", "smerovník", "guida", true),
@@ -915,7 +915,7 @@ export const legend = {
             name: "Abc",
             type: "tree",
           },
-          0
+          0,
         ),
       ],
       ...props,
@@ -926,7 +926,7 @@ export const legend = {
       "tree",
       "monumental tree",
       "monumentálny strom",
-      "monumental tree" // TODO translate
+      "monumental tree", // TODO translate
     ),
     poi("poi", "viewpoint", "viewpoint", "výhľad", "punto panoramico"),
 
@@ -946,7 +946,7 @@ export const legend = {
       "water_works",
       "water works, covered water reservoir, water treatment plant",
       "vodný zdroj, krytá vodná nádrž, čistička",
-      "opera idrica/trattamento acque"
+      "opera idrica/trattamento acque",
     ),
     poi("water", "fountain", "fountain", "fontána", "fontanella"),
 
@@ -969,7 +969,7 @@ export const legend = {
       "church",
       "church, chapel, cathedral, temple, basilica",
       "kostol, cerkev, kaplnka, katedrála, chrám, bazilika",
-      "chiesa, cappella, cattedrale, tempio, basilica"
+      "chiesa, cappella, cattedrale, tempio, basilica",
     ),
     poi("institution", "manor", "mansion, manor", "kaštieľ, pánske sídlo", "dimora, maniero"),
     poi("institution", "theatre", "theatre", "divadlo", "teatro"),
@@ -1041,7 +1041,7 @@ export const legend = {
       "disused_mine",
       "disused mine, adit or mineshaft",
       "zatvorená baňa, štôlňa alebo šachta",
-      "miniera in disuso, pozzo minerario"
+      "miniera in disuso, pozzo minerario",
     ),
     poi("poi", "attraction", "attraction", "atrakcia", "attrazione"),
 
@@ -1078,7 +1078,7 @@ export const legend = {
       "meadow",
       "meadow, park, village green, grassland",
       "lúka, park, mestská zeleň, trávnatá plocha",
-      "prato, parco, area verde, pascolo"
+      "prato, parco, area verde, pascolo",
     ),
     landcover("heath", "heath", "step", "brughiera"),
     landcover("scrub", "scrub", "kroviny", "boscaglia"),
@@ -1107,14 +1107,14 @@ export const legend = {
       "playground",
       "pitch, playground, golf course, track",
       "ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha",
-      "campo da gioco, parco giochi, campo da golf, pista"
+      "campo da gioco, parco giochi, campo da golf, pista",
     ),
     landcover("parking", "parking", "parkovisko", "parcheggio"),
     landcover(
       "bunker_silo",
       "(bunker) silo, storage tank",
       "silo, skladovací kontajner",
-      "sbancamento" /* TODO + storage tank */
+      "sbancamento" /* TODO + storage tank */,
     ),
     landcover("landfill", "landfill", "skládka", "discarica"),
     {
@@ -1141,7 +1141,7 @@ export const legend = {
           {
             type: "national_park",
           },
-          13
+          13,
         ),
       ],
       ...propsForZoom(13),
@@ -1173,7 +1173,7 @@ export const legend = {
           {
             type: "military",
           },
-          10
+          10,
         ),
       ],
       ...propsForZoom(10),
