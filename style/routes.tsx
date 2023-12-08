@@ -57,6 +57,7 @@ const colorSql = `
 function getRoutesQuery(
   { hikingTrails, horseTrails, bicycleTrails, skiTrails }: RouteProps,
   includeNetworks?: string[],
+  genSuffix = "",
 ) {
   const lefts: string[] = [];
 
@@ -202,7 +203,7 @@ function getRoutesQuery(
               1000
             END
         ))) AS arr2
-      FROM osm_route_members JOIN osm_routes ON (osm_route_members.osm_id = osm_routes.osm_id AND state <> 'proposed')
+      FROM osm_route_members${genSuffix} JOIN osm_routes ON (osm_route_members${genSuffix}.osm_id = osm_routes.osm_id AND state <> 'proposed')
       WHERE ${
     !includeNetworks
       ? ""
@@ -468,7 +469,7 @@ export function Routes(routeProps: RouteProps) {
         minZoom={9}
         maxZoom={9}
         bufferSize={512}
-        sql={getRoutesQuery(routeProps, ["iwn", "icn"])}
+        sql={getRoutesQuery(routeProps, ["iwn", "icn"], "_gen0")}
       />
 
       <SqlLayer
@@ -476,7 +477,7 @@ export function Routes(routeProps: RouteProps) {
         minZoom={10}
         maxZoom={10}
         bufferSize={512}
-        sql={getRoutesQuery(routeProps, ["iwn", "nwn", "icn", "ncn"])}
+        sql={getRoutesQuery(routeProps, ["iwn", "nwn", "icn", "ncn"], "_gen1")}
       />
 
       <SqlLayer
@@ -488,7 +489,7 @@ export function Routes(routeProps: RouteProps) {
           "icn",
           "ncn",
           "rcn",
-        ])}
+        ], "_gen1")}
         minZoom={11}
         maxZoom={11}
         bufferSize={512}
@@ -552,12 +553,3 @@ export function RouteNames(routeProps: RouteProps) {
     </>
   );
 }
-
-console.log(getRoutesQuery(
-  {
-    hikingTrails: true,
-    horseTrails: true,
-    bicycleTrails: true,
-    skiTrails: true,
-  },
-));

@@ -29,8 +29,10 @@ generalized_tables:
     sql_filter: ST_Area(geometry)>500000.000000
     tolerance: 200
   roads_gen0:
-    source: roads_gen1
-    sql_filter:
+    source: roads
+    sql_filter: type IN ('motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary',
+      'primary_link', 'secondary', 'secondary_link', 'tertiary', 'tertiary_link')
+      OR class IN('railway')
     tolerance: 200
   roads_gen1:
     source: roads
@@ -54,6 +56,12 @@ generalized_tables:
     source: landusages_gen1
     sql_filter: ST_Area(geometry)>500000.000000
     tolerance: 200
+  route_members_gen0:
+    source: route_members
+    tolerance: 200
+  route_members_gen1:
+    source: route_members
+    tolerance: 50
 
 tables:
   routes:
@@ -1188,6 +1196,17 @@ tables:
             - bad
             - horrible
             - "no"
+      - name: sac_scale
+        type: enumerate
+        key: sac_scale
+        args:
+          values:
+            - hiking
+            - mountain_hiking
+            - demanding_mountain_hiking
+            - alpine_hiking
+            - demanding_alpine_hiking
+            - difficult_alpine_hiking
       - name: fixme
         type: string
         key: fixme
