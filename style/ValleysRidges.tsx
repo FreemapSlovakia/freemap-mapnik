@@ -29,7 +29,7 @@ export function ValleysRidges() {
                 margin={5}
                 // horizontalAlignment="adjust"
               >
-                {`[name].replace('^Dolink?a\\\\b *', 'Dol. ').replace('^dolink?a\\\\b *', 'dol. ').replace(' *\\\\b[Dd]olink?a$', '') + "\n "`}
+                {`[name].replace('^Dolink?a\\\\b *', 'Dol. ').replace('^dolink?a\\\\b *', 'dol. ').replace(' *\\\\b[Dd]olink?a$', ' dol.') + "\n "`}
                 <Placement characterSpacing={cs * 2} />
                 <Placement characterSpacing={cs * 1.5} />
                 <Placement characterSpacing={cs} />
