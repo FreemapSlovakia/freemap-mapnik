@@ -229,11 +229,11 @@ const springExpr = {
 // minIconZoom, minTextZoom, withEle, natural, types/icon, textOverrides
 // prettier-ignore
 const pois: [
-  number,
-  number | null,
-  boolean,
-  boolean,
-  string | string[],
+  minZoom: number,
+  minTextZoom: number | null,
+  withEle: boolean,
+  natural: boolean,
+  types: string | string[],
   Extra?,
 ][] = [
   [12, 12, N, N, "aerodrome", {
@@ -459,7 +459,7 @@ const pois: [
   [17, 18, N, N, ["beehive", "apiary"]],
   [17, NN, N, N, ["lift_gate", "swing_gate"]],
   [17, NN, N, N, "ford"],
-  [17, NN, N, N, "parking"],
+  [17, 19, N, N, "parking", { font: { fill: colors.areaLabel, size: 10, haloOpacity: 0.5 } }],
 
   [18, 19, N, N, "post_box"],
   [18, 19, N, N, "telephone"],
