@@ -131,7 +131,7 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
         FROM
           osm_place_of_worships
         WHERE
-          building IN ('chapel', 'church', 'basilica', 'temple')
+          building IN ('chapel', 'church', 'temple', 'mosque', 'cathedral', 'synagogue')
 
       UNION ALL
         SELECT
@@ -236,23 +236,10 @@ const pois: [
   types: string | string[],
   Extra?,
 ][] = [
-  [12, 12, N, N, "aerodrome", {
-    exp: `[name].replace('^[Ll]etisko${bs}', '')`,
-  }],
-  [12, 12, Y, N, "guidepost", {
-    icon: "guidepost_x",
-    font: { fontsetName: "bold", dy: -8 },
-    maxZoom: 12,
-  }],
-  [13, 13, Y, N, "guidepost", {
-    icon: "guidepost_xx",
-    font: { fontsetName: "bold" },
-    maxZoom: 13,
-  }],
-  [14, 14, Y, N, "guidepost", {
-    icon: "guidepost_xx",
-    font: { fontsetName: "bold" },
-  }],
+  [12, 12, N, N, "aerodrome", { exp: `[name].replace('^[Ll]etisko${bs}', '')` }],
+  [12, 12, Y, N, "guidepost", { icon: "guidepost_x", font: { fontsetName: "bold", dy: -8 }, maxZoom: 12 }],
+  [13, 13, Y, N, "guidepost", { icon: "guidepost_xx", font: { fontsetName: "bold" }, maxZoom: 13 }],
+  [14, 14, Y, N, "guidepost", { icon: "guidepost_xx", font: { fontsetName: "bold" } }],
   [10, 10, Y, Y, "peak1", { icon: "peak", font: { size: 13, dy: -8 } }],
   [11, 11, Y, Y, "peak2", { icon: "peak", font: { size: 13, dy: -8 } }],
   [12, 12, Y, Y, "peak3", { icon: "peak", font: { size: 13, dy: -8 } }],
@@ -261,57 +248,27 @@ const pois: [
   [14, 14, N, N, "castle", { exp: `[name].replace('^[Hh]rad${bs}', '')` }],
   [14, 15, Y, Y, "arch"],
   [14, 15, Y, Y, "cave_entrance", {
-    exp:
-      `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b', 'p.')`,
+    exp: `[name].replace('^[Jj]jaskyňa${bs}', '').replace('\\\\b[Jj]askyňa$', 'j.').replace('\\\\b[Pp]riepasť\\\\b', 'p.')`,
   }],
-  [14, 15, Y, Y, "spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
-  [14, 15, Y, Y, "refitted_spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
-  [14, 15, Y, Y, "drinking_spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
-  [14, 15, Y, Y, "not_drinking_spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
-  [14, 15, Y, Y, "refitted_drinking_spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
-  [14, 15, Y, Y, "refitted_not_drinking_spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
-  [14, 15, Y, Y, "hot_spring", {
-    font: { fill: colors.waterLabel },
-    ...springExpr,
-  }],
+  [14, 15, Y, Y, "spring", { font: { fill: colors.waterLabel }, ...springExpr }],
+  [14, 15, Y, Y, "refitted_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
+  [14, 15, Y, Y, "drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
+  [14, 15, Y, Y, "not_drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
+  [14, 15, Y, Y, "refitted_drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
+  [14, 15, Y, Y, "refitted_not_drinking_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
+  [14, 15, Y, Y, "hot_spring", { font: { fill: colors.waterLabel }, ...springExpr }],
   [14, 15, Y, Y, "waterfall", {
     font: { fill: colors.waterLabel },
-    exp:
-      `[name].replace('^[Vv]odopád${bs}', '').replace('\\\\b[Vv]odopád$', 'vdp.')`,
+    exp: `[name].replace('^[Vv]odopád${bs}', '').replace('\\\\b[Vv]odopád$', 'vdp.')`,
   }],
-  [14, 15, N, N, ["drinking_water", "water_point"], {
-    font: { fill: colors.waterLabel },
-  }],
+  [14, 15, N, N, ["drinking_water", "water_point"], { font: { fill: colors.waterLabel } }],
   [14, 15, N, N, "water_well", { font: { fill: colors.waterLabel } }],
   [14, 15, Y, N, "monument"],
-  [14, 15, Y, Y, "viewpoint", {
-    exp:
-      `[name].replace('^[Vv]yhliadka${bs}', '').replace('\\\\b[Vv]yhliadka$', 'vyhl.')`,
-  }],
+  [14, 15, Y, Y, "viewpoint", { exp: `[name].replace('^[Vv]yhliadka${bs}', '').replace('\\\\b[Vv]yhliadka$', 'vyhl.')` }],
   [14, 15, Y, N, ["mine", "adit", "mineshaft"]],
   [14, 15, Y, N, "disused_mine"],
   [14, 15, Y, N, "hotel", { exp: `[name].replace('^[Hh]otel${bs}', '')` }],
-  [14, 15, Y, N, "chalet", {
-    exp:
-      `[name].replace('^[Cc]hata${bs}', '').replace('\\\\b[Cc]hata$', 'ch.')`,
+  [14, 15, Y, N, "chalet", { exp: `[name].replace('^[Cc]hata${bs}', '').replace('\\\\b[Cc]hata$', 'ch.')`,
   }],
   [14, 15, Y, N, "hostel"],
   [14, 15, Y, N, "motel", { exp: "[name].replace('^[Mm]otel\\\\b *', '')" }],
@@ -321,13 +278,18 @@ const pois: [
   [14, 15, Y, N, "alpine_hut"],
   [14, 15, Y, N, "camp_site"],
   [14, 15, N, N, "attraction"],
-  [14, 15, N, N, "hospital", {
-    exp: `[name].replace('^[Nn]emocnica\\\\b', 'Nem.')`,
-  }],
+  [14, 15, N, N, "hospital", { exp: `[name].replace('^[Nn]emocnica\\\\b', 'Nem.')` }],
   [14, NN, N, N, "townhall"],
-  [14, 15, N, N, ["church", "chapel", "cathedral", "temple", "basilica"], {
-    exp:
-      `[name].replace('^[Kk]ostol${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')`,
+  [14, 15, N, N, ["chapel"], {
+    exp: `[name].replace('^[Kk]aplnka${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')`,
+  }],
+  [14, 15, N, N, ["church", "cathedral"], {
+    exp: `[name].replace('^[Kk]ostol${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')`,
+    font: { dy: -13 }
+  }],
+  [14, 15, N, N, ["synagogue"]],
+  [14, 15, N, N, ["mosque"], {
+    font: { dy: -13 }
   }],
   [14, 15, Y, N, "tower_observation"],
   [14, 15, Y, N, "archaeological_site"],
@@ -347,13 +309,8 @@ const pois: [
 
   [15, 16, N, N, "ruins"],
   [15, 16, N, N, "chimney"],
-  [15, 16, N, N, "fire_station", {
-    exp:
-      `[name].replace('^([Hh]asičská zbrojnica|[Pp]ožiarná stanica)${bs}', '')`,
-  }],
-  [15, 16, N, N, "community_centre", {
-    exp: "[name].replace('\\\\b[Cc]entrum voľného času\\\\b', 'CVČ')",
-  }],
+  [15, 16, N, N, "fire_station", { exp: `[name].replace('^([Hh]asičská zbrojnica|[Pp]ožiarná stanica)${bs}', '')` }],
+  [15, 16, N, N, "community_centre", { exp: "[name].replace('\\\\b[Cc]entrum voľného času\\\\b', 'CVČ')" }],
   [15, 16, N, N, "police", { exp: `[name].replace('^[Pp]olícia${bs}', '')` }],
   [15, 16, N, N, "office"], // information=office
   [15, 16, N, N, "hunting_stand"],
@@ -367,15 +324,11 @@ const pois: [
   [15, 16, N, N, "pharmacy", { exp: `[name].replace('^[Ll]ekáreň${bs}', '')` }],
   [15, 16, N, N, "cinema", { exp: `[name].replace('^[Kk]ino${bs}', '')` }],
   [15, 16, N, N, "theatre", { exp: `[name].replace('^[Dd]ivadlo${bs}', '')` }],
-  [15, 16, N, N, "memorial", {
-    exp: `[name].replace('^[Pp]amätník${bs}', '')`,
-  }],
+  [15, 16, N, N, "memorial", { exp: `[name].replace('^[Pp]amätník${bs}', '')` }],
   [15, 16, N, N, "pub"],
   [15, 16, N, N, "cafe", { exp: `[name].replace('^[Kk]aviareň${bs}', '')` }],
   [15, 16, N, N, "bar"],
-  [15, 16, N, N, "restaurant", {
-    exp: `[name].replace('^[Rr]eštaurácia${bs}', '')`,
-  }],
+  [15, 16, N, N, "restaurant", { exp: `[name].replace('^[Rr]eštaurácia${bs}', '')` }],
   [15, 16, N, N, "convenience"],
   [15, 16, N, N, "supermarket"],
   [15, 16, N, N, "fast_food"],
@@ -410,12 +363,8 @@ const pois: [
       ".replace(' [Gg]ymnázium', ' gym.')" +
       ".replace('[V]ysoká [Šš]kola', 'VŠ')",
   }],
-  [15, 16, N, N, "university", {
-    exp: "[name].replace('[V]ysoká [Šš]kola', 'VŠ')",
-  }],
-  [15, 16, N, N, "kindergarten", {
-    exp: "[name].replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')",
-  }],
+  [15, 16, N, N, "university", { exp: "[name].replace('[V]ysoká [Šš]kola', 'VŠ')" }],
+  [15, 16, N, N, "kindergarten", { exp: "[name].replace('[Mm]atersk(á|ou) [Šš]k[oô]lk?(a|ou)', 'MŠ')" }],
   [15, 16, N, N, "climbing"],
   [15, 16, N, N, "shooting"],
 
@@ -439,15 +388,8 @@ const pois: [
   [16, NN, N, N, "watering_place", { font: { fill: colors.waterLabel } }],
   [16, NN, N, N, "feeding_place", { icon: "manger" }],
   [16, NN, N, N, "game_feeding", { icon: "manger" }],
-  [16, 17, N, N, "playground", {
-    exp: `[name].replace('^[Dd]etské ihrisko\\\\b', '')`,
-  }],
-  [16, 17, N, N, [
-    "water_works",
-    "reservoir_covered",
-    "pumping_station",
-    "wastewater_plant",
-  ], { font: { fill: colors.waterLabel } }],
+  [16, 17, N, N, "playground", { exp: `[name].replace('^[Dd]etské ihrisko\\\\b', '')` }],
+  [16, 17, N, N, [ "water_works", "reservoir_covered", "pumping_station", "wastewater_plant" ], { font: { fill: colors.waterLabel } }],
   [16, 17, N, N, "cross"],
 
   [17, 18, N, N, "boundary_stone"],
