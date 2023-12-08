@@ -1,4 +1,4 @@
-import { PolygonPatternSymbolizer, PolygonSymbolizer, Style } from "jsxnik/mapnikConfig";
+import { LineSymbolizer, PolygonPatternSymbolizer, PolygonSymbolizer, Style } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
@@ -24,6 +24,13 @@ export function WaterArea() {
         </RuleEx>
       </Style>
 
+      <Style name="bridge_area">
+        <RuleEx>
+          <PolygonSymbolizer fill={colors.industrial} />
+          <LineSymbolizer stroke={colors.building} strokeWidth={1} />
+        </RuleEx>
+      </Style>
+
       <SqlLayer
         styleName="water_area"
         maxZoom={11}
@@ -34,6 +41,12 @@ export function WaterArea() {
         styleName="water_area"
         minZoom={12}
         sql="SELECT geometry, type, intermittent OR seasonal AS tmp FROM osm_waterareas WHERE geometry && !bbox!"
+      />
+
+      <SqlLayer
+        styleName="bridge_area"
+        minZoom={15}
+        sql="SELECT geometry FROM osm_landusages WHERE geometry && !bbox! AND type = 'bridge'"
       />
     </>
   );
