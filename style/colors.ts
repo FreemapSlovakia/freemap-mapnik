@@ -32,6 +32,7 @@ export const colors = {
   quarry: hsl(0, 0, 78),
   residential: hsl(100, 0, 91),
   road: hsl(40, 60, 50),
+  superroad: hsl(10, 60, 60),
   ruin: hsl(0, 0, 60),
   scree: hsl(0, 0, 90),
   scrub: hsl(100, 70, 86),

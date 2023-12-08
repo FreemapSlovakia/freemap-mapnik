@@ -93,10 +93,14 @@ export function Highways() {
         </RuleEx>
 
         <RuleEx minZoom={12} type={["motorway", "trunk"]}>
-          <Road stroke={colors.road} strokeWidth={2.5} />
+          <Road stroke={colors.superroad} strokeWidth={2.5} />
         </RuleEx>
 
-        <RuleEx minZoom={12} type={["motorway_link", "trunk_link", "primary"]}>
+        <RuleEx minZoom={12} type={["motorway_link", "trunk_link"]}>
+          <Road stroke={colors.superroad} strokeWidth={1.5 + 2 / 3} />
+        </RuleEx>
+
+        <RuleEx minZoom={12} type={["primary"]}>
           <Road stroke={colors.road} strokeWidth={1.5 + 2 / 3} />
         </RuleEx>
 
