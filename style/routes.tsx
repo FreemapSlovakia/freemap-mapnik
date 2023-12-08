@@ -221,7 +221,6 @@ export async function initIcons() {
   return Promise.all(
     Object.entries(colorMap).map(([color, colorValue]) =>
       Promise.all([
-        // TODO u
         fs.writeFile(path.resolve(tmpdir(), `ski-${color}.svg`), String(skiSvg).replaceAll("#ff00ff", colorValue)),
         fs.writeFile(path.resolve(tmpdir(), `horse-${color}.svg`), String(horseSvg).replaceAll("#ff00ff", colorValue)),
       ]),

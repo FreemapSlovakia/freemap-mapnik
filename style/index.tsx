@@ -47,7 +47,6 @@ import { WaterArea } from "./WaterArea";
 import { WaterAreaNames } from "./WaterAreaNames";
 import { WaterLine } from "./WaterLine";
 import { WaterLineNames } from "./WaterLineNames";
-import { GdalLayer } from "./GdalLayer";
 
 const dbParams = config.get("db") as Record<string, string>;
 const contoursCfg = config.get("mapFeatures.contours") as boolean;
