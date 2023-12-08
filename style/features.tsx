@@ -117,12 +117,6 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
         FROM
           osm_springs
 
-      UNION ALL
-        SELECT
-          ${mkProjection()},
-          'ruins' AS type
-        FROM
-          osm_ruins
 
       UNION ALL
         SELECT
@@ -151,6 +145,13 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
       UNION ALL
         SELECT
           ${mkProjection()},
+          'ruins' AS type
+        FROM
+          osm_ruins
+
+      UNION ALL
+        SELECT
+          ${mkProjection()},
           type
         FROM
           osm_shops
@@ -160,7 +161,7 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
       UNION ALL
         SELECT
           ${mkProjection("null", "tags->'access'")},
-          'building' AS type
+          CASE type WHEN 'ruins' THEN 'building_ruins' ELSE 'building' END AS type
         FROM
           osm_building_points
         WHERE
@@ -194,6 +195,15 @@ function getFeaturesSql(zoom: number, mkProjection: (ele?: string, access?: stri
           'ford' AS type
         FROM
           osm_fords
+
+      UNION ALL
+        SELECT
+          ${mkProjection()},
+          'building_ruins' AS type
+        FROM
+          osm_buildings
+        WHERE
+          type = 'ruins'
     `);
   }
 
@@ -403,6 +413,7 @@ const pois: [
   [17, NN, N, N, "ford"],
   [17, 19, N, N, "parking", { font: { dy: -8, fill: colors.areaLabel, size: 10, haloOpacity: 0.5 } }],
 
+  [18, 19, N, N, "building_ruins", { icon: "ruins" }],
   [18, 19, N, N, "post_box"],
   [18, 19, N, N, "telephone"],
   [18, NN, N, N, "gate"],
