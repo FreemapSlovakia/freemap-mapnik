@@ -459,7 +459,7 @@ const pois: [
   [17, 18, N, N, ["beehive", "apiary"]],
   [17, NN, N, N, ["lift_gate", "swing_gate"]],
   [17, NN, N, N, "ford"],
-  [17, 19, N, N, "parking", { font: { fill: colors.areaLabel, size: 10, haloOpacity: 0.5 } }],
+  [17, 19, N, N, "parking", { font: { dy: -8, fill: colors.areaLabel, size: 10, haloOpacity: 0.5 } }],
 
   [18, 19, N, N, "post_box"],
   [18, 19, N, N, "telephone"],
