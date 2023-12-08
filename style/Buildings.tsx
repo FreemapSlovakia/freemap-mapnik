@@ -7,13 +7,13 @@ export function Buildings() {
   return (
     <>
       <Style name="buildings">
-        <RuleEx minZoom={13} filter="[type] <> 'ruins'">
-          <PolygonSymbolizer fill={colors.building} />
-        </RuleEx>
-
-        <RuleEx minZoom={14} filter="[type] = 'ruins'">
+        <RuleEx minZoom={14} type="ruins">
           <PolygonSymbolizer fill={colors.building} fillOpacity={0.5} />
           <LineSymbolizer stroke={colors.building} strokeDasharray="4 4" strokeWidth={2} offset={-1} />
+        </RuleEx>
+
+        <RuleEx minZoom={13} fallback>
+          <PolygonSymbolizer fill={colors.building} />
         </RuleEx>
       </Style>
 
