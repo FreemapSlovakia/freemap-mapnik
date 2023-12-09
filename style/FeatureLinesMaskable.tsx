@@ -45,7 +45,7 @@ export function FeatureLinesMaskable({ shading }: Props) {
             WHERE type NOT IN ('cutline', 'valley', 'ridge') AND geometry && !bbox!
           "
         >
-          {["pl", "sk" /*, "at", "ch" (AT / CH is not so detailed) */].map((cc) => (
+          {["pl", "sk", "cz" /*, "at", "ch" (AT / CH is not so detailed) */].map((cc) => (
             <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cc}/mask.tif`} />
           ))}
         </SqlLayer>
