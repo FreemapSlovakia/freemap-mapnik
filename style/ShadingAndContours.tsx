@@ -104,6 +104,14 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: Props0) {
         {cutCcs.map((cutCc) => (
           <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cutCc}/mask.tif`} />
         ))}
+
+        {/* bridges above shading and below roads */}
+        <SqlLayer
+          styleName="bridge_area"
+          minZoom={15}
+          compOp="dst-out"
+          sql="SELECT geometry FROM osm_landusages WHERE geometry && !bbox! AND type = 'bridge'"
+        />
       </SqlLayer>
     </StyledLayer>
   );
