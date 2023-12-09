@@ -136,9 +136,9 @@ export function ShadingAndCountours({ contours, shading }: Props) {
 
       <HillshadeStyle />
 
-      <CountryShadingAndContours contours={contours} shading={shading} cc="at" cutCcs={["sk", "ch", "si"]} />
+      <CountryShadingAndContours contours={contours} shading={shading} cc="at" cutCcs={["sk", "ch", "si", "cz"]} />
 
-      <CountryShadingAndContours contours={contours} shading={shading} cc="it" cutCcs={["at", "ch", "si", "cz"]} />
+      <CountryShadingAndContours contours={contours} shading={shading} cc="it" cutCcs={["at", "ch", "si"]} />
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="ch" cutCcs={[]} />
 
