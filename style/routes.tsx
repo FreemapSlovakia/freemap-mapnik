@@ -176,7 +176,7 @@ function getRoutesQuery(
             WHEN osm_routes.type IN (${leftsIn}) THEN
               CASE
                 WHEN ${!!horseTrails} AND osm_routes.type = 'horse' THEN 40
-                WHEN ${!!hikingTrails} AND osm_routes.type IN ('hiking', 'foot') THEN (CASE WHEN network IN ('iwn', 'nwn', 'rwn') THEN 0 ELSE 10 END)
+                WHEN ${!!hikingTrails} AND osm_routes.type IN ('hiking', 'foot', 'running') THEN (CASE WHEN network IN ('iwn', 'nwn', 'rwn') THEN 0 ELSE 10 END)
                 ELSE 1000
               END +
               ${colorSql}
