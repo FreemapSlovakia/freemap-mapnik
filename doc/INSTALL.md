@@ -89,10 +89,6 @@ and then execute the commands [here](https://github.com/omniscale/imposm3/#compi
 Follow these steps also after database reimport, which is required if you've updated `mapping.yaml`:
 
 1. Download `europe-latest.osm.pbf` from Geofabrik
-1. Extract area of focus with Osmium:
-   ```bash
-   osmium extract -p limit.geojson -s smart -S types=multipolygon,route,boundary europe-latest.osm.pbf -o extract.pbf
-   ```
 1. Stop imposm service
    ```bash
    systemctl stop imposm3
@@ -101,11 +97,11 @@ Follow these steps also after database reimport, which is required if you've upd
    ```bash
    git pull && npm run build
    ```
-1. Import the extract:
+1. Import:
    ```bash
-   imposm import -connection postgis://freemap:freemap@localhost/freemap -mapping mapping.yaml -read extract.pbf -diff -write -cachedir ./cache -diffdir ./diff -overwritecache
+   imposm import -connection postgis://freemap:freemap@localhost/freemap -mapping mapping.yaml -read europe-latest.osm.pbf -diff -write -cachedir ./cache -diffdir ./diff -overwritecache -limitto limit-europe.geojson -limittocachebuffer 10000 -optimize
    ```
-1. Delete pbf files
+1. Delete pbf file
    ```bash
    rm europe-latest.osm.pbf extract.pbf
    ```
