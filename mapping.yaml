@@ -115,6 +115,7 @@ tables:
         - piste
         - foot
         - mtb
+        - running
     columns:
       - name: osm_id
         type: id
