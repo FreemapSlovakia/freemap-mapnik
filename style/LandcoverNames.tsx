@@ -53,7 +53,7 @@ export function LandcoverNames() {
               osm_feature_polys USING (osm_id)
             LEFT JOIN
               -- NOTE filtering some POIs (hacky because it affects also lower zooms)
-              osm_sports ON osm_landusages.osm_id = osm_sports.osm_id AND osm_sports.type IN ('soccer', 'tennis', 'basketball')
+              osm_sports ON osm_landusages.osm_id = osm_sports.osm_id AND osm_sports.type IN ('soccer', 'tennis', 'basketball', 'shooting')
             WHERE
               osm_feature_polys.osm_id IS NULL AND osm_sports.osm_id IS NULL AND osm_landusages.geometry && !bbox!
             ORDER BY
