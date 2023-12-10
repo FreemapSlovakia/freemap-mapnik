@@ -107,8 +107,14 @@ function asPoint(styles: string[], properties: Record<string, unknown>, yOffset 
  * @param {string[]} styles
  * @param {Record<string, unknown>} properties
  */
-function asArea(styles: string[], properties: Record<string, unknown>, forZoom = 18) {
+function asArea(styles: string[], properties: Record<string, unknown>, forZoom = 18, skew = true) {
   const factor = Math.pow(2, 18 - forZoom);
+
+  const ssx = skew ? 0.00002 : 0;
+  const ssy = skew ? 0.00001 : 0;
+
+  const xx = 0.00015;
+  const yy = 0.00006;
 
   return {
     styles,
@@ -118,11 +124,11 @@ function asArea(styles: string[], properties: Record<string, unknown>, forZoom =
         type: "Polygon",
         coordinates: [
           [
-            [factor * -0.00015, factor * -0.00007],
-            [factor * -0.00017, factor * 0.00006],
-            [factor * 0.00015, factor * 0.00007],
-            [factor * 0.00017, factor * -0.00006],
-            [factor * -0.00015, factor * -0.00007],
+            [factor * -xx, factor * (-yy - ssy)],
+            [factor * (-xx - ssx), factor * yy],
+            [factor * xx, factor * (yy + ssy)],
+            [factor * (xx + ssx), factor * -yy],
+            [factor * -xx, factor * (-yy - ssy)],
           ],
         ],
       },
@@ -197,15 +203,15 @@ function poi(
   };
 }
 
-function landcover(type: string, en: string, sk: string, it: string) {
+function landcover(type: string, names: [en: string, sk: string, it: string], skew = true) {
   return {
     categoryId: "landcover",
     name: {
-      en,
-      sk,
-      it,
+      en: names[0],
+      sk: names[1],
+      it: names[2],
     },
-    layers: [asArea(["landcover"], { type })],
+    layers: [asArea(["landcover"], { type }, 18, skew)],
     ...props,
   };
 }
@@ -874,7 +880,7 @@ export const legend = {
     poi("accomodation", "chalet", "chalet", "chata", "chalet"),
     poi("accomodation", "alpine_hut", "alpine hut", "horská chata", "rifugio alpino"),
     poi("accomodation", "wilderness_hut", "wilderness hut", "chata v divočine", "bivacco"),
-    poi("accomodation", "building", "building", "budova", "edificio"),
+    poi("accomodation", "building", "unspecified building", "bližšie neurčená budova", "edificio non specificato"),
     poi("accomodation", "camp_site", "camp site", "kemp", "campeggio"),
     poi("accomodation", "hunting_stand", "hunting stand", "poľovnícky posed", "capanno di caccia"),
     poi("accomodation", "basic_hut", "basic hut", "jednoduchá chatka", "capanno"),
@@ -971,6 +977,9 @@ export const legend = {
       "kostol, cerkev, kaplnka, katedrála, chrám, bazilika",
       "chiesa, cappella, cattedrale, tempio, basilica",
     ),
+    poi("institution", "chapel", "chapel", "kaplnka", "cappella"),
+    poi("institution", "synagogue", "synagogue", "synagóga", "sinagoga"),
+    poi("institution", "mosque", "mosque", "mešita", "moschea"),
     poi("institution", "manor", "mansion, manor", "kaštieľ, pánske sídlo", "dimora, maniero"),
     poi("institution", "theatre", "theatre", "divadlo", "teatro"),
     poi("institution", "museum", "museum", "múzeum", "museo"),
@@ -1073,50 +1082,38 @@ export const legend = {
       layers: [asArea(["water_area", "water_area_names"], { name: "Abc", tmp: 1 })],
       ...props,
     },
-    landcover("forest", "forest", "les", "foresta"),
-    landcover(
-      "meadow",
+    landcover("forest", ["forest", "les", "foresta"]),
+    landcover("meadow", [
       "meadow, park, village green, grassland",
       "lúka, park, mestská zeleň, trávnatá plocha",
       "prato, parco, area verde, pascolo",
-    ),
-    landcover("heath", "heath", "step", "brughiera"),
-    landcover("scrub", "scrub", "kroviny", "boscaglia"),
-    landcover("clearcut", "clearcut", "holorub", "area disboscata"),
-    landcover("scree", "scree", "štrk", "ghiaione"),
-    landcover("bare_rock", "bare rock", "holá skala", "roccia nuda"),
-    landcover("wetland", "wetland", "mokraď", "zona umida"),
-    landcover("bog", "bog", "rašelinisko", "palude"),
-    landcover("marsh", "marsh, fen, wet meadow", "močiar, slatinisko, mokrá lúka", "palude, prateria umida"),
-    landcover("swamp", "swamp", "bahnisko", "pantano"),
-    landcover("reedbed", "reedbed", "rákosie", "canneto"),
-    landcover("mangrove", "mangrove", "mangrovy", "mangrovie"),
-    landcover("farmland", "farmland", "pole", "terreno agricolo"),
-    landcover("farmyard", "farmyard", "družstvo", "aia"),
-    landcover("orchard", "orchard", "ovocný sad", "frutteto"),
-    landcover("vineyard", "vineyard", "vinica", "vigneto"),
-    landcover("garden", "garden", "záhrada", "giardino"),
-    landcover("plant_nursery", "vivaio", "lesná škôlka", ""),
-    landcover("beach", "beach", "pláž", "spiaggia"),
-    landcover("residential", "residential zone", "obytná zóna", "zona residenziale"),
-    landcover("commercial", "commercial zone", "komerčná zóna", "zona commerciale"),
-    landcover("industrial", "industrial zone, wastewater plant", "industriálna zóna, ČOV", "zona industriale"),
-    landcover("quarry", "quarry", "lom", "cava"),
-    landcover("cemetery", "cemetery", "cintorín", "cimitero"),
-    landcover(
-      "playground",
-      "pitch, playground, golf course, track",
-      "ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha",
-      "campo da gioco, parco giochi, campo da golf, pista",
-    ),
-    landcover("parking", "parking", "parkovisko", "parcheggio"),
-    landcover(
-      "bunker_silo",
-      "(bunker) silo, storage tank",
-      "silo, skladovací kontajner",
-      "sbancamento" /* TODO + storage tank */,
-    ),
-    landcover("landfill", "landfill", "skládka", "discarica"),
+    ]),
+    landcover("heath", ["heath", "step", "brughiera"]),
+    landcover("scrub", ["scrub", "kroviny", "boscaglia"]),
+    landcover("clearcut", ["clearcut", "holorub", "area disboscata"]),
+    landcover("scree", ["scree", "štrk", "ghiaione"]),
+    landcover("bare_rock", ["bare rock", "holá skala", "roccia nuda"]),
+    landcover("wetland", ["wetland", "mokraď", "zona umida"]),
+    landcover("bog", ["bog", "rašelinisko", "palude"]),
+    landcover("marsh", ["marsh, fen, wet meadow", "močiar, slatinisko, mokrá lúka", "palude, prateria umida"]),
+    landcover("swamp", ["swamp", "bahnisko", "pantano"]),
+    landcover("reedbed", ["reedbed", "rákosie", "canneto"]),
+    landcover("mangrove", ["mangrove", "mangrovy", "mangrovie"]),
+    landcover("farmland", ["farmland", "pole", "terreno agricolo"]),
+    landcover("farmyard", ["farmyard", "družstvo", "aia"]),
+    landcover("orchard", ["orchard", "ovocný sad", "frutteto"]),
+    landcover("vineyard", ["vineyard", "vinica", "vigneto"]),
+    landcover("garden", ["garden", "záhrada", "giardino"], false),
+    landcover("plant_nursery", ["vivaio", "lesná škôlka", ""]),
+    landcover("beach", ["beach", "pláž", "spiaggia"]),
+    landcover("residential", ["residential zone", "obytná zóna", "zona residenziale"]),
+    landcover("commercial", ["commercial zone", "komerčná zóna", "zona commerciale"]),
+    landcover("industrial", ["industrial zone, wastewater plant", "industriálna zóna, ČOV", "zona industriale"]),
+    landcover("quarry", ["quarry", "lom", "cava"]),
+    landcover("cemetery", ["cemetery", "cintorín", "cimitero"]),
+    // TODO + storage tank
+    landcover("bunker_silo", ["(bunker) silo, storage tank", "silo, skladovací kontajner", "sbancamento"], false),
+    landcover("landfill", ["landfill", "skládka", "discarica"]),
     {
       categoryId: "landcover",
       name: {
@@ -1124,7 +1121,26 @@ export const legend = {
         sk: "slnečná elektráreň",
         it: "centrale fotovoltaica",
       },
-      layers: [asArea(["solar_power_plants"], {})],
+      layers: [asArea(["solar_power_plants"], {}, undefined, false)],
+      ...props,
+    },
+    landcover(
+      "playground",
+      [
+        "pitch, playground, golf course, track",
+        "ihrisko, detské ihrisko, golfové ihrisko, pretekárska dráha",
+        "campo da gioco, parco giochi, campo da golf, pista",
+      ],
+      false,
+    ),
+    {
+      categoryId: "landcover",
+      name: {
+        en: "parking",
+        sk: "parkovisko",
+        it: "parcheggio",
+      },
+      layers: [asArea(["landcover", "features", "feature_names"], { type: "parking", name: "Abc" }, 18, false)],
       ...props,
     },
 
@@ -1259,6 +1275,26 @@ export const legend = {
     {
       categoryId: "other",
       name: {
+        en: "building",
+        sk: "budova",
+        it: "edificio",
+      },
+      layers: [asArea(["buildings", "building_names"], { name: "Abc" }, 18, false)],
+      ...props,
+    },
+    {
+      categoryId: "other",
+      name: {
+        en: "building ruins",
+        sk: "ruiny budovy",
+        it: "rovine di un edificio", // TODO google translated
+      },
+      layers: [asArea(["buildings", "features", "feature_names"], { type: "ruins", name: "Abc" }, 18, false)],
+      ...props,
+    },
+    {
+      categoryId: "other",
+      name: {
         en: "aerialway",
         sk: "lanovka, vlek",
         it: "via aerea, teleferica",
@@ -1294,10 +1330,10 @@ export const legend = {
         it: "linea elettrica con torre di alimentazione",
       },
       layers: [
-        asLine(["feature_lines"], {
+        asLine(["power_lines"], {
           type: "line",
         }),
-        asPoint(["features"], {
+        asPoint(["power_features"], {
           type: "tower",
         }),
       ],
@@ -1311,10 +1347,10 @@ export const legend = {
         it: "linea elettrica minore con palo di alimentazione",
       },
       layers: [
-        asLine(["feature_lines"], {
+        asLine(["power_lines"], {
           type: "minor_line",
         }),
-        asPoint(["features"], {
+        asPoint(["power_features"], {
           type: "pole",
         }),
       ],
@@ -1330,6 +1366,34 @@ export const legend = {
       layers: [
         asLine(["barrierways"], {
           type: "fence",
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: "other",
+      name: {
+        en: "hedge",
+        sk: "živý plot",
+        it: "una siepe", // TODO google translated
+      },
+      layers: [
+        asLine(["barrierways"], {
+          type: "hedge",
+        }),
+      ],
+      ...props,
+    },
+    {
+      categoryId: "other",
+      name: {
+        en: "city wall",
+        sk: "mestské hradby",
+        it: "mura cittadine", // TODO google translated
+      },
+      layers: [
+        asLine(["barrierways"], {
+          type: "city_wall",
         }),
       ],
       ...props,
@@ -1382,6 +1446,7 @@ export const legend = {
       ],
       ...props,
     },
+    poi("other", "picnic_shelter", "private POI", "súkromný bod záujmu", "POI privato", undefined, { access: "no" }),
     {
       categoryId: "other",
       name: {
@@ -1392,7 +1457,6 @@ export const legend = {
       layers: [asPoint(["fixmes"], {})],
       ...props,
     },
-    poi("other", "picnic_shelter", "private POI", "súkromný bod záujmu", "POI privato", undefined, { access: "no" }),
   ],
 };
 
