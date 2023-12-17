@@ -8,7 +8,7 @@
     password: "secret",
     estimateExtent: false,
     extent: "-675094.279800,4364860.674692,3339266.226366,6799780.912846",
-    max_size: 24,
+    max_size: 32,
   },
   dirs: {
     tiles: "tiles",
@@ -63,5 +63,5 @@
   // how long to delay rendering a tile when expiring tiles
   // this is to prevent drastical fi i/o slowdown when prerendering eats 100% cpu
   // set to zero to prevent this feature
-  prerenderDelayWhenExpiring: 50,
+  prerenderDelayWhenExpiring: 200,
 }
