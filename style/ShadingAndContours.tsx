@@ -138,7 +138,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="at" cutCcs={["sk", "ch", "si", "cz"]} />
 
-      <CountryShadingAndContours contours={contours} shading={shading} cc="it" cutCcs={["at", "ch", "si"]} />
+      <CountryShadingAndContours contours={contours} shading={shading} cc="it" cutCcs={["at", "ch", "si", "fr"]} />
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="ch" cutCcs={[]} />
 
@@ -150,13 +150,15 @@ export function ShadingAndCountours({ contours, shading }: Props) {
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="sk" cutCcs={[]} />
 
+      <CountryShadingAndContours contours={contours} shading={shading} cc="fr" cutCcs={["ch"]} />
+
       {/* to cut out detailed */}
       <SqlLayer
         styleName="sea" // any
         compOp="src-over"
         sql="SELECT geom FROM contour_split LIMIT 0" // some empty data
       >
-        {["it", "at", "ch", "si", "pl", "sk", "cz"].map((cc) => (
+        {["it", "at", "ch", "si", "pl", "sk", "cz", "fr"].map((cc) => (
           <GdalLayer styleName="shadingAndContoursMask" file={`shading/${cc}/mask.tif`} />
         ))}
 
