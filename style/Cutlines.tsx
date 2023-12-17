@@ -2,7 +2,6 @@ import { LineSymbolizer, Style } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
 
 export function Cutlines() {
   return (
