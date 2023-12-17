@@ -7,7 +7,7 @@
     dbname: "gis",
     password: "secret",
     estimateExtent: false,
-    extent: "557173.4135719,4364860.6746929,3333877.3735052365809679,6659193.9171888176351786",
+    extent: "-675094.279800,4364860.674692,3339266.226366,6799780.912846",
     max_size: 24,
   },
   dirs: {
@@ -35,7 +35,7 @@
   limits: {
     minZoom: 0,
     maxZoom: 19,
-    polygon: "limit.geojson",
+    polygon: "limit-shading.geojson",
     scales: [1, 2, 3],
     cleanup: true,
   },
