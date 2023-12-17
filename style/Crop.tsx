@@ -12,7 +12,7 @@ export function Crop() {
       </Style>
 
       <StyledLayer styleName="crop" srs="+init=epsg:4326" compOp="dst-in">
-        <DatasourceEx params={{ type: "geojson", file: "limit.geojson" }} />
+        <DatasourceEx params={{ type: "geojson", file: "limit-shading.geojson" }} />
       </StyledLayer>
     </>
   );
