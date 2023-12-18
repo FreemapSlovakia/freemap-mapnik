@@ -5,6 +5,38 @@
         {
             "type": "Feature",
             "properties": {
+                "name": "Crna Gora",
+                "name:en": "Montenegro"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        18.64378784180,
+                        42.54499476727
+                    ],
+                    [
+                        18.96239135742,
+                        42.82764669364
+                    ],
+                    [
+                        19.24803588867,
+                        42.94838943929
+                    ],
+                    [
+                        19.55015991211,
+                        42.95643055166
+                    ],
+                    [
+                        20.06102416992,
+                        42.87597215348
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
                 "name:en": "Kosovo",
                 "name": "Kosovo"
             },
@@ -18,6 +50,430 @@
                     [
                         21.51122497559,
                         42.53284832957
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Suisse",
+                "name:en": "Switzerland"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        6.80052612305,
+                        46.71727621729
+                    ],
+                    [
+                        10.17882202149,
+                        46.72480790583
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "official_name": "Status Civitatis Vaticanae - Stato della Città del Vaticano",
+                "name:en": "Vatican City",
+                "int_name": "Vatican City",
+                "name": "Civitas Vaticana - Città del Vaticano"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    12.45285270000,
+                    41.90341100000
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Slovenija",
+                "name:en": "Slovenia",
+                "official_name": "Republika Slovenija"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        13.87572143555,
+                        45.89001580556
+                    ],
+                    [
+                        14.93040893555,
+                        46.14179034976
+                    ],
+                    [
+                        16.13890502930,
+                        46.61926858206
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Bosna i Hercegovina",
+                "int_name": "Bosnia and Herzegovina",
+                "official_name": "Bosna i Hercegovina",
+                "name:en": "Bosnia and Herzegovina"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        16.33665893555,
+                        44.77014461181
+                    ],
+                    [
+                        17.22654052734,
+                        44.62176973548
+                    ],
+                    [
+                        17.64402099609,
+                        44.38670720458
+                    ],
+                    [
+                        18.01755615234,
+                        44.02443731896
+                    ],
+                    [
+                        18.21531005859,
+                        43.72349077540
+                    ],
+                    [
+                        18.21531005859,
+                        43.10099891953
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "int_name": "Liechtenstein",
+                "name": "Liechtenstein",
+                "name:en": "Liechtenstein",
+                "official_name": "Fürstentum Liechtenstein"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.55315270000,
+                    47.14163070000
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "official_name": "Rzeczpospolita Polska",
+                "name:en": "Poland",
+                "name": "Polska"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        16.05101440430,
+                        51.38550192554
+                    ],
+                    [
+                        22.76366088867,
+                        51.39235773027
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "official_name": "Česká republika",
+                "name": "  Česko  ",
+                "name:en": "Czechia",
+                "int_name": "Czechia"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        12.67820068359,
+                        50.13467840632
+                    ],
+                    [
+                        17.79782958984,
+                        49.41098749574
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name:en": "Turkey",
+                "name": "Türkiye",
+                "int_name": "Türkiye",
+                "official_name": "Türkiye Cumhuriyeti"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        26.97142456055,
+                        41.40154382367
+                    ],
+                    [
+                        29.71800659180,
+                        40.09489052663
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "int_name": "Slovak Republic",
+                "name:en": "Slovakia",
+                "name": "Slovensko"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        17.25951049805,
+                        48.26126296602
+                    ],
+                    [
+                        18.96239135742,
+                        48.73446261780
+                    ],
+                    [
+                        20.54442260742,
+                        48.91528707338
+                    ],
+                    [
+                        21.42332885742,
+                        48.93694217090
+                    ],
+                    [
+                        22.10448120117,
+                        48.82133978315
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "official_name": "Repubblica Italiana",
+                "name:en": "Italy",
+                "name": "Italia"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        9.88767333984,
+                        45.85942743013
+                    ],
+                    [
+                        10.81052490234,
+                        44.38670720458
+                    ],
+                    [
+                        13.16159912109,
+                        42.32607868949
+                    ],
+                    [
+                        16.43552490234,
+                        40.32981249416
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name:en": "Serbia",
+                "name": "Србија",
+                "official_name": "Република Србија"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        19.52269409180,
+                        45.85941977902
+                    ],
+                    [
+                        22.19237182617,
+                        42.73088234928
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Monaco",
+                "name:en": "Monaco"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.42768320000,
+                    43.73234920000
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name:en": "Romania",
+                "name": "România",
+                "int_name": "Romania"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        21.40134521484,
+                        45.82881456257
+                    ],
+                    [
+                        27.58664794922,
+                        45.80584385690
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "int_name": "Germany",
+                "name": "Deutschland",
+                "name:en": "Germany",
+                "official_name": "Bundesrepublik Deutschland"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        12.98581787109,
+                        50.98611276537
+                    ],
+                    [
+                        6.63572021484,
+                        51.01376848093
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "int_name": "Moldova",
+                "name": "Moldova",
+                "name:en": "Moldova",
+                "official_name": "Republica Moldova"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        27.60863159180,
+                        48.21736022955
+                    ],
+                    [
+                        28.25682495117,
+                        47.71716096167
+                    ],
+                    [
+                        28.59740112305,
+                        47.30159196159
+                    ],
+                    [
+                        28.76219604492,
+                        46.82262418630
+                    ],
+                    [
+                        28.43260620117,
+                        45.82115105717
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Shqipëria",
+                "name:en": "Albania",
+                "official_name": "Republika e Shqipërisë"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        20.08849548340,
+                        39.86337555470
+                    ],
+                    [
+                        19.95665954590,
+                        42.40318259808
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "San Marino",
+                "name:en": "San Marino",
+                "int_name": "San Marino"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    12.45830600000,
+                    43.94586230000
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name:en": "Greece",
+                "name": "Ελλάς",
+                "official_name": "Ελληνική Δημοκρατία",
+                "int_name": "Greece"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        21.34642456055,
+                        40.16209177765
+                    ],
+                    [
+                        21.99461791992,
+                        40.55555625001
+                    ],
+                    [
+                        22.74168823242,
+                        40.81381754543
+                    ],
+                    [
+                        24.37865112305,
+                        41.07935943097
+                    ],
+                    [
+                        26.03758666992,
+                        41.07935943097
                     ]
                 ]
             }
@@ -62,123 +518,9 @@
         {
             "type": "Feature",
             "properties": {
-                "name:en": "Monaco",
-                "name": "Monaco"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    7.42768320000,
-                    43.73234920000
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "official_name": "Status Civitatis Vaticanae - Stato della Città del Vaticano",
-                "name:en": "Vatican City",
-                "int_name": "Vatican City",
-                "name": "Civitas Vaticana - Città del Vaticano"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    12.45285270000,
-                    41.90341100000
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "official_name": "Rzeczpospolita Polska",
-                "name:en": "Poland",
-                "name": "Polska"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        16.05101440430,
-                        51.38550192554
-                    ],
-                    [
-                        22.76366088867,
-                        51.39235773027
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "official_name": "Репу̀блика Бълга̀рия",
-                "int_name": "Bulgaria",
-                "name:en": "Bulgaria",
-                "name": "Бългaрия"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        23.26903198242,
-                        41.75493036347
-                    ],
-                    [
-                        27.94920776367,
-                        43.58039881419
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name:en": "Serbia",
-                "official_name": "Република Србија",
-                "name": "Србија"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        19.52269409180,
-                        45.85941977902
-                    ],
-                    [
-                        22.19237182617,
-                        42.73088234928
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Suisse",
-                "name:en": "Switzerland"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        6.80052612305,
-                        46.71727621729
-                    ],
-                    [
-                        10.17882202149,
-                        46.72480790583
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
                 "name:en": "Hungary",
-                "int_name": "Hungary",
-                "name": "Magyarország"
+                "name": "Magyarország",
+                "int_name": "Hungary"
             },
             "geometry": {
                 "type": "LineString",
@@ -201,21 +543,20 @@
         {
             "type": "Feature",
             "properties": {
-                "official_name": "Česká republika",
-                "name": "  Česko  ",
-                "name:en": "Czechia",
-                "int_name": "Czechia"
+                "name:en": "Ukraine",
+                "name": "Україна",
+                "int_name": "Ukraine"
             },
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
                     [
-                        12.67820068359,
-                        50.13467840632
+                        23.70848510742,
+                        49.55373264068
                     ],
                     [
-                        17.79782958984,
-                        49.41098749574
+                        29.58617065430,
+                        49.57510959582
                     ]
                 ]
             }
@@ -223,31 +564,44 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "San Marino",
-                "name:en": "San Marino",
-                "int_name": "San Marino"
+                "name": "France",
+                "name:en": "France",
+                "int_name": "France",
+                "official_name": "République française"
             },
             "geometry": {
-                "type": "Point",
+                "type": "LineString",
                 "coordinates": [
-                    12.45830600000,
-                    43.94586230000
+                    [
+                        -2.24122192383,
+                        47.90162090672
+                    ],
+                    [
+                        6.39403198242,
+                        47.90898567897
+                    ]
                 ]
             }
         },
         {
             "type": "Feature",
             "properties": {
-                "int_name": "Liechtenstein",
-                "name:en": "Liechtenstein",
-                "name": "Liechtenstein",
-                "official_name": "Fürstentum Liechtenstein"
+                "official_name": "Репу̀блика Бълга̀рия",
+                "name:en": "Bulgaria",
+                "int_name": "Bulgaria",
+                "name": "Бългaрия"
             },
             "geometry": {
-                "type": "Point",
+                "type": "LineString",
                 "coordinates": [
-                    9.55315270000,
-                    47.14163070000
+                    [
+                        23.26903198242,
+                        41.75493036347
+                    ],
+                    [
+                        27.94920776367,
+                        43.58039881419
+                    ]
                 ]
             }
         },
@@ -304,108 +658,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name:en": "Romania",
-                "name": "România",
-                "int_name": "Romania"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        21.40134521484,
-                        45.82881456257
-                    ],
-                    [
-                        27.58664794922,
-                        45.80584385690
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Slovenija",
-                "name:en": "Slovenia",
-                "official_name": "Republika Slovenija"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        13.87572143555,
-                        45.89001580556
-                    ],
-                    [
-                        14.93040893555,
-                        46.14179034976
-                    ],
-                    [
-                        16.13890502930,
-                        46.61926858206
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name:en": "Ukraine",
-                "name": "Україна",
-                "int_name": "Ukraine"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        23.70848510742,
-                        49.55373264068
-                    ],
-                    [
-                        29.58617065430,
-                        49.57510959582
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "int_name": "Slovak Republic",
-                "name": "Slovensko",
-                "name:en": "Slovakia"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        17.25951049805,
-                        48.26126296602
-                    ],
-                    [
-                        18.96239135742,
-                        48.73446261780
-                    ],
-                    [
-                        20.54442260742,
-                        48.91528707338
-                    ],
-                    [
-                        21.42332885742,
-                        48.93694217090
-                    ],
-                    [
-                        22.10448120117,
-                        48.82133978315
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "int_name": "North Macedonia",
                 "name": "Северна Македонија",
+                "int_name": "North Macedonia",
                 "name:en": "North Macedonia",
                 "official_name": "Република Северна Македонија"
             },
@@ -431,170 +685,6 @@
                     [
                         22.74168823242,
                         41.78770519701
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "int_name": "Germany",
-                "name": "Deutschland",
-                "name:en": "Germany",
-                "official_name": "Bundesrepublik Deutschland"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        12.98581787109,
-                        50.98611276537
-                    ],
-                    [
-                        6.63572021484,
-                        51.01376848093
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Bosna i Hercegovina",
-                "int_name": "Bosnia and Herzegovina",
-                "name:en": "Bosnia and Herzegovina",
-                "official_name": "Bosna i Hercegovina"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        16.33665893555,
-                        44.77014461181
-                    ],
-                    [
-                        17.22654052734,
-                        44.62176973548
-                    ],
-                    [
-                        17.64402099609,
-                        44.38670720458
-                    ],
-                    [
-                        18.01755615234,
-                        44.02443731896
-                    ],
-                    [
-                        18.21531005859,
-                        43.72349077540
-                    ],
-                    [
-                        18.21531005859,
-                        43.10099891953
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "France",
-                "int_name": "France",
-                "name:en": "France",
-                "official_name": "République française"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -2.24122192383,
-                        47.90162090672
-                    ],
-                    [
-                        6.39403198242,
-                        47.90898567897
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "official_name": "Repubblica Italiana",
-                "name:en": "Italy",
-                "name": "Italia"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        9.88767333984,
-                        45.85942743013
-                    ],
-                    [
-                        10.81052490234,
-                        44.38670720458
-                    ],
-                    [
-                        13.16159912109,
-                        42.32607868949
-                    ],
-                    [
-                        16.43552490234,
-                        40.32981249416
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Crna Gora",
-                "name:en": "Montenegro"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        18.64378784180,
-                        42.54499476727
-                    ],
-                    [
-                        18.96239135742,
-                        42.82764669364
-                    ],
-                    [
-                        19.24803588867,
-                        42.94838943929
-                    ],
-                    [
-                        19.55015991211,
-                        42.95643055166
-                    ],
-                    [
-                        20.06102416992,
-                        42.87597215348
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Shqipëria",
-                "name:en": "Albania",
-                "official_name": "Republika e Shqipërisë"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        20.08849548340,
-                        39.86337555470
-                    ],
-                    [
-                        19.95665954590,
-                        42.40318259808
                     ]
                 ]
             }
