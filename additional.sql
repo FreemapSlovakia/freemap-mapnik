@@ -200,3 +200,53 @@ VALUES
         ('gate'),
         ('ford'),
         ('route_marker');
+
+DROP TABLE IF EXISTS z_order_landuse;
+
+CREATE TABLE z_order_landuse (type VARCHAR PRIMARY KEY, z_order SERIAL);
+
+INSERT INTO
+        z_order_landuse (type)
+VALUES
+        ('farmland'),
+        ('farm'),
+        ('grassland'),
+        ('golf_course'),
+        ('forest'),
+        ('wood'),
+        ('meadow'),
+        ('heath'),
+        ('bare_rock'),
+        ('fell'),
+        ('industrial'),
+        ('residential'),
+        ('commercial'),
+        ('retail'),
+        ('farmyard'),
+        ('zoo'),
+        ('recreation_ground'),
+        ('grass'),
+        ('wetland'),
+        ('village_green'),
+        ('school'),
+        ('university'),
+        ('college'),
+        ('allotments'),
+        ('garden'),
+        ('park'),
+        ('railway'),
+        ('quarry'),
+        ('scree'),
+        ('landfill'),
+        ('vineyard'),
+        ('orchard'),
+        ('scrub'),
+        ('clearcut'),
+        ('place_of_worship'),
+        ('cemetery'),
+        ('parking'),
+        ('baracks'),
+        ('library'),
+        ('pitch'),
+        ('footway'),
+        ('pedestrian');
