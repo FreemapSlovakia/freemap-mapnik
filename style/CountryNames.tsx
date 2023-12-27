@@ -39,7 +39,7 @@ export function CountryNames() {
         opacity={0.33}
         compOp="src-in"
         maxZoom={7}
-        sql="SELECT geom FROM contour_split LIMIT 0" // some empty data
+        sql="SELECT ST_SetSRID(ST_MakePoint(0, 0), 3857) AS geom LIMIT 0" // some empty data
       />
 
       <Borders forLowzoom />

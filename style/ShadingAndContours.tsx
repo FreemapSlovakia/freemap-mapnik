@@ -156,7 +156,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
       <SqlLayer
         styleName="sea" // any
         compOp="src-over"
-        sql="SELECT geom FROM contour_split LIMIT 0" // some empty data
+        sql="SELECT ST_SetSRID(ST_MakePoint(0, 0), 3857) AS geom LIMIT 0" // some empty data
       >
         {["it", "at", "ch", "si", "pl", "sk", "cz", "fr"].map((cc) => (
           <GdalLayer styleName="shadingAndContoursMask" file={`shading/${cc}/mask.tif`} />
@@ -165,7 +165,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
         <SqlLayer
           styleName="sea" // any
           compOp="src-out"
-          sql="SELECT geom FROM contour_split LIMIT 0" // some empty data
+          sql="SELECT ST_SetSRID(ST_MakePoint(0, 0), 3857) AS geom LIMIT 0" // some empty data
         >
           {contours && (
             <SqlLayer
