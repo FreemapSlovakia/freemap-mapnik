@@ -1,6 +1,6 @@
-CREATE EXTENSION intarray;
+CREATE EXTENSION IF NOT EXISTS intarray;
 
-CREATE EXTENSION hstore;
+CREATE EXTENSION IF NOT EXISTS hstore;
 
 -- see https://wiki.postgresql.org/wiki/First/last_(aggregate)
 -- Create a function that always returns the first non-NULL item
