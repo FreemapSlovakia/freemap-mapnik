@@ -1,5 +1,5 @@
 import { LinePatternSymbolizer, LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors, hsl } from "./colors";
+import { hsl } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 import { seq } from "./utils";

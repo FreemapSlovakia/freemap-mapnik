@@ -1,4 +1,4 @@
-import { Style, TextSymbolizer } from "jsxnik/mapnikConfig";
+import { Style } from "jsxnik/mapnikConfig";
 import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";

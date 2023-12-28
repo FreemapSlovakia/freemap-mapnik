@@ -1,5 +1,5 @@
 import config from "config";
-import { Map, RasterSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
+import { Map } from "jsxnik/mapnikConfig";
 import { serialize } from "jsxnik/serialize";
 import { AerialwayNames } from "./AerialwayNames";
 import { Aerialways } from "./Aerialways";
@@ -20,7 +20,6 @@ import { FeatureLinesMaskable } from "./FeatureLinesMaskable";
 import { FeatureNames, Features } from "./features";
 import { Fixmes } from "./Fixmes";
 import { FontSets } from "./FontSets";
-import { Foo } from "./Foo";
 import { Geonames } from "./Geonames";
 import { HighwayNames } from "./HighwayNames";
 import { Highways } from "./Highways";

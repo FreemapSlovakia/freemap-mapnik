@@ -1,4 +1,4 @@
-import { DebugSymbolizer, Format, Layer, Placement, Rule, Style } from "jsxnik/mapnikConfig";
+import { Format, Rule, Style } from "jsxnik/mapnikConfig";
 import { Borders } from "./Borders";
 import { DatasourceEx } from "./DatasourceEx";
 import { SqlLayer } from "./SqlLayer";

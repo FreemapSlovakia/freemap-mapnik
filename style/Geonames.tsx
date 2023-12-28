@@ -1,4 +1,4 @@
-import { Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
+import { Rule, Style } from "jsxnik/mapnikConfig";
 import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { ShpLayer } from "./ShpLayer";
 

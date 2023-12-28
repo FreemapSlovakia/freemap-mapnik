@@ -1,4 +1,4 @@
-import { LineSymbolizer, RasterSymbolizer, Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
+import { LineSymbolizer, RasterSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
 import { colors } from "./colors";
 import { DatasourceEx } from "./DatasourceEx";
 import { TextSymbolizerEx } from "./TextSymbolizerEx";

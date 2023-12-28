@@ -2,7 +2,6 @@ import { Rule, Style, TextSymbolizer } from "jsxnik/mapnikConfig";
 import { hsl } from "./colors";
 import { TextSymbolizerEx } from "./TextSymbolizerEx";
 import { Placements } from "./Placements";
-import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
 
 export function LocalityNames() {

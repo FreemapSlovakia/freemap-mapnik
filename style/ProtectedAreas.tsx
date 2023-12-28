@@ -1,9 +1,7 @@
 import { LinePatternSymbolizer, LineSymbolizer, PolygonPatternSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors, hsl } from "./colors";
+import { colors } from "./colors";
 import { RuleEx } from "./RuleEx";
 import { SqlLayer } from "./SqlLayer";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { seq, types } from "./utils";
 
 export const nationalParkFilter = "[type] = 'national_park' or ([type] = 'protected_area' and [protect_class] = '2')";
 
