@@ -115,7 +115,7 @@ gdalbuildvrt -r bilinear merged-cont.vrt pl-warped.tif sk-warped.tif
 
 ### contours
 
-gdal_contour -f PostgreSQL -nln cont_dmr -i 10 -a height merged-cont.vrt "PG:host=localhost user=martin password=b0n0 dbname=martin"
+gdal_contour -f PostgreSQL -nln cont_dmr -i 10 -a height merged-cont.vrt "PG:host=localhost user=martin password=\*\*\*\* dbname=martin"
 
 ### split contours using nodejs utility
 

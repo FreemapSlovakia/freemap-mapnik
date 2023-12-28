@@ -69,6 +69,10 @@ Import `additional.sql` to Postgresql.
 
 See also [instructions to compute and import peak isolations](./PEAK_ISOLATION.md).
 
+## Prepare coastlines
+
+From https://osmdata.openstreetmap.de/data/land-polygons.html get `simplified-land-polygons-complete-3857` and `land-polygons-split-3857` and unpack it to project directory.
+
 ## Setup imposm and freemap-mapnik services
 
 In order to run both imposm and freemap-mapnik services, you'll find these two ready made files in the `./etc/systemd/` folder.
@@ -77,17 +81,21 @@ In order to run both imposm and freemap-mapnik services, you'll find these two r
 - Each of these two files must be edited and customized according to the installation folder, the relevant username, the database name and the login/password database account
 - Tell the system some things have changed : `sudo systemctl daemon-reload`
 - Enable and start imposm:
-```bash
-systemctl enable imposm3
-systemctl start imposm3
-```
+
+  ```bash
+  systemctl enable imposm3
+  systemctl start imposm3
+  ```
+
 - Enable freemap-mapnik:
-```bash
-systemctl enable freemap-mapnik
-systemctl start freemap-mapnik
-```
+
+  ```bash
+  systemctl enable freemap-mapnik
+  systemctl start freemap-mapnik
+  ```
 
 Later on in this documentation will you find mentions of two 'versions' of the freemap-mapnik service:
+
 - freemap-mapnik-prerender which is used to pre-render tiles from zoom 1 to zoom 14 (if a tile is missing or OSM data has been changed)
 - freemap-mapnik-ondemand which renders tiles when requested by the user (from zoom 15 to 19) and missing.
 
@@ -99,12 +107,10 @@ brew install golang leveldb geos
 
 and then execute the commands [here](https://github.com/omniscale/imposm3/#compile)
 
-## Contours and shaded relief (optional)
+## Contours and shaded relief
 
-1. Obtain digital elevation data from [EarthExplorer](https://earthexplorer.usgs.gov/)
-   - recommended Data Set is _SRTM 1 Arc-Second Global_
-   - use GeoTIFF format; then convert it to HGT or modify `shading/Makefile` ;-)
-1. To generate shaded relief and contours run `npm i -g dem-iron shp-polyline-splitter && cd shading && make -j 8`
+If you don't want to use hillshading and contours then set `mapFeatures.contours` and `mapFeatures.shading` in your config file to `false`.
+Otherwise follow instructions in [SHADING_AND_CONTOURS.md](./SHADING_AND_CONTOURS.md).
 
 ## Setting up minutely diff applying
 
@@ -190,47 +196,4 @@ server {
 
     ...
 }
-```
-
-## Notes
-
-Fixing 1201x3601 SRTM (skips `dem-iron`ing):
-
-TODO: integrate to `shading/Makefile`.
-
-```bash
-for x in `seq 11 22`; do
-  for y in `seq 50 51`; do
-    gdalwarp N${y}E0${x}.hgt -multi -r cubicspline \
-      -te $((x-1)).99986111 $((y-1)).99986111 $((x+1)).00013889 $((y+1)).00013889 \
-      -tr 0.000277777777778 -0.000277777777778 \
-      N${y}E0${x}.aa.tiff
-  done
-done
-```
-
-EPSG:3857: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
-
-```bash
-gdalwarp -overwrite -of GTiff -ot Float32 -co NBITS=16 -co TILED=YES -co PREDICTOR=3 -co COMPRESS=ZSTD -co NUM_THREADS=ALL_CPUS -multi -wo NUM_THREADS=ALL_CPUS -srcnodata -9999 -r cubicspline -order 3 -tr 19.109257071294062687 19.109257071294062687 -tap -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" -s_srs "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=542.5,89.2,456.9,5.517,2.275,5.516,6.96 +pm=greenwich +units=m +nadgrids=slovak +no_defs" sk.tiff sk_w.tiff
-
-# -s_srs "+proj=krovak +ellps=bessel +nadgrids=slovak"
-```
-
-gdal_translate -of AAIGrid square.tif square.asc
-
-Convert HGT to tiff
-
-```bash
-for i in *.HGT; do gdalwarp -overwrite -of GTiff -ot Float32 -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -r cubicspline -order 3 -tr 20 20 -multi -dstnodata NaN -t_srs "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" $i ${i%.HGT}.tiff; done
-```
-
-Fill nodata in tiffs
-
-```bash
-for i in N*.tiff; do gdal_fillnodata.py -of GTiff -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" $i ${i%.tiff}.filled.tiff; done
-```
-
-```bash
-gdal_merge.py -of GTiff -co "NBITS=16" -co "TILED=YES" -co "PREDICTOR=3" -co "COMPRESS=ZSTD" -co "NUM_THREADS=ALL_CPUS" -n NaN -a_nodata NaN -o merged.tiff N*.filled.tiff sk_w.tiff
 ```
