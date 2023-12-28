@@ -27,12 +27,14 @@ docker volume create pgdata
 # start database
 docker run --rm --name=freemap-postgis -v pgdata:/var/lib/postgresql/data --network=freemap-bridge -e POSTGRES_PASSWORD=secret -d mdillon/postgis
 
+# TODO import sql/initial.sql po PostgreSQL
+
 # clone the project and prepare map data (Slovakia)
 docker run --rm --name=freemap-mapnik -v $(pwd):/freemap-mapnik --network=freemap-bridge -p 4000:4000 -w /freemap-mapnik -it zdila/freemap-mapnik-dev-env bash -c 'git clone https://github.com/FreemapSlovakia/freemap-mapnik.git . && ./docker/prepare_osm.sh && ./docker/prepare_hillshading.sh && ./docker/prepare_contours.sh'
 
 # apply additional SQL scripts
 
-docker run --rm --name=freemap-mapnik -v $(pwd):/freemap-mapnik --network=freemap-bridge -p 4000:4000 -w /freemap-mapnik -it zdila/freemap-mapnik-dev-env bash -c 'apt-get update && apt-get -y install --no-install-recommends postgresql-client && cat additional.sql | PGPASSWORD=secret psql -h freemap-postgis postgres postgres'
+docker run --rm --name=freemap-mapnik -v $(pwd):/freemap-mapnik --network=freemap-bridge -p 4000:4000 -w /freemap-mapnik -it zdila/freemap-mapnik-dev-env bash -c 'apt-get update && apt-get -y install --no-install-recommends postgresql-client && cat sql/additional.sql | PGPASSWORD=secret psql -h freemap-postgis postgres postgres'
 ```
 
 ## Running mapserver

@@ -52,6 +52,8 @@ In following commands replace `<you>` with your username.
 
 ### Import OpenStreetMap to database
 
+Import [initial.sql](../sql/initial.sql) to PostgreSQL.
+
 You must have imposm3 installed. For instructions how to build it see https://github.com/omniscale/imposm3.
 
 To import the data use following command (with correct pbf filename):
@@ -66,9 +68,12 @@ Then deploy the import to production:
 imposm import -connection postgis://<you>:<your_password>@localhost/<you> -mapping mapping.yaml -deployproduction
 ```
 
-Import `additional.sql` to Postgresql.
+Import [additional.sql](../sql/additional.sql) to PostgreSQL.
 
-See also [instructions to compute and import peak isolations](./PEAK_ISOLATION.md).
+# Peak isolations
+
+See [instructions to compute and import peak isolations](./PEAK_ISOLATION.md) to prioritize peaks with higher isolation.
+Skip this step if you want to omit this functionality.
 
 ## Prepare coastlines
 
@@ -76,11 +81,11 @@ From https://osmdata.openstreetmap.de/data/land-polygons.html get `simplified-la
 
 ## Setup imposm and freemap-mapnik services
 
-In order to run both imposm and freemap-mapnik services, you'll find these two ready made files in the `./etc/systemd/` folder.
+In order to run both imposm and freemap-mapnik services, you'll find these two ready made files in the [etc/systemd](../etc/systemd/) folder.
 
-- Copy these two files in the relevant directory of your system : to allow these services to run independently of any user login, place them into the `/etc/systemd/system` folder.
+- Copy these two files in the relevant directory of your system to allow these services to run independently of any user login, place them into the `/etc/systemd/system` folder.
 - Each of these two files must be edited and customized according to the installation folder, the relevant username, the database name and the login/password database account
-- Tell the system some things have changed : `sudo systemctl daemon-reload`
+- Tell the system some things have changed: `sudo systemctl daemon-reload`
 - Enable and start imposm:
 
   ```bash
@@ -142,7 +147,7 @@ Follow these steps also after database reimport, which is required if you've upd
    ```bash
    imposm import -connection postgis://freemap:freemap@localhost/freemap -mapping mapping.yaml -deployproduction
    ```
-1. Import `additional.sql` (or apply only its changes) to Postgresql
+1. Import `additional.sql` to PostgreSQL
 1. Update `./diff/last.state.txt` to reflect timestamp and sequence number of the imported map.
    See https://planet.openstreetmap.org/replication/minute/ for finding sequence number.
 1. Start imposm and wait to catch it up
