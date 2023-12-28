@@ -48,6 +48,7 @@ In following commands replace `<you>` with your username.
 1. `CREATE EXTENSION postgis_topology;`
 1. `GRANT CREATE ON DATABASE <you> TO <you>;`
 1. `ALTER USER <you> WITH PASSWORD '<your_password>';`
+1. `GRANT ALL ON SCHEMA public TO <you>;`
 
 ### Import OpenStreetMap to database
 
