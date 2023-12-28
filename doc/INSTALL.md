@@ -69,6 +69,28 @@ Import `additional.sql` to Postgresql.
 
 See also [instructions to compute and import peak isolations](./PEAK_ISOLATION.md).
 
+## Setup imposm and freemap-mapnik services
+
+In order to run both imposm and freemap-mapnik services, you'll find these two ready made files in the `./etc/systemd/` folder.
+
+- Copy these two files in the relevant directory of your system : to allow these services to run independently of any user login, place them into the `/etc/systemd/system` folder.
+- Each of these two files must be edited and customized according to the installation folder, the relevant username, the database name and the login/password database account
+- Tell the system some things have changed : `sudo systemctl daemon-reload`
+- Enable and start imposm:
+```bash
+systemctl enable imposm3
+systemctl start imposm3
+```
+- Enable freemap-mapnik:
+```bash
+systemctl enable freemap-mapnik
+systemctl start freemap-mapnik
+```
+
+Later on in this documentation will you find mentions of two 'versions' of the freemap-mapnik service:
+- freemap-mapnik-prerender which is used to pre-render tiles from zoom 1 to zoom 14 (if a tile is missing or OSM data has been changed)
+- freemap-mapnik-ondemand which renders tiles when requested by the user (from zoom 15 to 19) and missing.
+
 #### Building Imposm on MacOS
 
 ```bash
@@ -120,7 +142,7 @@ Follow these steps also after database reimport, which is required if you've upd
    ```bash
    systemctl start imposm3
    ```
-1. Now you can optionally stop imposm service to prevent it from interrupring prerendering.
+1. Now you can optionally stop imposm service to prevent it from interrupting prerendering.
    You can start it later after pre-rendering has been finished.
    You can also start it somewhere during pre-rendering to catch-up and stop again, to apply some recent updates.
 1. Delete content of `./expires` directory
