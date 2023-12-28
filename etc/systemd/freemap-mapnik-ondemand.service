@@ -1,0 +1,22 @@
+[Unit]
+Description=Freemap Mapserver
+Requires=postgresql.service
+After=postgresql.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=freemap
+WorkingDirectory=/home/freemap/freemap-mapnik/
+Environment=NODE_ENV=ondemand
+Environment=GDAL_CACHEMAX=256
+Environment=UV_THREADPOOL_SIZE=32
+#LimitAS=21474836480
+ExecStart=/usr/bin/node --max-old-space-size=4096 dist/index.js
+# there seems to be some memory leak so restart the service every day
+RuntimeMaxSec=86400
+
+[Install]
+WantedBy=multi-user.target
+

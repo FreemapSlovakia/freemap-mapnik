@@ -11,12 +11,15 @@ User=freemap
 WorkingDirectory=/home/freemap/freemap-mapnik/
 Environment=NODE_ENV=prerender
 Environment=GDAL_CACHEMAX=256
-Environment=UV_THREADPOOL_SIZE=16
+Environment=UV_THREADPOOL_SIZE=32
 Environment=FM_CUSTOM_SQL="set_backend_priority(pg_backend_pid(), 10),"
-ExecStart=/usr/bin/node --max-old-space-size=4096 --unhandled-rejections=strict index.js
+#LimitAS=34359738368
+#LimitAS=68719476736
+ExecStart=/usr/bin/node --max-old-space-size=10000 dist/index.js
 Nice=15
-RuntimeMaxSec=10800
-LimitAS=21474836480
+# there seems to be some memory leak so restart the service every day
+RuntimeMaxSec=86400
 
 [Install]
 WantedBy=multi-user.target
+
