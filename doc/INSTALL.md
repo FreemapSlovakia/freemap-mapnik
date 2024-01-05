@@ -50,6 +50,35 @@ In following commands replace `<you>` with your username.
 1. `ALTER USER <you> WITH PASSWORD '<your_password>';`
 1. `GRANT ALL ON SCHEMA public TO <you>;`
 
+#### Password encryption
+Downgrade password_encryption in PostgreSQL to md5, changing all the passwords and using the md5 authentication method:
+1. In ``/etc/postgresql/16/main/pg_hba.conf` (your PostgreSQL version may vary), find the line
+`host    all             all             127.0.0.1/32            scram-sha-256`
+and replace the ending directive by md5:
+`host    all             all             127.0.0.1/32            md5`
+1. In `/etc/postgresql/16/main/postgresql.conf` (your PostgreSQL version may vary), find the line
+`password_encryption = scram-sha-256`
+and replace the value by `md5`.
+1. Restart the postgresql service:
+```bash
+systemctl restart postgresql@16-main.service
+```
+1. Check that the password of the dedicated user was actually converted to using md5:
+```bash
+su - postgres
+$ psql -d freemap
+psql (16.1 (Debian 16.1-1.pgdg120+1))
+
+freemap=# select rolpassword from pg_authid where rolname = 'freemap';
+             rolpassword             
+-------------------------------------
+ md5e1cd775xjhdsfjkhdjdjfhj
+```
+You'll notice the heading md5 caracters of the encoded password.
+In case this 3 caracters are missing, please reset the dedicated user's password:
+```sql
+ALTER USER freemap WITH PASSWORD 'somepassword';
+```
 ### Import OpenStreetMap to database
 
 Import [initial.sql](../sql/initial.sql) to PostgreSQL.
