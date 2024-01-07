@@ -136,11 +136,11 @@ export function ShadingAndCountours({ contours, shading }: Props) {
 
       <HillshadeStyle />
 
-      <CountryShadingAndContours contours={contours} shading={shading} cc="at" cutCcs={["sk", "ch", "si", "cz"]} />
+      <CountryShadingAndContours contours={contours} shading={shading} cc="at" cutCcs={["sk", "si", "cz"]} />
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="it" cutCcs={["at", "ch", "si", "fr"]} />
 
-      <CountryShadingAndContours contours={contours} shading={shading} cc="ch" cutCcs={[]} />
+      <CountryShadingAndContours contours={contours} shading={shading} cc="ch" cutCcs={["at", "fr"]} />
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="si" cutCcs={[]} />
 
@@ -150,13 +150,13 @@ export function ShadingAndCountours({ contours, shading }: Props) {
 
       <CountryShadingAndContours contours={contours} shading={shading} cc="sk" cutCcs={[]} />
 
-      <CountryShadingAndContours contours={contours} shading={shading} cc="fr" cutCcs={["ch"]} />
+      <CountryShadingAndContours contours={contours} shading={shading} cc="fr" cutCcs={[]} />
 
       {/* to cut out detailed */}
       <SqlLayer
         styleName="sea" // any
         compOp="src-over"
-        sql="SELECT ST_SetSRID(ST_MakePoint(0, 0), 3857) AS geom LIMIT 0" // some empty data
+        sql="SELECT geometry FROM osm_features LIMIT 0" // some empty data
       >
         {["it", "at", "ch", "si", "pl", "sk", "cz", "fr"].map((cc) => (
           <GdalLayer styleName="shadingAndContoursMask" file={`shading/${cc}/mask.tif`} />
@@ -165,7 +165,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
         <SqlLayer
           styleName="sea" // any
           compOp="src-out"
-          sql="SELECT ST_SetSRID(ST_MakePoint(0, 0), 3857) AS geom LIMIT 0" // some empty data
+          sql="SELECT geometry FROM osm_features LIMIT 0" // some empty data
         >
           {contours && (
             <SqlLayer

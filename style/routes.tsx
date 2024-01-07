@@ -272,7 +272,7 @@ function RouteStyles({ glows, types }: Props) {
                     <LineSymbolizer {...glowStyle} strokeWidth={wf + 1} offset={offset} />
                   ) : (
                     <LinePatternSymbolizer
-                      file={`/tmp/horse-${color}.svg`}
+                      file={path.resolve(tmpdir(), `horse-${color}.svg`)}
                       offset={offset}
                       transform={`scale(${wf / 2})`}
                     />
@@ -301,7 +301,7 @@ function RouteStyles({ glows, types }: Props) {
                     <LineSymbolizer {...glowStyle} strokeWidth={wf * 1.5 + 1} offset={offset} />
                   ) : (
                     <LinePatternSymbolizer
-                      file={`/tmp/ski-${color}.svg`}
+                      file={path.resolve(tmpdir(), `ski-${color}.svg`)}
                       offset={offset}
                       transform={`scale(${wf / 2})`}
                     />

@@ -35,11 +35,7 @@ export function Landcover() {
           <PolygonSymbolizer fill={colors.farmland} />
         </RuleEx>
 
-        <RuleEx type={["meadow", "park", "cemetery", "village_green"]}>
-          <PolygonSymbolizer fill={colors.grassy} />
-        </RuleEx>
-
-        <RuleEx type={["fell", "grassland", "grass"]}>
+        <RuleEx type={["meadow", "park", "cemetery", "village_green", "fell", "grassland", "grass"]}>
           <PolygonSymbolizer fill={colors.grassy} />
         </RuleEx>
 

@@ -34,13 +34,13 @@ export function WaterArea() {
       <SqlLayer
         styleName="water_area"
         maxZoom={11}
-        sql="SELECT geometry, type, intermittent OR seasonal AS tmp FROM osm_waterareas_gen1 WHERE geometry && !bbox!"
+        sql="SELECT geometry, intermittent OR seasonal AS tmp FROM osm_waterareas_gen1 WHERE geometry && !bbox!"
       />
 
       <SqlLayer
         styleName="water_area"
         minZoom={12}
-        sql="SELECT geometry, type, intermittent OR seasonal AS tmp FROM osm_waterareas WHERE geometry && !bbox!"
+        sql="SELECT geometry, intermittent OR seasonal AS tmp FROM osm_waterareas WHERE geometry && !bbox!"
       />
 
       <SqlLayer
