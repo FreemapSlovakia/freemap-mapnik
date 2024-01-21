@@ -12,21 +12,21 @@ export function Road(props: Props) {
         stroke="black"
         strokeWidth="[bridge]"
         strokeLinejoin="round"
-        offset={`${props.strokeWidth} / 2 + 1`}
+        offset={`(${props.strokeWidth}) / 2 + 1`}
       />
 
       <LineSymbolizer
         stroke="black"
         strokeWidth="[bridge]"
         strokeLinejoin="round"
-        offset={`-${props.strokeWidth} / 2 - 1`}
+        offset={`-(${props.strokeWidth}) / 2 - 1`}
       />
 
       <LineSymbolizer
         stroke="black"
         strokeWidth="[tunnel]"
         strokeLinejoin="round"
-        offset={`-${props.strokeWidth} / 2 + 1`}
+        offset={`(${props.strokeWidth}) / 2 + 1`}
         strokeDasharray="3,3"
         strokeOpacity={0.5}
       />
@@ -35,7 +35,7 @@ export function Road(props: Props) {
         stroke="black"
         strokeWidth="[tunnel]"
         strokeLinejoin="round"
-        offset={-props.strokeWidth / 2 - 1}
+        offset={`-(${props.strokeWidth}) / 2 - 1`}
         strokeDasharray="3,3"
         strokeOpacity={0.5}
       />
