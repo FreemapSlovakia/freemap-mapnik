@@ -229,11 +229,10 @@ export async function initIcons() {
 }
 
 type Props = {
-  glows: boolean;
   types: string[]; // 'hiking' or combination of ['bicycle', 'ski']
 };
 
-function RouteStyles({ glows, types }: Props) {
+function RouteStyles({ types }: Props) {
   const isHiking = types.includes("hiking");
   const isBicycle = types.includes("bicycle");
   const isSki = types.includes("ski");
@@ -248,13 +247,6 @@ function RouteStyles({ glows, types }: Props) {
 
     const df = 1.25;
 
-    const glowStyle: Partial<Parameters<typeof LineSymbolizer>[0]> = {
-      stroke: "white",
-      strokeLinejoin: "round",
-      strokeLinecap: "butt",
-      strokeOpacity: 0.33,
-    };
-
     return (
       <>
         {Object.entries(colorMap).map(([color, colorValue]) => {
@@ -267,26 +259,11 @@ function RouteStyles({ glows, types }: Props) {
 
             elements.push(
               <RuleEx filter={`[r_${color}] > 0`} {...zoomParams}>
-                {
-                  glows ? (
-                    <LineSymbolizer {...glowStyle} strokeWidth={wf + 1} offset={offset} />
-                  ) : (
-                    <LinePatternSymbolizer
-                      file={path.resolve(tmpdir(), `horse-${color}.svg`)}
-                      offset={offset}
-                      transform={`scale(${wf / 2})`}
-                    />
-                  )
-
-                  // <LineSymbolizer
-                  //   stroke={colorValue}
-                  //   strokeWidth={wf}
-                  //   strokeLinejoin="round"
-                  //   strokeLinecap="butt"
-                  //   offset={offset}
-                  //   strokeDasharray={`${wf * 3},${wf * 2}`}
-                  // />
-                }
+                <LinePatternSymbolizer
+                  file={path.resolve(tmpdir(), `horse-${color}.svg`)}
+                  offset={offset}
+                  transform={`scale(${wf / 2})`}
+                />
               </RuleEx>,
             );
           }
@@ -296,31 +273,16 @@ function RouteStyles({ glows, types }: Props) {
 
             elements.push(
               <RuleEx filter={`[s_${color}] > 0`} {...zoomParams}>
-                {
-                  glows ? (
-                    <LineSymbolizer {...glowStyle} strokeWidth={wf * 1.5 + 1} offset={offset} />
-                  ) : (
-                    <LinePatternSymbolizer
-                      file={path.resolve(tmpdir(), `ski-${color}.svg`)}
-                      offset={offset}
-                      transform={`scale(${wf / 2})`}
-                    />
-                  )
-
-                  // <LineSymbolizer
-                  //   stroke={colorValue}
-                  //   strokeWidth={wf}
-                  //   strokeLinejoin="round"
-                  //   strokeLinecap="butt"
-                  //   offset,
-                  //   strokeDasharray={`${wf * 3},${wf * 2}`}
-                  // />
-                }
+                <LinePatternSymbolizer
+                  file={path.resolve(tmpdir(), `ski-${color}.svg`)}
+                  offset={offset}
+                  transform={`scale(${wf / 2})`}
+                />
               </RuleEx>,
             );
           }
 
-          if (isBicycle && !glows) {
+          if (isBicycle) {
             elements.push(
               <RuleEx filter={`[b_${color}] > 0`} {...zoomParams}>
                 <LineSymbolizer
@@ -341,17 +303,13 @@ function RouteStyles({ glows, types }: Props) {
             // major hiking
             elements.push(
               <RuleEx filter={`[h_${color}] > 0`} {...zoomParams}>
-                {glows ? (
-                  <LineSymbolizer {...glowStyle} strokeWidth={wf + 2} offset={o1} />
-                ) : (
-                  <LineSymbolizer
-                    stroke={colorValue}
-                    strokeWidth={wf}
-                    strokeLinejoin="round"
-                    strokeLinecap="butt"
-                    offset={o1}
-                  />
-                )}
+                <LineSymbolizer
+                  stroke={colorValue}
+                  strokeWidth={wf}
+                  strokeLinejoin="round"
+                  strokeLinecap="butt"
+                  offset={o1}
+                />
               </RuleEx>,
             );
 
@@ -360,18 +318,14 @@ function RouteStyles({ glows, types }: Props) {
             // local hiking
             elements.push(
               <RuleEx filter={`[h_${color}_loc] > 0`} {...zoomParams}>
-                {glows ? (
-                  <LineSymbolizer {...glowStyle} strokeWidth={wf + 2} offset={o2} />
-                ) : (
-                  <LineSymbolizer
-                    stroke={colorValue}
-                    strokeWidth={wf}
-                    strokeLinejoin="round"
-                    strokeLinecap="butt"
-                    offset={o2}
-                    strokeDasharray={`${wf * 3},${wf * 1}`}
-                  />
-                )}
+                <LineSymbolizer
+                  stroke={colorValue}
+                  strokeWidth={wf}
+                  strokeLinejoin="round"
+                  strokeLinecap="butt"
+                  offset={o2}
+                  strokeDasharray={`${wf * 3},${wf * 1}`}
+                />
               </RuleEx>,
             );
           }
@@ -406,15 +360,9 @@ export function Routes(routeProps: RouteProps) {
         }
 
         return x.length > 0 ? (
-          <>
-            <Style name="routeGlows">
-              <RouteStyles glows types={x} />
-            </Style>
-
-            <Style name="routes">
-              <RouteStyles glows={false} types={x} />
-            </Style>
-          </>
+          <Style name="routes">
+            <RouteStyles types={x} />
+          </Style>
         ) : undefined;
       })()}
 
