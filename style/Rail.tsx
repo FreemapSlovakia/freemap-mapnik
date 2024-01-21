@@ -15,17 +15,13 @@ export function Rail({ color, weight, sleeperWeight, spacing, glowWidth }: Props
 
   return (
     <>
-      {glowWidth !== undefined && (
-        <>
-          <LineSymbolizer stroke="white" strokeWidth={gw} />
+      <LineSymbolizer stroke="white" strokeWidth={gw} />
 
-          <LineSymbolizer
-            stroke="white"
-            strokeWidth={sgw}
-            strokeDasharray={`0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}`}
-          />
-        </>
-      )}
+      <LineSymbolizer
+        stroke="white"
+        strokeWidth={sgw}
+        strokeDasharray={`0,${(spacing - gw) / 2},${gw},${(spacing - gw) / 2}`}
+      />
 
       <LineSymbolizer stroke={color} strokeWidth={weight} />
 
