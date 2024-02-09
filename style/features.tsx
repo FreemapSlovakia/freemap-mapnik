@@ -291,10 +291,10 @@ const pois: [
   [14, 15, N, N, "hospital", { exp: `[name].replace('^[Nn]emocnica\\\\b', 'Nem.')` }],
   [14, NN, N, N, "townhall"],
   [14, 15, N, N, ["chapel"], {
-    exp: `[name].replace('^[Kk]aplnka${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')`,
+    exp: `[name].replace('^[Kk]aplnka${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv\\.)', 'sv.')`,
   }],
   [14, 15, N, N, ["church", "cathedral"], {
-    exp: `[name].replace('^[Kk]ostol${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv.)', 'sv.')`,
+    exp: `[name].replace('^[Kk]ostol${bs}', '').replace('\\\\b([Ss]vät\\\\w+|Sv\\.)', 'sv.')`,
     font: { dy: -13 }
   }],
   [14, 15, N, N, ["synagogue"]],
