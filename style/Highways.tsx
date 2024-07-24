@@ -325,7 +325,7 @@ export function Highways() {
               THEN 1 ELSE 0 END AS no_bicycle,
             CASE
               WHEN foot NOT IN ('', 'yes', 'designated', 'official', 'permissive')
-              OR foot = '' AND access NOT IN ('', 'yes', 'designated', 'official', 'permissive')
+              OR foot = '' AND access NOT IN ('', 'yes', 'designated', 'official', 'permissive', 'forestry')
               THEN 1 ELSE 0 END AS no_foot,
             geometry
           FROM osm_roads
