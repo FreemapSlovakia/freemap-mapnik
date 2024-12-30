@@ -1,7 +1,7 @@
 import { LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
+import { colors } from "./colors.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function Pipelines() {
   /* TODO split to several layers: underground/underwater, overground, overhead */

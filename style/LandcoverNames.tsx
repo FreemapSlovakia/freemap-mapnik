@@ -1,10 +1,10 @@
 import { Style } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { Placements } from "./Placements";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
+import { colors } from "./colors.js";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { Placements } from "./Placements.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { seq } from "./utils.js";
 
 export function LandcoverNames() {
   return (

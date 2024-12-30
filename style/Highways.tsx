@@ -1,10 +1,10 @@
 import { LinePatternSymbolizer, LineSymbolizer, MarkersSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors, hsl } from "./colors";
-import { RuleEx } from "./RuleEx";
-import { Rail } from "./Rail";
-import { seq, types } from "./utils";
-import { Road } from "./Road";
-import { SqlLayer } from "./SqlLayer";
+import { colors, hsl } from "./colors.js";
+import { RuleEx } from "./RuleEx.js";
+import { Rail } from "./Rail.js";
+import { seq, types } from "./utils.js";
+import { Road } from "./Road.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 const glowDflt: Partial<Parameters<typeof LineSymbolizer>[0]> = {
   stroke: hsl(0, 33, 70),

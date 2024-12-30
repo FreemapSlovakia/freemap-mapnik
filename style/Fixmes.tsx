@@ -1,5 +1,5 @@
 import { MarkersSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
-import { SqlLayer } from "./SqlLayer";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function Fixmes() {
   return (

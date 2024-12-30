@@ -1460,7 +1460,6 @@ export const legend = {
   ],
 };
 
-module.exports = { legend };
 //     .layer('placenames', { type: 'csv', inline: `
 // id|name|type|wkt
 // 1|Test 123|town|Point(21.219835 48.655111)

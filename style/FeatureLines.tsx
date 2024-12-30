@@ -1,8 +1,8 @@
 import { LinePatternSymbolizer, LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { hsl } from "./colors";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
+import { hsl } from "./colors.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { seq } from "./utils.js";
 
 export function FeatureLines() {
   return (

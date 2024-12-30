@@ -1,5 +1,5 @@
 import { ElseFilter, Filter, MaxScaleDenominator, MinScaleDenominator, Rule } from "jsxnik/mapnikConfig";
-import { types, zoomDenoms } from "./utils";
+import { types, zoomDenoms } from "./utils.js";
 
 type Props = {
   minZoom?: number;

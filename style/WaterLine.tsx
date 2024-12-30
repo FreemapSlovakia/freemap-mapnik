@@ -1,8 +1,8 @@
 import { LineSymbolizer, MarkersSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
+import { colors } from "./colors.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { seq } from "./utils.js";
 
 // see https://github.com/mapnik/mapnik/issues/4349
 const sqls: Record<number, string> = {

@@ -1,8 +1,8 @@
 import { Style } from "jsxnik/mapnikConfig";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { Placements } from "./Placements";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { Placements } from "./Placements.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function WaterAreaNames() {
   /* TODO to feature_names to consider z_order */

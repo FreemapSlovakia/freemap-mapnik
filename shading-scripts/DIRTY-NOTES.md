@@ -107,6 +107,8 @@ gdalwarp -s_srs 'EPSG:8353' -t_srs 'EPSG:3857' -ct '+proj=pipeline +step +inv +p
 
 ### PL Z14
 
+calc: `2*pi()*6378137/(256*2^14)`
+
 gdalwarp -t_srs 'EPSG:3857' -tr 9.55462853565 9.55462853565 -tap -r cubicspline -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=DEFLATE -co PREDICTOR=2 -co NUM_THREADS=ALL_CPUS -wo NUM_THREADS=ALL_CPUS -multi pl.vrt pl-warped.tif
 
 ### merge SK+PL

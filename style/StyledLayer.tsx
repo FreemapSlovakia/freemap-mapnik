@@ -1,5 +1,5 @@
 import { Layer, StyleName } from "jsxnik/mapnikConfig";
-import { zoomDenoms } from "./utils";
+import { zoomDenoms } from "./utils.js";
 
 type Props = {
   styleName: string | string[];

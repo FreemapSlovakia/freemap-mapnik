@@ -1,5 +1,5 @@
 import { LinePatternSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
-import { SqlLayer } from "./SqlLayer";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function Embankments() {
   /* TODO don't render on hi-res hillshading */

@@ -1,6 +1,6 @@
 import { Rule, Style } from "jsxnik/mapnikConfig";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { ShpLayer } from "./ShpLayer";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { ShpLayer } from "./ShpLayer.js";
 
 export function Geonames() {
   return (

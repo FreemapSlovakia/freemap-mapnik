@@ -1,8 +1,8 @@
 import { Placement, Style } from "jsxnik/mapnikConfig";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { seq } from "./utils.js";
 
 export function ValleysRidges() {
   return (

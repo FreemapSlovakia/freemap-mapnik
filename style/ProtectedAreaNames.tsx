@@ -1,8 +1,8 @@
 import { Rule, Style } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { Placements } from "./Placements";
-import { SqlLayer } from "./SqlLayer";
+import { colors } from "./colors.js";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { Placements } from "./Placements.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function ProtectedAreaNames() {
   return (

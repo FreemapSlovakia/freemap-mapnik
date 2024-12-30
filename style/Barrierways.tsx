@@ -1,7 +1,7 @@
 import { LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors, hsl } from "./colors";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
+import { colors, hsl } from "./colors.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function Barrierways() {
   return (

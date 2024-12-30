@@ -1,8 +1,8 @@
 import { LinePatternSymbolizer, LineSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
-import { GdalLayer } from "./GdalLayer";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
+import { colors } from "./colors.js";
+import { GdalLayer } from "./GdalLayer.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 type Props = { shading: boolean };
 

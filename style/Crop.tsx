@@ -1,6 +1,6 @@
 import { PolygonSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
-import { DatasourceEx } from "./DatasourceEx";
-import { StyledLayer } from "./StyledLayer";
+import { DatasourceEx } from "./DatasourceEx.js";
+import { StyledLayer } from "./StyledLayer.js";
 
 export function Crop() {
   return (

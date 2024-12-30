@@ -1,10 +1,10 @@
 import { Format, Rule, Style } from "jsxnik/mapnikConfig";
-import { Borders } from "./Borders";
-import { DatasourceEx } from "./DatasourceEx";
-import { SqlLayer } from "./SqlLayer";
-import { StyledLayer } from "./StyledLayer";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { seq } from "./utils";
+import { Borders } from "./Borders.js";
+import { DatasourceEx } from "./DatasourceEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { StyledLayer } from "./StyledLayer.js";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { seq } from "./utils.js";
 
 export function CountryNames() {
   return (

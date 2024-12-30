@@ -1,6 +1,6 @@
 import { Rule, Style } from "jsxnik/mapnikConfig";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { SqlLayer } from "./SqlLayer";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { SqlLayer } from "./SqlLayer.js";
 
 export function AerialwayNames() {
   return (

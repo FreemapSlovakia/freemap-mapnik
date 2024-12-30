@@ -1,5 +1,5 @@
 import { LineSymbolizer } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
+import { colors } from "./colors.js";
 
 type Props = { strokeWidth: number | string } & Parameters<typeof LineSymbolizer>[0];
 

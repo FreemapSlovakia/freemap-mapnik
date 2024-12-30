@@ -1,5 +1,5 @@
 import { TextSymbolizer } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
+import { colors } from "./colors.js";
 
 type Props = {
   wrap?: boolean;

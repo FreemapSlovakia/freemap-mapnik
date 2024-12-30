@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict dist",
@@ -12,17 +13,17 @@
   "license": "ISC",
   "dependencies": {
     "color-convert": "2.0.1",
-    "config": "3.3.9",
-    "freemap-mapserver": "github:FreemapSlovakia/freemap-mapserver#70868ffb25230d7873065b25bd7344eecde4bff3",
-    "jsxnik": "0.0.14"
+    "config": "3.3.12",
+    "freemap-mapserver": "file:../freemap-mapserver",
+    "jsxnik": "file:../jsxnik"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "@types/color-convert": "2.0.3",
-    "@types/config": "3.3.3",
-    "eslint": "8.55.0",
-    "@types/node": "^20.10.4",
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.0.2"
+    "@types/color-convert": "2.0.4",
+    "@types/config": "3.3.5",
+    "@types/node": "22.10.2",
+    "concurrently": "9.1.1",
+    "eslint": "9.17.0",
+    "nodemon": "3.1.9",
+    "typescript": "5.7.2"
   }
 }

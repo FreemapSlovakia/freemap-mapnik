@@ -1,5 +1,5 @@
 import { PolygonSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
-import { ShpLayer } from "./ShpLayer";
+import { ShpLayer } from "./ShpLayer.js";
 
 export function Sea() {
   return (

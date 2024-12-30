@@ -1,9 +1,9 @@
 import { Format, MarkersSymbolizer, Placement, Style } from "jsxnik/mapnikConfig";
-import { colors, hsl } from "./colors";
-import { defaultFontSize, TextSymbolizerEx } from "./TextSymbolizerEx";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { seq } from "./utils";
+import { colors, hsl } from "./colors.js";
+import { defaultFontSize, TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { seq } from "./utils.js";
 
 function poiIconProjection(ele = "null", access = "null", isolation = "null") {
   return `osm_id, geometry, ${ele} AS ele, ${access} AS access, ${isolation} AS isolation`;

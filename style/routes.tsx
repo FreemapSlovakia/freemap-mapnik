@@ -1,10 +1,10 @@
 import { LinePatternSymbolizer, LineSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
-import { RuleEx } from "./RuleEx";
+import { RuleEx } from "./RuleEx.js";
 import { tmpdir } from "os";
 import path from "path";
 import fs from "fs/promises";
-import { SqlLayer } from "./SqlLayer";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
+import { SqlLayer } from "./SqlLayer.js";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
 
 export type RouteProps = {
   hikingTrails: boolean;

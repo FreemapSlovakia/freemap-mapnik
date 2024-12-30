@@ -1,5 +1,5 @@
 import { Layer, StyleName } from "jsxnik/mapnikConfig";
-import { DatasourceEx } from "./DatasourceEx";
+import { DatasourceEx } from "./DatasourceEx.js";
 
 export type Props = {
   legendLayers: {

@@ -1,5 +1,5 @@
-import { DatasourceEx } from "./DatasourceEx";
-import { StyledLayer } from "./StyledLayer";
+import { DatasourceEx } from "./DatasourceEx.js";
+import { StyledLayer } from "./StyledLayer.js";
 
 type Props = {
   sql: string;

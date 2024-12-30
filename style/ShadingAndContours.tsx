@@ -1,12 +1,12 @@
 import { LineSymbolizer, RasterSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
-import { colors } from "./colors";
-import { DatasourceEx } from "./DatasourceEx";
-import { TextSymbolizerEx } from "./TextSymbolizerEx";
-import { GdalLayer } from "./GdalLayer";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { StyledLayer } from "./StyledLayer";
-import { seq } from "./utils";
+import { colors } from "./colors.js";
+import { DatasourceEx } from "./DatasourceEx.js";
+import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { GdalLayer } from "./GdalLayer.js";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { StyledLayer } from "./StyledLayer.js";
+import { seq } from "./utils.js";
 
 type Props0 = {
   cc: string;

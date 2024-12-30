@@ -1,7 +1,7 @@
 import { LineSymbolizer, PolygonPatternSymbolizer, Style } from "jsxnik/mapnikConfig";
-import { RuleEx } from "./RuleEx";
-import { SqlLayer } from "./SqlLayer";
-import { hsl } from "./colors";
+import { RuleEx } from "./RuleEx.js";
+import { SqlLayer } from "./SqlLayer.js";
+import { hsl } from "./colors.js";
 
 export function SolarPowerPlants() {
   return (
