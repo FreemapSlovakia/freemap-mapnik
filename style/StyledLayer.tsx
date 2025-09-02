@@ -17,6 +17,7 @@ export function StyledLayer({ styleName, children, maxZoom, minZoom, ...rest }: 
   return (
     _enabled && (
       <Layer
+        srs="EPSG:3857"
         maximumScaleDenominator={minZoom && zoomDenoms[minZoom]}
         minimumScaleDenominator={maxZoom && zoomDenoms[maxZoom + 1]}
         {...rest}

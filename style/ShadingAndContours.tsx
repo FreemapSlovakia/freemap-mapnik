@@ -89,7 +89,7 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: Props0) {
         styleName="sea" // any
         compOp="src-in"
         // some empty data
-        sql={`SELECT wkb_geometry FROM contour_${cc}_split LIMIT 0`}
+        sql={`SELECT geometry FROM osm_features LIMIT 0`}
       >
         {contours && (
           <SqlLayer

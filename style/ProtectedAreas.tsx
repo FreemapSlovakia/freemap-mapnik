@@ -17,7 +17,10 @@ export function ProtectedAreas() {
           />
         </RuleEx>
 
-        <RuleEx minZoom={12} filter="type = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')">
+        <RuleEx
+          minZoom={12}
+          filter="[type] = 'nature_reserve' or ([type] = 'protected_area' and [protect_class] <> '2')"
+        >
           <LinePatternSymbolizer file="images/protected_area.svg" />
         </RuleEx>
       </Style>

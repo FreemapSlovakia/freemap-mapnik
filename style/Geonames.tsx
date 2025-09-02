@@ -28,7 +28,7 @@ export function Geonames() {
 
       <ShpLayer
         styleName="geonames"
-        srs="+init=epsg:4326"
+        srs="EPSG:4326"
         bufferSize={1024}
         minZoom={9}
         maxZoom={11}
