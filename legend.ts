@@ -3,7 +3,12 @@ function propsForZoom(zoom: number) {
 
   return {
     zoom,
-    bbox: [-0.00018 * factor, -0.00008 * factor, 0.00018 * factor, 0.00008 * factor],
+    bbox: [-0.00018 * factor, -0.00008 * factor, 0.00018 * factor, 0.00008 * factor] as [
+      number,
+      number,
+      number,
+      number,
+    ],
   };
 }
 
