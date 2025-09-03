@@ -1,10 +1,10 @@
 import { Format, Rule, Style } from "jsxnik/mapnikConfig";
 import { Borders } from "./Borders.js";
 import { DatasourceEx } from "./DatasourceEx.js";
-import { SqlLayer } from "./SqlLayer.js";
 import { StyledLayer } from "./StyledLayer.js";
 import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
 import { seq } from "./utils.js";
+import { EmptyWorldLayer } from "./EmptyWorldLayer.js";
 
 export function CountryNames() {
   return (
@@ -34,13 +34,7 @@ export function CountryNames() {
         </Rule>
       </Style>
 
-      <SqlLayer
-        styleName="sea" // any
-        opacity={0.33}
-        compOp="src-in"
-        maxZoom={7}
-        sql="SELECT geometry FROM osm_features LIMIT 0" // some empty data
-      />
+      <EmptyWorldLayer opacity={0.33} compOp="src-in" maxZoom={7} />
 
       <Borders forLowzoom />
 

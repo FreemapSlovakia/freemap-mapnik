@@ -1,10 +1,10 @@
 import { DatasourceEx } from "./DatasourceEx.js";
-import { StyledLayer } from "./StyledLayer.js";
+import { StyledLayer, StyledLayerProps } from "./StyledLayer.js";
 
 type Props = {
   file: string;
   children?: JSX.Element;
-} & Omit<Parameters<typeof StyledLayer>[0], "children">;
+} & Omit<StyledLayerProps, "children">;
 
 export function GdalLayer({ file, children, ...rest }: Props) {
   return (

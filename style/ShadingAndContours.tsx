@@ -1,21 +1,22 @@
 import { LineSymbolizer, RasterSymbolizer, Rule, Style } from "jsxnik/mapnikConfig";
 import { colors } from "./colors.js";
 import { DatasourceEx } from "./DatasourceEx.js";
-import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { TextSymbolizerEx, TextSymbolizerExProps } from "./TextSymbolizerEx.js";
 import { GdalLayer } from "./GdalLayer.js";
 import { RuleEx } from "./RuleEx.js";
 import { SqlLayer } from "./SqlLayer.js";
 import { StyledLayer } from "./StyledLayer.js";
 import { seq } from "./utils.js";
+import { EmptyWorldLayer } from "./EmptyWorldLayer.js";
 
-type Props0 = {
+type CountryShadingAndContours = {
   cc: string;
   cutCcs: string[];
   contours: boolean;
   shading: boolean;
 };
 
-const contoursDflt: Partial<Parameters<typeof LineSymbolizer & typeof TextSymbolizerEx>[0]> = {
+const contoursDflt: Partial<Parameters<typeof LineSymbolizer>[0] & TextSymbolizerExProps> = {
   smooth: 1,
   simplify: "5 * @scale",
   simplifyAlgorithm: "visvalingam-whyatt", // radial-distance would be better here but is buggy, see: https://github.com/mapnik/mapnik/issues/4347
@@ -75,7 +76,7 @@ function HillshadeStyle() {
   );
 }
 
-function CountryShadingAndContours({ cc, cutCcs, contours, shading }: Props0) {
+function CountryShadingAndContours({ cc, cutCcs, contours, shading }: CountryShadingAndContours) {
   return (
     <StyledLayer styleName="shadingAndContoursMask" compOp="src-over">
       <DatasourceEx
@@ -85,12 +86,7 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: Props0) {
         }}
       />
 
-      <SqlLayer
-        styleName="sea" // any
-        compOp="src-in"
-        // some empty data
-        sql={`SELECT geometry FROM osm_features LIMIT 0`}
-      >
+      <EmptyWorldLayer compOp="src-in">
         {contours && (
           <SqlLayer
             styleName="contours"
@@ -100,19 +96,19 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: Props0) {
         )}
 
         {shading && <GdalLayer styleName="hillshade" file={`shading/${cc}/final.tif`} />}
+      </EmptyWorldLayer>
 
-        {cutCcs.map((cutCc) => (
-          <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cutCc}/mask.tif`} />
-        ))}
+      {cutCcs.map((cutCc) => (
+        <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cutCc}/mask.tif`} />
+      ))}
 
-        {/* bridges above shading and below roads */}
-        <SqlLayer
-          styleName="bridge_area"
-          minZoom={15}
-          compOp="dst-out"
-          sql="SELECT geometry FROM osm_landusages WHERE geometry && !bbox! AND type = 'bridge'"
-        />
-      </SqlLayer>
+      {/* bridges above shading and below roads */}
+      <SqlLayer
+        styleName="bridge_area"
+        minZoom={15}
+        compOp="dst-out"
+        sql="SELECT geometry FROM osm_landusages WHERE geometry && !bbox! AND type = 'bridge'"
+      />
     </StyledLayer>
   );
 }
@@ -153,20 +149,12 @@ export function ShadingAndCountours({ contours, shading }: Props) {
       <CountryShadingAndContours contours={contours} shading={shading} cc="fr" cutCcs={[]} />
 
       {/* to cut out detailed */}
-      <SqlLayer
-        styleName="sea" // any
-        compOp="src-over"
-        sql="SELECT geometry FROM osm_features LIMIT 0" // some empty data
-      >
+      <EmptyWorldLayer compOp="src-over">
         {["it", "at", "ch", "si", "pl", "sk", "cz", "fr"].map((cc) => (
           <GdalLayer styleName="shadingAndContoursMask" file={`shading/${cc}/mask.tif`} />
         ))}
 
-        <SqlLayer
-          styleName="sea" // any
-          compOp="src-out"
-          sql="SELECT geometry FROM osm_features LIMIT 0" // some empty data
-        >
+        <EmptyWorldLayer compOp="src-out">
           {contours && (
             <SqlLayer
               styleName="contours"
@@ -176,8 +164,8 @@ export function ShadingAndCountours({ contours, shading }: Props) {
           )}
 
           {shading && <GdalLayer styleName="hillshade" file="shading/final.tiff" />}
-        </SqlLayer>
-      </SqlLayer>
+        </EmptyWorldLayer>
+      </EmptyWorldLayer>
     </>
   );
 }

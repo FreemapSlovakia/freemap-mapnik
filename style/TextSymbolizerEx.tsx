@@ -1,7 +1,7 @@
 import { TextSymbolizer } from "jsxnik/mapnikConfig";
 import { colors } from "./colors.js";
 
-type Props = {
+export type TextSymbolizerExProps = {
   wrap?: boolean;
   nature?: boolean;
   water?: boolean;
@@ -11,7 +11,7 @@ type Props = {
 
 export const defaultFontSize = 12;
 
-export function TextSymbolizerEx({ wrap, nature, water, line, ...rest }: Props) {
+export function TextSymbolizerEx({ wrap, nature, water, line, ...rest }: TextSymbolizerExProps) {
   const props: Parameters<typeof TextSymbolizer>[0] = {
     ...rest,
   };

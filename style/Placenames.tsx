@@ -1,5 +1,5 @@
 import { Style } from "jsxnik/mapnikConfig";
-import { TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { TextSymbolizerEx, TextSymbolizerExProps } from "./TextSymbolizerEx.js";
 import { Placements } from "./Placements.js";
 import { RuleEx } from "./RuleEx.js";
 import { SqlLayer } from "./SqlLayer.js";
@@ -7,7 +7,7 @@ import { SqlLayer } from "./SqlLayer.js";
 const scaleFormula = "2.5 * pow(1.2, @zoom)";
 
 export function PlaceNames2() {
-  const placenamesFontStyle: Partial<Parameters<typeof TextSymbolizerEx>[0]> = {
+  const placenamesFontStyle: Partial<TextSymbolizerExProps> = {
     wrap: true,
     margin: 3,
     haloFill: "white",

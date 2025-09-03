@@ -1,7 +1,7 @@
 import { Layer, StyleName } from "jsxnik/mapnikConfig";
 import { zoomDenoms } from "./utils.js";
 
-type Props = {
+export type StyledLayerProps = {
   styleName: string | string[];
   maxZoom?: number;
   minZoom?: number;
@@ -13,7 +13,7 @@ export function setLayersEnabled(enabled: boolean) {
   _enabled = enabled;
 }
 
-export function StyledLayer({ styleName, children, maxZoom, minZoom, ...rest }: Props) {
+export function StyledLayer({ styleName, children, maxZoom, minZoom, ...rest }: StyledLayerProps) {
   return (
     _enabled && (
       <Layer

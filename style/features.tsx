@@ -1,6 +1,6 @@
 import { Format, MarkersSymbolizer, Placement, Style } from "jsxnik/mapnikConfig";
 import { colors, hsl } from "./colors.js";
-import { defaultFontSize, TextSymbolizerEx } from "./TextSymbolizerEx.js";
+import { defaultFontSize, TextSymbolizerEx, TextSymbolizerExProps } from "./TextSymbolizerEx.js";
 import { RuleEx } from "./RuleEx.js";
 import { SqlLayer } from "./SqlLayer.js";
 import { seq } from "./utils.js";
@@ -226,7 +226,7 @@ type Extra = {
   maxZoom?: number;
   minZoom?: number;
   icon?: string | null;
-  font?: Partial<Parameters<typeof TextSymbolizerEx>[0]>;
+  font?: Partial<TextSymbolizerExProps>;
   exp?: string;
 };
 
