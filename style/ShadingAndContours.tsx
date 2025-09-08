@@ -163,7 +163,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
             />
           )}
 
-          {shading && <GdalLayer styleName="hillshade" file="shading/final.tiff" />}
+          {shading && <GdalLayer styleName="hillshade" file="shading/final.tif" />}
         </EmptyWorldLayer>
       </EmptyWorldLayer>
     </>
