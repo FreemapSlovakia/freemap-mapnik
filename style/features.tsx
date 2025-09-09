@@ -472,6 +472,7 @@ export function Features() {
           minZoom={zoom}
           maxZoom={zoom === 17 ? undefined : zoom}
           bufferSize={256}
+          geometryColumn="geometry"
           sql={getFeaturesSql(zoom, poiIconProjection)}
         />
       ))}
@@ -534,6 +535,7 @@ export function FeatureNames() {
           minZoom={zoom}
           maxZoom={zoom === 17 ? undefined : zoom}
           bufferSize={256}
+          geometryColumn="geometry"
           sql={`
             SELECT DISTINCT ON (osm_id)
               *,

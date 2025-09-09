@@ -8,7 +8,7 @@
     password: "secret",
     estimateExtent: false,
     extent: "-675094.279800,4364860.674692,3339266.226366,6799780.912846",
-    max_size: 64,
+    max_size: 32,
   },
   dirs: {
     tiles: "tiles",

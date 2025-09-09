@@ -371,6 +371,7 @@ export function Routes(routeProps: RouteProps) {
         minZoom={9}
         maxZoom={9}
         bufferSize={512}
+        geometryColumn="geometry"
         sql={getRoutesQuery(routeProps, ["iwn", "icn"], "_gen0")}
       />
 
@@ -379,18 +380,27 @@ export function Routes(routeProps: RouteProps) {
         minZoom={10}
         maxZoom={10}
         bufferSize={512}
+        geometryColumn="geometry"
         sql={getRoutesQuery(routeProps, ["iwn", "nwn", "icn", "ncn"], "_gen1")}
       />
 
       <SqlLayer
         styleName="routes"
+        geometryColumn="geometry"
         sql={getRoutesQuery(routeProps, ["iwn", "nwn", "rwn", "icn", "ncn", "rcn"], "_gen1")}
         minZoom={11}
         maxZoom={11}
         bufferSize={512}
       />
 
-      <SqlLayer styleName="routes" minZoom={12} maxZoom={13} bufferSize={512} sql={getRoutesQuery(routeProps)} />
+      <SqlLayer
+        styleName="routes"
+        minZoom={12}
+        maxZoom={13}
+        bufferSize={512}
+        geometryColumn="geometry"
+        sql={getRoutesQuery(routeProps)}
+      />
 
       <SqlLayer
         styleName="routes"
@@ -398,6 +408,7 @@ export function Routes(routeProps: RouteProps) {
         // NOTE clearing cache because of contour elevation labels
         clearLabelCache
         bufferSize={2048}
+        geometryColumn="geometry"
         sql={getRoutesQuery(routeProps)}
       />
     </>
@@ -423,6 +434,7 @@ export function RouteNames(routeProps: RouteProps) {
         styleName="route_names"
         minZoom={14}
         bufferSize={2048} // NOTE probably must be same bufferSize AS routes
+        geometryColumn="geometry"
         sql={getRoutesQuery(routeProps)}
       />
     </>
