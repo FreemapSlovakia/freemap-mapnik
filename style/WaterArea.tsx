@@ -46,6 +46,7 @@ export function WaterArea() {
       <SqlLayer
         styleName="bridge_area"
         minZoom={15}
+        geometryColumn="geometry"
         sql="SELECT geometry FROM osm_landusages WHERE geometry && !bbox! AND type = 'bridge'"
       />
     </>

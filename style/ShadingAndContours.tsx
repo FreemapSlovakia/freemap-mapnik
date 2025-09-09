@@ -107,6 +107,7 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: CountrySha
         styleName="bridge_area"
         minZoom={15}
         compOp="dst-out"
+        geometryColumn="geometry"
         sql="SELECT geometry FROM osm_landusages WHERE geometry && !bbox! AND type = 'bridge'"
       />
     </StyledLayer>

@@ -22,6 +22,7 @@ export function MilitaryAreas() {
 
       <SqlLayer
         styleName="military_areas"
+        geometryColumn="geometry"
         sql="SELECT geometry FROM osm_landusages WHERE type = 'military' AND geometry && !bbox! AND area / POWER(4, 19 - !@zoom!) > 10"
       />
     </>
