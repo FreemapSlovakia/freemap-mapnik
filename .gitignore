@@ -13,3 +13,4 @@ shading
 grid
 dist
 *.osm.pbf
+perftest.js

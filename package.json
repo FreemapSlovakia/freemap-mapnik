@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict dist",
-    "watch": "concurrently \"tsc --watch --preserveWatchOutput\" \"nodemon --delay 250ms --watch dist --watch images -e js,svg dist\""
+    "watch": "UV_THREADPOOL_SIZE=$(nproc); tsc-watch --onSuccess \"bash -c 'node dist; echo Exited $?'\"",
+    "perftest": "tsc perftest.ts && node perftest.js"
   },
   "author": "Martin Ždila <martin.zdila@freemap.sk>",
   "license": "ISC",
@@ -20,10 +21,9 @@
   "devDependencies": {
     "@types/color-convert": "2.0.4",
     "@types/config": "3.3.5",
-    "@types/node": "24.3.0",
-    "concurrently": "9.2.1",
-    "eslint": "9.34.0",
-    "nodemon": "3.1.10",
+    "@types/node": "24.3.1",
+    "eslint": "9.35.0",
+    "tsc-watch": "^7.1.1",
     "typescript": "5.9.2"
   }
 }
