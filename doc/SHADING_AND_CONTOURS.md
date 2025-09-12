@@ -12,3 +12,27 @@ For contours see [DIRTY-NOTES.md](../shading-scripts/DIRTY-NOTES.md).
 _TODO: improve documentation_
 
 Rendered shading files are stored in [shading](./shading)`/{cc}` directory, where `{cc}` is a country code of a shading specific to a particular country. In every counrty folter there must fe a `final.tif` file and `mark.tif`. Directly in the `shading` is also `final.tiff` with "global" shading - a fallback shading with the lowest reslution.
+
+```xml
+<!-- repeat this for each country -->
+<layer comp-op="src-over">
+  <!-- country mask source -->
+
+  <layer comp-op="src-in">
+    <!-- any empty source -->
+
+    <layer>
+      <!-- country hillshading source -->
+    </layer>
+
+    <layer>
+      <!-- country contours source -->
+    </layer>
+  </layer>
+
+  <!-- repeat this for each neighbour-country having hillshading of higher priority -->
+  <layer comp-op="dst-out">
+    <!-- neighbour-country mask souce -->
+  </layer>
+</layer>
+```
