@@ -46,7 +46,7 @@ export function FeatureLinesMaskable({ shading }: Props) {
           "
         >
           {["pl", "sk", "cz", "at" /*"ch", "it" (CH, IT is not so detailed) */].map((cc) => (
-            <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cc}/mask.tif`} />
+            <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cc}/mask.mbtiles`} />
           ))}
         </SqlLayer>
       ) : (

@@ -82,7 +82,7 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: CountrySha
       <DatasourceEx
         params={{
           type: "gdal",
-          file: `shading/${cc}/mask.tif`,
+          file: `shading/${cc}/mask.mbtiles`,
         }}
       />
 
@@ -95,11 +95,11 @@ function CountryShadingAndContours({ cc, cutCcs, contours, shading }: CountrySha
           />
         )}
 
-        {shading && <GdalLayer styleName="hillshade" file={`shading/${cc}/final.tif`} />}
+        {shading && <GdalLayer styleName="hillshade" file={`shading/${cc}/final.mbtiles`} />}
       </EmptyWorldLayer>
 
       {cutCcs.map((cutCc) => (
-        <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cutCc}/mask.tif`} />
+        <GdalLayer styleName="shadingAndContoursMask" compOp="dst-out" file={`shading/${cutCc}/mask.mbtiles`} />
       ))}
 
       {/* bridges above shading and below roads */}
@@ -152,7 +152,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
       {/* to cut out detailed */}
       <EmptyWorldLayer compOp="src-over">
         {["it", "at", "ch", "si", "pl", "sk", "cz", "fr"].map((cc) => (
-          <GdalLayer styleName="shadingAndContoursMask" file={`shading/${cc}/mask.tif`} />
+          <GdalLayer styleName="shadingAndContoursMask" file={`shading/${cc}/mask.mbtiles`} />
         ))}
 
         <EmptyWorldLayer compOp="src-out">
@@ -164,7 +164,7 @@ export function ShadingAndCountours({ contours, shading }: Props) {
             />
           )}
 
-          {shading && <GdalLayer styleName="hillshade" file="shading/final.tif" />}
+          {shading && <GdalLayer styleName="hillshade" file="shading/final.mbtiles" />}
         </EmptyWorldLayer>
       </EmptyWorldLayer>
     </>
