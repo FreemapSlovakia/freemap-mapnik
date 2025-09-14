@@ -12,12 +12,12 @@ export function Sea() {
 
       <ShpLayer
         styleName="sea"
-        srs="EPSG:3857"
+        srs="epsg:3857"
         maxZoom={9}
         file="simplified-land-polygons-complete-3857/simplified_land_polygons.shp"
       />
 
-      <ShpLayer styleName="sea" srs="EPSG:3857" minZoom={10} file="land-polygons-split-3857/land_polygons.shp" />
+      <ShpLayer styleName="sea" srs="epsg:3857" minZoom={10} file="land-polygons-split-3857/land_polygons.shp" />
     </>
   );
 }

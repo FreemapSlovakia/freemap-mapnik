@@ -103,7 +103,7 @@ function generateFreemapStyleInt({
   format,
 }: Params = {}) {
   return serialize(
-    <Map backgroundColor={legendLayers ? undefined : colors.water} srs="EPSG:3857">
+    <Map backgroundColor={legendLayers ? undefined : colors.water} srs="epsg:3857">
       <FontSets />
 
       {!legendLayers && <DatasourceEx name="db" params={dbParams} />}

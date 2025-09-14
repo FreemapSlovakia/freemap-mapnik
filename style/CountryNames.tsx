@@ -40,7 +40,7 @@ export function CountryNames() {
 
       <StyledLayer
         styleName="countryLabels"
-        srs="EPSG:4326"
+        srs="epsg:4326"
         bufferSize={1024}
         maxZoom={7}
         clearLabelCache

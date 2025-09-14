@@ -12,7 +12,7 @@ export function Custom(custom: CustomProps) {
       <Raw>{custom.styles[0].style /* it is hacky to use freemap-mapserver without modification */}</Raw>
 
       {custom.layers.map((layer) => (
-        <Layer srs="EPSG:4326">
+        <Layer srs="epsg:4326">
           {layer.styles.map((styleName) => (
             <StyleName>{styleName}</StyleName>
           ))}

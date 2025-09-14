@@ -25,7 +25,7 @@ export function EmptyWorldLayer({ children, ...rest }: Props) {
     <StyledLayer
       {...rest}
       styleName="sea" // any
-      srs="EPSG:4326"
+      srs="epsg:4326"
     >
       <DatasourceEx
         params={{

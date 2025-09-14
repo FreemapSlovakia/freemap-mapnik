@@ -12,7 +12,7 @@ export function Legend({ legendLayers }: Props) {
   return (
     <>
       {legendLayers.map((layer) => (
-        <Layer srs="EPSG:4326">
+        <Layer srs="epsg:4326">
           {layer.styles.map((style) => (
             <StyleName>{style}</StyleName>
           ))}

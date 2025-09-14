@@ -1468,4 +1468,4 @@ export const legend = {
 //     .layer('placenames', { type: 'csv', inline: `
 // id|name|type|wkt
 // 1|Test 123|town|Point(21.219835 48.655111)
-// ` }, { srs: 'EPSG:4326', bufferSize: 1024 })
+// ` }, { srs: 'epsg:4326', bufferSize: 1024 })
