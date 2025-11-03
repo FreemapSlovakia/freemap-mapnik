@@ -72,17 +72,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER osm_route_members_after_insert
+CREATE OR REPLACE TRIGGER osm_route_members_after_insert
 AFTER INSERT ON osm_route_members
 FOR EACH ROW
 EXECUTE FUNCTION osm_route_members_insert_trigger();
 
-CREATE TRIGGER osm_route_members_after_update
+CREATE OR REPLACE TRIGGER osm_route_members_after_update
 AFTER UPDATE ON osm_route_members
 FOR EACH ROW
 EXECUTE FUNCTION osm_route_members_update_trigger();
 
-CREATE TRIGGER osm_route_members_after_delete
+CREATE OR REPLACE TRIGGER osm_route_members_after_delete
 AFTER DELETE ON osm_route_members
 FOR EACH ROW
 EXECUTE FUNCTION osm_route_members_delete_trigger();
@@ -119,17 +119,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER osm_route_members_gen0_after_insert
+CREATE OR REPLACE TRIGGER osm_route_members_gen0_after_insert
 AFTER INSERT ON osm_route_members
 FOR EACH ROW
 EXECUTE FUNCTION osm_route_members_gen0_insert_trigger();
 
-CREATE TRIGGER osm_route_members_gen0_after_update
+CREATE OR REPLACE TRIGGER osm_route_members_gen0_after_update
 AFTER UPDATE ON osm_route_members
 FOR EACH ROW
 EXECUTE FUNCTION osm_route_members_gen0_update_trigger();
 
-CREATE TRIGGER osm_route_members_gen0_after_delete
+CREATE OR REPLACE TRIGGER osm_route_members_gen0_after_delete
 AFTER DELETE ON osm_route_members
 FOR EACH ROW
 EXECUTE FUNCTION osm_route_members_gen0_delete_trigger();
