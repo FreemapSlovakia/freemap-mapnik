@@ -42,7 +42,7 @@ export function Borders({ forLowzoom }: Props) {
               ON r.osm_id = m.osm_id
               AND r.admin_level = 2
             WHERE
-              m.member_type = 1
+              m.type = 1
               AND m.geometry && !bbox!
           )
           SELECT ST_LineMerge(ST_Collect(geometry)) AS geometry

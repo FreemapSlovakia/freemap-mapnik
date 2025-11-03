@@ -35,7 +35,7 @@ export function Landcover() {
           <PolygonSymbolizer fill={colors.farmland} />
         </RuleEx>
 
-        <RuleEx type={["meadow", "park", "cemetery", "village_green", "fell", "grassland", "grass"]}>
+        <RuleEx type={["meadow", "park", "cemetery", "grave_yard", "village_green", "fell", "grassland", "grass"]}>
           <PolygonSymbolizer fill={colors.grassy} />
         </RuleEx>
 
@@ -79,7 +79,7 @@ export function Landcover() {
           <PolygonSymbolizer fill={colors.commercial} />
         </RuleEx>
 
-        <RuleEx type="cemetery">
+        <RuleEx type={["cemetery", "grave_yard"]}>
           <PolygonPatternSymbolizer file="images/grave.svg" alignment="local" opacity={0.5} />
         </RuleEx>
 

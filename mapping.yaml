@@ -19,6 +19,7 @@ tags:
     - wetland
     - denotation
     - fee
+    - ref
 generalized_tables:
   waterareas_gen1:
     source: waterareas
@@ -201,6 +202,7 @@ tables:
             - library
             - parking
             - hospital
+            - grave_yard
       leisure:
         mapping:
           leisure:
@@ -261,6 +263,7 @@ tables:
             - garages
             - military # TODO maybe as overlay layer
             - plant_nursery
+            - glacier
       highway:
         mapping:
           highway:
@@ -553,6 +556,7 @@ tables:
             - disused
             - denotation
             - fee
+            - ref
     type: point
     mappings:
       aerialway:
@@ -620,6 +624,10 @@ tables:
             - waste_disposal
             - water_point
             - watering_place
+      boundary:
+        mapping:
+          boundary:
+            - marker
       emergency:
         mapping:
           emergency:
@@ -730,6 +738,7 @@ tables:
             - motel
             - museum
             - picnic_site
+            - theme_park
             - viewpoint
             - wilderness_hut
             - zoo
@@ -760,6 +769,7 @@ tables:
             - shelter_type
             - icao
             - disused
+            - ref
     type: polygon
     mappings:
       aeroway:
@@ -897,6 +907,7 @@ tables:
             - motel
             - museum
             - picnic_site
+            - theme_park
             - wilderness_hut
             - zoo
       railway:

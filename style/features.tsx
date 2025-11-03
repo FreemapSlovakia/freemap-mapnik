@@ -402,7 +402,7 @@ const pois: [
   [16, 17, N, N, [ "water_works", "reservoir_covered", "pumping_station", "wastewater_plant" ], { font: { fill: colors.waterLabel } }],
   [16, 17, N, N, "cross"],
 
-  [17, 18, N, N, "boundary_stone"],
+  [17, 18, N, N, ["boundary_stone", "marker"]],
   [17, 18, N, N, "wayside_shrine"],
   [17, 18, N, N, ["cross", "wayside_cross", "tree_shrine"]], // NOTE cross is also on lower zoom
   [17, NN, N, N, "firepit"],

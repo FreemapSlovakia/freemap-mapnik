@@ -296,6 +296,7 @@ CREATE TABLE z_order_landuse (type VARCHAR PRIMARY KEY, z_order SERIAL);
 INSERT INTO
   z_order_landuse (type)
 VALUES
+  ('glacier'),
   ('farmland'),
   ('farm'),
   ('grassland'),
@@ -332,6 +333,7 @@ VALUES
   ('clearcut'),
   ('place_of_worship'),
   ('cemetery'),
+  ('grave_yard'),
   ('parking'),
   ('baracks'),
   ('library'),
