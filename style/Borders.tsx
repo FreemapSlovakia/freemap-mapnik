@@ -31,10 +31,22 @@ export function Borders({ forLowzoom }: Props) {
         minZoom={forLowzoom ? undefined : 8}
         styleName="borders"
         opacity={0.5}
+        geometryColumn="geometry"
         sql="
+          WITH segs AS (
+            SELECT DISTINCT ON (m.member)
+              m.member,
+              m.geometry
+            FROM osm_admin_members m
+            JOIN osm_admin_relations r
+              ON r.osm_id = m.osm_id
+              AND r.admin_level = 2
+            WHERE
+              m.member_type = 1
+              AND m.geometry && !bbox!
+          )
           SELECT ST_LineMerge(ST_Collect(geometry)) AS geometry
-          FROM osm_admin
-          WHERE admin_level = 2 AND geometry && !bbox!
+          FROM segs
         "
       />
     </>

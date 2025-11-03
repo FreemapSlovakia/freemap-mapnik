@@ -57,13 +57,47 @@ generalized_tables:
     sql_filter: ST_Area(geometry)>500000.000000
     tolerance: 200
   route_members_gen0:
-    source: route_members
+    source: route_members_gen1
     tolerance: 200
   route_members_gen1:
     source: route_members
     tolerance: 50
+  admin_members_gen0:
+    source: admin_members_gen1
+    tolerance: 200
+  admin_members_gen1:
+    source: admin_members
+    tolerance: 50
 
 tables:
+  admin_relations:
+    type: relation
+    relation_types: [boundary]
+    mapping:
+      boundary: [administrative]
+    filters:
+      require:
+        admin_level: ["2"]
+    columns:
+      - { name: osm_id, type: id }
+      - { name: admin_level, type: integer, key: admin_level }
+      - { name: iso3166_1, type: string, key: "ISO3166-1" }
+
+  admin_members:
+    type: relation_member
+    relation_types: [boundary]
+    mapping:
+      boundary: [administrative]
+    filters:
+      require:
+        admin_level: ["2"]
+    columns:
+      - { name: osm_id, type: id }
+      - { name: member, type: member_id }
+      - { name: geometry, type: geometry }
+      - { name: role, type: member_role, key: role }
+      - { name: type, type: member_type }
+
   routes:
     type: relation
     relation_types:
@@ -315,25 +349,6 @@ tables:
     mapping:
       place:
         - __any__
-
-  admin:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - name: name
-        type: string
-        key: name
-      - name: type
-        type: mapping_value
-      - name: admin_level
-        type: integer
-        key: admin_level
-    type: linestring
-    mapping:
-      boundary:
-        - administrative
 
   aeroways:
     columns:

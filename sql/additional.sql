@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS isolations (
 
 -- not sure if those indexes help ;-)
 --
+CREATE INDEX admin_relations_level ON osm_admin_relations (admin_level);
+
+CREATE INDEX admin_members_member ON osm_admin_members (member);
+
 CREATE INDEX idx_colour ON osm_routes (colour);
 
 CREATE INDEX idx_symbol ON osm_routes ("osmc:symbol");
