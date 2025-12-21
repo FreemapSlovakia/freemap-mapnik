@@ -1,5 +1,7 @@
 # Mapnik based Freemap Outdoor Map
 
+**NOTE: This project is no more used to render outdoor map at https://www.freemap.sk/?layers=X and rendering has been rewritten to [RustMap](https://github.com/FreemapSlovakia/rustmap).**
+
 ## Features
 
 - Mapnik configuration in TypeScript (JSX, using [JsxNik](https://github.com/FreemapSlovakia/jsxnik)) adding all benefits of typed scripting (preventing repetition, programatic style generation, type validation, code assist, …)
